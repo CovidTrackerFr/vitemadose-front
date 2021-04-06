@@ -1,9 +1,17 @@
-import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
+import {
+    LitElement,
+    html,
+    customElement,
+    property,
+    css,
+    unsafeCSS,
+    PropertyValues
+} from 'lit-element';
 import {TrancheAge, TrancheAgeSelected} from "../components/vmd-tranche-age-selector.component";
 import {Departement, DepartementSelected} from "../components/vmd-departement-selector.component";
-import {Router} from "../routing/Router";
 import {repeat} from "lit-html/directives/repeat";
 import globalCss from "../styles/global.scss";
+import {Router} from "../routing/Router";
 
 export type ISODateString = string;
 export type Centre = {
@@ -35,13 +43,36 @@ export class VmdRdvView extends LitElement {
         super();
     }
 
+    findCentres() {
+        if(this.trancheAge && this.codeDepartement) {
+            fetch(`https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/${this.codeDepartement}.json?trancheAge=${this.trancheAge}`)
+                .then(resp => resp.json())
+                .then(results => {
+                    this.centresAvecDispos = results.centres_disponibles;
+                    this.centresSansDispos = results.centres_indisponibles;
+                });
+        } else {
+            this.centresAvecDispos = [];
+            this.centresSansDispos = [];
+        }
+    }
+
+
+    protected update(changedProperties: PropertyValues) {
+        super.update(changedProperties);
+
+        if(changedProperties.has('trancheAge') || changedProperties.has('codeDepartement')) {
+            this.findCentres()
+        }
+    }
+
     render() {
         return html`
           Selected tranche age : ${this.trancheAge} | Selected departement : ${this.departement?.nom_departement}
           <br/>
 
-          <vmd-tranche-age-selector trancheAge="${this.trancheAge}" @tranche-age-changed="${(event: CustomEvent<TrancheAgeSelected>) => this.trancheAge = event.detail.trancheAge}"></vmd-tranche-age-selector>
-          <vmd-departement-selector codeDepartement="${this.codeDepartement}" @departement-changed="${(event: CustomEvent<DepartementSelected>) => this.departement = event.detail.departement}"></vmd-departement-selector>
+          <vmd-tranche-age-selector trancheAge="${this.trancheAge}" @tranche-age-changed="${this.trancheAgeUpdated}"></vmd-tranche-age-selector>
+          <vmd-departement-selector codeDepartement="${this.codeDepartement}" @departement-changed="${this.departementUpdated}"></vmd-departement-selector>
 
           <hr/>
           
@@ -76,16 +107,28 @@ export class VmdRdvView extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        fetch(`https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/75.json?dept=${this.codeDepartement}&trancheAge=${this.trancheAge}`)
-            .then(resp => resp.json())
-            .then(results => {
-                this.centresAvecDispos = results.centres_disponibles;
-                this.centresSansDispos = results.centres_indisponibles;
-            });
+        this.findCentres();
+    }
+
+    trancheAgeUpdated(event: CustomEvent<TrancheAgeSelected>) {
+        this.trancheAge = event.detail.trancheAge;
+        this.refreshPageWhenValidParams();
+    }
+
+    departementUpdated(event: CustomEvent<DepartementSelected>) {
+        this.departement = event.detail.departement;
+        this.codeDepartement = this.departement?.code_departement;
+        this.refreshPageWhenValidParams();
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
         // console.log("disconnected callback")
+    }
+
+    private refreshPageWhenValidParams() {
+        if(this.codeDepartement && this.trancheAge) {
+            Router.navigateToRendezVous(this.codeDepartement, this.trancheAge);
+        }
     }
 }

@@ -2,7 +2,7 @@ import {css, customElement, html, LitElement, property, unsafeCSS} from "lit-ele
 import globalCss from "../styles/global.scss";
 
 export type TrancheAge = "plus75";
-export type TrancheAgeSelected = { trancheAge: TrancheAge };
+export type TrancheAgeSelected = { trancheAge: TrancheAge|undefined };
 
 @customElement('vmd-tranche-age-selector')
 export class VmdTrancheAgeSelectorComponent extends LitElement {
@@ -31,13 +31,11 @@ export class VmdTrancheAgeSelectorComponent extends LitElement {
 
     trancheAgeSelected(event: Event) {
         this.trancheAge = (event.currentTarget as HTMLSelectElement).value as TrancheAge|"";
-        if(this.trancheAge) {
-            this.dispatchEvent(new CustomEvent<TrancheAgeSelected>('tranche-age-changed', {
-                detail: {
-                    trancheAge: this.trancheAge
-                }
-            }));
-        }
+        this.dispatchEvent(new CustomEvent<TrancheAgeSelected>('tranche-age-changed', {
+            detail: {
+                trancheAge: (this.trancheAge === "")?undefined:this.trancheAge
+            }
+        }));
     }
 
     connectedCallback() {

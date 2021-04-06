@@ -8,7 +8,7 @@ export type Departement = {
     code_region: 84;
     nom_region: string;
 };
-export type DepartementSelected = { departement: Departement };
+export type DepartementSelected = { departement: Departement|undefined };
 
 @customElement('vmd-departement-selector')
 export class VmdDepartementSelectorComponent extends LitElement {
@@ -59,12 +59,14 @@ export class VmdDepartementSelectorComponent extends LitElement {
         this.codeDepartement = (event.currentTarget as HTMLSelectElement).value;
         if(this.codeDepartement) {
             this.departement = this.departementsDisponibles.find(dept => dept.code_departement === this.codeDepartement)!;
-            this.dispatchEvent(new CustomEvent<DepartementSelected>('departement-changed', {
-                detail: {
-                    departement: this.departement
-                }
-            }));
+        } else {
+            this.departement = undefined;
         }
+        this.dispatchEvent(new CustomEvent<DepartementSelected>('departement-changed', {
+            detail: {
+                departement: this.departement
+            }
+        }));
     }
 
     connectedCallback() {
