@@ -1,6 +1,7 @@
 import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
-import {Router, ViewName} from "./routing/Router";
+import {Router} from "./routing/Router";
 import globalCss from './styles/global.scss'
+import {TemplateResult} from "lit-html";
 
 @customElement('vmd-app')
 export class VmdAppComponent extends LitElement {
@@ -12,15 +13,13 @@ export class VmdAppComponent extends LitElement {
         `
     ];
 
-    @property({type: String}) viewName: ViewName|undefined = undefined;
-    @property({type: Object}) pageContext: PageJS.Context|undefined = undefined;
+    @property({type: Object, attribute: false}) viewTemplateResult: TemplateResult|undefined = undefined;
 
     constructor() {
         super();
 
-        Router.installRoutes((viewName, context) => {
-            this.viewName = viewName;
-            this.pageContext = context;
+        Router.installRoutes((viewTemplateResult, path) => {
+            this.viewTemplateResult = viewTemplateResult;
         })
     }
 
@@ -29,7 +28,7 @@ export class VmdAppComponent extends LitElement {
             Vite ma dose Logo<br/>
             Links<br/>
             
-            ${this._renderView()}
+            ${this.viewTemplateResult}
         `;
     }
 
@@ -41,13 +40,5 @@ export class VmdAppComponent extends LitElement {
     disconnectedCallback() {
         super.disconnectedCallback();
         // console.log("disconnected callback")
-    }
-
-    private _renderView() {
-        switch(this.viewName) {
-            case 'home': return html`<vmd-home></vmd-home>`;
-            case 'rendez-vous': return html`<vmd-rdv codeDepartement="${this.pageContext!.params['departement']}" trancheAge="${this.pageContext!.params['trancheAge']}"></vmd-rdv>`;
-        }
-        throw new Error(`Unresolved view for ${this.viewName}`);
     }
 }

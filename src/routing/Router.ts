@@ -1,7 +1,8 @@
 import page from "page";
+import { TemplateResult } from "lit-html";
+import {html} from "lit-element";
 
-export type ViewName = 'home'|'rendez-vous';
-export type ViewChangedCallback = (viewName: ViewName, context: PageJS.Context) => void;
+export type ViewChangedCallback = (templateResult: TemplateResult, path: string) => void;
 export type ViewChangedCallbackCleaner = Function;
 
 class Routing {
@@ -16,12 +17,23 @@ class Routing {
 
         page.redirect('/', '/home');
         page.redirect('/index.html', '/home');
-        page('/home', (context) => this._updateToView('home', context));
-        page('/:departement/:trancheAge/rendez-vous', (context) => this._updateToView('rendez-vous', context));
+        this.declareRoute('/home', () =>
+            html`<vmd-home></vmd-home>`);
+        this.declareRoute('/:departement/:trancheAge/rendez-vous', (params) =>
+            html`<vmd-rdv codeDepartement="${params['departement']}" trancheAge="${params['trancheAge']}"></vmd-rdv>`);
         page('*', () => this._notFoundRoute());
         page();
 
         return this;
+    }
+
+    private declareRoute(path: string, viewComponentCreator: (pathParams: Record<string, string>) => Promise<TemplateResult>|TemplateResult) {
+        page(path, (context) => {
+            const viewComponentResult = viewComponentCreator(context.params);
+            ((viewComponentResult instanceof Promise)?viewComponentResult:Promise.resolve(viewComponentResult)).then(viewTemplateResult => {
+                this._viewChangeCallbacks.forEach(callback => callback(viewTemplateResult, path));
+            })
+        });
     }
 
     onViewChanged(callback: ViewChangedCallback): ViewChangedCallbackCleaner {
@@ -30,10 +42,6 @@ class Routing {
             const idx = this._viewChangeCallbacks.findIndex(registeredCallback => registeredCallback === callback);
             this._viewChangeCallbacks.splice(idx, 1);
         }
-    }
-
-    private _updateToView(viewName: ViewName, context: PageJS.Context) {
-        this._viewChangeCallbacks.forEach(callback => callback(viewName, context));
     }
 
     private _notFoundRoute() {
