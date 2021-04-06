@@ -1,14 +1,18 @@
-import {LitElement, html, customElement, property, css} from 'lit-element';
+import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
 import {TrancheAge, TrancheAgeSelected} from "../components/vmd-tranche-age-selector.component";
 import {Departement, DepartementSelected} from "../components/vmd-departement-selector.component";
 import {Router} from "../routing/Router";
+import globalCss from "../styles/global.scss";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {
 
     //language=css
-    static styles = css`
-    `;
+    static styles = [
+        css`${unsafeCSS(globalCss)}`,
+        css`
+        `
+    ];
 
     @property({type: String}) trancheAge: TrancheAge|undefined = undefined;
     @property({type: Object}) departement: Departement|undefined = undefined;
@@ -19,7 +23,6 @@ export class VmdHomeView extends LitElement {
 
     render() {
         return html`
-          <link rel="stylesheet" href="/src/styles/global.scss">
           Selected tranche age : ${this.trancheAge} | Selected departement : ${this.departement?.nom_departement}
           <br/>
 

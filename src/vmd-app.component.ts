@@ -1,12 +1,16 @@
-import {LitElement, html, customElement, property, css} from 'lit-element';
-import {Router, ViewName} from "../routing/Router";
+import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
+import {Router, ViewName} from "./routing/Router";
+import globalCss from './styles/global.scss'
 
 @customElement('vmd-app')
 export class VmdAppComponent extends LitElement {
 
     //language=css
-    static styles = css`
-    `;
+    static styles = [
+        css`${unsafeCSS(globalCss)}`,
+        css`
+        `
+    ];
 
     @property({type: String}) viewName: ViewName|undefined = undefined;
     @property({type: Object}) pageContext: PageJS.Context|undefined = undefined;
@@ -22,7 +26,6 @@ export class VmdAppComponent extends LitElement {
 
     render() {
         return html`
-            <link rel="stylesheet" href="/src/styles/global.scss">
             Vite ma dose Logo<br/>
             Links<br/>
             

@@ -1,5 +1,6 @@
-import {LitElement, html, customElement, property, css} from 'lit-element'
+import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element'
 import {repeat} from "lit-html/directives/repeat";
+import globalCss from "../styles/global.scss";
 
 export type Departement = {
     code_departement: string;
@@ -13,8 +14,11 @@ export type DepartementSelected = { departement: Departement };
 export class VmdDepartementSelectorComponent extends LitElement {
 
     //language=css
-    static styles = css`
-    `;
+    static styles = [
+        css`${unsafeCSS(globalCss)}`,
+        css`
+        `
+    ];
 
     @property({type: String, attribute: true}) codeDepartement: string|undefined = undefined;
 
@@ -38,7 +42,6 @@ export class VmdDepartementSelectorComponent extends LitElement {
 
     render() {
         return html`
-            <link rel="stylesheet" href="/src/styles/global.scss">
             <select class="form-select" @change="${this.departementSelected}">
               <option value="" ?selected="${!this.departement}"></option>
               ${repeat(this.departementsDisponibles, (dept) => dept.code_departement, (dept) => {

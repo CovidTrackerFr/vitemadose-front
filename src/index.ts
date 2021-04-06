@@ -1,5 +1,5 @@
 import './styles/global.scss'
-import './components/vmd-app.component'
+import './vmd-app.component'
 import './components/vmd-tranche-age-selector.component'
 import './components/vmd-departement-selector.component'
 import './views/vmd-home.view'

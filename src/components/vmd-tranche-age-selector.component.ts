@@ -1,4 +1,5 @@
-import {css, customElement, html, LitElement, property} from "lit-element";
+import {css, customElement, html, LitElement, property, unsafeCSS} from "lit-element";
+import globalCss from "../styles/global.scss";
 
 export type TrancheAge = "plus75";
 export type TrancheAgeSelected = { trancheAge: TrancheAge };
@@ -7,8 +8,11 @@ export type TrancheAgeSelected = { trancheAge: TrancheAge };
 export class VmdTrancheAgeSelectorComponent extends LitElement {
 
     //language=css
-    static styles = css`
-    `;
+    static styles = [
+        css`${unsafeCSS(globalCss)}`,
+        css`
+        `
+    ];
 
     @property({type: String}) trancheAge: TrancheAge|"" = "";
 
@@ -18,7 +22,6 @@ export class VmdTrancheAgeSelectorComponent extends LitElement {
 
     render() {
         return html`
-            <link rel="stylesheet" href="/src/styles/global.scss">
             <select class="form-select" @change="${this.trancheAgeSelected}">
               <option value="" ?selected="${this.trancheAge === ''}"></option>
               <option value="plus75" ?selected="${this.trancheAge === 'plus75'}">Plus de 75 ans</option>

@@ -1,8 +1,9 @@
-import {LitElement, html, customElement, property, css} from 'lit-element';
+import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
 import {TrancheAge, TrancheAgeSelected} from "../components/vmd-tranche-age-selector.component";
 import {Departement, DepartementSelected} from "../components/vmd-departement-selector.component";
 import {Router} from "../routing/Router";
 import {repeat} from "lit-html/directives/repeat";
+import globalCss from "../styles/global.scss";
 
 export type ISODateString = string;
 export type Centre = {
@@ -17,8 +18,11 @@ export type Centre = {
 export class VmdRdvView extends LitElement {
 
     //language=css
-    static styles = css`
-    `;
+    static styles = [
+        css`${unsafeCSS(globalCss)}`,
+        css`
+        `
+    ];
 
     @property({type: String, attribute: true}) trancheAge: TrancheAge|undefined = undefined;
     @property({type: String, attribute: true}) codeDepartement: string|undefined = undefined;
@@ -33,7 +37,6 @@ export class VmdRdvView extends LitElement {
 
     render() {
         return html`
-          <link rel="stylesheet" href="/src/styles/global.scss">
           Selected tranche age : ${this.trancheAge} | Selected departement : ${this.departement?.nom_departement}
           <br/>
 
