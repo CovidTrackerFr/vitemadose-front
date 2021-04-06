@@ -1,0 +1,21 @@
+{
+  "name": "vitemadose",
+  "version": "0.0.0",
+  "main": "dist/index.html",
+  "exports": {
+    ".": "./dist/index.html"
+  },
+  "types": "types/index.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "devDependencies": {
+    "typescript": "4.2.3",
+    "vite": "2.1.5"
+  }
+}
