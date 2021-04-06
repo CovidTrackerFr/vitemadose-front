@@ -19,12 +19,16 @@ export class VmdHomeView extends LitElement {
 
     render() {
         return html`
+          <link rel="stylesheet" href="/src/styles/global.scss">
           Selected tranche age : ${this.trancheAge} | Selected departement : ${this.departement?.nom_departement}
           <br/>
 
           <vmd-tranche-age-selector @tranche-age-changed="${(event: CustomEvent<TrancheAgeSelected>) => this.trancheAge = event.detail.trancheAge}"></vmd-tranche-age-selector>
           <vmd-departement-selector @departement-changed="${(event: CustomEvent<DepartementSelected>) => this.departement = event.detail.departement}"></vmd-departement-selector>
-          <button ?disabled="${!this.trancheAge || !this.departement}" @click="${() => Router.navigateToRendezVous(this.departement!.code_departement, this.trancheAge!)}">Rechercher</button>
+          <button class="btn btn-primary" ?disabled="${!this.trancheAge || !this.departement}"
+                  @click="${() => Router.navigateToRendezVous(this.departement!.code_departement, this.trancheAge!)}">
+            Rechercher
+          </button>
 
           <div class="card">
             Vaccin tracker

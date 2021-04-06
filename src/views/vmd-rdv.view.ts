@@ -33,6 +33,7 @@ export class VmdRdvView extends LitElement {
 
     render() {
         return html`
+          <link rel="stylesheet" href="/src/styles/global.scss">
           Selected tranche age : ${this.trancheAge} | Selected departement : ${this.departement?.nom_departement}
           <br/>
 

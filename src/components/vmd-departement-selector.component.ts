@@ -38,7 +38,8 @@ export class VmdDepartementSelectorComponent extends LitElement {
 
     render() {
         return html`
-            <select @change="${this.departementSelected}">
+            <link rel="stylesheet" href="/src/styles/global.scss">
+            <select class="form-select" @change="${this.departementSelected}">
               <option value="" ?selected="${!this.departement}"></option>
               ${repeat(this.departementsDisponibles, (dept) => dept.code_departement, (dept) => {
                 return html`

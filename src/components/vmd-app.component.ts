@@ -22,6 +22,7 @@ export class VmdAppComponent extends LitElement {
 
     render() {
         return html`
+            <link rel="stylesheet" href="/src/styles/global.scss">
             Vite ma dose Logo<br/>
             Links<br/>
             
