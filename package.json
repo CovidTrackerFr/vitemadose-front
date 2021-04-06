@@ -20,6 +20,7 @@
     "vite": "2.1.5"
   },
   "dependencies": {
-    "bootstrap": "4.6.0"
+    "bootstrap": "4.6.0",
+    "lit-element": "2.4.0"
   }
 }
