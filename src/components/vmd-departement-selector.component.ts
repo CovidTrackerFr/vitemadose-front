@@ -16,8 +16,10 @@ export class VmdDepartementSelectorComponent extends LitElement {
     static styles = css`
     `;
 
-    @property({type: Object}) departement: Departement|undefined = undefined;
-    @property({type: Array}) departementsDisponibles: Departement[] = [];
+    @property({type: String, attribute: true}) codeDepartement: string|undefined = undefined;
+
+    @property({type: Object, attribute: false}) departement: Departement|undefined = undefined;
+    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
 
     constructor() {
         super();
@@ -25,7 +27,13 @@ export class VmdDepartementSelectorComponent extends LitElement {
         // TODO: change URL
         fetch("https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/departements.json")
             .then(resp => resp.json())
-            .then(departements => this.departementsDisponibles = departements);
+            .then(departements => {
+                this.departementsDisponibles = departements;
+                this.departementsDisponibles.sort((d1, d2) => d1.nom_departement.localeCompare(d2.nom_departement));
+                if(this.codeDepartement) {
+                    this.departement = this.departementsDisponibles.find(dept => dept.code_departement === this.codeDepartement)!;
+                }
+            });
     }
 
     render() {
@@ -44,9 +52,9 @@ export class VmdDepartementSelectorComponent extends LitElement {
     }
 
     departementSelected(event: Event) {
-        const selectedCodeDepartement = (event.currentTarget as HTMLSelectElement).value;
-        if(selectedCodeDepartement) {
-            this.departement = this.departementsDisponibles.find(dept => dept.code_departement === selectedCodeDepartement)!;
+        this.codeDepartement = (event.currentTarget as HTMLSelectElement).value;
+        if(this.codeDepartement) {
+            this.departement = this.departementsDisponibles.find(dept => dept.code_departement === this.codeDepartement)!;
             this.dispatchEvent(new CustomEvent<DepartementSelected>('departement-changed', {
                 detail: {
                     departement: this.departement

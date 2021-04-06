@@ -1,6 +1,5 @@
 import {LitElement, html, customElement, property, css} from 'lit-element';
-import {TrancheAge, TrancheAgeSelected} from "./vmd-tranche-age-selector.component";
-import {Departement, DepartementSelected} from "./vmd-departement-selector.component";
+import {Router, ViewName} from "../routing/Router";
 
 @customElement('vmd-app')
 export class VmdAppComponent extends LitElement {
@@ -9,32 +8,24 @@ export class VmdAppComponent extends LitElement {
     static styles = css`
     `;
 
-    @property({type: String}) trancheAge: TrancheAge|undefined = undefined;
-    @property({type: Object}) departement: Departement|undefined = undefined;
+    @property({type: String}) viewName: ViewName|undefined = undefined;
+    @property({type: Object}) pageContext: PageJS.Context|undefined = undefined;
 
     constructor() {
         super();
+
+        Router.installRoutes((viewName, context) => {
+            this.viewName = viewName;
+            this.pageContext = context;
+        })
     }
 
     render() {
         return html`
-            Vite ma dose !<br/>
+            Vite ma dose Logo<br/>
+            Links<br/>
             
-            Selected tranche age : ${this.trancheAge} | Selected departement : ${this.departement?.nom_departement}
-            <br/>
-            
-            <vmd-tranche-age-selector @tranche-age-changed="${(event: CustomEvent<TrancheAgeSelected>) => this.trancheAge = event.detail.trancheAge}"></vmd-tranche-age-selector>
-            <vmd-departement-selector @departement-changed="${(event: CustomEvent<DepartementSelected>) => this.departement = event.detail.departement}"></vmd-departement-selector>
-            
-            <div class="card">
-              Vaccin tracker
-              <br/>
-              blablabla
-            </div>
-            
-            <div class="card">
-              Carte des centres
-            </div>
+            ${this._renderView()}
         `;
     }
 
@@ -46,5 +37,13 @@ export class VmdAppComponent extends LitElement {
     disconnectedCallback() {
         super.disconnectedCallback();
         // console.log("disconnected callback")
+    }
+
+    private _renderView() {
+        switch(this.viewName) {
+            case 'home': return html`<vmd-home></vmd-home>`;
+            case 'rendez-vous': return html`<vmd-rdv codeDepartement="${this.pageContext!.params['departement']}" trancheAge="${this.pageContext!.params['trancheAge']}"></vmd-rdv>`;
+        }
+        throw new Error(`Unresolved view for ${this.viewName}`);
     }
 }
