@@ -59,6 +59,12 @@ class Routing {
     navigateToHome() {
         page('/');
     }
+
+    navigateToUrlIfPossible(url: string) {
+        if(url) {
+            window.open(url, '_blank')
+        }
+    }
 }
 
 export const Router = Routing.INSTANCE;

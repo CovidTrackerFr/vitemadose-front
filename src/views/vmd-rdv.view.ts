@@ -15,6 +15,7 @@ import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
 import rdvViewCss from "../styles/views/_rdv.scss";
 import {
+    Centre,
     CentresParDepartement,
     CodeDepartement,
     CodeTrancheAge,
@@ -100,7 +101,9 @@ export class VmdRdvView extends LitElement {
 
                 ${repeat(this.centresParDepartement?.centresDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
                     return html`
-                        <div class="card rounded-3 mb-5" style="cursor: pointer" @click="${() => window.open(centre.url, '_blank')}">
+                        <div class="card rounded-3 mb-5" 
+                             style="${styleMap({cursor: VmdRdvView.estCliquable(centre)?'pointer':'default'})}" 
+                             @click="${() => Router.navigateToUrlIfPossible(centre.url)}">
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col">
@@ -155,6 +158,10 @@ export class VmdRdvView extends LitElement {
                 })}
             </div>
         `;
+    }
+
+    static estCliquable(centre: Centre) {
+        return !!centre.url;
     }
 
     async connectedCallback() {
