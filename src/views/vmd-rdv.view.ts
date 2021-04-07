@@ -100,7 +100,7 @@ export class VmdRdvView extends LitElement {
 
                 ${repeat(this.centresParDepartement?.centresDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
                     return html`
-                        <div class="card rounded-3 mb-5">
+                        <div class="card rounded-3 mb-5" style="cursor: pointer" @click="${() => window.open(centre.url, '_blank')}">
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col">
