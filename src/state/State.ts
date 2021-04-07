@@ -11,7 +11,7 @@ export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
 
 export const LOGOS_PLATEFORMES: Record<string, string|undefined> = {
     'Doctolib': 'logo_doctolib.png',
-    'Maiia': 'logo_maiia.jpg',
+    'Maiia': 'logo_maiia.png',
     'Ordoclic': 'logo_ordoclic.png',
     'Keldoc': 'logo_keldoc.png',
     'Autre': undefined,
