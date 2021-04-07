@@ -3,6 +3,7 @@ import {TrancheAge, TrancheAgeSelected} from "../components/vmd-tranche-age-sele
 import {Departement, DepartementSelected} from "../components/vmd-departement-selector.component";
 import {Router} from "../routing/Router";
 import globalCss from "../styles/global.scss";
+import homeViewCss from "../styles/views/_home.scss";
 import searchDoseCss from "../styles/components/_searchDose.scss";
 import searchAppointment from "../styles/components/_searchAppointment.scss";
 
@@ -12,6 +13,7 @@ export class VmdHomeView extends LitElement {
     //language=css
     static styles = [
         css`${unsafeCSS(globalCss)}`,
+        css`${unsafeCSS(homeViewCss)}`,
         css`${unsafeCSS(searchDoseCss)}`,
         css`${unsafeCSS(searchAppointment)}`,
         css`
@@ -111,6 +113,18 @@ export class VmdHomeView extends LitElement {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            
+            <p class="text-center sources">
+                Source des données : Ministère de la Santé. Mise à jour plusieurs fois par jour.
+            </p>
+
+
+            <div class="row fs-6 legals">
+                <p class="col-sm-24 col-lg-12">
+                    Vite Ma Dose ! est un outil de CovidTracker permettant de détecter les rendez-vous disponibles dans votre département afin de vous faire vacciner (sous réserve d'éligibilité). Pour l'instant, seule la plateforme Doctolib est supportée. Vite Ma Dose ! n'est pas un outil officiel, n'est pas exhaustif et ne remplace pas une recherche manuelle.
+                </p>
             </div>
         `;
     }
