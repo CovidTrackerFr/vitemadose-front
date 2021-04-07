@@ -4,3 +4,7 @@ node_modules
 dist
 types
 *.local
+/mobile/plugins/
+/mobile/platforms/
+/mobile/www/
+!/mobile/www/.dirkeep

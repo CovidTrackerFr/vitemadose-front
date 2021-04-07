@@ -1,0 +1,26 @@
+{
+  "name": "vitemadose-mobile",
+  "version": "0.0.0",
+  "main": "www/index.html",
+  "scripts": {
+    "copy": "rm -f www/* && cp -a ../dist/* ./www",
+    "pkg-debug-android": "npm run copy && cordova build --debug android",
+    "pkg-debug-ios": "npm run copy && cordova build --debug ios"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {}
+    },
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ]
+}
