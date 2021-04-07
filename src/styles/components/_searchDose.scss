@@ -1,0 +1,47 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "src/styles/bootstrap-variables";
+
+.searchDose {
+    display: flex;
+    flex-direction: column;
+    padding: 9vh 3.2rem;
+    background: linear-gradient(45deg, mix(white, $secondary, 85%), mix(white, $primary, 85%));
+    border-radius: 2rem;
+
+    &-title {
+        max-width: 75vw;
+        margin: 0 auto 3.2rem;
+        text-align: center;
+        font: {
+            weight: bold;
+        };
+
+        @include media-breakpoint-up(lg) {
+            max-width: 45vw;
+        }
+    }
+
+    &-form {
+
+    }
+}
+
+.searchDoseForm {
+
+    &-fields {
+        max-width: 75vw;
+        margin: auto;
+
+        @include media-breakpoint-up(xl) {
+            max-width: 45vw;
+        }
+    }
+
+    &-action {
+        margin: {
+            top: 3.2rem;
+        };
+        text-align: center;
+    }
+}

@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "@types/page": "1.11.2",
-    "bootstrap": "4.6.0",
+    "bootstrap": "5.0.0-beta3",
+    "bootstrap-icons": "1.4.1",
     "lit-element": "2.4.0",
     "page": "1.11.6"
   }

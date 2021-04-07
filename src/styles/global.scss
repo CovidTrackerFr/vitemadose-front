@@ -1,6 +1,23 @@
+@import 'bootstrap/scss/functions';
+@import "bootstrap-variables";
 @import 'bootstrap/scss/bootstrap';
 
-$base-color: #e7e7e7;
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+//$base-color: #ffbf16;
+
+html {
+    font-size: 62.5%;
+}
+
 body {
-  background-color: $base-color;
+    font-size: 1.6rem;
+    padding: {
+        bottom: 3.2rem;
+    };
+}
+
+.spacer {
+    height: 0;
+    line-height: 0;
 }

@@ -1,0 +1,26 @@
+.searchAppointment {
+    &-logo {
+        margin: {
+            top: 1.6rem;
+            right: 3.2rem;
+            bottom: 1.6rem;
+            left: 3.2rem;
+        };
+
+        &._doctolib {
+            max-height: 8.5rem;
+        }
+
+        &._maiia {
+            max-height: 7.5rem;
+        }
+
+        &._keldoc {
+            max-height: 5.5rem;
+        }
+
+        &._ordoclic {
+            max-height: 4.5rem;
+        }
+    }
+}

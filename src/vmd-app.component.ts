@@ -2,6 +2,7 @@ import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-ele
 import {Router} from "./routing/Router";
 import globalCss from './styles/global.scss'
 import {TemplateResult} from "lit-html";
+import logoUrl from 'assets/images/svg/vmd-logo-landscape.svg'
 
 @customElement('vmd-app')
 export class VmdAppComponent extends LitElement {
@@ -10,6 +11,10 @@ export class VmdAppComponent extends LitElement {
     static styles = [
         css`${unsafeCSS(globalCss)}`,
         css`
+            .appLogo {}
+            .appLogo._phone {
+                max-width: 25vw;
+            }
         `
     ];
 
@@ -25,8 +30,22 @@ export class VmdAppComponent extends LitElement {
 
     render() {
         return html`
-            Vite ma dose Logo<br/>
-            Links<br/>
+            <div class="row align-items-center justify-content-between">
+                <div class="col-auto">
+                    <img src="/src/assets/images/svg/vmd-logo-portrait.svg" class="d-block d-sm-none appLogo _phone" alt="Vite ma dose">
+                    <img src="/src/assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Vite ma dose">
+                </div>
+                <div class="col">
+                    <div class="row justify-content-end">
+                        <div class="col-auto">
+                            <a href="">A propos</a>
+                        </div>
+                        <div class="col-auto border-start">
+                            <a href="">CovidTracker&nbsp;<i class="bi bi-arrow-up-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
             ${this.viewTemplateResult}
         `;

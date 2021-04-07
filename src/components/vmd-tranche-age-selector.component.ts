@@ -11,6 +11,9 @@ export class VmdTrancheAgeSelectorComponent extends LitElement {
     static styles = [
         css`${unsafeCSS(globalCss)}`,
         css`
+            :host {
+                display: block;
+            }
         `
     ];
 
@@ -22,7 +25,7 @@ export class VmdTrancheAgeSelectorComponent extends LitElement {
 
     render() {
         return html`
-            <select class="form-select" @change="${this.trancheAgeSelected}">
+            <select class="form-select form-select-lg" @change="${this.trancheAgeSelected}">
               <option value="" ?selected="${this.trancheAge === ''}"></option>
               <option value="plus75" ?selected="${this.trancheAge === 'plus75'}">Plus de 75 ans</option>
             </select>

@@ -17,6 +17,9 @@ export class VmdDepartementSelectorComponent extends LitElement {
     static styles = [
         css`${unsafeCSS(globalCss)}`,
         css`
+            :host {
+                display: block;
+            }
         `
     ];
 
@@ -42,7 +45,7 @@ export class VmdDepartementSelectorComponent extends LitElement {
 
     render() {
         return html`
-            <select class="form-select" @change="${this.departementSelected}">
+            <select class="form-select form-select-lg" @change="${this.departementSelected}">
               <option value="" ?selected="${!this.departement}"></option>
               ${repeat(this.departementsDisponibles, (dept) => dept.code_departement, (dept) => {
                 return html`
