@@ -12,8 +12,8 @@ import {Departement, DepartementSelected} from "../components/vmd-departement-se
 import {repeat} from "lit-html/directives/repeat";
 import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
+import {Dates, ISODateString} from "../utils/Dates";
 
-export type ISODateString = string;
 export type Centre = {
     departement: string;
     nom: string;
@@ -81,7 +81,7 @@ export class VmdRdvView extends LitElement {
             ${repeat(this.centresAvecDispos, (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
                 return html`
                   <div>
-                     Prochain rdv: ${centre.prochain_rdv}<br/>
+                     Prochain rdv: ${Dates.isoToFRDatetime(centre.prochain_rdv)}<br/>
                      ${centre.nom}
                     <a href="${centre.url}" target="_blank">Prendre rendez-vous</a>
                   </div>
