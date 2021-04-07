@@ -111,7 +111,8 @@ export class VmdRdvView extends LitElement {
                                         <p class="card-text">${centre.nom}</p>
                                     </div>
                                     
-                                    ${VmdRdvView.estCliquable(centre)?html`<div class="col-auto">
+                                    ${VmdRdvView.estCliquable(centre)?html`
+                                    <div class="col-auto">
                                         <a href="${centre.url}" target="_blank" class="btn btn-primary btn-lg">Prendre rendez-vous</a>
                                         ${LOGOS_PLATEFORMES[centre.plateforme]?html`
                                         <div class="row align-items-center justify-content-center mt-3">
@@ -121,8 +122,10 @@ export class VmdRdvView extends LitElement {
                                             <div class="col-auto">
                                                 <img class="rdvPlatformLogo" src="/assets/images/png/${LOGOS_PLATEFORMES[centre.plateforme]}" alt="Doctolib">
                                             </div>
-                                        </div>`:html``}
-                                    </div>`:html``}
+                                        </div>
+                                        `:html``}
+                                    </div>
+                                    `:html``}
                                 </div>
                             </div>
                         </div>
