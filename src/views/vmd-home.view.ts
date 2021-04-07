@@ -101,7 +101,7 @@ export class VmdHomeView extends LitElement {
                         </p>
 
                         <div class="row justify-content-center mt-5">
-                            <a href="" class="col-auto btn btn-primary btn-lg">
+                            <a href="https://covidtracker.fr/vaccintracker/" target="_blank" class="col-auto btn btn-primary btn-lg">
                                 Accéder à VaccinTracker&nbsp;<i class="bi bi-arrow-up-right"></i>
                             </a>
                         </div>
