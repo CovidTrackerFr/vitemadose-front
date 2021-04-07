@@ -1,0 +1,27 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "src/styles/bootstrap-variables";
+
+.rdvForm {
+    &-fields {
+        max-width: 75vw;
+        margin: auto;
+
+        @include media-breakpoint-up(xl) {
+            max-width: 45vw;
+        }
+    }
+}
+
+.rdvPlatformLogo {
+    max-width: 8rem;
+}
+
+.card {
+    max-width: 75vw;
+    margin: auto;
+
+    @include media-breakpoint-up(xl) {
+        max-width: 55vw;
+    }
+}
