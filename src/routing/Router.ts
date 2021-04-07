@@ -16,9 +16,9 @@ class Routing {
     installRoutes(callback?: ViewChangedCallback): ViewChangedCallbackCleaner|undefined {
         const callbackCleaner = callback?this.onViewChanged(callback):undefined;
 
-        page.redirect('/', '/home');
-        page.redirect('/index.html', '/home');
-        this.declareRoute('/home', () =>
+        page.redirect('/home', '/');
+        page.redirect('/index.html', '/');
+        this.declareRoute('/', () =>
             html`<vmd-home></vmd-home>`);
         this.declareRoute('/:departement/:trancheAge/rendez-vous', (params) =>
             html`<vmd-rdv codeDepartementSelectionne="${params['departement']}" codeTrancheAgeSelectionne="${params['trancheAge']}"></vmd-rdv>`);
@@ -57,7 +57,7 @@ class Routing {
     }
 
     navigateToHome() {
-        page('/home');
+        page('/');
     }
 }
 
