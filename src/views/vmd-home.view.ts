@@ -116,7 +116,7 @@ export class VmdHomeView extends LitElement {
                         </p>
                         
                         <div class="row justify-content-center mt-5">
-                            <a href="" class="col-auto btn btn-primary btn-lg">
+                            <a href="/centres" class="col-auto btn btn-primary btn-lg">
                                 Accéder à la carte des centres&nbsp;<i class="bi bi-arrow-up-right"></i>
                             </a>
                         </div>

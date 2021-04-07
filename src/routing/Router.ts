@@ -22,6 +22,8 @@ class Routing {
             html`<vmd-home></vmd-home>`);
         this.declareRoute('/:departement/:trancheAge/rendez-vous', (params) =>
             html`<vmd-rdv codeDepartementSelectionne="${params['departement']}" codeTrancheAgeSelectionne="${params['trancheAge']}"></vmd-rdv>`);
+        this.declareRoute('/centres', (params) =>
+            html`<vmd-centres></vmd-centres>`);
         page('*', () => this._notFoundRoute());
         page();
 
