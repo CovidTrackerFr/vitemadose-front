@@ -55,6 +55,10 @@ class Routing {
     public navigateToRendezVous(codeDepartement: string, trancheAge: string) {
         page(`/${codeDepartement}/${trancheAge}/rendez-vous`);
     }
+
+    navigateToHome() {
+        page('/home');
+    }
 }
 
 export const Router = Routing.INSTANCE;
