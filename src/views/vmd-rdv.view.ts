@@ -4,24 +4,23 @@ import {
     customElement,
     property,
     css,
-    unsafeCSS,
-    PropertyValues
+    unsafeCSS
 } from 'lit-element';
-import {TrancheAge, TrancheAgeSelected} from "../components/vmd-tranche-age-selector.component";
-import {Departement, DepartementSelected} from "../components/vmd-departement-selector.component";
+import {TrancheAgeSelectionne} from "../components/vmd-tranche-age-selector.component";
+import {DepartementSelected} from "../components/vmd-departement-selector.component";
 import {repeat} from "lit-html/directives/repeat";
+import {styleMap} from "lit-html/directives/style-map";
 import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
-import {Dates, ISODateString} from "../utils/Dates";
+import {Dates} from "../utils/Dates";
 import rdvViewCss from "../styles/views/_rdv.scss";
-
-export type Centre = {
-    departement: string;
-    nom: string;
-    url: string;
-    plateforme: string;
-    prochain_rdv: ISODateString|null;
-};
+import {
+    CentresParDepartement,
+    CodeDepartement,
+    CodeTrancheAge,
+    Departement, LOGOS_PLATEFORMES,
+    State, TRANCHES_AGE
+} from "../state/State";
 
 @customElement('vmd-rdv')
 export class VmdRdvView extends LitElement {
@@ -34,37 +33,25 @@ export class VmdRdvView extends LitElement {
         `
     ];
 
-    @property({type: String, attribute: true}) trancheAge: TrancheAge|undefined = undefined;
-    @property({type: String, attribute: true}) codeDepartement: string|undefined = undefined;
+    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = undefined;
+    @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
-    @property({type: Object, attribute: false}) departement: Departement|undefined = undefined;
-    @property({type: Array, attribute: false}) centresAvecDispos: Centre[] = [];
-    @property({type: Array, attribute: false}) centresSansDispos: Centre[] = [];
+    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = undefined;
+    @property({type: Array, attribute: false}) centresParDepartement: CentresParDepartement|undefined = undefined;
 
-    constructor() {
-        super();
-    }
-
-    findCentres() {
-        if(this.trancheAge && this.codeDepartement) {
-            fetch(`https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/${this.codeDepartement}.json?trancheAge=${this.trancheAge}`)
-                .then(resp => resp.json())
-                .then(results => {
-                    this.centresAvecDispos = results.centres_disponibles;
-                    this.centresSansDispos = results.centres_indisponibles;
-                });
+    get departementSelectionne() {
+        if(this.codeDepartementSelectionne && this.departementsDisponibles) {
+            return this.departementsDisponibles.find(dept => dept.code_departement === this.codeDepartementSelectionne);
         } else {
-            this.centresAvecDispos = [];
-            this.centresSansDispos = [];
+            return undefined;
         }
     }
 
-
-    protected update(changedProperties: PropertyValues) {
-        super.update(changedProperties);
-
-        if(changedProperties.has('trancheAge') || changedProperties.has('codeDepartement')) {
-            this.findCentres()
+    get trancheAgeSelectionee() {
+        if(this.codeTrancheAgeSelectionne) {
+            return TRANCHES_AGE.get(this.codeTrancheAgeSelectionne);
+        } else {
+            return undefined;
         }
     }
 
@@ -76,20 +63,28 @@ export class VmdRdvView extends LitElement {
                         J'ai
                     </div>
                     <div class="col">
-                        <vmd-tranche-age-selector class="mb-3 mt-md-3" trancheAge="${this.trancheAge}" @tranche-age-changed="${this.trancheAgeUpdated}"></vmd-tranche-age-selector>
+                        <vmd-tranche-age-selector class="mb-3 mt-md-3"
+                              codeTrancheAgeSelectionne="${this.codeTrancheAgeSelectionne}"
+                              .tranchesAge="${TRANCHES_AGE}"
+                              @tranche-age-changed="${this.trancheAgeMisAJour}"></vmd-tranche-age-selector>
                     </div>
                     <div class="col-sm-24 col-md-auto mb-md-3 mt-md-3">
                         J'habite en
                     </div>
                     <div class="col">
-                        <vmd-departement-selector class="mb-3 mt-md-3" codeDepartement="${this.codeDepartement}" @departement-changed="${this.departementUpdated}"></vmd-departement-selector>
+                        <vmd-departement-selector class="mb-3 mt-md-3"
+                              codeDepartementSelectionne="${this.codeDepartementSelectionne}"
+                              .departementsDisponibles="${this.departementsDisponibles}"
+                              @departement-changed="${this.departementUpdated}"></vmd-departement-selector>
                     </div>
                 </div>
             </div>
 
             <div class="spacer mt-5 mb-5"></div>
 
-            <h4 class="fw-normal text-center">Résultats pour : <span class="fw-bold">${this.departement?.nom_departement}, ${this.trancheAge}</span></h4>
+            <h4 class="fw-normal text-center" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne)?'block':'none'})}">
+              Résultats pour : <span class="fw-bold">${this.departementSelectionne?.nom_departement}, ${this.trancheAgeSelectionee?.libelle}</span>
+            </h4>
 
             <div class="spacer mt-5 mb-5"></div>
             
@@ -97,11 +92,11 @@ export class VmdRdvView extends LitElement {
                 <h5 class="row align-items-center justify-content-center mb-5">
                     <i class="bi bi-check-circle-fill text-success me-2 fs-3 col-auto"></i>
                     <span class="col-auto">
-                        ${this.centresAvecDispos.length} Centres(s) ayant des disponibilités
+                        ${this.centresParDepartement?.centresDisponibles.length || 0} Centres(s) ayant des disponibilités
                     </span>
                 </h5>
 
-                ${repeat(this.centresAvecDispos, (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
+                ${repeat(this.centresParDepartement?.centresDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
                     return html`
                         <div class="card rounded-3 mb-5">
                             <div class="card-body">
@@ -114,12 +109,13 @@ export class VmdRdvView extends LitElement {
                                     <div class="col-auto">
                                         <a href="${centre.url}" target="_blank" class="btn btn-primary btn-lg">Prendre rendez-vous</a>
                                         <div class="row align-items-center justify-content-center mt-3">
+                                            ${LOGOS_PLATEFORMES[centre.plateforme]?html`
                                             <div class="col-auto text-black-50">
-                                                avec Doctolib.fr
+                                                avec ${centre.plateforme}
                                             </div>
                                             <div class="col-auto">
-                                                <img class="rdvPlatformLogo" src="/src/assets/images/png/logo_doctolib.png" alt="Doctolib">
-                                            </div>
+                                                <img class="rdvPlatformLogo" src="/src/assets/images/png/${LOGOS_PLATEFORMES[centre.plateforme]}" alt="Doctolib">
+                                            </div>`:html``}
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +133,7 @@ export class VmdRdvView extends LitElement {
                     </span>
                 </h5>
 
-                ${repeat(this.centresSansDispos, (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
+                ${repeat(this.centresParDepartement?.centresIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
                     return html`
                         <div class="card rounded-3 mb-5 bg-disabled">
                             <div class="card-body">
@@ -159,19 +155,36 @@ export class VmdRdvView extends LitElement {
         `;
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         super.connectedCallback();
-        this.findCentres();
+
+        const [ departementsDisponibles, centresParDepartement ] = await Promise.all([
+            State.current.departementsDisponibles(),
+            this.refreshCentres()
+        ])
+
+        this.departementsDisponibles = departementsDisponibles;
+
+        // this.findCentres();
     }
 
-    trancheAgeUpdated(event: CustomEvent<TrancheAgeSelected>) {
-        this.trancheAge = event.detail.trancheAge;
+    async refreshCentres() {
+        if(this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
+            this.centresParDepartement = await State.current.centresPour(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
+        } else {
+            this.centresParDepartement = undefined;
+        }
+    }
+
+    trancheAgeMisAJour(event: CustomEvent<TrancheAgeSelectionne>) {
+        this.codeTrancheAgeSelectionne = event.detail.trancheAge?.codeTrancheAge;
+        this.refreshCentres();
         this.refreshPageWhenValidParams();
     }
 
     departementUpdated(event: CustomEvent<DepartementSelected>) {
-        this.departement = event.detail.departement;
-        this.codeDepartement = this.departement?.code_departement;
+        this.codeDepartementSelectionne = event.detail.departement?.code_departement;
+        this.refreshCentres();
         this.refreshPageWhenValidParams();
     }
 
@@ -181,8 +194,8 @@ export class VmdRdvView extends LitElement {
     }
 
     private refreshPageWhenValidParams() {
-        if(this.codeDepartement && this.trancheAge) {
-            Router.navigateToRendezVous(this.codeDepartement, this.trancheAge);
+        if(this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
+            Router.navigateToRendezVous(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
         }
     }
 }

@@ -10,27 +10,31 @@ class Routing {
 
     private _viewChangeCallbacks: ViewChangedCallback[] = [];
 
-    installRoutes(callback?: ViewChangedCallback): this {
-        if(callback) {
-            this.onViewChanged(callback);
-        }
+    private currentTemplateResult: TemplateResult|undefined = undefined;
+    private currentPath: string|undefined = undefined;
+
+    installRoutes(callback?: ViewChangedCallback): ViewChangedCallbackCleaner|undefined {
+        const callbackCleaner = callback?this.onViewChanged(callback):undefined;
 
         page.redirect('/', '/home');
         page.redirect('/index.html', '/home');
         this.declareRoute('/home', () =>
             html`<vmd-home></vmd-home>`);
         this.declareRoute('/:departement/:trancheAge/rendez-vous', (params) =>
-            html`<vmd-rdv codeDepartement="${params['departement']}" trancheAge="${params['trancheAge']}"></vmd-rdv>`);
+            html`<vmd-rdv codeDepartementSelectionne="${params['departement']}" codeTrancheAgeSelectionne="${params['trancheAge']}"></vmd-rdv>`);
         page('*', () => this._notFoundRoute());
         page();
 
-        return this;
+        return callbackCleaner;
     }
 
     private declareRoute(path: string, viewComponentCreator: (pathParams: Record<string, string>) => Promise<TemplateResult>|TemplateResult) {
         page(path, (context) => {
             const viewComponentResult = viewComponentCreator(context.params);
             ((viewComponentResult instanceof Promise)?viewComponentResult:Promise.resolve(viewComponentResult)).then(viewTemplateResult => {
+                this.currentPath = path;
+                this.currentTemplateResult = viewTemplateResult;
+
                 this._viewChangeCallbacks.forEach(callback => callback(viewTemplateResult, path));
             })
         });

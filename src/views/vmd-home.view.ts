@@ -1,11 +1,12 @@
 import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
-import {TrancheAge, TrancheAgeSelected} from "../components/vmd-tranche-age-selector.component";
-import {Departement, DepartementSelected} from "../components/vmd-departement-selector.component";
+import {TrancheAgeSelectionne} from "../components/vmd-tranche-age-selector.component";
+import {DepartementSelected} from "../components/vmd-departement-selector.component";
 import {Router} from "../routing/Router";
 import globalCss from "../styles/global.scss";
 import homeViewCss from "../styles/views/_home.scss";
 import searchDoseCss from "../styles/components/_searchDose.scss";
 import searchAppointment from "../styles/components/_searchAppointment.scss";
+import {CodeDepartement, CodeTrancheAge, Departement, State, TRANCHES_AGE} from "../state/State";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {
@@ -23,12 +24,10 @@ export class VmdHomeView extends LitElement {
         `
     ];
 
-    @property({type: String}) trancheAge: TrancheAge|undefined = undefined;
-    @property({type: Object}) departement: Departement|undefined = undefined;
+    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = undefined;
+    @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
-    constructor() {
-        super();
-    }
+    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = undefined;
 
     render() {
         return html`
@@ -43,18 +42,26 @@ export class VmdHomeView extends LitElement {
                             J'ai 
                         </div>
                         <div class="col">
-                            <vmd-tranche-age-selector class="mb-3" @tranche-age-changed="${(event: CustomEvent<TrancheAgeSelected>) => this.trancheAge = event.detail.trancheAge}"></vmd-tranche-age-selector>
+                            <vmd-tranche-age-selector class="mb-3" 
+                                  @tranche-age-changed="${(event: CustomEvent<TrancheAgeSelectionne>) => this.codeTrancheAgeSelectionne = event.detail.trancheAge?.codeTrancheAge}"
+                                  .tranchesAge="${TRANCHES_AGE}"
+                            >
+                            </vmd-tranche-age-selector>
                         </div>
                         <div class="col-sm-24 col-md-auto mb-md-3">
                             J'habite en
                         </div>
                         <div class="col">
-                            <vmd-departement-selector class="mb-3" @departement-changed="${(event: CustomEvent<DepartementSelected>) => this.departement = event.detail.departement}"></vmd-departement-selector>
+                            <vmd-departement-selector class="mb-3" 
+                                  @departement-changed="${(event: CustomEvent<DepartementSelected>) => this.codeDepartementSelectionne = event.detail.departement?.code_departement}"
+                                  .departementsDisponibles="${this.departementsDisponibles}"
+                            >
+                            </vmd-departement-selector>
                         </div>
                     </div>
                     <div class="searchDoseForm-action">
-                        <button class="btn btn-primary btn-lg" ?disabled="${!this.trancheAge || !this.departement}"
-                                @click="${() => Router.navigateToRendezVous(this.departement!.code_departement, this.trancheAge!)}">
+                        <button class="btn btn-primary btn-lg" ?disabled="${!this.codeDepartementSelectionne || !this.codeTrancheAgeSelectionne}"
+                                @click="${() => Router.navigateToRendezVous(this.codeDepartementSelectionne!, this.codeTrancheAgeSelectionne!)}">
                             Rechercher
                         </button>
                     </div>
@@ -129,9 +136,13 @@ export class VmdHomeView extends LitElement {
         `;
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         super.connectedCallback();
-        // console.log("connected callback")
+
+        const [ departementsDisponibles ] = await Promise.all([
+            State.current.departementsDisponibles()
+        ])
+        this.departementsDisponibles = departementsDisponibles;
     }
 
     disconnectedCallback() {

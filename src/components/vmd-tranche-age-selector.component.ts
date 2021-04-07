@@ -1,8 +1,8 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from "lit-element";
 import globalCss from "../styles/global.scss";
+import {CodeTrancheAge, TrancheAge} from "../state/State";
 
-export type TrancheAge = "plus75";
-export type TrancheAgeSelected = { trancheAge: TrancheAge|undefined };
+export type TrancheAgeSelectionne = { trancheAge: TrancheAge|undefined };
 
 @customElement('vmd-tranche-age-selector')
 export class VmdTrancheAgeSelectorComponent extends LitElement {
@@ -17,7 +17,8 @@ export class VmdTrancheAgeSelectorComponent extends LitElement {
         `
     ];
 
-    @property({type: String}) trancheAge: TrancheAge|"" = "";
+    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|"" = "";
+    @property({type: Map, attribute: false}) tranchesAge: Map<CodeTrancheAge, TrancheAge> = new Map<CodeTrancheAge, TrancheAge>();
 
     constructor() {
         super();
@@ -25,18 +26,22 @@ export class VmdTrancheAgeSelectorComponent extends LitElement {
 
     render() {
         return html`
-            <select class="form-select form-select-lg" @change="${this.trancheAgeSelected}">
-              <option value="" ?selected="${this.trancheAge === ''}"></option>
-              <option value="plus75" ?selected="${this.trancheAge === 'plus75'}">Plus de 75 ans</option>
+            <select class="form-select form-select-lg" @change="${this.trancheAgeSelectionne}">
+              <option value="" ?selected="${this.codeTrancheAgeSelectionne === ''}"></option>
+              ${Array.from(this.tranchesAge.values()).map(trancheAge => {
+                  return html`
+                      <option value="${trancheAge.codeTrancheAge}" ?selected="${this.codeTrancheAgeSelectionne === trancheAge.codeTrancheAge}">${trancheAge.libelle}</option>
+                  `;
+              })}
             </select>
         `;
     }
 
-    trancheAgeSelected(event: Event) {
-        this.trancheAge = (event.currentTarget as HTMLSelectElement).value as TrancheAge|"";
-        this.dispatchEvent(new CustomEvent<TrancheAgeSelected>('tranche-age-changed', {
+    trancheAgeSelectionne(event: Event) {
+        this.codeTrancheAgeSelectionne = (event.currentTarget as HTMLSelectElement).value as CodeTrancheAge|"";
+        this.dispatchEvent(new CustomEvent<TrancheAgeSelectionne>('tranche-age-changed', {
             detail: {
-                trancheAge: (this.trancheAge === "")?undefined:this.trancheAge
+                trancheAge: (this.codeTrancheAgeSelectionne === "")?undefined:this.tranchesAge.get(this.codeTrancheAgeSelectionne)
             }
         }));
     }
