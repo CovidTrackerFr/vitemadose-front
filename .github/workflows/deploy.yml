@@ -1,4 +1,5 @@
-	name: Déploiement Vite ma dose
+name: Déploiement Vite ma dose
+
 on:
   push:
     branches:
