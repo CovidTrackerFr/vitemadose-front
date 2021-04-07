@@ -73,16 +73,16 @@ export class VmdHomeView extends LitElement {
 
                 <div class="row justify-content-center align-items-center">
                     <div class="col-auto">
-                        <a href=""><img class="searchAppointment-logo _doctolib" src="/src/assets/images/png/logo_doctolib.png" alt="Doctolib"></a>
+                        <a href=""><img class="searchAppointment-logo _doctolib" src="/assets/images/png/logo_doctolib.png" alt="Doctolib"></a>
                     </div>
                     <div class="col-auto">
-                        <a href=""><img class="searchAppointment-logo _maiia" src="/src/assets/images/png/logo_maiia.jpg" alt="Maiia"></a>
+                        <a href=""><img class="searchAppointment-logo _maiia" src="/assets/images/png/logo_maiia.jpg" alt="Maiia"></a>
                     </div>
                     <div class="col-auto">
-                        <a href=""><img class="searchAppointment-logo _keldoc" src="/src/assets/images/png/logo_keldoc.png" alt="Keldoc"></a>
+                        <a href=""><img class="searchAppointment-logo _keldoc" src="/assets/images/png/logo_keldoc.png" alt="Keldoc"></a>
                     </div>
                     <div class="col-auto">
-                        <a href=""><img class="searchAppointment-logo _ordoclic" src="/src/assets/images/png/logo_ordoclic.png" alt="Ordoclic"></a>
+                        <a href=""><img class="searchAppointment-logo _ordoclic" src="/assets/images/png/logo_ordoclic.png" alt="Ordoclic"></a>
                     </div>
                 </div>
             </div>

@@ -3,12 +3,12 @@
     "short_name": "Vite ma dose",
     "icons": [
         {
-            "src": "/src/assets/images/favicon/android-chrome-192x192.png?v=oLnE8zppbY",
+            "src": "/assets/images/favicon/android-chrome-192x192.png?v=oLnE8zppbY",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/src/assets/images/favicon/android-chrome-512x512.png?v=oLnE8zppbY",
+            "src": "/assets/images/favicon/android-chrome-512x512.png?v=oLnE8zppbY",
             "sizes": "512x512",
             "type": "image/png"
         }

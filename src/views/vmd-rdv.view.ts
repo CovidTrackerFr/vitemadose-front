@@ -114,7 +114,7 @@ export class VmdRdvView extends LitElement {
                                                 avec ${centre.plateforme}
                                             </div>
                                             <div class="col-auto">
-                                                <img class="rdvPlatformLogo" src="/src/assets/images/png/${LOGOS_PLATEFORMES[centre.plateforme]}" alt="Doctolib">
+                                                <img class="rdvPlatformLogo" src="/assets/images/png/${LOGOS_PLATEFORMES[centre.plateforme]}" alt="Doctolib">
                                             </div>`:html``}
                                         </div>
                                     </div>

@@ -32,8 +32,8 @@ export class VmdAppComponent extends LitElement {
         return html`
             <div class="row align-items-center justify-content-between">
                 <div class="col-auto">
-                    <img src="/src/assets/images/svg/vmd-logo-portrait.svg" class="d-block d-sm-none appLogo _phone" alt="Vite ma dose">
-                    <img src="/src/assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Vite ma dose">
+                    <img src="/assets/images/svg/vmd-logo-portrait.svg" class="d-block d-sm-none appLogo _phone" alt="Vite ma dose">
+                    <img src="/assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Vite ma dose">
                 </div>
                 <div class="col">
                     <div class="row justify-content-end">
