@@ -1,6 +1,8 @@
 import {css, customElement, html, LitElement, unsafeCSS} from 'lit-element';
 import globalCss from "../styles/global.scss";
 import {map, marker, tileLayer} from 'leaflet'
+import leafletCss from 'leaflet/dist/leaflet.css';
+import leafletMarkerCss from 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 // @ts-ignore
 import {MarkerClusterGroup}  from 'leaflet.markercluster'
 
@@ -8,12 +10,26 @@ import {MarkerClusterGroup}  from 'leaflet.markercluster'
 
 // TODO: Refactor this as the code is really ugly / unmaintainable :-)
 
+type Centre = {
+    nom: string;
+    longitude: number;
+    latitude: number;
+    reservation: string;
+    date_ouverture: string;
+    rdv_tel: string;
+    modalites: string;
+    adresse: string;
+    maj: string;
+};
+
 @customElement('vmd-centres')
 export class VmdCentresView extends LitElement {
 
     //language=css
     static styles = [
         css`${unsafeCSS(globalCss)}`,
+        css`${unsafeCSS(leafletCss)}`,
+        css`${unsafeCSS(leafletMarkerCss)}`,
         css`
             :host {
                 display: block;
@@ -24,16 +40,20 @@ export class VmdCentresView extends LitElement {
 
     render() {
         return html`
-          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-                integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-                crossorigin=""/>
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" integrity="sha512-BBToHPBStgMiw0lD4AtkRIZmdndhB6aQbXpX7omcrXeG2PauGBl2lzq2xUZTxaLxYz5IDHlmneCZ1IJ+P3kYtQ==" crossorigin="anonymous" />
-
           <h3 style="margin-top : 80px;" id="centres-vaccination">Centres de vaccination</h3>
-          <p>Carte des centres de vaccination. Source des données : Ministère de la Santé. Mise à jour plusieurs fois par jour.</p>
           <p>
-            <b>Nos conseils pour trouver un RDV</b><br>
-            Les données affichées sur cette carte proviennent du Ministère de la Santé. Pour trouver un rendez-vous rapidement, nous vous conseillons de cliquer sur les centres les plus proches de chez vous, puis de cliquer sur le lien Doctolib, Keldoc ou Maiia présent sur la fiche du centre, lorsqu'il est renseigné. Vous pouvez aussi appeler le centre si son numéro est renseigné. N'hésitez pas à revenir plusieurs fois par jour, les données sont très régulièrement mises à jour.
+            Carte des centres de vaccination. <br/>
+            Source des données : Ministère de la Santé. <br/>
+            Mise à jour plusieurs fois par jour.
+          </p>
+          <p>
+            <b>Nos conseils pour trouver un RDV</b>
+            <br>
+            Les données affichées sur cette carte proviennent du Ministère de la Santé. Pour trouver un rendez-vous rapidement, 
+            nous vous conseillons de cliquer sur les centres les plus proches de chez vous, puis de cliquer sur le lien Doctolib, 
+            Keldoc ou Maiia présent sur la fiche du centre, lorsqu'il est renseigné. 
+            Vous pouvez aussi appeler le centre si son numéro est renseigné. 
+            N'hésitez pas à revenir plusieurs fois par jour, les données sont très régulièrement mises à jour.
           </p>
           <div id="mapid" style="height: 80vh; width: 90vw; max-width: 100%; max-height: 600px;"></div>
 
@@ -49,52 +69,37 @@ export class VmdCentresView extends LitElement {
     }
 
     private loadMap() {
-        let data = [] as any[];
-        let longitudes = [] as any[];
-        let latitudes = [] as any[];
-        let noms = [] as any[];
-        let reservation = [] as any[];
-        let rdv_tel = [] as any[];
-        let adresses = [] as any[];
-        let modalites = [] as any[];
-        let date_ouverture = [] as any[];
-        let maj = [] as any[];
-
-        const div = this.shadowRoot?.querySelector('#mapid');
+        const mymap = map(this.shadowRoot!.querySelector("#mapid") as HTMLElement).setView([46.505, 3], 6);
         const url="https://www.data.gouv.fr/fr/datasets/r/5cb21a85-b0b0-4a65-a249-806a040ec372"
 
         let request = fetch(url)
             .then(response => response.arrayBuffer())
             .then(buffer => {
-                let decoder = new TextDecoder();
-                let csv = decoder.decode(buffer);
-                let data_array = VmdCentresView.CSVToArray(csv, ";");
+                const decoder = new TextDecoder();
+                const csv = decoder.decode(buffer);
+                const data_array = VmdCentresView.CSVToArray(csv, ";");
 
-                data_array.slice(1, data_array.length-1).map((value: any[], idx) => {
-                    longitudes.push(value[10])
-                    latitudes.push(value[11])
-                    noms.push(value[1])
-                    reservation.push(value[34])
-                    date_ouverture.push(value[33])
-                    rdv_tel.push(value[35])
-                    modalites.push(value[35])
-                    adresses.push(value[5] + " " + value[6] + ", " + value[7] + " " + value[9])
-                    maj.push(value[22].slice(0, 16))
-                })
+                const centres: Centre[] = data_array.slice(1, data_array.length-1).map((value: string[], idx) => ({
+                    longitude: Number(value[10]),
+                    latitude: Number(value[11]),
+                    nom: value[1],
+                    reservation: value[34],
+                    date_ouverture: value[33],
+                    rdv_tel: value[35],
+                    modalites: value[37],
+                    adresse: value[5] + " " + value[6] + ", " + value[7] + " " + value[9],
+                    maj: value[22].slice(0, 16),
+                }))
 
-                VmdCentresView.ajouter_pins({
-                    latitudes, reservation, modalites, noms, adresses, longitudes, mymap, date_ouverture, rdv_tel, maj, markers
-                });
+                const markers = VmdCentresView.creer_pins(centres);
+                mymap.addLayer(markers);
             })
             .catch(function () {
                 // this.dataError = true;
                 console.log("error1")
             });
 
-        var mymap = map(this.shadowRoot!.querySelector("#mapid") as HTMLElement).setView([46.505, 3], 6);
-        var markers = new MarkerClusterGroup({ disableClusteringAtZoom: 9 });
-
-        var OpenStreetMap_Mapnik = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(mymap);
@@ -104,7 +109,7 @@ export class VmdCentresView extends LitElement {
     // This will parse a delimited string into an array of
     // arrays. The default delimiter is the comma, but this
     // can be overriden in the second argument.
-    private static CSVToArray(strData: string, strDelimiter: string ){
+    private static CSVToArray(strData: string, strDelimiter: string ): string[][]{
         // Check to see if the delimiter is defined. If not,
         // then default to comma.
         strDelimiter = (strDelimiter || ",");
@@ -184,35 +189,31 @@ export class VmdCentresView extends LitElement {
         }
 
         // Return the parsed data.
-        return( arrData );
+        return arrData;
     }
 
-    private static ajouter_pins({ latitudes, reservation, modalites, noms, adresses, longitudes, mymap, date_ouverture, rdv_tel, maj, markers }: any){
-        latitudes.map((lat: any, idx: number)=>{
-            var reservation_str = ""
-            if (typeof reservation[idx] != 'undefined'){
-
-                if (reservation[idx].slice(0, 4)=="http"){
-                    reservation_str = "<a href='" + reservation[idx] + "'>" + reservation[idx]
+    private static creer_pins(centres: Centre[]){
+        const markers = centres.reduce((markers: MarkerClusterGroup, centre, idx)=>{
+            let reservation_str = ""
+            if (typeof centre.reservation != 'undefined'){
+                if (centre.reservation.indexOf("http") === 0){
+                    reservation_str = `<a href="${centre.reservation}">${centre.reservation}</a>`
                 }
-            }
-            else{
-                reservation_str = reservation[idx]
+            } else {
+                reservation_str = centre.reservation;
             }
 
-            var modalites_str = modalites[idx]
-
-            var string_popup = "<span style='font-size: 150%;'>" + noms[idx] + "</span><br><b>Adresse :</b> " + adresses[idx] + "<br><b>Réservation :</b> " + reservation_str + "</a><br><b>Tél :</b> <a href:'tel:" + rdv_tel[idx] + "'>" + rdv_tel[idx] + "</a><br><b>Date d'ouverture :</b> "+ date_ouverture[idx] + "<br><b>Modalités :</b> " + modalites_str + "<br><b>Mise à jour :</b> " + maj[idx]
-            var newMarker = marker([longitudes[idx], lat]).bindPopup(string_popup) //.addTo(this.mymap);
+            var string_popup = `<span style='font-size: 150%;'>${centre.nom}</span><br><b>Adresse :</b> ${centre.adresse}<br><b>Réservation :</b> ${reservation_str}<br><b>Tél :</b> <a href:'tel:${centre.rdv_tel}'>${centre.rdv_tel}</a><br><b>Date d'ouverture :</b> ${centre.date_ouverture}<br><b>Modalités :</b> ${centre.modalites}<br><b>Mise à jour :</b> ${centre.maj}`
+            var newMarker = marker([centre.longitude, centre.latitude]).bindPopup(string_popup) //.addTo(this.mymap);
             newMarker.on('click', function(e: any) {
                 // @ts-ignore
                 this.openPopup();
             });
             markers.addLayer(newMarker);
 
-
-        })
-        mymap.addLayer(markers);
+            return markers;
+        }, new MarkerClusterGroup({ disableClusteringAtZoom: 9 }));
+        return markers;
     }
 
     disconnectedCallback() {
