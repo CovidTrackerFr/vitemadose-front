@@ -23,7 +23,7 @@ export class Dates {
 
     public static formatToFRDateTime(date: Date) {
         return `
-            ${FR_WEEK_DAYS[date.getDay()]} ${date.getDay()} ${FR_MONTHES[date.getMonth()]}
+            ${FR_WEEK_DAYS[date.getDay()]} ${date.getDate()} ${FR_MONTHES[date.getMonth()]}
             à ${date.getHours()<10?'0'+date.getHours():date.getHours()}:${date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes()}
         `;
     }
