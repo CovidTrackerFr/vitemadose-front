@@ -29,7 +29,7 @@ export class VmdDepartementSelectorComponent extends LitElement {
                 return html`
                   <option value="${dept.code_departement}"
                           ?selected="${this.codeDepartementSelectionne === dept.code_departement}">
-                    ${dept.nom_departement}
+                    ${dept.code_departement} - ${dept.nom_departement}
                   </option>`
             })}
             </select>

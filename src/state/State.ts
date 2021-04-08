@@ -75,7 +75,7 @@ export class State {
             return fetch("https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/departements.json")
                 .then(resp => resp.json())
                 .then((departements: Departement[]) => {
-                    departements.sort((d1, d2) => d1.nom_departement.localeCompare(d2.nom_departement));
+                    departements.sort((d1, d2) => d1.code_departement.localeCompare(d2.code_departement));
                     return departements;
                 });
         }
