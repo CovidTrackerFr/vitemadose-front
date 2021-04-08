@@ -125,21 +125,39 @@ export class VmdHomeView extends LitElement {
                     </div>
                 </div>
             </div>
-
             
-            <p class="text-center sources">
-                Source des données : Ministère de la Santé. Mise à jour plusieurs fois par jour.
-            </p>
+            <h1>L'outil Vite Ma Dose</h1>
+            <h2>Quel est l'intérêt de Vite Ma Dose de Vaccin ?</h2>
+            L'outil Vite Ma Dose de Vaccin permet de trouver facilement et rapidement un rendez-vous de vaccination proche de chez soi (proche de son domicile, ou de son lieu de travail). Il permet de chercher l'ensemble des rendez-vous de vaccination possibles via les plateformes de réservation comme Doctolib, Maiia, Keldoc ou Ordoclic.
+            <h1>La vaccination contre la Covid19</h1>
+            <h2>Qui peut-se faire vacciner contre le covid-19 ?</h2>
+            <p>On peut être éligible à la vaccination selon son âge, sa santé, ou sa profession.
+            Les professionnels de santé sont prioritaires. Les personnes de plus de 50 ans souffrant de « comorbidité » peuvent aussi se faire vacciner. Toutes les personnes de plus de 70 ans sont éligibles à la vaccination contre le covid-19.
+            A partir du 16 avril, les plus de 60 ans auront accès à la vaccination contre le coronavirus.</p>
+
+            <h2>Où se faire vacciner ?</h2>
+            <p>Si on est éligible, on peut être vacciné chez son médecin généraliste, dans un centre de vaccination, à la pharmacie, ou dans tous les établissements de santé et médico sociaux.</p>
+
+            <h2>Comment réserver un Rendez-vous de vaccination ?</h2>
+            <p>On peut se faire vacciner contre le coronavirus en réservant un rendez-vous grâce à Vite Ma Dose. On peut aussi prendre rendez-vous directement via les plateformes Doctolib, Maiia, ou Keldoc, ainsi que chez son médecin généraliste ou en pharmacie.</p>
+
+            <h2>Pourquoi se faire vacciner ?</h2>
+            <p>Le vaccin contre le covid-19 protège des formes graves de la maladie. Il semble aussi limiter les contaminations.</p>
+
+            <h2>Comment fonctionne Vite Ma Dose ?</h2>
+            <p>Vite Ma Dose est une plateforme où on peut réserver un rendez-vous de vaccination. Vite Ma Dose ne collecte aucune données personnelles.</p>
 
 
             <div class="row fs-6 legals">
                 <p class="col-sm-24 col-lg-12">
                   Vite Ma Dose! est un outil de CovidTracker permettant de détecter les rendez-vous 
-                  disponibles dans votre département afin de vous faire vacciner (sous réserve d'éligibilité).<br/> 
-                  Pour l'instant, seule les plateformes ${Object.values(PLATEFORMES).map(p => p.nom).join(", ")} sont supportées. <br/>
+                  disponibles dans votre département afin de vous faire vacciner (sous réserve d'éligibilité).
+                  Pour l'instant, seule les plateformes ${Object.values(PLATEFORMES).map(p => p.nom).join(", ")} sont supportées.
                   Vite Ma Dose! n'est pas un outil officiel, n'est pas exhaustif et ne remplace pas une recherche manuelle.
                 </p>
             </div>
+
+            CovidTracker 2021 - Tous droits réservés - Merci aux contributeurs
         `;
     }
 
