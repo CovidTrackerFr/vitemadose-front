@@ -1,8 +1,11 @@
 import { defineConfig } from 'vite'
 
+
 // https://vitejs.dev/config/
-export default defineConfig({
+export default ({ command, mode }) => ({
+  base: (mode === 'development')?'/':'/vitemadose/',
   build: {
-    sourcemap: false
+    sourcemap: true
+
   }
-})
+});

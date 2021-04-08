@@ -5,6 +5,7 @@ import leafletCss from 'leaflet/dist/leaflet.css';
 import leafletMarkerCss from 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 // @ts-ignore
 import {MarkerClusterGroup}  from 'leaflet.markercluster'
+import {Router} from "../routing/Router";
 
 // Code imported (and refactored a little bit)
 // from https://github.com/rozierguillaume/covidtracker-tools/blob/main/src/ViteMaDose/carteCentres.html
@@ -214,7 +215,7 @@ export class VmdCentresView extends LitElement {
                 <b>Mise à jour :</b> ${centre.maj}
             `;
             var newMarker = marker([centre.longitude, centre.latitude], {
-                icon: new Icon.Default({imagePath: '/assets/images/png/'})
+                icon: new Icon.Default({imagePath: `${Router.basePath}assets/images/png/`})
             }).bindPopup(string_popup) //.addTo(this.mymap);
             newMarker.on('click', function(e: any) {
                 // @ts-ignore
