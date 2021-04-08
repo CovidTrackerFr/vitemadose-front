@@ -14,6 +14,7 @@ import {
     State,
     TRANCHES_AGE
 } from "../state/State";
+import {Dates} from "../utils/Dates";
 
 @customElement('vmd-rdv')
 export class VmdRdvView extends LitElement {
@@ -79,6 +80,8 @@ export class VmdRdvView extends LitElement {
 
             <h4 class="fw-normal text-center" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne)?'block':'none'})}">
               Résultats pour : <span class="fw-bold">${this.departementSelectionne?.nom_departement} <!-- , ${this.trancheAgeSelectionee?.libelle} --></span>
+              <br/>
+              ${this.centresParDepartement?.derniereMiseAJour?html`<em>Dernière mise à jour : ${Dates.isoToFRDatetime(this.centresParDepartement?.derniereMiseAJour)}</em>`:html``}
             </h4>
 
             <div class="spacer mt-5 mb-5"></div>

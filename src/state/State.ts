@@ -43,6 +43,7 @@ export type CentresParDepartement = {
     centresDisponibles: Centre[];
     centresIndisponibles: Centre[];
     codeDepartement: CodeDepartement;
+    derniereMiseAJour: ISODateString;
 };
 export type CentresParDepartements = Map<CodeDepartement, CentresParDepartement>;
 
@@ -64,7 +65,8 @@ export class State {
                 .then(results => ({
                     centresDisponibles: results.centres_disponibles as Centre[],
                     centresIndisponibles: results.centres_indisponibles as Centre[],
-                    codeDepartement
+                    codeDepartement,
+                    derniereMiseAJour: results.last_updated
                 }));
         }
     }
