@@ -9,6 +9,8 @@ export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
     ['plus75', { codeTrancheAge: 'plus75', libelle: "Plus de 75 ans" }]
 ]);
 
+const VMD_BASE_URL = "https://vitemadose.gitlab.io/vitemadose"
+
 
 export type Plateforme = {
     logo: string;
@@ -68,7 +70,7 @@ export class State {
         if(this._centresParDepartement.has(codeDepartement)) {
             return Promise.resolve(this._centresParDepartement.get(codeDepartement)!);
         } else {
-            return fetch(`https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/${codeDepartement}.json?trancheAge=${codeTrancheAge}`)
+            return fetch(`${VMD_BASE_URL}/${codeDepartement}.json?trancheAge=${codeTrancheAge}`)
                 .then(resp => resp.json())
                 .then(results => ({
                     centresDisponibles: results.centres_disponibles as Centre[],
@@ -83,7 +85,7 @@ export class State {
         if(this._departementsDiponibles !== undefined) {
             return Promise.resolve(this._departementsDiponibles);
         } else {
-            return fetch("https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/departements.json")
+            return fetch(`${VMD_BASE_URL}/departements.json`)
                 .then(resp => resp.json())
                 .then((departements: Departement[]) => {
                     departements.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
