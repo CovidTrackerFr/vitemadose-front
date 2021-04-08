@@ -47,6 +47,14 @@ export type CentresParDepartement = {
 };
 export type CentresParDepartements = Map<CodeDepartement, CentresParDepartement>;
 
+function convertDepartementForSort(codeDepartement: CodeDepartement) {
+    switch(codeDepartement) {
+        case '2A': return '20A';
+        case '2B': return '20B';
+        default: return codeDepartement;
+    }
+}
+
 export class State {
     public static current = new State();
 
@@ -78,7 +86,7 @@ export class State {
             return fetch("https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/departements.json")
                 .then(resp => resp.json())
                 .then((departements: Departement[]) => {
-                    departements.sort((d1, d2) => d1.code_departement.localeCompare(d2.code_departement));
+                    departements.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
                     return departements;
                 });
         }
