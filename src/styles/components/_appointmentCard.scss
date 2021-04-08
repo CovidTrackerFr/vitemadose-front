@@ -11,6 +11,13 @@
   max-width: 75vw;
   margin: auto;
 
+  &.clickable {
+    &:hover {
+      background-color: darken($card-bg, 3%);
+    }
+    cursor: pointer;
+  }
+
   @include media-breakpoint-up(xl) {
     max-width: 55vw;
   }

@@ -32,8 +32,7 @@ export class VmdAppointmentCardComponent extends LitElement {
     render() {
         if(this.rdvPossible) {
             return html`
-            <div class="card rounded-3 mb-5" 
-                 style="${styleMap({cursor: this.estCliquable?'pointer':'default'})}" 
+            <div class="card rounded-3 mb-5 ${classMap({clickable: this.estCliquable})}"
                  @click="${() => Router.navigateToUrlIfPossible(this.centre.url)}">
                 <div class="card-body">
                     <div class="row align-items-center">
