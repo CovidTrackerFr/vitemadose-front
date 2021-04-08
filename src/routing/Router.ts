@@ -13,18 +13,22 @@ class Routing {
     private currentTemplateResult: TemplateResult|undefined = undefined;
     private currentPath: string|undefined = undefined;
 
+    public get basePath() {
+        return import.meta.env.BASE_URL;
+    }
+
     installRoutes(callback?: ViewChangedCallback): ViewChangedCallbackCleaner|undefined {
         const callbackCleaner = callback?this.onViewChanged(callback):undefined;
 
-        page.redirect('/home', '/');
-        page.redirect('/index.html', '/');
-        this.declareRoute('/', () =>
+        page.redirect(`${this.basePath}home`, `/`);
+        page.redirect(`${this.basePath}index.html`, `/`);
+        this.declareRoute(`${this.basePath}`, () =>
             html`<vmd-home></vmd-home>`);
-        this.declareRoute('/:departement/:trancheAge/rendez-vous', (params) =>
-            html`<vmd-rdv codeDepartementSelectionne="${params['departement']}" codeTrancheAgeSelectionne="${params['trancheAge']}"></vmd-rdv>`);
-        this.declareRoute('/centres', (params) =>
+        this.declareRoute(`${this.basePath}:departement/:trancheAge/rendez-vous`, (params) =>
+            html`<vmd-rdv codeDepartementSelectionne="${params[`departement`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}"></vmd-rdv>`);
+        this.declareRoute(`${this.basePath}centres`, (params) =>
             html`<vmd-centres></vmd-centres>`);
-        page('*', () => this._notFoundRoute());
+        page(`*`, () => this._notFoundRoute());
         page();
 
         return callbackCleaner;
@@ -51,15 +55,15 @@ class Routing {
     }
 
     private _notFoundRoute() {
-        console.error('Route not found !');
+        console.error(`Route not found !`);
     }
 
     public navigateToRendezVous(codeDepartement: string, trancheAge: string) {
-        page(`/${codeDepartement}/${trancheAge}/rendez-vous`);
+        page(`${this.basePath}${codeDepartement}/${trancheAge}/rendez-vous`);
     }
 
     navigateToHome() {
-        page('/');
+        page(`${this.basePath}`);
     }
 
     navigateToUrlIfPossible(url: string) {

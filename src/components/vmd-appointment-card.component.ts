@@ -51,7 +51,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                                     avec ${plateforme.nom}
                                 </div>
                                 <div class="col-auto">
-                                    <img class="rdvPlatformLogo" src="/assets/images/png/${plateforme.logo}" alt="${plateforme.nom}">
+                                    <img class="rdvPlatformLogo" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="${plateforme.nom}">
                                 </div>
                             </div>
                             `:html``}

@@ -2,7 +2,6 @@ import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-ele
 import {Router} from "./routing/Router";
 import globalCss from './styles/global.scss'
 import {TemplateResult} from "lit-html";
-import logoUrl from 'assets/images/svg/vmd-logo-landscape.svg'
 
 @customElement('vmd-app')
 export class VmdAppComponent extends LitElement {
@@ -32,8 +31,8 @@ export class VmdAppComponent extends LitElement {
         return html`
             <div class="row align-items-center justify-content-between">
                 <div class="col-auto" style="cursor: pointer" @click="${() => Router.navigateToHome()}">
-                    <img src="/assets/images/svg/vmd-logo-portrait.svg" class="d-block d-sm-none appLogo _phone" alt="Vite ma dose">
-                    <img src="/assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Vite ma dose">
+                    <img src="${Router.basePath}assets/images/svg/vmd-logo-portrait.svg" class="d-block d-sm-none appLogo _phone" alt="Vite ma dose">
+                    <img src="${Router.basePath}assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Vite ma dose">
                 </div>
                 <div class="col">
                     <div class="row justify-content-end">

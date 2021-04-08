@@ -84,7 +84,7 @@ export class VmdHomeView extends LitElement {
                   ${Object.values(PLATEFORMES).map(plateforme => {
                       return html`
                         <div class="col-auto">
-                          <a href=""><img class="searchAppointment-logo ${plateforme.styleCode}" src="/assets/images/png/${plateforme.logo}" alt="${plateforme.nom}"></a>
+                          <a href=""><img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="${plateforme.nom}"></a>
                         </div>
                       `
                   })}
@@ -118,7 +118,7 @@ export class VmdHomeView extends LitElement {
                         </p>
                         
                         <div class="row justify-content-center mt-5">
-                            <a href="/centres" class="col-auto btn btn-primary btn-lg">
+                            <a href="${Router.basePath}centres" class="col-auto btn btn-primary btn-lg">
                                 Accéder à la carte des centres&nbsp;<i class="bi bi-arrow-up-right"></i>
                             </a>
                         </div>
