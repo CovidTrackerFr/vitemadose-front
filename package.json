@@ -15,14 +15,14 @@
     "build": "tsc && vite build"
   },
   "devDependencies": {
+    "@types/leaflet": "1.7.0",
+    "@types/leaflet.markercluster": "1.4.4",
+    "@types/page": "1.11.2",
     "sass": "1.32.8",
     "typescript": "4.2.3",
     "vite": "2.1.5"
   },
   "dependencies": {
-    "@types/leaflet": "1.7.0",
-    "@types/leaflet.markercluster": "1.4.4",
-    "@types/page": "1.11.2",
     "bootstrap": "5.0.0-beta3",
     "bootstrap-icons": "1.4.1",
     "leaflet": "1.7.1",
