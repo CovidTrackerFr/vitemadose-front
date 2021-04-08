@@ -6,7 +6,14 @@ import globalCss from "../styles/global.scss";
 import homeViewCss from "../styles/views/_home.scss";
 import searchDoseCss from "../styles/components/_searchDose.scss";
 import searchAppointment from "../styles/components/_searchAppointment.scss";
-import {CodeDepartement, CodeTrancheAge, Departement, State, TRANCHES_AGE} from "../state/State";
+import {
+    CodeDepartement,
+    CodeTrancheAge,
+    Departement,
+    PLATEFORMES,
+    State,
+    TRANCHES_AGE
+} from "../state/State";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {
@@ -132,7 +139,10 @@ export class VmdHomeView extends LitElement {
 
             <div class="row fs-6 legals">
                 <p class="col-sm-24 col-lg-12">
-                    Vite Ma Dose ! est un outil de CovidTracker permettant de détecter les rendez-vous disponibles dans votre département afin de vous faire vacciner (sous réserve d'éligibilité). Pour l'instant, seule la plateforme Doctolib est supportée. Vite Ma Dose ! n'est pas un outil officiel, n'est pas exhaustif et ne remplace pas une recherche manuelle.
+                  Vite Ma Dose! est un outil de CovidTracker permettant de détecter les rendez-vous 
+                  disponibles dans votre département afin de vous faire vacciner (sous réserve d'éligibilité).<br/> 
+                  Pour l'instant, seule les plateformes ${Object.values(PLATEFORMES).map(p => p.nom).join(", ")} sont supportées. <br/>
+                  Vite Ma Dose! n'est pas un outil officiel, n'est pas exhaustif et ne remplace pas une recherche manuelle.
                 </p>
             </div>
         `;

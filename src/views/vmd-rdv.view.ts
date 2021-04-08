@@ -1,26 +1,18 @@
-import {
-    LitElement,
-    html,
-    customElement,
-    property,
-    css,
-    unsafeCSS
-} from 'lit-element';
+import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {TrancheAgeSelectionne} from "../components/vmd-tranche-age-selector.component";
 import {DepartementSelected} from "../components/vmd-departement-selector.component";
 import {repeat} from "lit-html/directives/repeat";
 import {styleMap} from "lit-html/directives/style-map";
 import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
-import {Dates} from "../utils/Dates";
 import rdvViewCss from "../styles/views/_rdv.scss";
 import {
-    Centre,
     CentresParDepartement,
     CodeDepartement,
     CodeTrancheAge,
-    Departement, LOGOS_PLATEFORMES,
-    State, TRANCHES_AGE
+    Departement,
+    State,
+    TRANCHES_AGE
 } from "../state/State";
 
 @customElement('vmd-rdv')

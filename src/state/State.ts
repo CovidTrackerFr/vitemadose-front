@@ -9,12 +9,17 @@ export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
     ['plus75', { codeTrancheAge: 'plus75', libelle: "Plus de 75 ans" }]
 ]);
 
-export const LOGOS_PLATEFORMES: Record<string, string|undefined> = {
-    'Doctolib': 'logo_doctolib.png',
-    'Maiia': 'logo_maiia.png',
-    'Ordoclic': 'logo_ordoclic.png',
-    'Keldoc': 'logo_keldoc.png',
-    'Autre': undefined,
+
+export type Plateforme = {
+    logo: string;
+    nom: string;
+    code: string;
+};
+export const PLATEFORMES: Record<string, Plateforme> = {
+    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib' },
+    'Maiia': {    code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia' },
+    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic' },
+    'Keldoc': {   code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc' },
 };
 
 export type CodeDepartement = string;

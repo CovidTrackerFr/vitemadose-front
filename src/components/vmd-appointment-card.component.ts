@@ -1,7 +1,6 @@
-import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
+import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
-import {Centre, LOGOS_PLATEFORMES} from "../state/State";
-import {styleMap} from "lit-html/directives/style-map";
+import {Centre, Plateforme, PLATEFORMES} from "../state/State";
 import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
 import appointmentCardCss from "../styles/components/_appointmentCard.scss";
@@ -32,6 +31,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
     render() {
         if(this.rdvPossible) {
+            const plateforme: Plateforme|undefined = PLATEFORMES[this.centre.plateforme];
             return html`
             <div class="card rounded-3 mb-5 ${classMap({clickable: this.estCliquable})}"
                  @click="${() => Router.navigateToUrlIfPossible(this.centre.url)}">
@@ -45,13 +45,13 @@ export class VmdAppointmentCardComponent extends LitElement {
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
                             <a href="${this.centre.url}" target="_blank" class="btn btn-primary btn-lg">Prendre rendez-vous</a>
-                            ${LOGOS_PLATEFORMES[this.centre.plateforme]?html`
+                            ${plateforme?html`
                             <div class="row align-items-center justify-content-center mt-3">
                                 <div class="col-auto text-black-50">
-                                    avec ${this.centre.plateforme}
+                                    avec ${plateforme.nom}
                                 </div>
                                 <div class="col-auto">
-                                    <img class="rdvPlatformLogo" src="/assets/images/png/${LOGOS_PLATEFORMES[this.centre.plateforme]}" alt="Doctolib">
+                                    <img class="rdvPlatformLogo" src="/assets/images/png/${plateforme.logo}" alt="${plateforme.nom}">
                                 </div>
                             </div>
                             `:html``}
