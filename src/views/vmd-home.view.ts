@@ -58,7 +58,7 @@ export class VmdHomeView extends LitElement {
                         </div>
                         -->
                         <div class="col-sm-24 col-md-auto mb-md-3">
-                            J'habite en
+                            Mon département :
                         </div>
                         <div class="col">
                             <vmd-departement-selector class="mb-3" 
