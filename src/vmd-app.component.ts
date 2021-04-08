@@ -1,5 +1,5 @@
 import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
-import {Router} from "./routing/Router";
+import {Router, SlottedTemplateResultFactory} from "./routing/Router";
 import globalCss from './styles/global.scss'
 import {TemplateResult} from "lit-html";
 
@@ -17,7 +17,7 @@ export class VmdAppComponent extends LitElement {
         `
     ];
 
-    @property({type: Object, attribute: false}) viewTemplateResult: TemplateResult|undefined = undefined;
+    @property({type: Object, attribute: false}) viewTemplateResult: SlottedTemplateResultFactory|undefined = undefined;
 
     constructor() {
         super();
@@ -50,7 +50,7 @@ export class VmdAppComponent extends LitElement {
                 </div>
             </div>
             
-            ${this.viewTemplateResult}
+            ${this.viewTemplateResult?this.viewTemplateResult(html`<slot name="about" slot="about"></slot>`):html``}
         `;
     }
 
