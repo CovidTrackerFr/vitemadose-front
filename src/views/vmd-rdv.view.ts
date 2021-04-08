@@ -112,7 +112,7 @@ export class VmdRdvView extends LitElement {
                                     </div>
                                     
                                     ${VmdRdvView.estCliquable(centre)?html`
-                                    <div class="col-auto">
+                                    <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
                                         <a href="${centre.url}" target="_blank" class="btn btn-primary btn-lg">Prendre rendez-vous</a>
                                         ${LOGOS_PLATEFORMES[centre.plateforme]?html`
                                         <div class="row align-items-center justify-content-center mt-3">
@@ -151,7 +151,7 @@ export class VmdRdvView extends LitElement {
                                         <p class="card-text">${centre.nom}</p>
                                     </div>
 
-                                    <div class="col-auto">
+                                    <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
                                         <a href="${centre.url}" target="_blank" class="btn btn-info btn-lg">Vérifier le centre</a>
                                     </div>
                                 </div>
