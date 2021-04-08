@@ -1,14 +1,13 @@
 import {css, customElement, html, LitElement, unsafeCSS} from 'lit-element';
 import globalCss from "../styles/global.scss";
-import {map, marker, tileLayer} from 'leaflet'
+import {Icon, map, marker, tileLayer} from 'leaflet'
 import leafletCss from 'leaflet/dist/leaflet.css';
 import leafletMarkerCss from 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 // @ts-ignore
 import {MarkerClusterGroup}  from 'leaflet.markercluster'
 
-// Code imported "as is" from https://github.com/rozierguillaume/covidtracker-tools/blob/main/src/ViteMaDose/carteCentres.html
-
-// TODO: Refactor this as the code is really ugly / unmaintainable :-)
+// Code imported (and refactored a little bit)
+// from https://github.com/rozierguillaume/covidtracker-tools/blob/main/src/ViteMaDose/carteCentres.html
 
 type Centre = {
     nom: string;
@@ -203,8 +202,20 @@ export class VmdCentresView extends LitElement {
                 reservation_str = centre.reservation;
             }
 
-            var string_popup = `<span style='font-size: 150%;'>${centre.nom}</span><br><b>Adresse :</b> ${centre.adresse}<br><b>Réservation :</b> ${reservation_str}<br><b>Tél :</b> <a href:'tel:${centre.rdv_tel}'>${centre.rdv_tel}</a><br><b>Date d'ouverture :</b> ${centre.date_ouverture}<br><b>Modalités :</b> ${centre.modalites}<br><b>Mise à jour :</b> ${centre.maj}`
-            var newMarker = marker([centre.longitude, centre.latitude]).bindPopup(string_popup) //.addTo(this.mymap);
+            var string_popup = `
+                <span style='font-size: 150%;'>${centre.nom}</span>
+                <br>
+                <b>Adresse :</b> ${centre.adresse}<br><b>Réservation :</b> ${reservation_str}
+                <br>
+                <b>Tél :</b> <a href:'tel:${centre.rdv_tel}'>${centre.rdv_tel}</a>
+                <br>
+                <b>Date d'ouverture :</b> ${centre.date_ouverture}<br><b>Modalités :</b> ${centre.modalites}
+                <br>
+                <b>Mise à jour :</b> ${centre.maj}
+            `;
+            var newMarker = marker([centre.longitude, centre.latitude], {
+                icon: new Icon.Default({imagePath: '/assets/images/png/'})
+            }).bindPopup(string_popup) //.addTo(this.mymap);
             newMarker.on('click', function(e: any) {
                 // @ts-ignore
                 this.openPopup();
