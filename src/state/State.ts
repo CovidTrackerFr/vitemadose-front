@@ -14,12 +14,13 @@ export type Plateforme = {
     logo: string;
     nom: string;
     code: string;
+    styleCode: string;
 };
 export const PLATEFORMES: Record<string, Plateforme> = {
-    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib' },
-    'Maiia': {    code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia' },
-    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic' },
-    'Keldoc': {   code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc' },
+    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', styleCode: '_doctolib'},
+    'Maiia': {    code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    styleCode: '_maiia'},
+    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', styleCode: '_ordoclic'},
+    'Keldoc': {   code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   styleCode: '_keldoc'},
 };
 
 export type CodeDepartement = string;

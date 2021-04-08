@@ -81,18 +81,13 @@ export class VmdHomeView extends LitElement {
                 <h5 class="text-black-50 text-center mb-5">Trouvez vos rendez-vous avec</h5>
 
                 <div class="row justify-content-center align-items-center">
-                    <div class="col-auto">
-                        <a href=""><img class="searchAppointment-logo _doctolib" src="/assets/images/png/logo_doctolib.png" alt="Doctolib"></a>
-                    </div>
-                    <div class="col-auto">
-                        <a href=""><img class="searchAppointment-logo _maiia" src="/assets/images/png/logo_maiia.jpg" alt="Maiia"></a>
-                    </div>
-                    <div class="col-auto">
-                        <a href=""><img class="searchAppointment-logo _keldoc" src="/assets/images/png/logo_keldoc.png" alt="Keldoc"></a>
-                    </div>
-                    <div class="col-auto">
-                        <a href=""><img class="searchAppointment-logo _ordoclic" src="/assets/images/png/logo_ordoclic.png" alt="Ordoclic"></a>
-                    </div>
+                  ${Object.values(PLATEFORMES).map(plateforme => {
+                      return html`
+                        <div class="col-auto">
+                          <a href=""><img class="searchAppointment-logo ${plateforme.styleCode}" src="/assets/images/png/${plateforme.logo}" alt="${plateforme.nom}"></a>
+                        </div>
+                      `
+                  })}
                 </div>
             </div>
             
