@@ -1,8 +1,8 @@
 export type ISODateString = string;
 
 const FR_WEEK_DAYS: Record<number,string> = {
-    1: 'Lundi', 2: 'Mardi', 3: 'Mercredi', 4: 'Jeudi',
-    5: 'Vendredi', 6: 'Samedi', 7: 'Dimanche',
+    0: 'Dimanche', 1: 'Lundi', 2: 'Mardi', 3: 'Mercredi',
+    4: 'Jeudi', 5: 'Vendredi', 6: 'Samedi'
 };
 const FR_MONTHES: Record<number, string> = {
     0: 'Janvier', 1: 'Février', 2: 'Mars', 3: 'Avril', 4: 'Mai', 5: 'Juin',
