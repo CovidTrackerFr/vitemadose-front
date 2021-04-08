@@ -19,7 +19,8 @@ export class VmdAppointmentCardComponent extends LitElement {
     ];
 
     @property({type: Object, attribute: false}) centre!: Centre;
-    @property({type: Boolean}) rdvPossible!: boolean;
+    /* dunno why, but boolean string is not properly converted to boolean when using attributes */
+    @property({type: Boolean, attribute: false }) rdvPossible!: boolean;
 
     private get estCliquable() {
         return !!this.centre.url;

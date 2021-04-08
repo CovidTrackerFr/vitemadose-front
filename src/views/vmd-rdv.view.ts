@@ -100,7 +100,7 @@ export class VmdRdvView extends LitElement {
                 </h5>
 
                 ${repeat(this.centresParDepartement?.centresDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
-                    return html`<vmd-appointment-card .centre="${centre}" rdvPossible="true"></vmd-appointment-card>`;
+                    return html`<vmd-appointment-card .centre="${centre}" .rdvPossible="${true}"></vmd-appointment-card>`;
                 })}
 
                 <div class="spacer mt-5 mb-5"></div>
@@ -113,7 +113,7 @@ export class VmdRdvView extends LitElement {
                 </h5>
 
                 ${repeat(this.centresParDepartement?.centresIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
-                    return html`<vmd-appointment-card .centre="${centre}" rdvPossible="false"></vmd-appointment-card>`;
+                    return html`<vmd-appointment-card .centre="${centre}" .rdvPossible="${false}"></vmd-appointment-card>`;
                 })}
             </div>
         `;
