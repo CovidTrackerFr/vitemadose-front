@@ -12,17 +12,3 @@
         }
     }
 }
-
-.rdvPlatformLogo {
-    max-width: 8rem;
-    max-height: 5rem;
-}
-
-.card {
-    max-width: 75vw;
-    margin: auto;
-
-    @include media-breakpoint-up(xl) {
-        max-width: 55vw;
-    }
-}
