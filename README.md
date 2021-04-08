@@ -12,3 +12,7 @@ and enjoy live reload / on-the-fly typescript compilation
 # Production
 
 Package for production with `vite build` : `dist` directory will contain minified assets for production
+
+# Mobile apps
+
+See [dedicated readme in `mobile/` directory](mobile/README.md)
