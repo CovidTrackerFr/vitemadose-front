@@ -66,11 +66,20 @@ function convertDepartementForSort(codeDepartement: CodeDepartement) {
     }
 }
 
+export type StatCentre = {disponibles: number, total: number};
+export type StatCentreGlobale = StatCentre & { proportion: number };
+export type StatsCentreParDepartement = Record<string, StatCentre>
+export type StatsCentre = {
+    parDepartements: StatsCentreParDepartement;
+    global: StatCentreGlobale;
+}
+
 export class State {
     public static current = new State();
 
     private _departementsDiponibles: Departement[]|undefined = undefined;
     private _centresParDepartement: CentresParDepartements = new Map<CodeDepartement, CentresParDepartement>();
+    private _statsCentre: StatsCentre|undefined = undefined;
 
     private constructor() {
     }
@@ -100,6 +109,33 @@ export class State {
                     this._departementsDiponibles = departements;
                     this._departementsDiponibles.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
                     return departements;
+                });
+        }
+    }
+
+    statsCentres(): Promise<StatsCentre> {
+        if(this._statsCentre !== undefined) {
+            return Promise.resolve(this._statsCentre);
+        } else {
+            return fetch(`${VMD_BASE_URL}/stats.json`)
+                .then(resp => resp.json())
+                .then((statsParDepartements: StatsCentreParDepartement) => {
+                    const global: StatCentre = Object.values(statsParDepartements).reduce<StatCentre>((statsGlobales, statCentre) => {
+                        return {
+                            disponibles: statsGlobales.disponibles + statCentre.disponibles,
+                            total: statsGlobales.total + statCentre.total
+                        };
+                    }, { disponibles: 0, total: 0 });
+
+                    const statsCentre = {
+                        parDepartements: statsParDepartements,
+                        global: {
+                            ...global,
+                            proportion: Math.round(global.disponibles * 10000 / global.total)/100
+                        }
+                    };
+                    this._statsCentre = statsCentre;
+                    return statsCentre;
                 });
         }
     }
