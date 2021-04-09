@@ -129,15 +129,15 @@ export class VmdHomeView extends LitElement {
                 <br>
                 <div class="row justify-content-center align-items-center">
                         <div class="col-auto">
-                        <h3 class="text-black-100 text-center mb-3">aaa</h3>
-                        <h5 class="text-black-50 text-center mb-3">Centres de vaccination disponibles</h5>
+                        <h3 class="text-black-100 text-center mb-3">--</h3>
+                        <h5 class="text-black-50 text-center mb-3">Lieux de vaccination disponibles</h5>
                         </div>
                         <div class="col-auto">
-                        <h3 class="text-black-100 text-center mb-3">bbb</h3>
+                        <h3 class="text-black-100 text-center mb-3">--</h3>
                         <h5 class="text-black-50 text-center mb-3">Lieux de vaccination détectés </h5>
                         </div>
                         <div class="col-auto">
-                        <h3 class="text-black-100 text-center mb-3">ccc</h3>
+                        <h3 class="text-black-100 text-center mb-3">--</h3>
                         <h5 class="text-black-50 text-center mb-3">Proportion des lieux de vaccination disponibles</h5>
                         </div>
                 </div>
