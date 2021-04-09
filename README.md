@@ -1,3 +1,9 @@
+# Requirements
+
+You need minimum `node@12` to be able to properly run `ViteJS`
+
+Don't hesitate to install multiple `node` version in your dev environment using [n](https://www.npmjs.com/package/n)
+
 # Boostrap
 
 Install dependencies :
