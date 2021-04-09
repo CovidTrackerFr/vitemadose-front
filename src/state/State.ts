@@ -79,7 +79,7 @@ export class State {
         if(this._centresParDepartement.has(codeDepartement)) {
             return Promise.resolve(this._centresParDepartement.get(codeDepartement)!);
         } else {
-            return fetch(`${VMD_BASE_URL}/${codeDepartement}.json?trancheAge=${codeTrancheAge}`)
+            return fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
                 .then(resp => resp.json())
                 .then(results => ({
                     centresDisponibles: results.centres_disponibles as Centre[],
