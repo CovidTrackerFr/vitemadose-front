@@ -119,19 +119,17 @@ export class State {
         } else {
             return fetch(`${VMD_BASE_URL}/stats.json`)
                 .then(resp => resp.json())
-                .then((statsParDepartements: StatsCentreParDepartement) => {
-                    const global: StatCentre = Object.values(statsParDepartements).reduce<StatCentre>((statsGlobales, statCentre) => {
-                        return {
-                            disponibles: statsGlobales.disponibles + statCentre.disponibles,
-                            total: statsGlobales.total + statCentre.total
-                        };
-                    }, { disponibles: 0, total: 0 });
-
+                .then((statsParDepartements: Record<CodeDepartement|'tout_departement', StatCentre>) => {
                     const statsCentre = {
-                        parDepartements: statsParDepartements,
+                        parDepartements: Object.entries(statsParDepartements)
+                            .filter(([dpt, stats]: [CodeDepartement|"tout_departement", StatCentre]) => dpt !== 'tout_departement')
+                            .reduce((statsParDept, [dpt, stats]: [CodeDepartement, StatCentre]) => {
+                                statsParDepartements[dpt] = stats;
+                                return statsParDepartements;
+                            }, {} as StatsCentreParDepartement),
                         global: {
-                            ...global,
-                            proportion: Math.round(global.disponibles * 10000 / global.total)/100
+                            ...statsParDepartements['tout_departement'],
+                            proportion: Math.round(statsParDepartements['tout_departement'].disponibles * 10000 / statsParDepartements['tout_departement'].total)/100
                         }
                     };
                     this._statsCentre = statsCentre;
