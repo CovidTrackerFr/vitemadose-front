@@ -97,7 +97,8 @@ export class State {
             return fetch(`${VMD_BASE_URL}/departements.json`)
                 .then(resp => resp.json())
                 .then((departements: Departement[]) => {
-                    departements.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
+                    this._departementsDiponibles = departements;
+                    this._departementsDiponibles.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
                     return departements;
                 });
         }
