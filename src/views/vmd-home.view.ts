@@ -11,7 +11,7 @@ import {
     CodeTrancheAge,
     Departement, FEATURES,
     PLATEFORMES,
-    State,
+    State, StatsCentre,
     TRANCHES_AGE
 } from "../state/State";
 
@@ -35,6 +35,7 @@ export class VmdHomeView extends LitElement {
     @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = undefined;
+    @property({type: Array, attribute: false}) statsCentre: StatsCentre|undefined = undefined;
 
     render() {
         return html`
@@ -130,17 +131,17 @@ export class VmdHomeView extends LitElement {
                 <div class="row gx-5">
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-building fs-6 text-primary"></i>
-                        <div class="h5 mt-4">872719</div>
-                        <p>Centres de vaccinations disponibles</p>
+                        <div class="h5 mt-4">${this.statsCentre?.global.disponibles}</div>
+                        <p>Lieux de vaccinations disponibles</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-geo-alt fs-6 text-primary"></i>
-                        <div class="h5 mt-4">1276934</div>
+                        <div class="h5 mt-4">${this.statsCentre?.global.total}</div>
                         <p>Lieux de vaccination détectés</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-check-circle fs-6 text-primary"></i>
-                        <div class="h5 mt-4">78%</div>
+                        <div class="h5 mt-4">${this.statsCentre?.global.proportion}%</div>
                         <p>Proportion des lieux de vaccination disponibles</p>
                     </div>
                 </div>
@@ -153,10 +154,12 @@ export class VmdHomeView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [ departementsDisponibles ] = await Promise.all([
-            State.current.departementsDisponibles()
+        const [ departementsDisponibles, statsCentre ] = await Promise.all([
+            State.current.departementsDisponibles(),
+            State.current.statsCentres()
         ])
         this.departementsDisponibles = departementsDisponibles;
+        this.statsCentre = statsCentre;
     }
 
     disconnectedCallback() {
