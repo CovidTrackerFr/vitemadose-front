@@ -23,6 +23,8 @@ export const PLATEFORMES: Record<string, Plateforme> = {
     'Maiia': {    code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    styleCode: '_maiia'},
     'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', styleCode: '_ordoclic'},
     'Keldoc': {   code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   styleCode: '_keldoc'},
+    // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
+    // in index.html page, referencing the list of supported plateforms
 };
 
 export type CodeDepartement = string;
