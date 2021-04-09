@@ -71,9 +71,11 @@ export class VmdAppointmentCardComponent extends LitElement {
                       <p class="card-text">${this.centre.nom}</p>
                     </div>
 
+                    ${this.estCliquable?html`
                     <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
                       <a href="${this.centre.url}" target="_blank" class="btn btn-info btn-lg">Vérifier le centre</a>
                     </div>
+                    `:html``}
                   </div>
                 </div>
               </div>
