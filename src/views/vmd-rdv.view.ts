@@ -10,7 +10,8 @@ import {
     CentresParDepartement,
     CodeDepartement,
     CodeTrancheAge,
-    Departement, FEATURES,
+    Departement,
+    FEATURES,
     State,
     TRANCHES_AGE
 } from "../state/State";
@@ -27,14 +28,14 @@ export class VmdRdvView extends LitElement {
         `
     ];
 
-    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = undefined;
-    @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
+    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge | undefined = undefined;
+    @property({type: String}) codeDepartementSelectionne: CodeDepartement | undefined = undefined;
 
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = undefined;
-    @property({type: Array, attribute: false}) centresParDepartement: CentresParDepartement|undefined = undefined;
+    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] | undefined = undefined;
+    @property({type: Array, attribute: false}) centresParDepartement: CentresParDepartement | undefined = undefined;
 
     get departementSelectionne() {
-        if(this.codeDepartementSelectionne && this.departementsDisponibles) {
+        if (this.codeDepartementSelectionne && this.departementsDisponibles) {
             return this.departementsDisponibles.find(dept => dept.code_departement === this.codeDepartementSelectionne);
         } else {
             return undefined;
@@ -42,7 +43,7 @@ export class VmdRdvView extends LitElement {
     }
 
     get trancheAgeSelectionee() {
-        if(this.codeTrancheAgeSelectionne) {
+        if (this.codeTrancheAgeSelectionne) {
             return TRANCHES_AGE.get(this.codeTrancheAgeSelectionne);
         } else {
             return undefined;
@@ -53,7 +54,7 @@ export class VmdRdvView extends LitElement {
         return html`
             <div class="p-5 text-dark bg-light rounded-3">
                 <div class="rdvForm-fields row align-items-center">
-                  ${FEATURES.trancheAgeFilter?html`
+                  ${FEATURES.trancheAgeFilter ? html`
                     <div class="col-sm-24 col-md-auto mb-md-3 mt-md-3">
                         J'ai
                     </div>
@@ -63,7 +64,7 @@ export class VmdRdvView extends LitElement {
                               .tranchesAge="${TRANCHES_AGE}"
                               @tranche-age-changed="${this.trancheAgeMisAJour}"></vmd-tranche-age-selector>
                     </div>
-                    `:html``}
+                    ` : html``}
                     <div class="col-sm-24 col-md-auto mb-md-3 mt-md-3">
                       Mon département :
                     </div>
@@ -78,30 +79,36 @@ export class VmdRdvView extends LitElement {
 
             <div class="spacer mt-5 mb-5"></div>
 
-            <h4 class="fw-normal text-center" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne)?'block':'none'})}">
-              Résultats pour :
+            <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) ? 'block' : 'none'})}">
+              ${this.centresParDepartement?.centresDisponibles.length || 0} rendez-vous de vaccination covid trouvés pour 
               <span class="fw-bold">${this.departementSelectionne?.nom_departement}
-              ${FEATURES.trancheAgeFilter?html`, ${this.trancheAgeSelectionee?.libelle}`:html``}
+              ${FEATURES.trancheAgeFilter ? html`, ${this.trancheAgeSelectionee?.libelle}` : html``}
               </span>
               <br/>
-              ${this.centresParDepartement?.derniereMiseAJour?html`<span class="fs-6 text-black-50">Dernière mise à jour : ${Dates.isoToFRDatetime(this.centresParDepartement?.derniereMiseAJour)}</span>`:html``}
-            </h4>
+              ${this.centresParDepartement?.derniereMiseAJour ? html`<span class="fs-6 text-black-50">Dernière mise à jour : ${Dates.isoToFRDatetime(this.centresParDepartement?.derniereMiseAJour)}</span>` : html``}
+            </h3>
 
             <div class="spacer mt-5 mb-5"></div>
             
             <div class="p-5 text-dark bg-light rounded-3">
-                <h5 class="row align-items-center justify-content-center mb-5">
-                    <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>
-                    <span class="col col-sm-auto">
-                        ${this.centresParDepartement?.centresDisponibles.length || 0} Centres(s) ayant des disponibilités
-                    </span>
-                </h5>
+                ${(this.centresParDepartement?.centresDisponibles.length || 0) > 0 ? html`
+                    <h2 class="row align-items-center justify-content-center mb-5 h5">
+                        <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>
+                        <span class="col col-sm-auto">
+                            ${this.centresParDepartement?.centresDisponibles.length || 0} Centre${(this.centresParDepartement?.centresDisponibles.length || 0) > 1 ? 's' : ''} de vaccination covid ont des disponibilités
+                            
+                        </span>
+                    </h2>
+                ` : html`
+                    <h2 class="row align-items-center justify-content-center mb-5 h5">Aucun créneau de vaccination trouvé</h2>
+                    <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
+                `}
 
                 ${repeat(this.centresParDepartement?.centresDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
-                    return html`<vmd-appointment-card .centre="${centre}" .rdvPossible="${true}"></vmd-appointment-card>`;
-                })}
+            return html`<vmd-appointment-card .centre="${centre}" .rdvPossible="${true}"></vmd-appointment-card>`;
+        })}
 
-              ${this.centresParDepartement?.centresIndisponibles.length?html`
+              ${this.centresParDepartement?.centresIndisponibles.length ? html`
                 <div class="spacer mt-5 mb-5"></div>
 
                 <h5 class="row align-items-center justify-content-center mb-5">
@@ -112,9 +119,9 @@ export class VmdRdvView extends LitElement {
                 </h5>
 
                 ${repeat(this.centresParDepartement?.centresIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
-                    return html`<vmd-appointment-card .centre="${centre}" .rdvPossible="${false}"></vmd-appointment-card>`;
-                })}
-              `:html``}
+            return html`<vmd-appointment-card .centre="${centre}" .rdvPossible="${false}"></vmd-appointment-card>`;
+        })}
+              ` : html``}
             </div>
         `;
     }
@@ -122,7 +129,7 @@ export class VmdRdvView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [ departementsDisponibles, centresParDepartement ] = await Promise.all([
+        const [departementsDisponibles, centresParDepartement] = await Promise.all([
             State.current.departementsDisponibles(),
             this.refreshCentres()
         ])
@@ -133,7 +140,7 @@ export class VmdRdvView extends LitElement {
     }
 
     async refreshCentres() {
-        if(this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
+        if (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
             this.centresParDepartement = await State.current.centresPour(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
         } else {
             this.centresParDepartement = undefined;
@@ -158,7 +165,7 @@ export class VmdRdvView extends LitElement {
     }
 
     private refreshPageWhenValidParams() {
-        if(this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
+        if (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
             Router.navigateToRendezVous(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
         }
     }
