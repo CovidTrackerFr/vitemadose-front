@@ -85,7 +85,7 @@ export class VmdRdvView extends LitElement {
               ${FEATURES.trancheAgeFilter ? html`, ${this.trancheAgeSelectionee?.libelle}` : html``}
               </span>
               <br/>
-              ${this.centresParDepartement?.derniereMiseAJour ? html`<span class="fs-6 text-black-50">Dernière mise à jour : ${Dates.isoToFRDatetime(this.centresParDepartement?.derniereMiseAJour)}</span>` : html``}
+              ${this.centresParDepartement?.derniereMiseAJour ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.centresParDepartement?.derniereMiseAJour)}</span>` : html``}
             </h3>
 
             <div class="spacer mt-5 mb-5"></div>
