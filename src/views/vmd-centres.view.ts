@@ -40,25 +40,11 @@ export class VmdCentresView extends LitElement {
 
     render() {
         return html`
-          <h3 style="margin-top : 80px;" id="centres-vaccination">Centres de vaccination</h3>
-          <p>
-            Carte des centres de vaccination. <br/>
-            Source des données : Ministère de la Santé. <br/>
-            Mise à jour plusieurs fois par jour.
-          </p>
-          <p>
-            <b>Nos conseils pour trouver un RDV</b>
-            <br>
-            Les données affichées sur cette carte proviennent du Ministère de la Santé. Pour trouver un rendez-vous rapidement, 
-            nous vous conseillons de cliquer sur les centres les plus proches de chez vous, puis de cliquer sur le lien Doctolib, 
-            Keldoc ou Maiia présent sur la fiche du centre, lorsqu'il est renseigné. 
-            Vous pouvez aussi appeler le centre si son numéro est renseigné. 
-            N'hésitez pas à revenir plusieurs fois par jour, les données sont très régulièrement mises à jour.
-          </p>
-          <div id="mapid" style="height: 80vh; width: 90vw; max-width: 100%; max-height: 600px;"></div>
+          <h1> Carte des centre de vaccination contre la Covid-19</h1>
+          
+          <slot name="about-centres"></slot>
 
-          <br>
-          <br>
+          <div id="mapid" style="height: 80vh; width: 90vw; max-width: 100%; max-height: 600px; margin-bottom: 40px"></div>
         `;
     }
 

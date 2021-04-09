@@ -50,7 +50,10 @@ export class VmdAppComponent extends LitElement {
                 </div>
             </div>
             
-            ${this.viewTemplateResult?this.viewTemplateResult(html`<slot name="about" slot="about"></slot>`):html``}
+            ${this.viewTemplateResult?this.viewTemplateResult(html`
+              <slot name="about" slot="about"></slot>
+              <slot name="about-centres" slot="about-centres"></slot>
+            `):html``}
         `;
     }
 
