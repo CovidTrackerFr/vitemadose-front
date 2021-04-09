@@ -55,15 +55,18 @@ export class VmdAppComponent extends LitElement {
             
             <footer class="row justify-content-between">
                 <div class="col-auto">
-                    © Vite Ma Dose par CovidTracker
+                    © Vite Ma Dose par CovidTracker • Contributeurs • Design Adrien Rochet
                 </div>
                 <div class="col-auto">
                     <div class="row">
                         <div class="col-auto">
-                            Contactez-nous
+                            <a href="https://covidtracker.fr/mentions-legales" target="_blank">Mentions légales</a>
                         </div>
                         <div class="col-auto">
-                            Twitter
+                            <a href="https://covidtracker.fr/contact" target="_blank">Contactez-nous</a>
+                        </div>
+                        <div class="col-auto">
+                            <a href="https://twitter.com/vitemadose_off" target="_blank">Twitter</a>
                         </div>
                     </div>
                 </div>
