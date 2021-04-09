@@ -81,7 +81,7 @@ export class VmdRdvView extends LitElement {
             <h4 class="fw-normal text-center" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne)?'block':'none'})}">
               Résultats pour : <span class="fw-bold">${this.departementSelectionne?.nom_departement} <!-- , ${this.trancheAgeSelectionee?.libelle} --></span>
               <br/>
-              ${this.centresParDepartement?.derniereMiseAJour?html`<em>Dernière mise à jour : ${Dates.isoToFRDatetime(this.centresParDepartement?.derniereMiseAJour)}</em>`:html``}
+              ${this.centresParDepartement?.derniereMiseAJour?html`<span class="fs-6 text-black-50">Dernière mise à jour : ${Dates.isoToFRDatetime(this.centresParDepartement?.derniereMiseAJour)}</span>`:html``}
             </h4>
 
             <div class="spacer mt-5 mb-5"></div>
