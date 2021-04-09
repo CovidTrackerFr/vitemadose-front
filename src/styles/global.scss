@@ -19,6 +19,13 @@ body {
     };
 }
 
+footer {
+    margin: {
+        top: 12rem !important;
+    };
+    color: $gray-500;
+}
+
 .spacer {
     height: 0;
     line-height: 0;

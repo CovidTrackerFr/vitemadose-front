@@ -52,6 +52,22 @@ export class VmdAppComponent extends LitElement {
               <slot name="about" slot="about"></slot>
               <slot name="about-centres" slot="about-centres"></slot>
             `):html``}
+            
+            <footer class="row justify-content-between">
+                <div class="col-auto">
+                    © Vite Ma Dose par CovidTracker
+                </div>
+                <div class="col-auto">
+                    <div class="row">
+                        <div class="col-auto">
+                            Contactez-nous
+                        </div>
+                        <div class="col-auto">
+                            Twitter
+                        </div>
+                    </div>
+                </div>
+            </footer>
         `;
     }
 
