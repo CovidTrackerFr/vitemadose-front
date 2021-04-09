@@ -39,9 +39,9 @@ export class VmdHomeView extends LitElement {
     render() {
         return html`
             <div class="searchDose">
-                <h1 class="searchDose-title">
+                <div class="searchDose-title h1">
                     Trouvez une dose de vaccin <span class="text-secondary">facilement</span> et <span class="text-primary">rapidement</span>
-                </h1>
+                </div>
 
                 <div class="searchDose-form">
                     <div class="searchDoseForm-fields row align-items-center">
