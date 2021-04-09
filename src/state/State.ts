@@ -1,5 +1,12 @@
 import {ISODateString} from "../utils/Dates";
 
+type Features = {
+    trancheAgeFilter: boolean;
+};
+export const FEATURES: Features = {
+    trancheAgeFilter: false
+};
+
 export type CodeTrancheAge = string;
 export type TrancheAge = {
     codeTrancheAge: CodeTrancheAge;

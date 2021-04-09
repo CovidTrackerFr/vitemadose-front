@@ -9,7 +9,7 @@ import searchAppointment from "../styles/components/_searchAppointment.scss";
 import {
     CodeDepartement,
     CodeTrancheAge,
-    Departement,
+    Departement, FEATURES,
     PLATEFORMES,
     State,
     TRANCHES_AGE
@@ -31,7 +31,7 @@ export class VmdHomeView extends LitElement {
         `
     ];
 
-    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = "plus75";
+    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = FEATURES.trancheAgeFilter?undefined:'plus75';
     @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = undefined;
@@ -45,7 +45,7 @@ export class VmdHomeView extends LitElement {
 
                 <div class="searchDose-form">
                     <div class="searchDoseForm-fields row align-items-center">
-                      <!--
+                      ${FEATURES.trancheAgeFilter?html`
                         <div class="col-sm-24 col-md-auto mb-md-3">
                             J'ai
                         </div>
@@ -56,7 +56,7 @@ export class VmdHomeView extends LitElement {
                             >
                             </vmd-tranche-age-selector>
                         </div>
-                        -->
+                        `:html``}
                         <div class="col-sm-24 col-md-auto mb-md-3">
                             Mon département :
                         </div>

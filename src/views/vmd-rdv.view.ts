@@ -10,7 +10,7 @@ import {
     CentresParDepartement,
     CodeDepartement,
     CodeTrancheAge,
-    Departement,
+    Departement, FEATURES,
     State,
     TRANCHES_AGE
 } from "../state/State";
@@ -53,7 +53,7 @@ export class VmdRdvView extends LitElement {
         return html`
             <div class="p-5 text-dark bg-light rounded-3">
                 <div class="rdvForm-fields row align-items-center">
-                  <!--
+                  ${FEATURES.trancheAgeFilter?html`
                     <div class="col-sm-24 col-md-auto mb-md-3 mt-md-3">
                         J'ai
                     </div>
@@ -63,7 +63,7 @@ export class VmdRdvView extends LitElement {
                               .tranchesAge="${TRANCHES_AGE}"
                               @tranche-age-changed="${this.trancheAgeMisAJour}"></vmd-tranche-age-selector>
                     </div>
-                    -->
+                    `:html``}
                     <div class="col-sm-24 col-md-auto mb-md-3 mt-md-3">
                       Mon département :
                     </div>
@@ -79,7 +79,10 @@ export class VmdRdvView extends LitElement {
             <div class="spacer mt-5 mb-5"></div>
 
             <h4 class="fw-normal text-center" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne)?'block':'none'})}">
-              Résultats pour : <span class="fw-bold">${this.departementSelectionne?.nom_departement} <!-- , ${this.trancheAgeSelectionee?.libelle} --></span>
+              Résultats pour :
+              <span class="fw-bold">${this.departementSelectionne?.nom_departement}
+              ${FEATURES.trancheAgeFilter?html`, ${this.trancheAgeSelectionee?.libelle}`:html``}
+              </span>
               <br/>
               ${this.centresParDepartement?.derniereMiseAJour?html`<em>Dernière mise à jour : ${Dates.isoToFRDatetime(this.centresParDepartement?.derniereMiseAJour)}</em>`:html``}
             </h4>
