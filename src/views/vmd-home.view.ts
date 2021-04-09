@@ -126,7 +126,7 @@ export class VmdHomeView extends LitElement {
                 </div>
 
                 <div class="searchAppointment mt-5">
-
+                <br>
                 <div class="row justify-content-center align-items-center">
                         <div class="col-auto">
                         <h3 class="text-black-100 text-center mb-3">aaa</h3>
@@ -144,6 +144,7 @@ export class VmdHomeView extends LitElement {
 
             </div>
             </div>
+            <br>
             <hr>
             <slot name="about"></slot>
         `;
