@@ -84,7 +84,7 @@ export class VmdHomeView extends LitElement {
                   ${Object.values(PLATEFORMES).map(plateforme => {
                       return html`
                         <div class="col-auto">
-                          <a href=""><img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="${plateforme.nom}"></a>
+                          <a href=""><img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}"></a>
                         </div>
                       `
                   })}
@@ -99,7 +99,7 @@ export class VmdHomeView extends LitElement {
                         <h2>VaccinTracker</h2>
 
                         <p>
-                            Combien de personnes ont été vaccinées ? Suivez la campagne vaccinale sur VaccinTracker.
+                            Combien de personnes ont été vaccinées ? Combien de premières injections ? Quel pourcentage de seconde injection ? Suivez la campagne vaccinale en France sur Vaccintracker.
                         </p>
 
                         <div class="row justify-content-center mt-5">
@@ -111,10 +111,10 @@ export class VmdHomeView extends LitElement {
                 </div>
                 <div class="col-sm-24 col-md">
                     <div class="p-5 text-dark bg-light rounded-3">
-                        <h2>Carte des centres</h2>
+                        <h2>Carte des centres de vaccination contre la Covid-19</h2>
 
                         <p>
-                            Trouvez un centre de vaccination directement sur la carte, appelez les centres pour savoir il y a des rendez-vous.
+                            Trouvez un centre de vaccination contre la Covid-19 proche de chez vous, consultez les centres pour savoir s’il y a des rendez-vous
                         </p>
 
                         <div class="row justify-content-center mt-5">

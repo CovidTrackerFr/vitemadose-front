@@ -31,8 +31,8 @@ export class VmdAppComponent extends LitElement {
         return html`
             <div class="row align-items-center justify-content-between">
                 <div class="col-auto" style="cursor: pointer" @click="${() => Router.navigateToHome()}">
-                    <img src="${Router.basePath}assets/images/svg/vmd-logo-portrait.svg" class="d-block d-sm-none appLogo _phone" alt="Vite Ma Dose">
-                    <img src="${Router.basePath}assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Vite Ma Dose">
+                    <img src="${Router.basePath}assets/images/svg/vmd-logo-portrait.svg" class="d-block d-sm-none appLogo _phone" alt="Trouvez votre créneau de vaccination avec Vite Ma Dose">
+                    <img src="${Router.basePath}assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Trouvez votre créneau de vaccination avec Vite Ma Dose">
                 </div>
                 <div class="col">
                     <div class="row justify-content-end">
