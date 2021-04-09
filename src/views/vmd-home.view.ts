@@ -93,7 +93,7 @@ export class VmdHomeView extends LitElement {
 
             <div class="spacer mt-5 mb-5"></div>
 
-            <div class="row">
+            <div class="row gx-5">
                 <div class="col-sm-24 col-md">
                     <div class="p-5 text-dark bg-light rounded-3">
                         <h2>VaccinTracker</h2>
@@ -122,6 +122,26 @@ export class VmdHomeView extends LitElement {
                                 Accéder à la carte des centres&nbsp;<i class="bi bi-arrow-up-right"></i>
                             </a>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5 text-dark bg-light rounded-3 mt-5">
+                <div class="row gx-5">
+                    <div class="col-24 col-md text-center">
+                        <i class="bi bi-building fs-6 text-primary"></i>
+                        <div class="h5 mt-4">872719</div>
+                        <p>Centres de vaccinations disponibles</p>
+                    </div>
+                    <div class="col-24 col-md text-center">
+                        <i class="bi bi-geo-alt fs-6 text-primary"></i>
+                        <div class="h5 mt-4">1276934</div>
+                        <p>Lieux de vaccination détectés</p>
+                    </div>
+                    <div class="col-24 col-md text-center">
+                        <i class="bi bi-check-circle fs-6 text-primary"></i>
+                        <div class="h5 mt-4">78%</div>
+                        <p>Proportion des lieux de vaccination disponibles</p>
                     </div>
                 </div>
             </div>
