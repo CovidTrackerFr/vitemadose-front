@@ -112,15 +112,15 @@ export class VmdHomeView extends LitElement {
                 </div>
                 <div class="col-sm-24 col-md">
                     <div class="p-5 text-dark bg-light rounded-3">
-                        <h2>Carte des lieux de vaccination contre la Covid-19</h2>
+                        <h2>Carte des centres de vaccination contre la Covid-19</h2>
 
                         <p>
-                            Trouvez un lieu de vaccination contre la Covid-19 proche de chez vous, consultez les lieux pour savoir s’il y a des rendez-vous
+                            Trouvez un centre de vaccination contre la Covid-19 proche de chez vous, consultez les centres pour savoir s’il y a des rendez-vous
                         </p>
 
                         <div class="row justify-content-center mt-5">
-                            <a href="${Router.basePath}lieux" class="col-auto btn btn-primary btn-lg">
-                                Accéder à la carte des lieux&nbsp;<i class="bi bi-arrow-up-right"></i>
+                            <a href="${Router.basePath}centres" class="col-auto btn btn-primary btn-lg">
+                                Accéder à la carte des centres&nbsp;<i class="bi bi-arrow-up-right"></i>
                             </a>
                         </div>
                     </div>
