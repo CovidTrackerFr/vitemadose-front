@@ -66,10 +66,14 @@ export class VmdAppointmentCardComponent extends LitElement {
                                 <div class="col-auto">
                                   ${this.centre.appointment_count} dose${Strings.plural(this.centre.appointment_count)}
                                 </div>
-                                ${plateforme?html`
+                                ${this.centre.plateforme?html`
                                 |
                                 <div class="col-auto">
+                                    ${plateforme?html`
                                     <img class="rdvPlatformLogo" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneau de vaccination ${plateforme.nom}">
+                                    `:html`
+                                    ${this.centre.plateforme}
+                                    `}
                                 </div>
                                 `:html``}
                             </div>
