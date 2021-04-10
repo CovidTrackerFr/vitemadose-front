@@ -32,6 +32,8 @@ class Routing {
             html`<vmd-rdv codeDepartementSelectionne="${params[`departement`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
         this.declareRoute(`/centres`, (params) => (subViewSlot) =>
             html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
+        this.declareRoute(`/apropos`, (params) => (subViewSlot) =>
+            html`<vmd-apropos>${subViewSlot}</vmd-apropos>`);
 
         page(`*`, () => this._notFoundRoute());
         page();
