@@ -11,7 +11,7 @@ import {
     CodeTrancheAge,
     Departement, FEATURES,
     PLATEFORMES,
-    State, StatsCentre,
+    State, StatsLieu,
     TRANCHES_AGE
 } from "../state/State";
 
@@ -35,7 +35,7 @@ export class VmdHomeView extends LitElement {
     @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = [];
-    @property({type: Array, attribute: false}) statsCentre: StatsCentre|undefined = undefined;
+    @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
     render() {
         return html`
@@ -131,17 +131,17 @@ export class VmdHomeView extends LitElement {
                 <div class="row gx-5">
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-building fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsCentre?.global.disponibles}</div>
+                        <div class="h5 mt-4">${this.statsLieu?.global.disponibles}</div>
                         <p>Lieux de vaccination disponibles</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-geo-alt fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsCentre?.global.total}</div>
+                        <div class="h5 mt-4">${this.statsLieu?.global.total}</div>
                         <p>Lieux de vaccination détectés</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-check-circle fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsCentre?.global.proportion}%</div>
+                        <div class="h5 mt-4">${this.statsLieu?.global.proportion}%</div>
                         <p>Proportion des lieux de vaccination disponibles</p>
                     </div>
                 </div>
@@ -154,12 +154,12 @@ export class VmdHomeView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [ departementsDisponibles, statsCentre ] = await Promise.all([
+        const [ departementsDisponibles, statsLieu ] = await Promise.all([
             State.current.departementsDisponibles(),
-            State.current.statsCentres()
+            State.current.statsLieux()
         ])
         this.departementsDisponibles = departementsDisponibles;
-        this.statsCentre = statsCentre;
+        this.statsLieu = statsLieu;
     }
 
     disconnectedCallback() {
