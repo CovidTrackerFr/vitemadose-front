@@ -30,7 +30,7 @@ class Routing {
         this.declareRoute(`${this.basePath}:departement/:trancheAge/rendez-vous`, (params) =>
             (subViewSlot) => html`<vmd-rdv codeDepartementSelectionne="${params[`departement`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}"></vmd-rdv>`);
         this.declareRoute(`${this.basePath}centres`, (params) =>
-            (subViewSlot) => html`<vmd-centres>${subViewSlot}</vmd-centres>`);
+            (subViewSlot) => html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
         page(`*`, () => this._notFoundRoute());
         page();
 
@@ -58,7 +58,8 @@ class Routing {
     }
 
     private _notFoundRoute() {
-        console.error(`Route not found !`);
+        console.error(`Route not found ! Redirecting to home...`);
+        this.navigateToHome();
     }
 
     public navigateToRendezVous(codeDepartement: string, trancheAge: string) {

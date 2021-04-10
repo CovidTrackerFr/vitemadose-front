@@ -7,7 +7,7 @@ import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
 import rdvViewCss from "../styles/views/_rdv.scss";
 import {
-    CentresParDepartement,
+    LieuxParDepartement,
     CodeDepartement,
     CodeTrancheAge,
     Departement,
@@ -32,11 +32,11 @@ export class VmdRdvView extends LitElement {
     @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge | undefined = undefined;
     @property({type: String}) codeDepartementSelectionne: CodeDepartement | undefined = undefined;
 
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] | undefined = undefined;
-    @property({type: Array, attribute: false}) centresParDepartement: CentresParDepartement | undefined = undefined;
+    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
+    @property({type: Array, attribute: false}) lieuxParDepartement: LieuxParDepartement | undefined = undefined;
 
     get departementSelectionne() {
-        if (this.codeDepartementSelectionne && this.departementsDisponibles) {
+        if (this.codeDepartementSelectionne) {
             return this.departementsDisponibles.find(dept => dept.code_departement === this.codeDepartementSelectionne);
         } else {
             return undefined;
@@ -52,7 +52,7 @@ export class VmdRdvView extends LitElement {
     }
 
     get totalDoses() {
-        return this.centresParDepartement?.centresDisponibles.reduce((total, centre) => total+centre.appointment_count, 0);
+        return this.lieuxParDepartement?.lieuxDisponibles.reduce((total, lieu) => total+lieu.appointment_count, 0);
     }
 
     render() {
@@ -70,9 +70,9 @@ export class VmdRdvView extends LitElement {
                               @tranche-age-changed="${this.trancheAgeMisAJour}"></vmd-tranche-age-selector>
                     </div>
                     ` : html``}
-                    <div class="col-sm-24 col-md-auto mb-md-3 mt-md-3">
+                    <label class="col-sm-24 col-md-auto mb-md-3 mt-md-3 form-select-lg">
                       Mon département :
-                    </div>
+                    </label>
                     <div class="col">
                         <vmd-departement-selector class="mb-3 mt-md-3"
                               codeDepartementSelectionne="${this.codeDepartementSelectionne}"
@@ -90,17 +90,17 @@ export class VmdRdvView extends LitElement {
               ${FEATURES.trancheAgeFilter ? html`, ${this.trancheAgeSelectionee?.libelle}` : html``}
               </span>
               <br/>
-              ${this.centresParDepartement?.derniereMiseAJour ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.centresParDepartement?.derniereMiseAJour)}</span>` : html``}
+              ${this.lieuxParDepartement?.derniereMiseAJour ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartement?.derniereMiseAJour)}</span>` : html``}
             </h3>
 
             <div class="spacer mt-5 mb-5"></div>
             
             <div class="p-5 text-dark bg-light rounded-3">
-                ${(this.centresParDepartement?.centresDisponibles.length || 0) > 0 ? html`
+                ${(this.lieuxParDepartement?.lieuxDisponibles.length || 0) > 0 ? html`
                     <h2 class="row align-items-center justify-content-center mb-5 h5">
                         <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>
                         <span class="col col-sm-auto">
-                            ${this.centresParDepartement?.centresDisponibles.length || 0} Lieu${Strings.plural(this.centresParDepartement?.centresDisponibles.length, 'x')} de vaccination covid ont des disponibilités
+                            ${this.lieuxParDepartement?.lieuxDisponibles.length || 0} Lieu${Strings.plural(this.lieuxParDepartement?.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
                         </span>
                     </h2>
                 ` : html`
@@ -108,11 +108,11 @@ export class VmdRdvView extends LitElement {
                     <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
                 `}
 
-                ${repeat(this.centresParDepartement?.centresDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
-            return html`<vmd-appointment-card .centre="${centre}" .rdvPossible="${true}"></vmd-appointment-card>`;
+                ${repeat(this.lieuxParDepartement?.lieuxDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu) => {
+            return html`<vmd-appointment-card .lieu="${lieu}" .rdvPossible="${true}"></vmd-appointment-card>`;
         })}
 
-              ${this.centresParDepartement?.centresIndisponibles.length ? html`
+              ${this.lieuxParDepartement?.lieuxIndisponibles.length ? html`
                 <div class="spacer mt-5 mb-5"></div>
 
                 <h5 class="row align-items-center justify-content-center mb-5">
@@ -122,8 +122,8 @@ export class VmdRdvView extends LitElement {
                     </span>
                 </h5>
 
-                ${repeat(this.centresParDepartement?.centresIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (centre) => {
-            return html`<vmd-appointment-card .centre="${centre}" .rdvPossible="${false}"></vmd-appointment-card>`;
+                ${repeat(this.lieuxParDepartement?.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu) => {
+            return html`<vmd-appointment-card .lieu="${lieu}" .rdvPossible="${false}"></vmd-appointment-card>`;
         })}
               ` : html``}
             </div>
@@ -133,33 +133,31 @@ export class VmdRdvView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [departementsDisponibles, centresParDepartement] = await Promise.all([
+        const [departementsDisponibles, lieuxParDepartement] = await Promise.all([
             State.current.departementsDisponibles(),
-            this.refreshCentres()
+            this.refreshLieux()
         ])
 
         this.departementsDisponibles = departementsDisponibles;
-
-        // this.findCentres();
     }
 
-    async refreshCentres() {
+    async refreshLieux() {
         if (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
-            this.centresParDepartement = await State.current.centresPour(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
+            this.lieuxParDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
         } else {
-            this.centresParDepartement = undefined;
+            this.lieuxParDepartement = undefined;
         }
     }
 
     trancheAgeMisAJour(event: CustomEvent<TrancheAgeSelectionne>) {
         this.codeTrancheAgeSelectionne = event.detail.trancheAge?.codeTrancheAge;
-        this.refreshCentres();
+        this.refreshLieux();
         this.refreshPageWhenValidParams();
     }
 
     departementUpdated(event: CustomEvent<DepartementSelected>) {
         this.codeDepartementSelectionne = event.detail.departement?.code_departement;
-        this.refreshCentres();
+        this.refreshLieux();
         this.refreshPageWhenValidParams();
     }
 

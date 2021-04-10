@@ -11,7 +11,7 @@ import {
     CodeTrancheAge,
     Departement, FEATURES,
     PLATEFORMES,
-    State, StatsCentre,
+    State, StatsLieu,
     TRANCHES_AGE
 } from "../state/State";
 
@@ -34,8 +34,8 @@ export class VmdHomeView extends LitElement {
     @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = FEATURES.trancheAgeFilter?undefined:'plus75';
     @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = undefined;
-    @property({type: Array, attribute: false}) statsCentre: StatsCentre|undefined = undefined;
+    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = [];
+    @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
     render() {
         return html`
@@ -58,9 +58,9 @@ export class VmdHomeView extends LitElement {
                             </vmd-tranche-age-selector>
                         </div>
                         `:html``}
-                        <div class="col-sm-24 col-md-auto mb-md-3">
+                        <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
                             Mon département :
-                        </div>
+                        </label>
                         <div class="col">
                             <vmd-departement-selector class="mb-3"
                                   @departement-changed="${(event: CustomEvent<DepartementSelected>) => this.codeDepartementSelectionne = event.detail.departement?.code_departement}"
@@ -82,7 +82,7 @@ export class VmdHomeView extends LitElement {
                 <h5 class="text-black-50 text-center mb-5">Trouvez vos rendez-vous avec</h5>
 
                 <div class="row justify-content-center align-items-center">
-                  ${Object.values(PLATEFORMES).map(plateforme => {
+                  ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
                       return html`
                         <div class="col-auto">
                           <a href=""><img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}"></a>
@@ -95,7 +95,7 @@ export class VmdHomeView extends LitElement {
             <div class="spacer mt-5 mb-5"></div>
 
             <div class="row gx-5">
-                <div class="col-sm-24 col-md">
+                <div class="col-sm-24 col-md mb-5 mb-md-0"">
                     <div class="p-5 text-dark bg-light rounded-3">
                         <h2>VaccinTracker</h2>
 
@@ -131,17 +131,17 @@ export class VmdHomeView extends LitElement {
                 <div class="row gx-5">
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-building fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsCentre?.global.disponibles}</div>
-                        <p>Lieux de vaccinations disponibles</p>
+                        <div class="h5 mt-4">${this.statsLieu?.global.disponibles}</div>
+                        <p>Lieux de vaccination disponibles</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-geo-alt fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsCentre?.global.total}</div>
+                        <div class="h5 mt-4">${this.statsLieu?.global.total}</div>
                         <p>Lieux de vaccination détectés</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-check-circle fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsCentre?.global.proportion}%</div>
+                        <div class="h5 mt-4">${this.statsLieu?.global.proportion}%</div>
                         <p>Proportion des lieux de vaccination disponibles</p>
                     </div>
                 </div>
@@ -154,12 +154,12 @@ export class VmdHomeView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [ departementsDisponibles, statsCentre ] = await Promise.all([
+        const [ departementsDisponibles, statsLieu ] = await Promise.all([
             State.current.departementsDisponibles(),
-            State.current.statsCentres()
+            State.current.statsLieux()
         ])
         this.departementsDisponibles = departementsDisponibles;
-        this.statsCentre = statsCentre;
+        this.statsLieu = statsLieu;
     }
 
     disconnectedCallback() {
