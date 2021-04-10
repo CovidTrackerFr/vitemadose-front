@@ -34,6 +34,7 @@ export class VmdRdvView extends LitElement {
 
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
     @property({type: Array, attribute: false}) lieuxParDepartement: LieuxParDepartement | undefined = undefined;
+    @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
 
     get departementSelectionne() {
         if (this.codeDepartementSelectionne) {
@@ -83,50 +84,55 @@ export class VmdRdvView extends LitElement {
             </div>
 
             <div class="spacer mt-5 mb-5"></div>
-
-            <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) ? 'block' : 'none'})}">
-              ${this.totalDoses} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} pour 
-              <span class="fw-bold">${this.departementSelectionne?.nom_departement}
-              ${FEATURES.trancheAgeFilter ? html`, ${this.trancheAgeSelectionee?.libelle}` : html``}
-              </span>
-              <br/>
-              ${this.lieuxParDepartement?.derniereMiseAJour ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartement?.derniereMiseAJour)}</span>` : html``}
-            </h3>
-
-            <div class="spacer mt-5 mb-5"></div>
             
-            <div class="p-5 text-dark bg-light rounded-3">
-                ${(this.lieuxParDepartement?.lieuxDisponibles.length || 0) > 0 ? html`
-                    <h2 class="row align-items-center justify-content-center mb-5 h5">
-                        <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>
-                        <span class="col col-sm-auto">
-                            ${this.lieuxParDepartement?.lieuxDisponibles.length || 0} Lieu${Strings.plural(this.lieuxParDepartement?.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
-                        </span>
-                    </h2>
-                ` : html`
-                    <h2 class="row align-items-center justify-content-center mb-5 h5">Aucun créneau de vaccination trouvé</h2>
-                    <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
-                `}
-
-                ${repeat(this.lieuxParDepartement?.lieuxDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu) => {
-            return html`<vmd-appointment-card .lieu="${lieu}" .rdvPossible="${true}"></vmd-appointment-card>`;
-        })}
-
-              ${this.lieuxParDepartement?.lieuxIndisponibles.length ? html`
+            ${this.searchInProgress?html`
+              <div class="spinner-border text-primary" style="height: 50px; width: 50px" role="status">
+              </div>
+            `:html`
+                <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) ? 'block' : 'none'})}">
+                  ${this.totalDoses} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} pour 
+                  <span class="fw-bold">${this.departementSelectionne?.nom_departement}
+                  ${FEATURES.trancheAgeFilter ? html`, ${this.trancheAgeSelectionee?.libelle}` : html``}
+                  </span>
+                  <br/>
+                  ${this.lieuxParDepartement?.derniereMiseAJour ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartement?.derniereMiseAJour)}</span>` : html``}
+                </h3>
+    
                 <div class="spacer mt-5 mb-5"></div>
-
-                <h5 class="row align-items-center justify-content-center mb-5">
-                    <i class="bi bi-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
-                    <span class="col col-sm-auto text-black-50">
-                        Autres centres sans créneaux de vaccination détecté
-                    </span>
-                </h5>
-
-                ${repeat(this.lieuxParDepartement?.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu) => {
-            return html`<vmd-appointment-card .lieu="${lieu}" .rdvPossible="${false}"></vmd-appointment-card>`;
-        })}
-              ` : html``}
-            </div>
+                
+                <div class="p-5 text-dark bg-light rounded-3">
+                    ${(this.lieuxParDepartement?.lieuxDisponibles.length || 0) > 0 ? html`
+                        <h2 class="row align-items-center justify-content-center mb-5 h5">
+                            <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>
+                            <span class="col col-sm-auto">
+                                ${this.lieuxParDepartement?.lieuxDisponibles.length || 0} Lieu${Strings.plural(this.lieuxParDepartement?.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
+                            </span>
+                        </h2>
+                    ` : html`
+                        <h2 class="row align-items-center justify-content-center mb-5 h5">Aucun créneau de vaccination trouvé</h2>
+                        <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
+                    `}
+                  
+                    ${repeat(this.lieuxParDepartement?.lieuxDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu) => {
+                        return html`<vmd-appointment-card .lieu="${lieu}" .rdvPossible="${true}"></vmd-appointment-card>`;
+                    })}
+    
+                  ${this.lieuxParDepartement?.lieuxIndisponibles.length ? html`
+                    <div class="spacer mt-5 mb-5"></div>
+    
+                    <h5 class="row align-items-center justify-content-center mb-5">
+                        <i class="bi bi-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
+                        <span class="col col-sm-auto text-black-50">
+                            Autres centres sans créneaux de vaccination détecté
+                        </span>
+                    </h5>
+    
+                    ${repeat(this.lieuxParDepartement?.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu) => {
+                        return html`<vmd-appointment-card .lieu="${lieu}" .rdvPossible="${false}"></vmd-appointment-card>`;
+                    })}
+                  ` : html``}
+                </div>
+            `}
         `;
     }
 
@@ -143,7 +149,12 @@ export class VmdRdvView extends LitElement {
 
     async refreshLieux() {
         if (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
-            this.lieuxParDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
+            try {
+                this.searchInProgress = true;
+                this.lieuxParDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
+            } finally {
+                this.searchInProgress = false;
+            }
         } else {
             this.lieuxParDepartement = undefined;
         }
