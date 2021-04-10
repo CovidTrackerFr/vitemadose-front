@@ -40,13 +40,12 @@ export class VmdAppointmentCardComponent extends LitElement {
                     <div class="row align-items-center ">
                         <div class="col">
                             <h5 class="card-title">${Dates.isoToFRDatetime(this.centre.prochain_rdv)}</h5>
-                            
                             <div class="row">
                               <vmd-appointment-metadata widthType="full-width" icon="bi-geo-alt-fill">
                                 <div slot="content">
-                                  ${this.centre.nom}
+                                  <span class="fw-bold text-dark">${this.centre.nom}</span>
                                   <br/>
-                                  ${this.centre.metadata.address}
+                                  <em>${this.centre.metadata.address}</em>
                                 </div>
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata widthType="fit-to-content" icon="bi-telephone-fill" .displayed="${!!this.centre.metadata.phone_number}">
