@@ -1,6 +1,6 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
-import {Centre, Plateforme, PLATEFORMES} from "../state/State";
+import {Centre, Plateforme, PLATEFORMES, TYPES_CENTRES} from "../state/State";
 import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
 import appointmentCardCss from "../styles/components/_appointmentCard.scss";
@@ -33,13 +33,51 @@ export class VmdAppointmentCardComponent extends LitElement {
         if(this.rdvPossible) {
             const plateforme: Plateforme|undefined = PLATEFORMES[this.centre.plateforme];
             return html`
-            <div class="card rounded-3 mb-5 ${classMap({clickable: this.estCliquable})}"
+            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
                  @click="${() => Router.navigateToUrlIfPossible(this.centre.url)}">
                 <div class="card-body">
-                    <div class="row align-items-center">
+                    <div class="row align-items-center ">
                         <div class="col">
                             <h5 class="card-title">${Dates.isoToFRDatetime(this.centre.prochain_rdv)}</h5>
-                            <p class="card-text">${this.centre.nom}</p>
+                            
+                            <div class="row">
+                                <!--
+                                Classes intéressantes à mettre sur les col-24 ci-dessous :
+                                - Aucune => la cellule prend toute la largeur
+                                - col-md-auto => la cellule prend la largeur du contenu
+                                - col-md => toutes les cellules en col-md sont réparties équitablement
+                                dans l'espace restant
+                                -->
+                              
+                                <div class="col-24">
+                                    <div class="row align-items-center">
+                                        <i class="bi bi-geo-alt-fill col-auto"></i>
+                                        <p class="card-text col">
+                                          ${this.centre.nom}
+                                          <br/>
+                                          ${this.centre.metadata.address}
+                                        </p>
+                                    </div>
+                                </div>
+                                ${this.centre.metadata.phone_number?html`
+                                  <div class="col-24 col-md-auto">
+                                    <div class="row align-items-center">
+                                      <i class="bi bi-telephone-fill col-auto"></i>
+                                      <p class="card-text col">
+                                        ${this.centre.metadata.phone_number}
+                                      </p>
+                                    </div>
+                                  </div>
+                                `:html``}
+                                <div class="col-24 col-md-auto">
+                                    <div class="row align-items-center">
+                                        <i class="bi bi-bag-plus col-auto"></i>
+                                        <p class="card-text col">
+                                            ${TYPES_CENTRES[this.centre.type]}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         ${this.estCliquable?html`
@@ -63,7 +101,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             `;
         } else {
             return html`
-              <div class="card rounded-3 mb-5 bg-disabled">
+              <div class="card rounded-3 mb-5 p-4 bg-disabled">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">
