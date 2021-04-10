@@ -118,7 +118,7 @@ export class VmdRdvView extends LitElement {
                 <h5 class="row align-items-center justify-content-center mb-5">
                     <i class="bi bi-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
                     <span class="col col-sm-auto text-black-50">
-                        Autres lieux sans créneaux de vaccination détecté
+                        Autres centres sans créneaux de vaccination détecté
                     </span>
                 </h5>
 
