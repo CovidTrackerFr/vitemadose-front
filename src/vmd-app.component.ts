@@ -36,11 +36,9 @@ export class VmdAppComponent extends LitElement {
                 </div>
                 <div class="col">
                     <div class="row justify-content-end">
-                      <!--
                         <div class="col-auto">
-                            <a href="">A propos</a>
+                            <a href="${Router.basePath}apropos">A propos</a>
                         </div>
-                      -->
                         <div class="col-auto border-start">
                             <a href="https://covidtracker.fr/" target="_blank">CovidTracker&nbsp;<i class="bi bi-arrow-up-right"></i></a>
                         </div>

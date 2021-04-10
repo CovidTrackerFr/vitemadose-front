@@ -34,3 +34,7 @@ footer {
 h1 {
     font-weight: bold;
 }
+
+select[required]:invalid {
+    color: $gray-600;
+}

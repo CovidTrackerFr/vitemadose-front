@@ -90,7 +90,13 @@ export class VmdAppointmentCardComponent extends LitElement {
                   <div class="row align-items-center">
                     <div class="col">
                       <h5 class="card-title">Aucun rendez-vous</h5>
-                      <p class="card-text">${this.lieu.nom}</p>
+                      <vmd-appointment-metadata widthType="full-width" icon="bi-geo-alt-fill">
+                        <div slot="content">
+                          <span class="fw-bold text-dark">${this.lieu.nom}</span>
+                          <br/>
+                          <em>${this.lieu.metadata.address}</em>
+                        </div>
+                      </vmd-appointment-metadata>
                     </div>
 
                     ${this.estCliquable?html`

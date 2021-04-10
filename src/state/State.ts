@@ -127,57 +127,55 @@ export class State {
     private constructor() {
     }
 
-    lieuxPour(codeDepartement: CodeDepartement, codeTrancheAge: CodeTrancheAge): Promise<LieuxParDepartement> {
+    async lieuxPour(codeDepartement: CodeDepartement, codeTrancheAge: CodeTrancheAge): Promise<LieuxParDepartement> {
         if(this._lieuxParDepartement.has(codeDepartement)) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
         } else {
-            return fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
-                .then(resp => resp.json())
-                .then(results => ({
-                    lieuxDisponibles: results.centres_disponibles.map(transformLieu),
-                    lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
-                    codeDepartement,
-                    derniereMiseAJour: results.last_updated
-                }));
+            const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
+            const results = await resp.json()
+            return {
+                lieuxDisponibles: results.centres_disponibles.map(transformLieu),
+                lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
+                codeDepartement,
+                derniereMiseAJour: results.last_updated
+            };
         }
     }
 
-    departementsDisponibles(): Promise<Departement[]> {
+    async departementsDisponibles(): Promise<Departement[]> {
         if(this._departementsDiponibles !== undefined) {
             return Promise.resolve(this._departementsDiponibles);
         } else {
-            return fetch(`${VMD_BASE_URL}/departements.json`)
-                .then(resp => resp.json())
-                .then((departements: Departement[]) => {
-                    this._departementsDiponibles = departements;
-                    this._departementsDiponibles.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
-                    return departements;
-                });
+            const resp = await fetch(`${VMD_BASE_URL}/departements.json`)
+            const departements: Departement[] = await resp.json()
+
+            this._departementsDiponibles = departements;
+            this._departementsDiponibles.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
+            return departements;
         }
     }
 
-    statsLieux(): Promise<StatsLieu> {
+    async statsLieux(): Promise<StatsLieu> {
         if(this._statsLieu !== undefined) {
             return Promise.resolve(this._statsLieu);
         } else {
-            return fetch(`${VMD_BASE_URL}/stats.json`)
-                .then(resp => resp.json())
-                .then((statsParDepartements: Record<CodeDepartement|'tout_departement', StatLieu>) => {
-                    const statsLieu = {
-                        parDepartements: Object.entries(statsParDepartements)
-                            .filter(([dpt, stats]: [CodeDepartement|"tout_departement", StatLieu]) => dpt !== 'tout_departement')
-                            .reduce((statsParDept, [dpt, stats]: [CodeDepartement, StatLieu]) => {
-                                statsParDepartements[dpt] = stats;
-                                return statsParDepartements;
-                            }, {} as StatsLieuParDepartement),
-                        global: {
-                            ...statsParDepartements['tout_departement'],
-                            proportion: Math.round(statsParDepartements['tout_departement'].disponibles * 10000 / statsParDepartements['tout_departement'].total)/100
-                        }
-                    };
-                    this._statsLieu = statsLieu;
-                    return statsLieu;
-                });
+            const resp = await fetch(`${VMD_BASE_URL}/stats.json`)
+            const statsParDepartements: Record<CodeDepartement|'tout_departement', StatLieu> = await resp.json()
+
+            const statsLieu = {
+                parDepartements: Object.entries(statsParDepartements)
+                    .filter(([dpt, stats]: [CodeDepartement|"tout_departement", StatLieu]) => dpt !== 'tout_departement')
+                    .reduce((statsParDept, [dpt, stats]: [CodeDepartement, StatLieu]) => {
+                        statsParDepartements[dpt] = stats;
+                        return statsParDepartements;
+                    }, {} as StatsLieuParDepartement),
+                global: {
+                    ...statsParDepartements['tout_departement'],
+                    proportion: Math.round(statsParDepartements['tout_departement'].disponibles * 10000 / statsParDepartements['tout_departement'].total)/100
+                }
+            };
+            this._statsLieu = statsLieu;
+            return statsLieu;
         }
     }
 }
