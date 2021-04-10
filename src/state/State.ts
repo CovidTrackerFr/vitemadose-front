@@ -8,13 +8,13 @@ export const FEATURES: Features = {
     trancheAgeFilter: false
 };
 
-export type CodeTrancheAge = string;
+export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
     codeTrancheAge: CodeTrancheAge;
     libelle: string;
 };
 export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
-    ['plus75', { codeTrancheAge: 'plus75', libelle: "Plus de 75 ans" }]
+    ['plus75ans', { codeTrancheAge: 'plus75ans', libelle: "Plus de 75 ans" }]
 ]);
 
 const VMD_BASE_URL = "https://vitemadose.gitlab.io/vitemadose"
