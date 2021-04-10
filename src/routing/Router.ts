@@ -58,7 +58,8 @@ class Routing {
     }
 
     private _notFoundRoute() {
-        console.error(`Route not found !`);
+        console.error(`Route not found ! Redirecting to home...`);
+        this.navigateToHome();
     }
 
     public navigateToRendezVous(codeDepartement: string, trancheAge: string) {
