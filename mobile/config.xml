@@ -2,7 +2,7 @@
 <widget id="fr.vitemadose" version="0.1-alpha" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>ViteMaDose</name>
     <description>
-        Trouver un centre de vaccination avec des doses de vaccin disponibles
+        Trouver un lieu de vaccination avec des doses de vaccin disponibles
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         CovidTracker

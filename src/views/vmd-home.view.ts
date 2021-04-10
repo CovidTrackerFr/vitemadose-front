@@ -11,7 +11,7 @@ import {
     CodeTrancheAge,
     Departement, FEATURES,
     PLATEFORMES,
-    State, StatsCentre,
+    State, StatsLieu,
     TRANCHES_AGE
 } from "../state/State";
 
@@ -35,7 +35,7 @@ export class VmdHomeView extends LitElement {
     @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = undefined;
-    @property({type: Array, attribute: false}) statsCentre: StatsCentre|undefined = undefined;
+    @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
     render() {
         return html`
@@ -112,15 +112,15 @@ export class VmdHomeView extends LitElement {
                 </div>
                 <div class="col-sm-24 col-md">
                     <div class="p-5 text-dark bg-light rounded-3">
-                        <h2>Carte des centres de vaccination contre la Covid-19</h2>
+                        <h2>Carte des lieux de vaccination contre la Covid-19</h2>
 
                         <p>
-                            Trouvez un centre de vaccination contre la Covid-19 proche de chez vous, consultez les centres pour savoir s’il y a des rendez-vous
+                            Trouvez un lieu de vaccination contre la Covid-19 proche de chez vous, consultez les lieux pour savoir s’il y a des rendez-vous
                         </p>
 
                         <div class="row justify-content-center mt-5">
-                            <a href="${Router.basePath}centres" class="col-auto btn btn-primary btn-lg">
-                                Accéder à la carte des centres&nbsp;<i class="bi bi-arrow-up-right"></i>
+                            <a href="${Router.basePath}lieux" class="col-auto btn btn-primary btn-lg">
+                                Accéder à la carte des lieux&nbsp;<i class="bi bi-arrow-up-right"></i>
                             </a>
                         </div>
                     </div>
@@ -131,17 +131,17 @@ export class VmdHomeView extends LitElement {
                 <div class="row gx-5">
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-building fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsCentre?.global.disponibles}</div>
+                        <div class="h5 mt-4">${this.statsLieu?.global.disponibles}</div>
                         <p>Lieux de vaccinations disponibles</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-geo-alt fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsCentre?.global.total}</div>
+                        <div class="h5 mt-4">${this.statsLieu?.global.total}</div>
                         <p>Lieux de vaccination détectés</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-check-circle fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsCentre?.global.proportion}%</div>
+                        <div class="h5 mt-4">${this.statsLieu?.global.proportion}%</div>
                         <p>Proportion des lieux de vaccination disponibles</p>
                     </div>
                 </div>
@@ -154,12 +154,12 @@ export class VmdHomeView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [ departementsDisponibles, statsCentre ] = await Promise.all([
+        const [ departementsDisponibles, statsLieu ] = await Promise.all([
             State.current.departementsDisponibles(),
-            State.current.statsCentres()
+            State.current.statsLieux()
         ])
         this.departementsDisponibles = departementsDisponibles;
-        this.statsCentre = statsCentre;
+        this.statsLieu = statsLieu;
     }
 
     disconnectedCallback() {

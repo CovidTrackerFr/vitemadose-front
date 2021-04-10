@@ -10,7 +10,7 @@ import {Router} from "../routing/Router";
 // Code imported (and refactored a little bit)
 // from https://github.com/rozierguillaume/covidtracker-tools/blob/main/src/ViteMaDose/carteCentres.html
 
-type Centre = {
+type Lieu = {
     nom: string;
     longitude: number;
     latitude: number;
@@ -22,8 +22,8 @@ type Centre = {
     maj: string;
 };
 
-@customElement('vmd-centres')
-export class VmdCentresView extends LitElement {
+@customElement('vmd-lieux')
+export class VmdLieuxView extends LitElement {
 
     //language=css
     static styles = [
@@ -40,9 +40,9 @@ export class VmdCentresView extends LitElement {
 
     render() {
         return html`
-          <h1> Carte des centre de vaccination contre la Covid-19</h1>
+          <h1> Carte des lieux de vaccination contre la Covid-19</h1>
           
-          <slot name="about-centres"></slot>
+          <slot name="about-lieux"></slot>
 
           <div id="mapid" style="height: 80vh; width: 90vw; max-width: 100%; max-height: 600px; margin-bottom: 40px"></div>
         `;
@@ -63,9 +63,9 @@ export class VmdCentresView extends LitElement {
             .then(buffer => {
                 const decoder = new TextDecoder();
                 const csv = decoder.decode(buffer);
-                const data_array = VmdCentresView.CSVToArray(csv, ";");
+                const data_array = VmdLieuxView.CSVToArray(csv, ";");
 
-                const centres: Centre[] = data_array.slice(1, data_array.length-1).map((value: string[], idx) => ({
+                const lieux: Lieu[] = data_array.slice(1, data_array.length-1).map((value: string[], idx) => ({
                     longitude: Number(value[10]),
                     latitude: Number(value[11]),
                     nom: value[1],
@@ -77,7 +77,7 @@ export class VmdCentresView extends LitElement {
                     maj: value[22].slice(0, 16),
                 }))
 
-                const markers = VmdCentresView.creer_pins(centres);
+                const markers = VmdLieuxView.creer_pins(lieux);
                 mymap.addLayer(markers);
             })
             .catch(function () {
@@ -178,29 +178,29 @@ export class VmdCentresView extends LitElement {
         return arrData;
     }
 
-    private static creer_pins(centres: Centre[]){
-        const markers = centres.reduce((markers: MarkerClusterGroup, centre, idx)=>{
+    private static creer_pins(lieux: Lieu[]){
+        const markers = lieux.reduce((markers: MarkerClusterGroup, lieu, idx)=>{
             let reservation_str = ""
-            if (typeof centre.reservation != 'undefined'){
-                if (centre.reservation.indexOf("http") === 0){
-                    reservation_str = `<a href="${centre.reservation}">${centre.reservation}</a>`
+            if (typeof lieu.reservation != 'undefined'){
+                if (lieu.reservation.indexOf("http") === 0){
+                    reservation_str = `<a href="${lieu.reservation}">${lieu.reservation}</a>`
                 }
             } else {
-                reservation_str = centre.reservation;
+                reservation_str = lieu.reservation;
             }
 
             var string_popup = `
-                <span style='font-size: 150%;'>${centre.nom}</span>
+                <span style='font-size: 150%;'>${lieu.nom}</span>
                 <br>
-                <b>Adresse :</b> ${centre.adresse}<br><b>Réservation :</b> ${reservation_str}
+                <b>Adresse :</b> ${lieu.adresse}<br><b>Réservation :</b> ${reservation_str}
                 <br>
-                <b>Tél :</b> <a href:'tel:${centre.rdv_tel}'>${centre.rdv_tel}</a>
+                <b>Tél :</b> <a href:'tel:${lieu.rdv_tel}'>${lieu.rdv_tel}</a>
                 <br>
-                <b>Date d'ouverture :</b> ${centre.date_ouverture}<br><b>Modalités :</b> ${centre.modalites}
+                <b>Date d'ouverture :</b> ${lieu.date_ouverture}<br><b>Modalités :</b> ${lieu.modalites}
                 <br>
-                <b>Mise à jour :</b> ${centre.maj}
+                <b>Mise à jour :</b> ${lieu.maj}
             `;
-            var newMarker = marker([centre.longitude, centre.latitude], {
+            var newMarker = marker([lieu.longitude, lieu.latitude], {
                 icon: new Icon.Default({imagePath: `${Router.basePath}assets/images/png/`})
             }).bindPopup(string_popup) //.addTo(this.mymap);
             newMarker.on('click', function(e: any) {

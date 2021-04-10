@@ -29,8 +29,8 @@ class Routing {
             (subViewSlot) => html`<vmd-home>${subViewSlot}</vmd-home>`);
         this.declareRoute(`${this.basePath}:departement/:trancheAge/rendez-vous`, (params) =>
             (subViewSlot) => html`<vmd-rdv codeDepartementSelectionne="${params[`departement`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}"></vmd-rdv>`);
-        this.declareRoute(`${this.basePath}centres`, (params) =>
-            (subViewSlot) => html`<vmd-centres>${subViewSlot}</vmd-centres>`);
+        this.declareRoute(`${this.basePath}lieux`, (params) =>
+            (subViewSlot) => html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
         page(`*`, () => this._notFoundRoute());
         page();
 

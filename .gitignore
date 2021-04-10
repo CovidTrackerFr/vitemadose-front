@@ -8,3 +8,4 @@ types
 /mobile/platforms/
 /mobile/www/
 !/mobile/www/.dirkeep
+.idea
