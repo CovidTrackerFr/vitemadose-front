@@ -132,7 +132,7 @@ export class VmdHomeView extends LitElement {
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-building fs-6 text-primary"></i>
                         <div class="h5 mt-4">${this.statsCentre?.global.disponibles}</div>
-                        <p>Lieux de vaccinations disponibles</p>
+                        <p>Lieux de vaccination disponibles</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-geo-alt fs-6 text-primary"></i>
