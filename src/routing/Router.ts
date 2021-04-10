@@ -28,7 +28,9 @@ class Routing {
 
         this.declareRoute(`/`, () => (subViewSlot) =>
             html`<vmd-home>${subViewSlot}</vmd-home>`);
-        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/:trancheAge/`, (params) => (subViewSlot) =>
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`, (params) => (subViewSlot) =>
+            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-code:codeVille-:nomVille/age-:trancheAge/`, (params) => (subViewSlot) =>
             html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
         this.declareRoute(`/centres`, (params) => (subViewSlot) =>
             html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
@@ -67,7 +69,7 @@ class Routing {
     }
 
     public navigateToRendezVous(codeDepartement: string, pathLibelleDepartement: string, trancheAge: string) {
-        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/${trancheAge}/`);
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/age-${trancheAge}/`);
     }
 
     navigateToHome() {
