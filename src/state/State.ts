@@ -1,4 +1,5 @@
 import {ISODateString} from "../utils/Dates";
+import {Strings} from "../utils/Strings";
 
 type Features = {
     trancheAgeFilter: boolean;
@@ -66,6 +67,15 @@ export type Centre = {
     },
     type: TypeCentre
 };
+function transformCentre(centre: Centre): Centre {
+    return {
+        ...centre,
+        metadata: {
+            ...centre.metadata,
+            phone_number: centre.metadata.phone_number?Strings.toNormalizedPhoneNumber(centre.metadata.phone_number):undefined
+        }
+    };
+}
 
 export type CentresParDepartement = {
     centresDisponibles: Centre[];
@@ -108,8 +118,8 @@ export class State {
             return fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
                 .then(resp => resp.json())
                 .then(results => ({
-                    centresDisponibles: results.centres_disponibles as Centre[],
-                    centresIndisponibles: results.centres_indisponibles as Centre[],
+                    centresDisponibles: results.centres_disponibles.map(transformCentre),
+                    centresIndisponibles: results.centres_indisponibles.map(transformCentre),
                     codeDepartement,
                     derniereMiseAJour: results.last_updated
                 }));

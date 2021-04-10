@@ -11,4 +11,22 @@ export class Strings {
     public static plural(value: number|null|undefined, pluralForm: string = 's') {
         return (value && value>1)?pluralForm:'';
     }
+
+    static toNormalizedPhoneNumber(phoneNumber: string) {
+        let normaliedPhoneNumber = phoneNumber;
+        if(normaliedPhoneNumber.indexOf("+33") === 0) {
+            normaliedPhoneNumber = `0${normaliedPhoneNumber.substring("+33".length)}`
+        }
+        if(normaliedPhoneNumber[2] !== " ") {
+            normaliedPhoneNumber = [
+                normaliedPhoneNumber[0], normaliedPhoneNumber[1], " ",
+                normaliedPhoneNumber[2], normaliedPhoneNumber[3], " ",
+                normaliedPhoneNumber[4], normaliedPhoneNumber[5], " ",
+                normaliedPhoneNumber[6], normaliedPhoneNumber[7], " ",
+                normaliedPhoneNumber[8], normaliedPhoneNumber[9]
+            ].join("");
+        }
+
+        return normaliedPhoneNumber;
+    }
 }
