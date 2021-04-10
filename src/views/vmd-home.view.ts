@@ -34,7 +34,7 @@ export class VmdHomeView extends LitElement {
     @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = FEATURES.trancheAgeFilter?undefined:'plus75';
     @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = undefined;
+    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = [];
     @property({type: Array, attribute: false}) statsCentre: StatsCentre|undefined = undefined;
 
     render() {
