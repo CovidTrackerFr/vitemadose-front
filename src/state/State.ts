@@ -36,8 +36,8 @@ export const PLATEFORMES: Record<string, Plateforme> = {
     'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  styleCode: '_maiia'},
     'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  styleCode: '_ordoclic'},
     'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  styleCode: '_keldoc'},
-    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: true, styleCode: '_pandalab'},
-    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true, styleCode: '_mapharma'},
+    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, styleCode: '_pandalab'},
+    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: false, styleCode: '_mapharma'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
