@@ -70,9 +70,9 @@ export class VmdRdvView extends LitElement {
                               @tranche-age-changed="${this.trancheAgeMisAJour}"></vmd-tranche-age-selector>
                     </div>
                     ` : html``}
-                    <div class="col-sm-24 col-md-auto mb-md-3 mt-md-3">
+                    <label class="col-sm-24 col-md-auto mb-md-3 mt-md-3 form-select-lg">
                       Mon département :
-                    </div>
+                    </label>
                     <div class="col">
                         <vmd-departement-selector class="mb-3 mt-md-3"
                               codeDepartementSelectionne="${this.codeDepartementSelectionne}"

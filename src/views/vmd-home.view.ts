@@ -58,9 +58,9 @@ export class VmdHomeView extends LitElement {
                             </vmd-tranche-age-selector>
                         </div>
                         `:html``}
-                        <div class="col-sm-24 col-md-auto mb-md-3">
+                        <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
                             Mon département :
-                        </div>
+                        </label>
                         <div class="col">
                             <vmd-departement-selector class="mb-3"
                                   @departement-changed="${(event: CustomEvent<DepartementSelected>) => this.codeDepartementSelectionne = event.detail.departement?.code_departement}"
