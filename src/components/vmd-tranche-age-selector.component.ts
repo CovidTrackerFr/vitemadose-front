@@ -27,7 +27,7 @@ export class VmdTrancheAgeSelectorComponent extends LitElement {
     render() {
         return html`
             <select class="form-select form-select-lg" @change="${this.trancheAgeSelectionne}">
-              <option value="" ?selected="${this.codeTrancheAgeSelectionne === ''}"></option>
+              <option value="" ?selected="${this.codeTrancheAgeSelectionne === ''}" disabled>Sélectionner...</option>
               ${Array.from(this.tranchesAge.values()).map(trancheAge => {
                   return html`
                       <option value="${trancheAge.codeTrancheAge}" ?selected="${this.codeTrancheAgeSelectionne === trancheAge.codeTrancheAge}">${trancheAge.libelle}</option>

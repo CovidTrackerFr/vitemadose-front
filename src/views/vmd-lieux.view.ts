@@ -40,7 +40,7 @@ export class VmdLieuxView extends LitElement {
 
     render() {
         return html`
-          <h1> Carte des centres de vaccination contre la Covid-19</h1>
+          <h2 class="h1"> Carte des centres de vaccination contre la Covid-19</h2>
           
           <slot name="about-lieux"></slot>
 
