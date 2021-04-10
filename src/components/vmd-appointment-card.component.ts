@@ -5,6 +5,7 @@ import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
 import appointmentCardCss from "../styles/components/_appointmentCard.scss";
 import globalCss from "../styles/global.scss";
+import {Strings} from "../utils/Strings";
 
 @customElement('vmd-appointment-card')
 export class VmdAppointmentCardComponent extends LitElement {
@@ -82,7 +83,9 @@ export class VmdAppointmentCardComponent extends LitElement {
                         
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                            <a href="${this.centre.url}" target="_blank" class="btn btn-primary btn-lg">Prendre rendez-vous</a>
+                            <a href="${this.centre.url}" target="_blank" class="btn btn-primary btn-lg">
+                              ${this.centre.appointment_count} dose${Strings.plural(this.centre.appointment_count)} disponible${Strings.plural(this.centre.appointment_count)}
+                            </a>
                             ${plateforme?html`
                             <div class="row align-items-center justify-content-center mt-3">
                                 <div class="col-auto text-black-50">
