@@ -1,4 +1,4 @@
-import {ISODateString} from "../utils/Dates";
+import {ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 
 type Features = {
@@ -49,6 +49,7 @@ export const TYPES_CENTRES: {[k in TypeCentre]: string} = {
     "drugstore": 'Pharmacie',
     "general-practitioner": 'Médecin généraliste',
 };
+export type BusinessHours = Record<WeekDay,string>;
 export type Centre = {
     appointment_count: number;
     departement: CodeDepartement;
@@ -63,7 +64,7 @@ export type Centre = {
     metadata: {
         address: string;
         phone_number: string|undefined;
-        business_hours: Record<"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"sunday",string>|undefined
+        business_hours: BusinessHours|undefined
     },
     type: TypeCentre
 };
