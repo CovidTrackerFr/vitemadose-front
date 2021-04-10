@@ -1,10 +1,11 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
-import {Centre, Plateforme, PLATEFORMES} from "../state/State";
+import {Centre, Plateforme, PLATEFORMES, TYPES_CENTRES} from "../state/State";
 import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
 import appointmentCardCss from "../styles/components/_appointmentCard.scss";
 import globalCss from "../styles/global.scss";
+import {Strings} from "../utils/Strings";
 
 @customElement('vmd-appointment-card')
 export class VmdAppointmentCardComponent extends LitElement {
@@ -33,18 +34,35 @@ export class VmdAppointmentCardComponent extends LitElement {
         if(this.rdvPossible) {
             const plateforme: Plateforme|undefined = PLATEFORMES[this.centre.plateforme];
             return html`
-            <div class="card rounded-3 mb-5 ${classMap({clickable: this.estCliquable})}"
+            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
                  @click="${() => Router.navigateToUrlIfPossible(this.centre.url)}">
                 <div class="card-body">
-                    <div class="row align-items-center">
+                    <div class="row align-items-center ">
                         <div class="col">
                             <h5 class="card-title">${Dates.isoToFRDatetime(this.centre.prochain_rdv)}</h5>
-                            <p class="card-text">${this.centre.nom}</p>
+                            
+                            <div class="row">
+                              <vmd-appointment-metadata widthType="full-width" icon="bi-geo-alt-fill">
+                                <div slot="content">
+                                  ${this.centre.nom}
+                                  <br/>
+                                  ${this.centre.metadata.address}
+                                </div>
+                              </vmd-appointment-metadata>
+                              <vmd-appointment-metadata widthType="fit-to-content" icon="bi-telephone-fill" .displayed="${!!this.centre.metadata.phone_number}">
+                                <span slot="content">${this.centre.metadata.phone_number}</span>
+                              </vmd-appointment-metadata>
+                              <vmd-appointment-metadata widthType="fit-to-content" icon="bi-bag-plus">
+                                <span slot="content">${TYPES_CENTRES[this.centre.type]}</span>
+                              </vmd-appointment-metadata>
+                            </div>
                         </div>
                         
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                            <a href="${this.centre.url}" target="_blank" class="btn btn-primary btn-lg">Prendre rendez-vous</a>
+                            <a href="${this.centre.url}" target="_blank" class="btn btn-primary btn-lg">
+                              ${this.centre.appointment_count} dose${Strings.plural(this.centre.appointment_count)} disponible${Strings.plural(this.centre.appointment_count)}
+                            </a>
                             ${plateforme?html`
                             <div class="row align-items-center justify-content-center mt-3">
                                 <div class="col-auto text-black-50">
@@ -63,7 +81,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             `;
         } else {
             return html`
-              <div class="card rounded-3 mb-5 bg-disabled">
+              <div class="card rounded-3 mb-5 p-4 bg-disabled">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">

@@ -16,6 +16,7 @@ import {
     TRANCHES_AGE
 } from "../state/State";
 import {Dates} from "../utils/Dates";
+import {Strings} from "../utils/Strings";
 
 @customElement('vmd-rdv')
 export class VmdRdvView extends LitElement {
@@ -50,6 +51,10 @@ export class VmdRdvView extends LitElement {
         }
     }
 
+    get totalDoses() {
+        return this.centresParDepartement?.centresDisponibles.reduce((total, centre) => total+centre.appointment_count, 0);
+    }
+
     render() {
         return html`
             <div class="p-5 text-dark bg-light rounded-3">
@@ -80,7 +85,7 @@ export class VmdRdvView extends LitElement {
             <div class="spacer mt-5 mb-5"></div>
 
             <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) ? 'block' : 'none'})}">
-              ${this.centresParDepartement?.centresDisponibles.length || 0} rendez-vous de vaccination covid trouvés pour 
+              ${this.totalDoses} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} pour 
               <span class="fw-bold">${this.departementSelectionne?.nom_departement}
               ${FEATURES.trancheAgeFilter ? html`, ${this.trancheAgeSelectionee?.libelle}` : html``}
               </span>
@@ -95,8 +100,7 @@ export class VmdRdvView extends LitElement {
                     <h2 class="row align-items-center justify-content-center mb-5 h5">
                         <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>
                         <span class="col col-sm-auto">
-                            ${this.centresParDepartement?.centresDisponibles.length || 0} Centre${(this.centresParDepartement?.centresDisponibles.length || 0) > 1 ? 's' : ''} de vaccination covid ont des disponibilités
-                            
+                            ${this.centresParDepartement?.centresDisponibles.length || 0} Lieu${Strings.plural(this.centresParDepartement?.centresDisponibles.length, 'x')} de vaccination covid ont des disponibilités
                         </span>
                     </h2>
                 ` : html`

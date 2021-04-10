@@ -42,12 +42,29 @@ export type Departement = {
     nom_region: string;
 };
 
+export type TypeCentre = 'vaccination-center'|'drugstore'|'general-practitioner';
+export const TYPES_CENTRES: {[k in TypeCentre]: string} = {
+    "vaccination-center": 'Centre de vaccination',
+    "drugstore": 'Pharmacie',
+    "general-practitioner": 'Médecin généraliste',
+};
 export type Centre = {
+    appointment_count: number;
     departement: CodeDepartement;
+    location: {
+        latitude: number;
+        longitude: number;
+    },
     nom: string;
     url: string;
     plateforme: string;
     prochain_rdv: ISODateString|null;
+    metadata: {
+        address: string;
+        phone_number: string|undefined;
+        business_hours: Record<"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"sunday",string>|undefined
+    },
+    type: TypeCentre
 };
 
 export type CentresParDepartement = {
