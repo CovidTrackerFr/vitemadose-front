@@ -59,7 +59,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                         
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                            <a href="${this.lieu.url}" target="_blank" class="btn btn-primary btn-lg">
+                            <a target="_blank" class="btn btn-primary btn-lg">
                               Prendre rendez-vous
                             </a>
                             <div class="row align-items-center justify-content-center mt-3 text-black-50">
