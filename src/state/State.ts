@@ -1,4 +1,5 @@
-import {ISODateString} from "../utils/Dates";
+import {ISODateString, WeekDay} from "../utils/Dates";
+import {Strings} from "../utils/Strings";
 
 type Features = {
     trancheAgeFilter: boolean;
@@ -48,6 +49,7 @@ export const TYPES_CENTRES: {[k in TypeCentre]: string} = {
     "drugstore": 'Pharmacie',
     "general-practitioner": 'Médecin généraliste',
 };
+export type BusinessHours = Record<WeekDay,string>;
 export type Centre = {
     appointment_count: number;
     departement: CodeDepartement;
@@ -62,10 +64,19 @@ export type Centre = {
     metadata: {
         address: string;
         phone_number: string|undefined;
-        business_hours: Record<"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"sunday",string>|undefined
+        business_hours: BusinessHours|undefined
     },
     type: TypeCentre
 };
+function transformCentre(centre: Centre): Centre {
+    return {
+        ...centre,
+        metadata: {
+            ...centre.metadata,
+            phone_number: centre.metadata.phone_number?Strings.toNormalizedPhoneNumber(centre.metadata.phone_number):undefined
+        }
+    };
+}
 
 export type CentresParDepartement = {
     centresDisponibles: Centre[];
@@ -108,8 +119,8 @@ export class State {
             return fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
                 .then(resp => resp.json())
                 .then(results => ({
-                    centresDisponibles: results.centres_disponibles as Centre[],
-                    centresIndisponibles: results.centres_indisponibles as Centre[],
+                    centresDisponibles: results.centres_disponibles.map(transformCentre),
+                    centresIndisponibles: results.centres_indisponibles.map(transformCentre),
                     codeDepartement,
                     derniereMiseAJour: results.last_updated
                 }));

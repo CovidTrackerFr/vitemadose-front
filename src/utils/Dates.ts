@@ -23,6 +23,21 @@ export type Duration = {
     millis: number;
 };
 
+export type WeekDay = "lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche";
+export const WEEK_DAYS_DESCRIPTORS: { [k in WeekDay]: { index: number, shortName: string } } = {
+    "lundi": { index: 0, shortName: "Lu" },
+    "mardi": { index: 1, shortName: "Ma" },
+    "mercredi": { index: 2, shortName: "Me" },
+    "jeudi": { index: 3, shortName: "Je" },
+    "vendredi": { index: 4, shortName: "Ve" },
+    "samedi": { index: 5, shortName: "Sa" },
+    "dimanche": { index: 6, shortName: "Di" },
+};
+export const WEEK_DAYS: WeekDay[] = Object.entries(WEEK_DAYS_DESCRIPTORS).reduce((weekdays, [weekday, desc]) => {
+    weekdays[desc.index] = weekday as WeekDay;
+    return weekdays;
+}, Array(7).fill(null) as WeekDay[])
+
 // TODO: Replace this with Luxon or momentjs once the requirements are evolving
 // At the moment, no need to embed a multi Kb lib just for this
 export class Dates {
