@@ -1,5 +1,12 @@
 import {ISODateString} from "../utils/Dates";
 
+type Features = {
+    trancheAgeFilter: boolean;
+};
+export const FEATURES: Features = {
+    trancheAgeFilter: false
+};
+
 export type CodeTrancheAge = string;
 export type TrancheAge = {
     codeTrancheAge: CodeTrancheAge;
@@ -35,12 +42,29 @@ export type Departement = {
     nom_region: string;
 };
 
+export type TypeCentre = 'vaccination-center'|'drugstore'|'general-practitioner';
+export const TYPES_CENTRES: {[k in TypeCentre]: string} = {
+    "vaccination-center": 'Centre de vaccination',
+    "drugstore": 'Pharmacie',
+    "general-practitioner": 'Médecin généraliste',
+};
 export type Centre = {
+    appointment_count: number;
     departement: CodeDepartement;
+    location: {
+        latitude: number;
+        longitude: number;
+    },
     nom: string;
     url: string;
     plateforme: string;
     prochain_rdv: ISODateString|null;
+    metadata: {
+        address: string;
+        phone_number: string|undefined;
+        business_hours: Record<"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"sunday",string>|undefined
+    },
+    type: TypeCentre
 };
 
 export type CentresParDepartement = {
@@ -59,11 +83,20 @@ function convertDepartementForSort(codeDepartement: CodeDepartement) {
     }
 }
 
+export type StatCentre = {disponibles: number, total: number};
+export type StatCentreGlobale = StatCentre & { proportion: number };
+export type StatsCentreParDepartement = Record<string, StatCentre>
+export type StatsCentre = {
+    parDepartements: StatsCentreParDepartement;
+    global: StatCentreGlobale;
+}
+
 export class State {
     public static current = new State();
 
     private _departementsDiponibles: Departement[]|undefined = undefined;
     private _centresParDepartement: CentresParDepartements = new Map<CodeDepartement, CentresParDepartement>();
+    private _statsCentre: StatsCentre|undefined = undefined;
 
     private constructor() {
     }
@@ -72,7 +105,7 @@ export class State {
         if(this._centresParDepartement.has(codeDepartement)) {
             return Promise.resolve(this._centresParDepartement.get(codeDepartement)!);
         } else {
-            return fetch(`${VMD_BASE_URL}/${codeDepartement}.json?trancheAge=${codeTrancheAge}`)
+            return fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
                 .then(resp => resp.json())
                 .then(results => ({
                     centresDisponibles: results.centres_disponibles as Centre[],
@@ -90,8 +123,34 @@ export class State {
             return fetch(`${VMD_BASE_URL}/departements.json`)
                 .then(resp => resp.json())
                 .then((departements: Departement[]) => {
-                    departements.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
+                    this._departementsDiponibles = departements;
+                    this._departementsDiponibles.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
                     return departements;
+                });
+        }
+    }
+
+    statsCentres(): Promise<StatsCentre> {
+        if(this._statsCentre !== undefined) {
+            return Promise.resolve(this._statsCentre);
+        } else {
+            return fetch(`${VMD_BASE_URL}/stats.json`)
+                .then(resp => resp.json())
+                .then((statsParDepartements: Record<CodeDepartement|'tout_departement', StatCentre>) => {
+                    const statsCentre = {
+                        parDepartements: Object.entries(statsParDepartements)
+                            .filter(([dpt, stats]: [CodeDepartement|"tout_departement", StatCentre]) => dpt !== 'tout_departement')
+                            .reduce((statsParDept, [dpt, stats]: [CodeDepartement, StatCentre]) => {
+                                statsParDepartements[dpt] = stats;
+                                return statsParDepartements;
+                            }, {} as StatsCentreParDepartement),
+                        global: {
+                            ...statsParDepartements['tout_departement'],
+                            proportion: Math.round(statsParDepartements['tout_departement'].disponibles * 10000 / statsParDepartements['tout_departement'].total)/100
+                        }
+                    };
+                    this._statsCentre = statsCentre;
+                    return statsCentre;
                 });
         }
     }

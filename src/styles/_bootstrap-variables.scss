@@ -502,10 +502,10 @@ $blockquote-font-size:        $font-size-base * 1.25;
 $blockquote-footer-color:     $gray-600;
 $blockquote-footer-font-size: $small-font-size;
 
-$hr-margin-y:                 $spacer;
+$hr-margin-y:                 3rem;
 $hr-color:                    inherit;
 $hr-height:                   $border-width;
-$hr-opacity:                  .25;
+$hr-opacity:                  .1;
 
 $legend-margin-bottom:        .5rem;
 $legend-font-size:            1.5rem;

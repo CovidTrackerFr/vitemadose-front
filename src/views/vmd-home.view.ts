@@ -9,9 +9,9 @@ import searchAppointment from "../styles/components/_searchAppointment.scss";
 import {
     CodeDepartement,
     CodeTrancheAge,
-    Departement,
+    Departement, FEATURES,
     PLATEFORMES,
-    State,
+    State, StatsCentre,
     TRANCHES_AGE
 } from "../state/State";
 
@@ -31,21 +31,22 @@ export class VmdHomeView extends LitElement {
         `
     ];
 
-    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = "plus75";
+    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = FEATURES.trancheAgeFilter?undefined:'plus75';
     @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = undefined;
+    @property({type: Array, attribute: false}) statsCentre: StatsCentre|undefined = undefined;
 
     render() {
         return html`
             <div class="searchDose">
-                <h1 class="searchDose-title">
-                    Trouvez une dose de vaccin <span class="text-secondary">facilement</span> et <span class="text-primary">rapidement</span>
-                </h1>
+                <div class="searchDose-title h1">
+                  <slot name="main-title"></slot>
+                </div>
 
                 <div class="searchDose-form">
                     <div class="searchDoseForm-fields row align-items-center">
-                      <!--
+                      ${FEATURES.trancheAgeFilter?html`
                         <div class="col-sm-24 col-md-auto mb-md-3">
                             J'ai
                         </div>
@@ -56,7 +57,7 @@ export class VmdHomeView extends LitElement {
                             >
                             </vmd-tranche-age-selector>
                         </div>
-                        -->
+                        `:html``}
                         <div class="col-sm-24 col-md-auto mb-md-3">
                             Mon département :
                         </div>
@@ -84,7 +85,7 @@ export class VmdHomeView extends LitElement {
                   ${Object.values(PLATEFORMES).map(plateforme => {
                       return html`
                         <div class="col-auto">
-                          <a href=""><img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="${plateforme.nom}"></a>
+                          <a href=""><img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}"></a>
                         </div>
                       `
                   })}
@@ -93,13 +94,13 @@ export class VmdHomeView extends LitElement {
 
             <div class="spacer mt-5 mb-5"></div>
 
-            <div class="row">
+            <div class="row gx-5">
                 <div class="col-sm-24 col-md">
                     <div class="p-5 text-dark bg-light rounded-3">
                         <h2>VaccinTracker</h2>
 
                         <p>
-                            Combien de personnes ont été vaccinées ? Suivez la campagne vaccinale sur VaccinTracker.
+                            Combien de personnes ont été vaccinées ? Combien de premières injections ? Quel pourcentage de seconde injection ? Suivez la campagne vaccinale en France sur Vaccintracker.
                         </p>
 
                         <div class="row justify-content-center mt-5">
@@ -111,10 +112,10 @@ export class VmdHomeView extends LitElement {
                 </div>
                 <div class="col-sm-24 col-md">
                     <div class="p-5 text-dark bg-light rounded-3">
-                        <h2>Carte des centres</h2>
+                        <h2>Carte des centres de vaccination contre la Covid-19</h2>
 
                         <p>
-                            Trouvez un centre de vaccination directement sur la carte, appelez les centres pour savoir il y a des rendez-vous.
+                            Trouvez un centre de vaccination contre la Covid-19 proche de chez vous, consultez les centres pour savoir s’il y a des rendez-vous
                         </p>
 
                         <div class="row justify-content-center mt-5">
@@ -122,6 +123,26 @@ export class VmdHomeView extends LitElement {
                                 Accéder à la carte des centres&nbsp;<i class="bi bi-arrow-up-right"></i>
                             </a>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5 text-dark bg-light rounded-3 mt-5">
+                <div class="row gx-5">
+                    <div class="col-24 col-md text-center">
+                        <i class="bi bi-building fs-6 text-primary"></i>
+                        <div class="h5 mt-4">${this.statsCentre?.global.disponibles}</div>
+                        <p>Lieux de vaccinations disponibles</p>
+                    </div>
+                    <div class="col-24 col-md text-center">
+                        <i class="bi bi-geo-alt fs-6 text-primary"></i>
+                        <div class="h5 mt-4">${this.statsCentre?.global.total}</div>
+                        <p>Lieux de vaccination détectés</p>
+                    </div>
+                    <div class="col-24 col-md text-center">
+                        <i class="bi bi-check-circle fs-6 text-primary"></i>
+                        <div class="h5 mt-4">${this.statsCentre?.global.proportion}%</div>
+                        <p>Proportion des lieux de vaccination disponibles</p>
                     </div>
                 </div>
             </div>
@@ -133,10 +154,12 @@ export class VmdHomeView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [ departementsDisponibles ] = await Promise.all([
-            State.current.departementsDisponibles()
+        const [ departementsDisponibles, statsCentre ] = await Promise.all([
+            State.current.departementsDisponibles(),
+            State.current.statsCentres()
         ])
         this.departementsDisponibles = departementsDisponibles;
+        this.statsCentre = statsCentre;
     }
 
     disconnectedCallback() {
