@@ -25,12 +25,14 @@ class Routing {
 
         page.redirect(`${this.basePath}home`, `/`);
         page.redirect(`${this.basePath}index.html`, `/`);
-        this.declareRoute(`${this.basePath}`, () =>
-            (subViewSlot) => html`<vmd-home>${subViewSlot}</vmd-home>`);
-        this.declareRoute(`${this.basePath}:departement/:trancheAge/rendez-vous`, (params) =>
-            (subViewSlot) => html`<vmd-rdv codeDepartementSelectionne="${params[`departement`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}"></vmd-rdv>`);
-        this.declareRoute(`${this.basePath}centres`, (params) =>
-            (subViewSlot) => html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
+
+        this.declareRoute(`/`, () => (subViewSlot) =>
+            html`<vmd-home>${subViewSlot}</vmd-home>`);
+        this.declareRoute(`/:departement/:trancheAge/rendez-vous`, (params) => (subViewSlot) =>
+            html`<vmd-rdv codeDepartementSelectionne="${params[`departement`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
+        this.declareRoute(`/centres`, (params) => (subViewSlot) =>
+            html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
+
         page(`*`, () => this._notFoundRoute());
         page();
 
@@ -38,7 +40,7 @@ class Routing {
     }
 
     private declareRoute(path: string, viewComponentCreator: (pathParams: Record<string, string>) => Promise<SlottedTemplateResultFactory>|SlottedTemplateResultFactory) {
-        page(path, (context) => {
+        page(`${this.basePath}${path.substring(path[0]==='/'?1:0)}`, (context) => {
             const slottedViewComponentFactoryResult = viewComponentCreator(context.params);
             ((slottedViewComponentFactoryResult instanceof Promise)?slottedViewComponentFactoryResult:Promise.resolve(slottedViewComponentFactoryResult)).then(slottedViewTemplateFactory => {
                 this.currentPath = path;
