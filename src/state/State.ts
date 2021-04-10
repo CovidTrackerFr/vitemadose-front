@@ -63,10 +63,7 @@ export type BusinessHours = Record<WeekDay,string>;
 export type Lieu = {
     appointment_count: number;
     departement: CodeDepartement;
-    location: {
-        latitude: number;
-        longitude: number;
-    },
+    location: Coordinates,
     nom: string;
     url: string;
     plateforme: string;
@@ -96,6 +93,7 @@ function transformLieu(rawLieu: any): Lieu {
         }
     };
 }
+export type Coordinates = { latitude: number, longitude: number }
 
 export type LieuxParDepartement = {
     lieuxDisponibles: Lieu[];

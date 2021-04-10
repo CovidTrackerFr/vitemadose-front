@@ -90,6 +90,14 @@ export class VmdHomeView extends LitElement {
                             >
                             </vmd-departement-selector>
                         </div>
+                        <!--
+                        <div class="geoloc col-sm-24 col-md-auto mb-md-3">
+                          <button
+                            @click=${() => this.localiserUtilisateur()}>
+                            Me localiser <img class="icon" src="https://static.thenounproject.com/png/329816-200.png" />
+                          </button>
+                        </div>
+                        -->
                     </div>
                     <div class="searchDoseForm-action">
                         <button class="btn btn-primary btn-lg" ?disabled="${!this.codeDepartementSelectionne || !this.codeTrancheAgeSelectionne}"
@@ -101,7 +109,8 @@ export class VmdHomeView extends LitElement {
             </div>
 
             <div class="searchAppointment mt-5">
-                <h5 class="text-black-50 text-center mb-5">Trouvez vos rendez-vous avec</h5>
+                <
+                h5 class="text-black-50 text-center mb-5">Trouvez vos rendez-vous avec</h5>
 
                 <div class="row justify-content-center align-items-center">
                   ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
@@ -168,9 +177,29 @@ export class VmdHomeView extends LitElement {
                     </div>
                 </div>
             </div>
-            
+
             <slot name="about"></slot>
         `;
+    }
+
+    async localiserUtilisateur() {
+      const { coords } = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 2000,
+        })
+      })
+      const { latitude, longitude } = coords
+      const response = await fetch(`https://api-adresse.data.gouv.fr/reverse/?lon=${longitude}&lat=${latitude}`)
+      const json = await response.json()
+      const département = this.departementsDisponibles!.find((département) => {
+        return json.features[0].properties.citycode.startsWith(département.code_departement)
+      })
+      if (département) {
+        this.codeDepartementSelectionne = département.code_departement
+        Router.navigateToRendezVous(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne!)
+      }
+      window.userLocation = coords
     }
 
     async connectedCallback() {

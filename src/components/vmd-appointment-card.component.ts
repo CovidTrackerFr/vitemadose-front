@@ -19,8 +19,10 @@ export class VmdAppointmentCardComponent extends LitElement {
     ];
 
     @property({type: Object, attribute: false}) lieu!: Lieu;
+    @property({type: Number, attribute: false}) distance!: number;
     /* dunno why, but boolean string is not properly converted to boolean when using attributes */
     @property({type: Boolean, attribute: false }) rdvPossible!: boolean;
+    @property({type: Number, attribute: false }) index: number = 0;
 
     private get estCliquable() {
         return !!this.lieu.url;
@@ -33,13 +35,20 @@ export class VmdAppointmentCardComponent extends LitElement {
     render() {
         if(this.rdvPossible) {
             const plateforme: Plateforme|undefined = PLATEFORMES[this.lieu.plateforme];
+            let distance: any = this.distance
+            if (distance >= 10) {
+              distance = distance.toFixed(0)
+            } else if (distance) {
+              distance = distance.toFixed(1)
+            }
             return html`
-            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
+            <div class="card rounded-3 mb-5 ${classMap({clickable: this.estCliquable})}"
+                style="--list-index: ${this.index}"
                  @click="${() => Router.navigateToUrlIfPossible(this.lieu.url)}">
                 <div class="card-body">
                     <div class="row align-items-center ">
-                        <div class="col">
-                            <h5 class="card-title">${Dates.isoToFRDatetime(this.lieu.prochain_rdv)}</h5>
+                        <div class="col"A>
+                            <h5 class="card-title">${Dates.isoToFRDatetime(this.lieu.prochain_rdv)}<small class="distance">${distance ? `- ${distance} km` : ''}</small></h5>
                             <div class="row">
                               <vmd-appointment-metadata widthType="full-width" icon="bi-geo-alt-fill">
                                 <div slot="content">
@@ -56,7 +65,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                               </vmd-appointment-metadata>
                             </div>
                         </div>
-                        
+
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
                             <a target="_blank" class="btn btn-primary btn-lg">
@@ -85,7 +94,9 @@ export class VmdAppointmentCardComponent extends LitElement {
             `;
         } else {
             return html`
-              <div class="card rounded-3 mb-5 p-4 bg-disabled">
+              <div class="card rounded-3 mb-5 p-4 bg-disabled"
+                style="--list-index: ${this.index}"
+              >
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">
