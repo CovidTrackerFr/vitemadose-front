@@ -28,14 +28,14 @@ class Routing {
 
         this.declareRoute(`/`, () => (subViewSlot) =>
             html`<vmd-home>${subViewSlot}</vmd-home>`);
-        this.declareRoute(`/:departement/:trancheAge/rendez-vous`, (params) => (subViewSlot) =>
-            html`<vmd-rdv codeDepartementSelectionne="${params[`departement`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/:trancheAge/`, (params) => (subViewSlot) =>
+            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
         this.declareRoute(`/centres`, (params) => (subViewSlot) =>
             html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
         this.declareRoute(`/apropos`, (params) => (subViewSlot) =>
             html`<vmd-apropos>${subViewSlot}</vmd-apropos>`);
 
-        page(`*`, () => this._notFoundRoute());
+        page(`*`, (context) => this._notFoundRoute(context));
         page();
 
         return callbackCleaner;
@@ -61,13 +61,13 @@ class Routing {
         }
     }
 
-    private _notFoundRoute() {
-        console.error(`Route not found ! Redirecting to home...`);
+    private _notFoundRoute(context: PageJS.Context) {
+        console.error(`Route not found : ${context.path} ! Redirecting to home...`);
         this.navigateToHome();
     }
 
-    public navigateToRendezVous(codeDepartement: string, trancheAge: string) {
-        page(`${this.basePath}${codeDepartement}/${trancheAge}/rendez-vous`);
+    public navigateToRendezVous(codeDepartement: string, pathLibelleDepartement: string, trancheAge: string) {
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/${trancheAge}/`);
     }
 
     navigateToHome() {

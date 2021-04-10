@@ -9,7 +9,7 @@ import searchAppointment from "../styles/components/_searchAppointment.scss";
 import {
     CodeDepartement,
     CodeTrancheAge,
-    Departement, FEATURES,
+    Departement, FEATURES, libelleUrlPathDuDepartement,
     PLATEFORMES,
     State, StatsLieu,
     TRANCHES_AGE
@@ -36,6 +36,13 @@ export class VmdHomeView extends LitElement {
 
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = [];
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
+
+    get departementSelectionne(): Departement|undefined {
+        if(!this.codeDepartementSelectionne || !this.departementsDisponibles) {
+            return undefined;
+        }
+        return this.departementsDisponibles.find(dpt => dpt.code_departement === this.codeDepartementSelectionne);
+    }
 
     render() {
         return html`
@@ -71,7 +78,7 @@ export class VmdHomeView extends LitElement {
                     </div>
                     <div class="searchDoseForm-action">
                         <button class="btn btn-primary btn-lg" ?disabled="${!this.codeDepartementSelectionne || !this.codeTrancheAgeSelectionne}"
-                                @click="${() => Router.navigateToRendezVous(this.codeDepartementSelectionne!, this.codeTrancheAgeSelectionne!)}">
+                                @click="${() => Router.navigateToRendezVous(this.codeDepartementSelectionne!, libelleUrlPathDuDepartement(this.departementSelectionne!), this.codeTrancheAgeSelectionne!)}">
                             Rechercher
                         </button>
                     </div>
