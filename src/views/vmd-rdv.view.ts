@@ -32,11 +32,11 @@ export class VmdRdvView extends LitElement {
     @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge | undefined = undefined;
     @property({type: String}) codeDepartementSelectionne: CodeDepartement | undefined = undefined;
 
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] | undefined = undefined;
+    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
     @property({type: Array, attribute: false}) lieuxParDepartement: LieuxParDepartement | undefined = undefined;
 
     get departementSelectionne() {
-        if (this.codeDepartementSelectionne && this.departementsDisponibles) {
+        if (this.codeDepartementSelectionne) {
             return this.departementsDisponibles.find(dept => dept.code_departement === this.codeDepartementSelectionne);
         } else {
             return undefined;

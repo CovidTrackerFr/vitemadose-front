@@ -21,16 +21,23 @@ const VMD_BASE_URL = "https://vitemadose.gitlab.io/vitemadose"
 
 
 export type Plateforme = {
+    // Should be the same than PLATEFORMES' key
+    code: string;
     logo: string;
     nom: string;
-    code: string;
+    // Should we do promotion of this plateform ? for example on home screen ?
+    // (typically, it may be not a good idea to promote the platform while JSON is not producing data for it yet)
+    promoted: boolean;
+    // Used for specific styling on logos, see for example _searchAppointment.scss
     styleCode: string;
 };
 export const PLATEFORMES: Record<string, Plateforme> = {
-    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', styleCode: '_doctolib'},
-    'Maiia': {    code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    styleCode: '_maiia'},
-    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', styleCode: '_ordoclic'},
-    'Keldoc': {   code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   styleCode: '_keldoc'},
+    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  styleCode: '_doctolib'},
+    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  styleCode: '_maiia'},
+    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  styleCode: '_ordoclic'},
+    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  styleCode: '_keldoc'},
+    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: true, styleCode: '_pandalab'},
+    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true, styleCode: '_mapharma'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
@@ -68,12 +75,20 @@ export type Lieu = {
     },
     type: TypeLieu
 };
-function transformLieu(lieu: Lieu): Lieu {
+function transformLieu(rawLieu: any): Lieu {
     return {
-        ...lieu,
+        ...rawLieu,
         metadata: {
-            ...lieu.metadata,
-            phone_number: lieu.metadata.phone_number?Strings.toNormalizedPhoneNumber(lieu.metadata.phone_number):undefined
+            ...rawLieu.metadata,
+            address: (typeof rawLieu.metadata.address === 'string')?
+                rawLieu.metadata.address
+                :[
+                    rawLieu.metadata.address.adr_num,
+                    rawLieu.metadata.address.adr_voie,
+                    rawLieu.metadata.address.com_cp,
+                    rawLieu.metadata.address.com_nom
+                ].filter(val => !!val).join(" "),
+            phone_number: rawLieu.metadata.phone_number?Strings.toNormalizedPhoneNumber(rawLieu.metadata.phone_number):undefined
         }
     };
 }

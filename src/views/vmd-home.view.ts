@@ -34,7 +34,7 @@ export class VmdHomeView extends LitElement {
     @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = FEATURES.trancheAgeFilter?undefined:'plus75';
     @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = undefined;
+    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = [];
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
     render() {
@@ -82,7 +82,7 @@ export class VmdHomeView extends LitElement {
                 <h5 class="text-black-50 text-center mb-5">Trouvez vos rendez-vous avec</h5>
 
                 <div class="row justify-content-center align-items-center">
-                  ${Object.values(PLATEFORMES).map(plateforme => {
+                  ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
                       return html`
                         <div class="col-auto">
                           <a href=""><img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}"></a>
@@ -132,7 +132,7 @@ export class VmdHomeView extends LitElement {
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-building fs-6 text-primary"></i>
                         <div class="h5 mt-4">${this.statsLieu?.global.disponibles}</div>
-                        <p>Lieux de vaccinations disponibles</p>
+                        <p>Lieux de vaccination disponibles</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-geo-alt fs-6 text-primary"></i>
