@@ -21,16 +21,23 @@ const VMD_BASE_URL = "https://vitemadose.gitlab.io/vitemadose"
 
 
 export type Plateforme = {
+    // Should be the same than PLATEFORMES' key
+    code: string;
     logo: string;
     nom: string;
-    code: string;
+    // Should we do promotion of this plateform ? for example on home screen ?
+    // (typically, it may be not a good idea to promote the platform while JSON is not producing data for it yet)
+    promoted: boolean;
+    // Used for specific styling on logos, see for example _searchAppointment.scss
     styleCode: string;
 };
 export const PLATEFORMES: Record<string, Plateforme> = {
-    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', styleCode: '_doctolib'},
-    'Maiia': {    code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    styleCode: '_maiia'},
-    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', styleCode: '_ordoclic'},
-    'Keldoc': {   code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   styleCode: '_keldoc'},
+    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  styleCode: '_doctolib'},
+    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  styleCode: '_maiia'},
+    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  styleCode: '_ordoclic'},
+    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  styleCode: '_keldoc'},
+    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: true, styleCode: '_pandalab'},
+    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true, styleCode: '_mapharma'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
@@ -68,12 +75,20 @@ export type Centre = {
     },
     type: TypeCentre
 };
-function transformCentre(centre: Centre): Centre {
+function transformCentre(rawCentre: any): Centre {
     return {
-        ...centre,
+        ...rawCentre,
         metadata: {
-            ...centre.metadata,
-            phone_number: centre.metadata.phone_number?Strings.toNormalizedPhoneNumber(centre.metadata.phone_number):undefined
+            ...rawCentre.metadata,
+            address: (typeof rawCentre.metadata.address === 'string')?
+                rawCentre.metadata.address
+                :[
+                    rawCentre.metadata.address.adr_num,
+                    rawCentre.metadata.address.adr_voie,
+                    rawCentre.metadata.address.com_cp,
+                    rawCentre.metadata.address.com_nom
+                ].filter(val => !!val).join(" "),
+            phone_number: rawCentre.metadata.phone_number?Strings.toNormalizedPhoneNumber(rawCentre.metadata.phone_number):undefined
         }
     };
 }

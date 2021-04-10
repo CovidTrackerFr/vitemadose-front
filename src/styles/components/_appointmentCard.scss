@@ -5,6 +5,20 @@
 .rdvPlatformLogo {
   max-width: 8rem;
   max-height: 5rem;
+
+  &._doctolib {
+  }
+  &._maiia {
+  }
+  &._ordoclic {
+  }
+  &._keldoc {
+  }
+  &._pandalab {
+  }
+  &._mapharma {
+    max-width: 10rem;
+  }
 }
 
 .card {
