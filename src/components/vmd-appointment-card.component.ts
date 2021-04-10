@@ -1,8 +1,8 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
-import {Centre, Plateforme, PLATEFORMES, TYPES_CENTRES} from "../state/State";
+import {BusinessHours, Centre, Plateforme, PLATEFORMES, TYPES_CENTRES} from "../state/State";
 import {Router} from "../routing/Router";
-import {Dates} from "../utils/Dates";
+import {Dates, WEEK_DAYS, WEEK_DAYS_DESCRIPTORS, WeekDay} from "../utils/Dates";
 import appointmentCardCss from "../styles/components/_appointmentCard.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
@@ -53,6 +53,9 @@ export class VmdAppointmentCardComponent extends LitElement {
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata widthType="fit-to-content" icon="bi-bag-plus">
                                 <span slot="content">${TYPES_CENTRES[this.centre.type]}</span>
+                              </vmd-appointment-metadata>
+                              <vmd-appointment-metadata widthType="full-width" icon="bi-clock-fill" .displayed="${!!this.centre.metadata.business_hours}">
+                                <span slot="content">${VmdAppointmentCardComponent.smartBusinessHoursOf(this.centre.metadata.business_hours!)}</span>
                               </vmd-appointment-metadata>
                             </div>
                         </div>
@@ -109,5 +112,40 @@ export class VmdAppointmentCardComponent extends LitElement {
     disconnectedCallback() {
         super.disconnectedCallback();
         // console.log("disconnected callback")
+    }
+
+    /**
+     * Example:
+     *   input: {"lundi":"8h-18h","mardi":"8h-18h","mercredi":"8h-18h","jeudi":"8h-17h","vendredi":"8h-18h","samedi":"fermé","dimanche":null}
+     *   output: "Lu->Me,Ve: 8h-18h, Je: 8h-17h"
+     */
+    private static smartBusinessHoursOf(businessHours: BusinessHours) {
+        type ConsecutiveWeekdaysPerHour = { hours: string, consecutiveWeekDays: WeekDay[] };
+
+        const consecutiveWeekdaysPerHours = WEEK_DAYS.reduce((consecutiveWeekdaysPerHour, weekday) => {
+            const weekdayBusinessHours = businessHours[weekday];
+
+            if(!consecutiveWeekdaysPerHour.length || consecutiveWeekdaysPerHour[consecutiveWeekdaysPerHour.length-1].hours !== weekdayBusinessHours) {
+                consecutiveWeekdaysPerHour.push({ hours: weekdayBusinessHours, consecutiveWeekDays: [] });
+            }
+
+            const currentConsecutiveWeekdaysPerHour = consecutiveWeekdaysPerHour[consecutiveWeekdaysPerHour.length-1];
+            currentConsecutiveWeekdaysPerHour.consecutiveWeekDays.push(weekday);
+            return consecutiveWeekdaysPerHour;
+        }, [] as ConsecutiveWeekdaysPerHour[]);
+
+        return consecutiveWeekdaysPerHours
+            .filter(consecutiveWeekdaysPerHour => !!consecutiveWeekdaysPerHour.hours && consecutiveWeekdaysPerHour.hours !== 'fermé')
+            .map(consecutiveWeekdaysPerHour => {
+                let weekdaysPart = "";
+                if(consecutiveWeekdaysPerHour.consecutiveWeekDays.length === 1) {
+                    weekdaysPart = `${WEEK_DAYS_DESCRIPTORS[consecutiveWeekdaysPerHour.consecutiveWeekDays[0]].shortName}`;
+                } else if(consecutiveWeekdaysPerHour.consecutiveWeekDays.length === 2) {
+                    weekdaysPart = `${WEEK_DAYS_DESCRIPTORS[consecutiveWeekdaysPerHour.consecutiveWeekDays[0]].shortName},${WEEK_DAYS_DESCRIPTORS[consecutiveWeekdaysPerHour.consecutiveWeekDays[1]].shortName}`
+                } else {
+                    weekdaysPart = `${WEEK_DAYS_DESCRIPTORS[consecutiveWeekdaysPerHour.consecutiveWeekDays[0]].shortName}->${WEEK_DAYS_DESCRIPTORS[consecutiveWeekdaysPerHour.consecutiveWeekDays[consecutiveWeekdaysPerHour.consecutiveWeekDays.length-1]].shortName}`
+                }
+                return `${weekdaysPart}: ${consecutiveWeekdaysPerHour.hours}`;
+            }).join(", ")
     }
 }
