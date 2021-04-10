@@ -39,12 +39,13 @@ export class VmdAppointmentCardComponent extends LitElement {
                     <div class="row align-items-center">
                         <div class="col">
                             <h5 class="card-title">${Dates.isoToFRDatetime(this.centre.prochain_rdv)}</h5>
-                            <p class="card-text">${this.centre.nom}</p>
+                            <p class="card-text">${this.centre.nom}<br>
+                            <span class="text-black-50">${this.centre.metadata.address}</span></p>
                         </div>
                         
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                            <a href="${this.centre.url}" target="_blank" class="btn btn-primary btn-lg">${this.centre.appointment_count} doses disponibles</a>
+                            <a target="_blank" class="btn btn-primary btn-lg">${this.centre.appointment_count} dose${this.centre.appointment_count > 1 ? 's' : ''} disponible${this.centre.appointment_count > 1 ? 's' : ''}</a>
                             ${plateforme?html`
                             <div class="row align-items-center justify-content-center mt-3">
                                 <div class="col-auto text-black-50">

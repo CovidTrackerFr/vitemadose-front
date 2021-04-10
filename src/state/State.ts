@@ -42,6 +42,22 @@ export type Departement = {
     nom_region: string;
 };
 
+export type Horaires = {
+    lundi: string;
+    mardi: string;
+    mercredi: string;
+    jeudi: string;
+    vendredi: string;
+    samedi: string;
+    dimanche: string;
+}
+
+export type Metadata = {
+    address: string;
+    phone_number: string;
+    business_hours: Horaires;
+}
+
 export type Centre = {
     departement: CodeDepartement;
     nom: string;
@@ -49,6 +65,7 @@ export type Centre = {
     plateforme: string;
     prochain_rdv: ISODateString|null;
     appointment_count: number;
+    metadata: Metadata
 };
 
 export type CentresParDepartement = {
