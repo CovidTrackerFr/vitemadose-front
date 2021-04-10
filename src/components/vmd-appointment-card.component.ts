@@ -44,7 +44,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                         
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                            <a href="${this.centre.url}" target="_blank" class="btn btn-primary btn-lg">Prendre rendez-vous</a>
+                            <a href="${this.centre.url}" target="_blank" class="btn btn-primary btn-lg">${this.centre.appointment_count} doses disponibles</a>
                             ${plateforme?html`
                             <div class="row align-items-center justify-content-center mt-3">
                                 <div class="col-auto text-black-50">

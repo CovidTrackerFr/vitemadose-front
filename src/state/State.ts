@@ -48,6 +48,7 @@ export type Centre = {
     url: string;
     plateforme: string;
     prochain_rdv: ISODateString|null;
+    appointment_count: number;
 };
 
 export type CentresParDepartement = {
