@@ -35,10 +35,6 @@ export class VmdAppointmentMetadataComponent extends LitElement {
             return html``
         }
 
-        if(!this.displayed) {
-            return html``
-        }
-
         return html`
             <div class="row ${classMap({'align-items-center':!!this.centerIconVertically})}">
                 <i class="bi ${this.icon} col-auto"></i>
@@ -55,6 +51,10 @@ export class VmdAppointmentMetadataComponent extends LitElement {
         this.classList.add("col-24");
         if(this.widthType && METADATA_WIDTH_CLASSES[this.widthType]) {
             this.classList.add(METADATA_WIDTH_CLASSES[this.widthType])
+        }
+
+        if(!this.displayed) {
+            this.style.display = 'none';
         }
     }
 
