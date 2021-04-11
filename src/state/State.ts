@@ -52,6 +52,8 @@ export type Departement = {
     code_region: number;
     nom_region: string;
 };
+// Permet de convertir un nom de departement en un chemin d'url correct (remplacement des caractères
+// non valides comme les accents ou les espaces)
 export const libelleUrlPathDuDepartement = (departement: Departement) => {
     return Strings.toReadableURLPathValue(departement.nom_departement);
 }
