@@ -53,7 +53,12 @@ export class VmdRdvView extends LitElement {
     }
 
     get totalDoses() {
-        return this.lieuxParDepartement?.lieuxDisponibles.reduce((total, lieu) => total+lieu.appointment_count, 0);
+        if (!this.lieuxParDepartement) {
+            return 0;
+        }
+        return this.lieuxParDepartement
+            .lieuxDisponibles
+            .reduce((total, lieu) => total+lieu.appointment_count, 0);
     }
 
     render() {
@@ -92,7 +97,7 @@ export class VmdRdvView extends LitElement {
               </div>
             `:html`
                 <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) ? 'block' : 'none'})}">
-                  ${this.totalDoses} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} pour 
+                  ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} pour 
                   <span class="fw-bold">${this.departementSelectionne?.nom_departement}
                   ${FEATURES.trancheAgeFilter ? html`, ${this.trancheAgeSelectionee?.libelle}` : html``}
                   </span>
@@ -107,7 +112,7 @@ export class VmdRdvView extends LitElement {
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                             <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${this.lieuxParDepartement?.lieuxDisponibles.length || 0} Lieu${Strings.plural(this.lieuxParDepartement?.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
+                                ${this.lieuxParDepartement?.lieuxDisponibles.length.toLocaleString() || 0} Lieu${Strings.plural(this.lieuxParDepartement?.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
                             </span>
                         </h2>
                     ` : html`
