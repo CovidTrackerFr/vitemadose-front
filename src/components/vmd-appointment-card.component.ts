@@ -47,7 +47,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                  @click="${() => Router.navigateToUrlIfPossible(this.lieu.url)}">
                 <div class="card-body">
                     <div class="row align-items-center ">
-                        <div class="col"A>
+                        <div class="col">
                             <h5 class="card-title">${Dates.isoToFRDatetime(this.lieu.prochain_rdv)}<small class="distance">${distance ? `- ${distance} km` : ''}</small></h5>
                             <div class="row">
                               <vmd-appointment-metadata widthType="full-width" icon="bi-geo-alt-fill">
