@@ -6,6 +6,7 @@ import {styleMap} from "lit-html/directives/style-map";
 import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
 import rdvViewCss from "../styles/views/_rdv.scss";
+import delay from 'delay'
 import {
     LieuxParDepartement,
     Coordinates,
@@ -40,6 +41,7 @@ export class VmdRdvView extends LitElement {
     @property({type: String, attribute: false}) critèreDeTri: 'date' | 'distance' = 'date'
     @property({type: Boolean, attribute: false}) geolocalisationBloquée = false
     @property({type: Boolean, attribute: false}) geolocalisationIndisponible = false
+    @property({type: Boolean, attribute: false}) afficherMessageGeoloc = false
     private userLocation: Coordinates | undefined
 
     get lieuxDisponiblesTriés () {
@@ -58,7 +60,6 @@ export class VmdRdvView extends LitElement {
 
     async trierParDistance (e: Event) {
       e.preventDefault()
-
       try {
         const location = await this.localisationNavigateur()
         this.userLocation = location
@@ -81,6 +82,13 @@ export class VmdRdvView extends LitElement {
         })
       })
       return coords as Coordinates
+    }
+    async prévenirSiBloqué () {
+      if (this.geolocalisationBloquée && !this.afficherMessageGeoloc) {
+        this.afficherMessageGeoloc = true
+        await delay(5000)
+        this.afficherMessageGeoloc = false
+      }
     }
 
     get departementSelectionne() {
@@ -153,6 +161,41 @@ export class VmdRdvView extends LitElement {
                 </h3>
 
                 <div class="spacer mt-5 mb-5"></div>
+                <div class="resultats p-5 text-dark bg-light rounded-3">
+                    ${this.lieuxDisponiblesTriés.length > 0 ? html`
+                        <h2 class="row align-items-center justify-content-center mb-5 h5">
+                            <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>
+                            <span class="col col-sm-auto">
+                                ${this.lieuxDisponiblesTriés.length} Lieu${Strings.plural(this.lieuxParDepartement?.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
+                            </span>
+                        </h2>
+                        <div class="tri">
+                          <span class="radio-input">
+                            <input @change="${() => this.critèreDeTri = 'date'}" type="radio" name="tri" id="tri-date" .checked=${this.critèreDeTri === 'date'} />
+                            <label for="tri-date">Au plus tôt</label>
+                          </span>
+                          <span class="radio-input">
+                            <input
+                              type="radio" name="tri" id="tri-distance"
+                              title="Vous devez autoriser l'accès à la géolocalisation dans votre navigateur"
+                              @click="${(e: Event) => this.trierParDistance(e)}"
+                              .checked=${this.critèreDeTri === 'distance'}
+                              .disabled="${this.geolocalisationBloquée}" />
+                            <label for="tri-distance"
+                              @click="${() => this.prévenirSiBloqué()}"
+                              id="tri-distance-label"
+                              data-toggle="tooltip"
+                              title="Vous devez autoriser l'accès à la géolocalisation pour ViteMaDose dans votre navigateur"
+                            >
+                              Au plus proche
+                            </label>
+                          </span>
+                          <p class="blocked-geo ${this.afficherMessageGeoloc ? 'displayed' : ''}">La géolocalisation n'est pas disponible pour ViteMaDose ou alors vous n'avez pas autorisé l'accès</p>
+                        </div>
+                    ` : html`
+                        <h2 class="row align-items-center justify-content-center mb-5 h5">Aucun créneau de vaccination trouvé</h2>
+                        <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
+                    `}
 
                 <div class="resultats p-5 text-dark bg-light rounded-3">
                     ${this.lieuxDisponiblesTriés > 0 ? html`

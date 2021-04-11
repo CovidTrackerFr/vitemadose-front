@@ -16,7 +16,7 @@
   .tri {
     display: flex;
     padding: 0;
-    margin: 0 0 2em 0;
+    margin: 0 0 3em 0;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -49,6 +49,23 @@
       input:checked + label {
         border-color: $primary;
       }
+    }
+  }
+
+  .tri {
+    position: relative;
+    .blocked-geo {
+      transition: opacity 500ms;
+      opacity: 0;
+      font-size: 80%;
+      color: $info;
+      position: absolute;
+      top: calc(100% + .5em);
+      width: 100%;
+      text-align: center;
+    }
+    .blocked-geo.displayed {
+      opacity: 1;
     }
   }
 
