@@ -30,12 +30,19 @@ export class VmdAppointmentCardComponent extends LitElement {
         super();
     }
 
+    private clickEventHandler(e: Event, navigateToUrlIfPossible: boolean) {
+        if (navigateToUrlIfPossible) {
+            Router.navigateToUrlIfPossible(this.lieu.url)
+        }
+        e.stopImmediatePropagation();
+    }
+
     render() {
         if(this.rdvPossible) {
             const plateforme: Plateforme|undefined = PLATEFORMES[this.lieu.plateforme];
             return html`
             <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
-                 @click="${() => Router.navigateToUrlIfPossible(this.lieu.url)}">
+                 @click="${(e: Event) => this.clickEventHandler(e, true)}">
                 <div class="card-body">
                     <div class="row align-items-center ">
                         <div class="col">
@@ -49,7 +56,12 @@ export class VmdAppointmentCardComponent extends LitElement {
                                 </div>
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata widthType="fit-to-content" icon="bi-telephone-fill" .displayed="${!!this.lieu.metadata.phone_number}">
-                                <span slot="content">${this.lieu.metadata.phone_number}</span>
+                                <span slot="content">
+                                    <a href="tel:${this.lieu.metadata.phone_number}"
+                                       @click="${(e: Event) => this.clickEventHandler(e, false)}">
+                                        ${this.lieu.metadata.phone_number}
+                                    </a>
+                                </span>
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata widthType="fit-to-content" icon="bi-bag-plus">
                                 <span slot="content">${TYPES_LIEUX[this.lieu.type]}</span>
