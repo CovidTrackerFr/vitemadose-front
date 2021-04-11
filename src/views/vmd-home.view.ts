@@ -127,7 +127,7 @@ export class VmdHomeView extends LitElement {
 
                         <div class="row justify-content-center mt-5">
                             <a href="https://covidtracker.fr/vaccintracker/" target="_blank" class="col-auto btn btn-primary btn-lg">
-                                Accéder à VaccinTracker&nbsp;<i class="bi bi-arrow-up-right"></i>
+                                Accéder à VaccinTracker&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
                             </a>
                         </div>
                     </div>
@@ -142,7 +142,7 @@ export class VmdHomeView extends LitElement {
 
                         <div class="row justify-content-center mt-5">
                             <a href="${Router.basePath}centres" class="col-auto btn btn-primary btn-lg">
-                                Accéder à la carte des centres&nbsp;<i class="bi bi-arrow-up-right"></i>
+                                Accéder à la carte des centres&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
                             </a>
                         </div>
                     </div>
@@ -152,17 +152,17 @@ export class VmdHomeView extends LitElement {
             <div class="p-5 text-dark bg-light rounded-3 mt-5">
                 <div class="row gx-5">
                     <div class="col-24 col-md text-center">
-                        <i class="bi bi-building fs-6 text-primary"></i>
+                        <i class="bi vmdicon-commerical-building fs-6 text-primary"></i>
                         <div class="h4 mt-4">${this.statsLieu?.global.disponibles.toLocaleString()}</div>
                         <p>Lieux de vaccination ayant des disponibilités</p>
                     </div>
                     <div class="col-24 col-md text-center">
-                        <i class="bi bi-geo-alt fs-6 text-primary"></i>
+                        <i class="bi vmdicon-geo-alt-fill fs-6 text-primary"></i>
                         <div class="h4 mt-4">${this.statsLieu?.global.total.toLocaleString()}</div>
                         <p>Lieux de vaccination supportés</p>
                     </div>
                     <div class="col-24 col-md text-center">
-                        <i class="bi bi-check-circle fs-6 text-primary"></i>
+                        <i class="bi vmdicon-check-circle-fill fs-6 text-primary"></i>
                         <div class="h4 mt-4">${this.statsLieu?.global.proportion.toLocaleString()}%</div>
                         <p>Proportion des lieux de vaccination ayant des disponibilités</p>
                     </div>
