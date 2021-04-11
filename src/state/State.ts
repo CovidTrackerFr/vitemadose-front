@@ -81,6 +81,7 @@ export type Lieu = {
 function transformLieu(rawLieu: any): Lieu {
     return {
         ...rawLieu,
+        appointment_count: rawLieu.appointment_count || 0,
         metadata: {
             ...rawLieu.metadata,
             address: (typeof rawLieu.metadata.address === 'string')?
