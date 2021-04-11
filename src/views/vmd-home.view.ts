@@ -103,7 +103,7 @@ export class VmdHomeView extends LitElement {
 
             <div class="row gx-5">
                 <div class="col-sm-24 col-md mb-5 mb-md-0"">
-                    <div class="p-5 text-dark bg-light rounded-3">
+                    <div class="p-5 text-dark bg-light rounded-3 fixed-card-height">
                         <h2>VaccinTracker</h2>
 
                         <p>
@@ -118,7 +118,7 @@ export class VmdHomeView extends LitElement {
                     </div>
                 </div>
                 <div class="col-sm-24 col-md">
-                    <div class="p-5 text-dark bg-light rounded-3">
+                    <div class="p-5 text-dark bg-light rounded-3 fixed-card-height">
                         <h2>Carte des centres de vaccination contre la Covid-19</h2>
 
                         <p>
@@ -138,18 +138,18 @@ export class VmdHomeView extends LitElement {
                 <div class="row gx-5">
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-building fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsLieu?.global.disponibles.toLocaleString()}</div>
-                        <p>Lieux de vaccination disponibles</p>
+                        <div class="h4 mt-4">${this.statsLieu?.global.disponibles.toLocaleString()}</div>
+                        <p>Lieux de vaccination ayant des disponibilités</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-geo-alt fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsLieu?.global.total.toLocaleString()}</div>
-                        <p>Lieux de vaccination détectés</p>
+                        <div class="h4 mt-4">${this.statsLieu?.global.total.toLocaleString()}</div>
+                        <p>Lieux de vaccination supportés</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi bi-check-circle fs-6 text-primary"></i>
-                        <div class="h5 mt-4">${this.statsLieu?.global.proportion.toLocaleString()}%</div>
-                        <p>Proportion des lieux de vaccination disponibles</p>
+                        <div class="h4 mt-4">${this.statsLieu?.global.proportion.toLocaleString()}%</div>
+                        <p>Proportion des lieux de vaccination ayant des disponibilités</p>
                     </div>
                 </div>
             </div>

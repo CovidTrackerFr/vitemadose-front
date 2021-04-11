@@ -14,3 +14,26 @@
         size: 1.2rem !important;
     };
 }
+
+.fixed-card-height {
+    // Can't, as this is very complicated to tune properly for every breakpoints
+    //min-height: 45vw;
+    @include media-breakpoint-down(sm) { // < 576
+        //min-height: 300px;
+    }
+    @include media-breakpoint-between(sm, md) { // > 576
+        //min-height: 240px;
+    }
+    @include media-breakpoint-between(md, lg) { // > 768
+        min-height: 360px;
+    }
+    @include media-breakpoint-between(lg, xl) { // > 992
+        min-height: 360px;
+    }
+    @include media-breakpoint-between(xl, xxl) { // > 1200
+        min-height: 270px;
+    }
+    @include media-breakpoint-up(xxl) { // > 1400
+        min-height: 270px;
+    }
+}
