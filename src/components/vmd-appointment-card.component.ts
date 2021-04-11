@@ -37,6 +37,15 @@ export class VmdAppointmentCardComponent extends LitElement {
         e.stopImmediatePropagation();
     }
 
+    private get renderAddress() {
+        if (this.lieu.location.latitude && this.lieu.location.longitude) {
+            return html`<a href="geo:${this.lieu.location.latitude},${this.lieu.location.longitude}"
+                           @click="${(e: Event) => this.clickEventHandler(e, false)}"
+            >${this.lieu.metadata.address}</a>`
+        }
+        return this.lieu.metadata.address;
+    }
+
     render() {
         if(this.rdvPossible) {
             const plateforme: Plateforme|undefined = PLATEFORMES[this.lieu.plateforme];
@@ -52,7 +61,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                                 <div slot="content">
                                   <span class="fw-bold text-dark">${this.lieu.nom}</span>
                                   <br/>
-                                  <em>${this.lieu.metadata.address}</em>
+                                  <em>${this.renderAddress}</em>
                                 </div>
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata widthType="fit-to-content" icon="bi-telephone-fill" .displayed="${!!this.lieu.metadata.phone_number}">
