@@ -17,7 +17,10 @@ export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
     ['plus75ans', { codeTrancheAge: 'plus75ans', libelle: "Plus de 75 ans" }]
 ]);
 
-const VMD_BASE_URL = "https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output" //"https://vitemadose.gitlab.io/vitemadose"
+const USE_RAW_GITHUB = false
+const VMD_BASE_URL = USE_RAW_GITHUB
+  ? "https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output"
+  : "https://vitemadose.gitlab.io/vitemadose"
 
 
 export type Plateforme = {
