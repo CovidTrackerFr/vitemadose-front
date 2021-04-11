@@ -198,38 +198,6 @@ export class VmdRdvView extends LitElement {
                     `}
 
                 <div class="resultats p-5 text-dark bg-light rounded-3">
-                    ${this.lieuxDisponiblesTriés > 0 ? html`
-                        <h2 class="row align-items-center justify-content-center mb-5 h5">
-                            <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>
-                            <span class="col col-sm-auto">
-                                ${this.lieuxDisponiblesTriés.length.toLocaleString()} Lieu${Strings.plural(this.lieuxDisponiblesTriés.length, 'x')} de vaccination covid ont des disponibilités
-                            </span>
-                        </h2>
-                        <div class="tri">
-                          <span class="radio-input">
-                            <input @change="${() => this.critèreDeTri = 'date'}" type="radio" name="tri" id="tri-date" .checked=${this.critèreDeTri === 'date'} />
-                            <label for="tri-date">Au plus tôt</label>
-                          </span>
-                          <span class="radio-input">
-                            <input
-                              type="radio" name="tri" id="tri-distance"
-                              title="Vous devez autoriser l'accès à la géolocalisation dans votre navigateur"
-                              @click="${(e: Event) => this.trierParDistance(e)}"
-                              .checked=${this.critèreDeTri === 'distance'}
-                              .disabled="${this.geolocalisationBloquée}" />
-                            <label for="tri-distance"
-                              data-toggle="tooltip"
-                              title="Vous devez autoriser l'accès à la géolocalisation pour ViteMaDose dans votre navigateur"
-                            >
-                              Au plus proche
-                            </label>
-                          </span>
-                        </div>
-                    ` : html`
-                        <h2 class="row align-items-center justify-content-center mb-5 h5">Aucun créneau de vaccination trouvé</h2>
-                        <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
-                    `}
-
                     ${repeat(this.lieuxDisponiblesTriés, (c => `${c.departement}||${c.nom}||${c.plateforme}||${this.critèreDeTri}`), (lieu, index) => {
                         let distance = undefined
                         if (this.userLocation) {
