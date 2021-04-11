@@ -103,7 +103,7 @@ export class VmdHomeView extends LitElement {
 
             <div class="row gx-5">
                 <div class="col-sm-24 col-md mb-5 mb-md-0"">
-                    <div class="p-5 text-dark bg-light rounded-3">
+                    <div class="p-5 text-dark bg-light rounded-3 fixed-card-height">
                         <h2>VaccinTracker</h2>
 
                         <p>
@@ -118,7 +118,7 @@ export class VmdHomeView extends LitElement {
                     </div>
                 </div>
                 <div class="col-sm-24 col-md">
-                    <div class="p-5 text-dark bg-light rounded-3">
+                    <div class="p-5 text-dark bg-light rounded-3 fixed-card-height">
                         <h2>Carte des centres de vaccination contre la Covid-19</h2>
 
                         <p>
