@@ -230,7 +230,7 @@ export class VmdRdvView extends LitElement {
                         <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
                     `}
 
-                    ${repeat(this.lieuxDisponiblesTriés, (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu, index) => {
+                    ${repeat(this.lieuxDisponiblesTriés, (c => `${c.departement}||${c.nom}||${c.plateforme}||${this.critèreDeTri}`), (lieu, index) => {
                         let distance = undefined
                         if (this.userLocation) {
                           distance = getDistanceFromLatLonInKm(this.userLocation, lieu.location)
