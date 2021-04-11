@@ -68,6 +68,7 @@ export class VmdRdvView extends LitElement {
         if (error instanceof GeolocationPositionError) {
           if (error.code === 1) {
             this.geolocalisationBloquée = true
+            this.prévenirSiBloqué()
           }
           this.geolocalisationIndisponible = true
         }
