@@ -30,17 +30,10 @@ export class VmdAppointmentCardComponent extends LitElement {
         super();
     }
 
-    private clickEventHandler(e: Event, navigateToUrlIfPossible: boolean) {
-        if (navigateToUrlIfPossible) {
-            Router.navigateToUrlIfPossible(this.lieu.url)
-        }
-        e.stopImmediatePropagation();
-    }
-
-    private get renderAddress() {
+    private renderAddress() {
         if (this.lieu.location.latitude && this.lieu.location.longitude) {
             return html`<a href="geo:${this.lieu.location.latitude},${this.lieu.location.longitude}"
-                           @click="${(e: Event) => this.clickEventHandler(e, false)}"
+                           @click="${(e: Event) => e.stopImmediatePropagation()}"
             >${this.lieu.metadata.address}</a>`
         }
         return this.lieu.metadata.address;
@@ -51,7 +44,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             const plateforme: Plateforme|undefined = PLATEFORMES[this.lieu.plateforme];
             return html`
             <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
-                 @click="${(e: Event) => this.clickEventHandler(e, true)}">
+                 @click="${() => Router.navigateToUrlIfPossible(this.lieu.url)}">
                 <div class="card-body">
                     <div class="row align-items-center ">
                         <div class="col">
@@ -61,13 +54,13 @@ export class VmdAppointmentCardComponent extends LitElement {
                                 <div slot="content">
                                   <span class="fw-bold text-dark">${this.lieu.nom}</span>
                                   <br/>
-                                  <em>${this.renderAddress}</em>
+                                  <em>${this.renderAddress()}</em>
                                 </div>
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata widthType="fit-to-content" icon="bi-telephone-fill" .displayed="${!!this.lieu.metadata.phone_number}">
                                 <span slot="content">
                                     <a href="tel:${this.lieu.metadata.phone_number}"
-                                       @click="${(e: Event) => this.clickEventHandler(e, false)}">
+                                       @click="${(e: Event) => e.stopImmediatePropagation()}">
                                         ${this.lieu.metadata.phone_number}
                                     </a>
                                 </span>
