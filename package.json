@@ -26,7 +26,6 @@
   "dependencies": {
     "bootstrap": "5.0.0-beta3",
     "bootstrap-icons": "1.4.1",
-    "delay": "^5.0.0",
     "leaflet": "1.7.1",
     "leaflet.markercluster": "1.4.1",
     "lit-element": "2.4.0",

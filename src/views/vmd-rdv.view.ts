@@ -6,7 +6,7 @@ import {styleMap} from "lit-html/directives/style-map";
 import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
 import rdvViewCss from "../styles/views/_rdv.scss";
-import delay from 'delay'
+import delay from "../delay"
 import {
     LieuxParDepartement,
     Coordinates,
