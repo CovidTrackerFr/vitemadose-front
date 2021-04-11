@@ -13,7 +13,7 @@ import {
     Departement,
     FEATURES,
     State,
-    TRANCHES_AGE
+    TRANCHES_AGE, libelleUrlPathDuDepartement
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
@@ -86,7 +86,9 @@ export class VmdRdvView extends LitElement {
             <div class="spacer mt-5 mb-5"></div>
             
             ${this.searchInProgress?html`
-              <div class="spinner-border text-primary" style="height: 50px; width: 50px" role="status">
+              <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" style="height: 50px; width: 50px" role="status">
+                </div>
               </div>
             `:html`
                 <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) ? 'block' : 'none'})}">
@@ -179,7 +181,7 @@ export class VmdRdvView extends LitElement {
 
     private refreshPageWhenValidParams() {
         if (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
-            Router.navigateToRendezVous(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
+            Router.navigateToRendezVous(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!), this.codeTrancheAgeSelectionne);
         }
     }
 }

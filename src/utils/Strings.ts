@@ -29,4 +29,17 @@ export class Strings {
 
         return normaliedPhoneNumber;
     }
+
+    public static toReadableURLPathValue(value: string) {
+        return value.toLowerCase()
+            .replace(" ", "_")
+            .replace(/[èéëêêéè]/gi, "e")
+            .replace(/[áàâäãåâà]/gi, "a")
+            .replace(/[çç]/gi, "c")
+            .replace(/[íìîï]/gi, "i")
+            .replace(/[ñ]/gi, "n")
+            .replace(/[óòôöõô]/gi, "o")
+            .replace(/[úùûüûù]/gi, "u")
+            .replace(/[œ]/gi, "oe");
+    }
 }

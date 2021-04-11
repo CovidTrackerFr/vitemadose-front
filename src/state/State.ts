@@ -8,13 +8,13 @@ export const FEATURES: Features = {
     trancheAgeFilter: false
 };
 
-export type CodeTrancheAge = string;
+export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
     codeTrancheAge: CodeTrancheAge;
     libelle: string;
 };
 export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
-    ['plus75', { codeTrancheAge: 'plus75', libelle: "Plus de 75 ans" }]
+    ['plus75ans', { codeTrancheAge: 'plus75ans', libelle: "Plus de 75 ans" }]
 ]);
 
 const VMD_BASE_URL = "https://vitemadose.gitlab.io/vitemadose"
@@ -46,9 +46,12 @@ export type CodeDepartement = string;
 export type Departement = {
     code_departement: CodeDepartement;
     nom_departement: string;
-    code_region: 84;
+    code_region: number;
     nom_region: string;
 };
+export const libelleUrlPathDuDepartement = (departement: Departement) => {
+    return Strings.toReadableURLPathValue(departement.nom_departement);
+}
 
 export type TypeLieu = 'vaccination-center'|'drugstore'|'general-practitioner';
 export const TYPES_LIEUX: {[k in TypeLieu]: string} = {
