@@ -54,6 +54,9 @@ export class VmdAppointmentCardComponent extends LitElement {
                               <vmd-appointment-metadata widthType="fit-to-content" icon="bi-bag-plus">
                                 <span slot="content">${TYPES_LIEUX[this.lieu.type]}</span>
                               </vmd-appointment-metadata>
+                              <vmd-appointment-metadata widthType="fit-to-content" icon="vmdicon-syringe" .displayed="${!!this.lieu.vaccine_type}">
+                                <span slot="content">${this.lieu.vaccine_type}</span>
+                              </vmd-appointment-metadata>
                             </div>
                         </div>
                         
