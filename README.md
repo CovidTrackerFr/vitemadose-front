@@ -15,6 +15,25 @@ Run vite (we're obviously using vitejs for vite-ma-dose !) :
 Open your browser : http://localhost:3000/
 and enjoy live reload / on-the-fly typescript compilation
 
+# Run with docker
+If you don't want to install node.js on your machine, you can isolate it with [docker](https://www.docker.com/get-started):
+
+Start docker container (that executes `npm run dev`) :
+`docker-compose up`
+
+## Docker how-to
+The first time `docker-compose up` is run, it will build the `base` docker image with `npm install` inside `node:14` docker image.
+
+When the `package*.json` have changed, you need to rebuild the base image:
+```
+docker-compose down --volumes
+docker-compose build
+```
+.. then start again with `docker-compose up`.
+
+
+To inspect what happens inside : `docker-compose exec frontend bash`
+
 # Production
 
 Package for production with `vite build` : `dist` directory will contain minified assets for production
@@ -29,14 +48,14 @@ See [dedicated readme in `mobile/` directory](mobile/README.md)
 # Development workflow
 
 - `main` is automatically deployed on https://vitemadose.covidtracker.fr/
-  
+
   => Push on this branch only when you're ready.
 
 - `dev` is the development branch, start any new feature/fix from it.
-  
+
   We generally try to create dedicated feature branches with issue number in it, except when the
   commit is really small
-  
+
 # Stack pointers
 
 We're using :
