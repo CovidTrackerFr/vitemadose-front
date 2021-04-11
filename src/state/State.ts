@@ -180,4 +180,31 @@ export class State {
             return statsLieu;
         }
     }
+
+    private geolocalisationBloquée = false
+    private geolocalisationIndisponible = false
+    private userLocation: Coordinates | 'bloqué' | 'indisponible' | undefined
+    async localisationNavigateur (): Promise<Coordinates | 'bloqué' | 'indisponible'> {
+      if (this.userLocation !== undefined) {
+        return this.userLocation
+      }
+      const promise = new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 2000,
+        })
+      })
+      try {
+        const { coords } = await (promise as Promise<{ coords: Coordinates }>)
+        this.userLocation = coords
+      } catch (error) {
+        if (error instanceof GeolocationPositionError && error.code === 1) {
+          this.userLocation = 'bloqué'
+        } else {
+          this.userLocation = 'indisponible'
+        }
+      }
+      return this.userLocation
+
+    }
 }
