@@ -44,6 +44,21 @@ export class VmdHomeView extends LitElement {
         return this.departementsDisponibles.find(dpt => dpt.code_departement === this.codeDepartementSelectionne);
     }
 
+    onDepartementSelected(event: CustomEvent<DepartementSelected>) {
+        this.codeDepartementSelectionne = event.detail.departement?.code_departement;
+        if(this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
+            // Auto-trigger search
+            this.rechercherRdv();
+        }
+    }
+
+    rechercherRdv() {
+        Router.navigateToRendezVous(
+            this.codeDepartementSelectionne!,
+            libelleUrlPathDuDepartement(this.departementSelectionne!),
+            this.codeTrancheAgeSelectionne!)
+    }
+
     render() {
         return html`
             <div class="searchDose">
@@ -70,7 +85,7 @@ export class VmdHomeView extends LitElement {
                         </label>
                         <div class="col">
                             <vmd-departement-selector class="mb-3"
-                                  @departement-changed="${(event: CustomEvent<DepartementSelected>) => this.codeDepartementSelectionne = event.detail.departement?.code_departement}"
+                                  @departement-changed="${this.onDepartementSelected}"
                                   .departementsDisponibles="${this.departementsDisponibles}"
                             >
                             </vmd-departement-selector>
@@ -78,7 +93,7 @@ export class VmdHomeView extends LitElement {
                     </div>
                     <div class="searchDoseForm-action">
                         <button class="btn btn-primary btn-lg" ?disabled="${!this.codeDepartementSelectionne || !this.codeTrancheAgeSelectionne}"
-                                @click="${() => Router.navigateToRendezVous(this.codeDepartementSelectionne!, libelleUrlPathDuDepartement(this.departementSelectionne!), this.codeTrancheAgeSelectionne!)}">
+                                @click="${this.rechercherRdv}">
                             Rechercher
                         </button>
                     </div>
