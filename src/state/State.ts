@@ -185,6 +185,10 @@ export class State {
     private geolocalisationIndisponible = false
     private userLocation: Coordinates | 'bloqué' | 'indisponible' | undefined
     async localisationNavigateur (): Promise<Coordinates | 'bloqué' | 'indisponible'> {
+      if(this.userLocation !== 'indisponible' && this.userLocation !== undefined) {
+          return this.userLocation;
+      }
+
       const promise = new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
