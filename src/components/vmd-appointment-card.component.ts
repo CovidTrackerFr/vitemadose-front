@@ -111,8 +111,8 @@ export class VmdAppointmentCardComponent extends LitElement {
                          class="btn btn-lg ${classMap({ 'btn-primary': specificCardConfig.typeBouton==='btn-primary', 'btn-info': specificCardConfig.typeBouton==='btn-info' })}">
                         ${specificCardConfig.libelleBouton}
                       </a>
-                      <div class="row align-items-center justify-content-center mt-3 text-black-50">
-                        <div class="col-auto">
+                      <div class="row align-items-center justify-content-center mt-3 text-gray-700">
+                        <div class="col-auto text-description">
                           ${this.lieu.appointment_count.toLocaleString()} créneau${Strings.plural(this.lieu.appointment_count, "x")}
                         </div>
                         ${this.lieu.plateforme?html`
@@ -172,16 +172,16 @@ export class VmdAppointmentCardComponent extends LitElement {
                 <div class="card-body p-4">
                     <div class="row align-items-center ">
                         <div class="col">
-                            <h5 class="card-title">
+                            <h3 class="card-title h5">
                               ${this.cardTitle(cardConfig)}
                               <small class="distance">${distance ? `- ${distance} km` : ''}</small>
-                            </h5>
+                            </h3>
                             <div class="row">
                               <vmd-appointment-metadata class="mb-2" widthType="full-width" icon="vmdicon-geo-alt-fill">
                                 <div slot="content">
-                                  <span class="fw-bold text-dark">${this.lieu.nom}</span>
+                                  <span class="fw-bold">${this.lieu.nom}</span>
                                   <br/>
-                                  <em>${this.lieu.metadata.address}</em>
+                                  <span class="text-description">${this.lieu.metadata.address}</span>
                                 </div>
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-telephone-fill" .displayed="${!!this.lieu.metadata.phone_number}">
@@ -193,10 +193,10 @@ export class VmdAppointmentCardComponent extends LitElement {
                                 </span>
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-commerical-building">
-                                <span slot="content">${TYPES_LIEUX[this.lieu.type]}</span>
+                                <span class="text-description" slot="content">${TYPES_LIEUX[this.lieu.type]}</span>
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-syringe" .displayed="${!!this.lieu.vaccine_type}">
-                                <span slot="content">${this.lieu.vaccine_type}</span>
+                                <span class="text-description" slot="content">${this.lieu.vaccine_type}</span>
                               </vmd-appointment-metadata>
                             </div>
                         </div>

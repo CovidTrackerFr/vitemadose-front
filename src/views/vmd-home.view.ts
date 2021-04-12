@@ -71,7 +71,7 @@ export class VmdHomeView extends LitElement {
             </div>
 
             <div class="platforms mt-5">
-                <h5 class="text-black-50 text-center mb-5">Trouvez vos rendez-vous avec</h5>
+                <h2 class="text-gray-600 text-center mb-5 h5">Trouvez vos rendez-vous avec</h2>
 
                 <div class="row justify-content-center align-items-center">
                   ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
