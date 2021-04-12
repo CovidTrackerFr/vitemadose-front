@@ -35,7 +35,7 @@ export class VmdAppComponent extends LitElement {
                     <img src="${Router.basePath}assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Trouvez votre créneau de vaccination avec Vite Ma Dose">
                 </div>
                 <div class="col">
-                    <div class="row justify-content-end">
+                    <div class="row justify-content-end gx-5">
                         <div class="col-auto">
                             <a href="${Router.basePath}apropos">À propos</a>
                         </div>
