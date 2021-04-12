@@ -13,6 +13,9 @@
 
 - For history reasons, don't forget to put your original SVG file into the `custom-svg/` directory
 
+- Prior to exporting, have a look at "Customize names" and "Customize codes" in order to ensure
+  that you're not using duplicated code/name for your new icon(s)
+
 - Once done, donwload the zip archive from the website, extract it and :
   
   - Copy updated `config.json` file into current directory
