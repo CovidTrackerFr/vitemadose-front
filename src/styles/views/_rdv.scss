@@ -54,7 +54,7 @@
 
   .tri {
     position: relative;
-    .blocked-geo {
+    .blocked-geo, .geo-indispo {
       transition: opacity 500ms;
       opacity: 0;
       font-size: 80%;
@@ -64,7 +64,7 @@
       width: 100%;
       text-align: center;
     }
-    .blocked-geo.displayed {
+    .blocked-geo.displayed, .geo-indispo.displayed {
       opacity: 1;
     }
   }

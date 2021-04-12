@@ -21,6 +21,7 @@ import {
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
+import {classMap} from "lit-html/directives/class-map";
 
 @customElement('vmd-rdv')
 export class VmdRdvView extends LitElement {
@@ -64,12 +65,16 @@ export class VmdRdvView extends LitElement {
       const location = await State.current.localisationNavigateur()
       if (location === 'bloqué') {
         this.geolocalisationBloquée = true
+        this.geolocalisationIndisponible = false;
         this.prévenirSiBloqué()
       } else if (location === 'indisponible') {
+        this.geolocalisationBloquée = false
         this.geolocalisationIndisponible = true
       } else {
         this.userLocation = location
         this.critèreDeTri = 'distance'
+        this.geolocalisationBloquée = false
+        this.geolocalisationIndisponible = false
       }
     }
 
@@ -180,7 +185,8 @@ export class VmdRdvView extends LitElement {
                               Au plus proche
                             </label>
                           </span>
-                          <p class="blocked-geo ${this.afficherMessageGeoloc ? 'displayed' : ''}">La géolocalisation n'est pas disponible pour ViteMaDose ou alors vous n'avez pas autorisé l'accès</p>
+                          <p class="blocked-geo ${classMap({ displayed: this.afficherMessageGeoloc})}">Vous n'avez pas autorisé l'accès à votre position géographique au site ViteMaDose.</p>
+                          <p class="geo-indispo ${classMap({ displayed: this.geolocalisationIndisponible})}">La géolocalisation n'est pas disponible pour ViteMaDose</p>
                         </div>
                     ` : html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">Aucun créneau de vaccination trouvé</h2>
