@@ -52,7 +52,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                                 <span slot="content">
                                     <a href="tel:${this.lieu.metadata.phone_number}"
                                        @click="${(e: Event) => e.stopImmediatePropagation()}">
-                                        ${this.lieu.metadata.phone_number}
+                                        ${Strings.toNormalizedPhoneNumber(this.lieu.metadata.phone_number)}
                                     </a>
                                 </span>
                               </vmd-appointment-metadata>

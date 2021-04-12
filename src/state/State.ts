@@ -92,7 +92,6 @@ function transformLieu(rawLieu: any): Lieu {
                     rawLieu.metadata.address.com_cp,
                     rawLieu.metadata.address.com_nom
                 ].filter(val => !!val).join(" "),
-            phone_number: rawLieu.metadata.phone_number?Strings.toNormalizedPhoneNumber(rawLieu.metadata.phone_number):undefined
         }
     };
 }
