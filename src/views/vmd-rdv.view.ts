@@ -61,7 +61,6 @@ export class VmdRdvView extends LitElement {
     }
 
     async trierParDistance (e: Event) {
-      e.preventDefault()
       const location = await State.current.localisationNavigateur()
       if (location === 'bloqué') {
         this.geolocalisationBloquée = true
@@ -162,7 +161,7 @@ export class VmdRdvView extends LitElement {
                         </h2>
                         <div class="tri">
                           <span class="radio-input">
-                            <input @change="${() => this.critèreDeTri = 'date'}" type="radio" name="tri" id="tri-date" .checked=${this.critèreDeTri === 'date'} />
+                            <input @change="${() => this.critèreDeTri = 'date'}" type="radio" name="tri" id="tri-date" ?checked=${this.critèreDeTri === 'date'} />
                             <label for="tri-date">Au plus tôt</label>
                           </span>
                           <span class="radio-input">
@@ -170,8 +169,8 @@ export class VmdRdvView extends LitElement {
                               type="radio" name="tri" id="tri-distance"
                               title="Vous devez autoriser l'accès à la géolocalisation dans votre navigateur"
                               @click="${(e: Event) => this.trierParDistance(e)}"
-                              .checked=${this.critèreDeTri === 'distance'}
-                              .disabled="${this.geolocalisationBloquée}" />
+                              ?checked=${this.critèreDeTri === 'distance'}
+                              ?disabled="${this.geolocalisationBloquée}" />
                             <label for="tri-distance"
                               @click="${() => this.prévenirSiBloqué()}"
                               id="tri-distance-label"
