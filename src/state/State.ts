@@ -95,7 +95,9 @@ function transformLieu(rawLieu: any): Lieu {
                     rawLieu.metadata.address.com_cp,
                     rawLieu.metadata.address.com_nom
                 ].filter(val => !!val).join(" "),
-            phone_number: rawLieu.metadata.phone_number?Strings.toNormalizedPhoneNumber(rawLieu.metadata.phone_number):undefined
+            // Commented for the moment, in order to keep phone numbers coming from json file "as is"
+            // (we were making wrong assumptions on some formatting rules in toNormalizedPhoneNumber()
+            // phone_number: rawLieu.metadata.phone_number?Strings.toNormalizedPhoneNumber(rawLieu.metadata.phone_number):undefined
         },
         vaccine_type: rawLieu.vaccine_type?((rawLieu.vaccine_type.length===undefined?[rawLieu.vaccine_type]:rawLieu.vaccine_type)).join(", "):undefined
     };
