@@ -6,7 +6,7 @@
 <font id="fontello" horiz-adv-x="1000" >
 <font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
 <missing-glyph horiz-adv-x="1000" />
-<glyph glyph-name="arrow-up-right" unicode="&#xe800;" d="M875 694a31 31 0 0 1-31 31h-375a31 31 0 0 1 0-62h299l-634-635a31 31 0 0 1 44-44l635 634v-299a31 31 0 0 1 62 0v375z" horiz-adv-x="1000" />
+<glyph glyph-name="arrow-up-right" unicode="&#xe800;" d="M974 150l-1 614c0 35-22 59-59 59h-614c-34 0-57-26-57-55 0-30 26-55 55-55h212l298 10-114-99-605-606c-11-11-17-26-17-39 0-29 27-57 57-57 14 0 28 5 39 17l606 605 100 114-11-285v-225c0-29 25-56 55-56 30 0 56 25 56 58z" horiz-adv-x="1000" />
 
 <glyph glyph-name="calendar-x-fill" unicode="&#xe801;" d="M250 819a31 31 0 0 1-62 0v-31h-63a125 125 0 0 1-125-125v-63h1000v63a125 125 0 0 1-125 125h-62v31a31 31 0 0 1-63 0v-31h-500v31z m750-844v563h-1000v-563a125 125 0 0 1 125-125h750a125 125 0 0 1 125 125z m-572 366l72-72 72 72a31 31 0 1 0 44-44l-72-72 72-72a31 31 0 0 0-44-44l-72 72-72-72a31 31 0 0 0-44 44l72 72-72 72a31 31 0 1 0 44 44z" horiz-adv-x="1000" />
 
