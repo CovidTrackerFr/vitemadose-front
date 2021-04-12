@@ -48,14 +48,14 @@ export class VmdAppointmentCardComponent extends LitElement {
                         <div class="col">
                             <h5 class="card-title">${Dates.isoToFRDatetime(this.lieu.prochain_rdv)}<small class="distance">${distance ? `- ${distance} km` : ''}</small></h5>
                             <div class="row">
-                              <vmd-appointment-metadata class="mb-2" widthType="full-width" icon="bi-geo-alt-fill">
+                              <vmd-appointment-metadata class="mb-2" widthType="full-width" icon="vmdicon-geo-alt-fill">
                                 <div slot="content">
                                   <span class="fw-bold text-dark">${this.lieu.nom}</span>
                                   <br/>
                                   <em>${this.lieu.metadata.address}</em>
                                 </div>
                               </vmd-appointment-metadata>
-                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="bi-telephone-fill" .displayed="${!!this.lieu.metadata.phone_number}">
+                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-telephone-fill" .displayed="${!!this.lieu.metadata.phone_number}">
                                 <span slot="content">
                                     <a href="tel:${this.lieu.metadata.phone_number}"
                                        @click="${(e: Event) => e.stopImmediatePropagation()}">
@@ -63,7 +63,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                                     </a>
                                 </span>
                               </vmd-appointment-metadata>
-                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="bi-bag-plus">
+                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-commerical-building">
                                 <span slot="content">${TYPES_LIEUX[this.lieu.type]}</span>
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-syringe" .displayed="${!!this.lieu.vaccine_type}">
@@ -105,7 +105,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                   <div class="row align-items-center">
                     <div class="col">
                       <h5 class="card-title">Aucun rendez-vous</h5>
-                      <vmd-appointment-metadata widthType="full-width" icon="bi-geo-alt-fill">
+                      <vmd-appointment-metadata widthType="full-width" icon="vmdicon-geo-alt-fill">
                         <div slot="content">
                           <span class="fw-bold text-dark">${this.lieu.nom}</span>
                           <br/>
