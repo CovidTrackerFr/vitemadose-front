@@ -24,8 +24,33 @@
 
     &-form {
 
+      .geoloc {
+        img.icon {
+          height: 1em;
+        }
+        > button {
+          background: red;
+        }
+        button {
+          display: block;
+          width: 100%;
+          padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+          font-size: calc(1.285rem + 0.42vw);
+          font-weight: 400;
+          line-height: 1.5;
+          color: rgb(33, 37, 41);
+          background-color: rgb(255, 255, 255);
+          background-repeat: no-repeat;
+          background-position: right 0.75rem center;
+          background-size: 16px 12px;
+          border: 0px solid rgb(206, 212, 218);
+          border-radius: 0.8rem;
+          box-shadow: rgb(0 0 0 / 8%) 0px 0.3rem 0.25rem;
+          appearance: none;
+        }
+      }
     }
-}
+  }
 
 .searchDoseForm {
 

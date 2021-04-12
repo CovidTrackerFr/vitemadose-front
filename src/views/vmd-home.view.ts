@@ -168,7 +168,7 @@ export class VmdHomeView extends LitElement {
                     </div>
                 </div>
             </div>
-            
+
             <slot name="about"></slot>
         `;
     }
