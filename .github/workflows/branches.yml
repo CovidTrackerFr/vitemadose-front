@@ -19,7 +19,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          BASE_URL:  "/${{ env.GITHUB_REF_SLUG }}"
+          BASE_URL:  "${{ env.GITHUB_REF_SLUG }}/"
       - name: rsync deployments
         uses: burnett01/rsync-deployments@4.1
         with:
