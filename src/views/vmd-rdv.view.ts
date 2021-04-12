@@ -63,7 +63,7 @@ export class VmdRdvView extends LitElement {
 
     render() {
         return html`
-            <div class="p-5 text-dark bg-light rounded-3">
+            <div class="p-5 text-dark bg-light rounded-5">
                 <div class="rdvForm-fields row align-items-center">
                   ${FEATURES.trancheAgeFilter ? html`
                     <div class="col-sm-24 col-md-auto mb-md-3 mt-md-3">
@@ -107,7 +107,7 @@ export class VmdRdvView extends LitElement {
     
                 <div class="spacer mt-5 mb-5"></div>
                 
-                <div class="p-5 text-dark bg-light rounded-3">
+                <div class="p-5 text-dark bg-light rounded-5">
                     ${(this.lieuxParDepartement?.lieuxDisponibles.length || 0) > 0 ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                             <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>

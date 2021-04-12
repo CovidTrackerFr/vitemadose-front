@@ -34,7 +34,7 @@ export class VmdAppointmentCardComponent extends LitElement {
         if(this.rdvPossible) {
             const plateforme: Plateforme|undefined = PLATEFORMES[this.lieu.plateforme];
             return html`
-            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
+            <div class="card rounded-5 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
                  @click="${() => Router.navigateToUrlIfPossible(this.lieu.url)}">
                 <div class="card-body">
                     <div class="row align-items-center ">
@@ -85,7 +85,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             `;
         } else {
             return html`
-              <div class="card rounded-3 mb-5 p-4 bg-disabled">
+              <div class="card rounded-5 mb-5 p-4 bg-disabled">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">
