@@ -75,7 +75,9 @@ export class VmdRdvView extends LitElement {
         this.critèreDeTri = 'distance'
         this.geolocalisationBloquée = false
         this.geolocalisationIndisponible = false
+        this.requestUpdate('lieuxParDepartementAffiches');
       }
+      this.requestUpdate('critèreDeTri');
     }
 
     async prévenirSiBloqué () {
