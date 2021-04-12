@@ -48,6 +48,7 @@ export class VmdRdvView extends LitElement {
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
 
     @property({type: String, attribute: false}) critèreDeTri: 'date' | 'distance' = 'date'
+    @property({type: Boolean, attribute: false}) recuperationLocationEnCours = false
     @property({type: Boolean, attribute: false}) geolocalisationBloquée = false
     @property({type: Boolean, attribute: false}) geolocalisationIndisponible = false
     @property({type: Boolean, attribute: false}) afficherMessageGeoloc = false
@@ -58,7 +59,13 @@ export class VmdRdvView extends LitElement {
 
 
     async afficherTriParDistance (e: Event) {
-      const location = await State.current.localisationNavigateur()
+      let location;
+      try {
+          this.recuperationLocationEnCours = true
+          location = await State.current.localisationNavigateur()
+      } finally {
+          this.recuperationLocationEnCours = false;
+      }
       if (location === 'bloqué') {
         this.geolocalisationBloquée = true
         this.geolocalisationIndisponible = false;
@@ -190,6 +197,10 @@ export class VmdRdvView extends LitElement {
                               title="Vous devez autoriser l'accès à la géolocalisation pour ViteMaDose dans votre navigateur"
                             >
                               Au plus proche
+                              ${this.recuperationLocationEnCours?html`
+                              <div class="spinner-border text-primary" style="height: 15px; width: 15px" role="status">
+                              </div>
+                              `:html``}
                             </label>
                           </span>
                           <p class="blocked-geo ${classMap({ displayed: this.afficherMessageGeoloc})}">Vous n'avez pas autorisé l'accès à votre position géographique au site ViteMaDose.</p>
