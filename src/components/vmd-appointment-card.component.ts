@@ -22,7 +22,6 @@ export class VmdAppointmentCardComponent extends LitElement {
     @property({type: Number, attribute: false}) distance!: number;
     /* dunno why, but boolean string is not properly converted to boolean when using attributes */
     @property({type: Boolean, attribute: false }) rdvPossible!: boolean;
-    @property({type: Number, attribute: false }) index: number = 0;
 
     private get estCliquable() {
         return !!this.lieu.url;
@@ -43,7 +42,6 @@ export class VmdAppointmentCardComponent extends LitElement {
             }
             return html`
             <div class="card rounded-3 mb-5 ${classMap({clickable: this.estCliquable})}"
-                style="--list-index: ${this.index}"
                  @click="${() => Router.navigateToUrlIfPossible(this.lieu.url)}">
                 <div class="card-body">
                     <div class="row align-items-center ">
@@ -94,9 +92,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             `;
         } else {
             return html`
-              <div class="card rounded-3 mb-5 p-4 bg-disabled"
-                style="--list-index: ${this.index}"
-              >
+              <div class="card rounded-3 mb-5 p-4 bg-disabled">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">

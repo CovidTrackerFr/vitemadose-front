@@ -194,7 +194,7 @@ export class VmdRdvView extends LitElement {
                         if (this.userLocation && lieu.location) {
                           distance = distanceEntreDeuxPoints(this.userLocation, lieu.location)
                         }
-                        return html`<vmd-appointment-card .lieu="${lieu}" .rdvPossible="${true}" .index="${index}" .distance="${distance}" />`;
+                        return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${true}" .distance="${distance}" />`;
                     })}
 
                   ${this.lieuxParDepartement?.lieuxIndisponibles.length ? html`
@@ -207,8 +207,8 @@ export class VmdRdvView extends LitElement {
                         </span>
                     </h5>
 
-                    ${repeat(this.lieuxParDepartement?.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu) => {
-                        return html`<vmd-appointment-card .lieu="${lieu}" .rdvPossible="${false}"></vmd-appointment-card>`;
+                    ${repeat(this.lieuxParDepartement?.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu, index) => {
+                        return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${false}"></vmd-appointment-card>`;
                     })}
                   ` : html``}
                 </div>
