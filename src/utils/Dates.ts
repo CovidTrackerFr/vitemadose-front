@@ -91,7 +91,9 @@ export class Dates {
     }
 
     public static formatDuration(durationFromNow: Duration): string {
-        if(durationFromNow.totalHours === 0) {
+        if (durationFromNow.totalMinutes === 0) {
+            return 'quelques instants';
+        } else if(durationFromNow.totalHours === 0) {
             return `${Dates.showValue(durationFromNow.minutes, ' minute')}`;
         } else if(durationFromNow.totalHours <= 6) {
             return `${Dates.showValue(durationFromNow.hours, ' heure')} ${Dates.showValue(durationFromNow.minutes, ' minute')}`;
