@@ -192,7 +192,7 @@ export class State {
       const promise = new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
-          timeout: 2000,
+          timeout: 4000,
         })
       })
       try {
