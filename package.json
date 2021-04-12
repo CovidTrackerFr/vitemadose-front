@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite --base ${BASE_PATH:-/} build"
+    "build": "tsc && vite --base ${BASE_PATH:-/} build",
+    "build-dev": "tsc && vite --base dev/ build"
   },
   "devDependencies": {
     "@types/leaflet": "1.7.0",
