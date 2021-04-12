@@ -8,14 +8,19 @@
 
   &._doctolib {
   }
+
   &._maiia {
   }
+
   &._ordoclic {
   }
+
   &._keldoc {
   }
+
   &._pandalab {
   }
+
   &._mapharma {
     max-width: 10rem;
   }
@@ -34,6 +39,7 @@
     &:hover {
       background-color: darken($card-bg, 3%);
     }
+
     cursor: pointer;
   }
 
@@ -45,4 +51,16 @@
 .doses-dipos {
   font-style: italic;
   font-size: 1.5rem;
+}
+
+vmd-appointment-metadata [slot='content'] a {
+  &:hover {
+    color: $link-color
+  }
+
+  @include media-breakpoint-down(lg) {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-width: 1px;
+  }
 }
