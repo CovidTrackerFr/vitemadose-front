@@ -78,7 +78,8 @@ export type Lieu = {
         phone_number: string|undefined;
         business_hours: BusinessHours|undefined
     },
-    type: TypeLieu
+    type: TypeLieu;
+    vaccine_type: string
 };
 function transformLieu(rawLieu: any): Lieu {
     return {
@@ -95,7 +96,8 @@ function transformLieu(rawLieu: any): Lieu {
                     rawLieu.metadata.address.com_nom
                 ].filter(val => !!val).join(" "),
             phone_number: rawLieu.metadata.phone_number?Strings.toNormalizedPhoneNumber(rawLieu.metadata.phone_number):undefined
-        }
+        },
+        vaccine_type: rawLieu.vaccine_type?((rawLieu.vaccine_type.length===undefined?[rawLieu.vaccine_type]:rawLieu.vaccine_type)).join(", "):undefined
     };
 }
 export type Coordinates = { latitude: number, longitude: number }
