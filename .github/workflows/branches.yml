@@ -1,0 +1,31 @@
+name: Déploiement Vite ma dose (branches)
+
+on:
+  push:
+    branches:
+      - nicolas
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.12"
+      - run: npm ci
+      - run: npm run build
+        env:
+          BASE_URL:  "/"
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avz --delete --exclude ".git*"
+          path: ./dist/
+          remote_path: ${{ secrets.DEPLOY_PATH_DEV }}${{ env.GITHUB_REF_SLUG }}
+          remote_host: ${{ secrets.DEPLOY_IP }}
+          remote_user: ubuntu
+          remote_key: ${{ secrets.DEPLOY_KEY }}
