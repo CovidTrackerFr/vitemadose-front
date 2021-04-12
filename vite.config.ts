@@ -5,7 +5,7 @@ import autoprefixer = require('autoprefixer')
 // https://vitejs.dev/config/
 export default ({ command, mode }) => ({
   build: {
-    sourcemap: true
+    sourcemap: false
   },
   css: {
     postcss: {

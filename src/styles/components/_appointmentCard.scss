@@ -30,6 +30,11 @@
   max-width: 75vw;
   margin: auto;
 
+  .distance {
+    font-weight: lighter;
+    font-size: 80%;
+  }
+
   &.clickable {
     &:hover {
       background-color: darken($card-bg, 3%);

@@ -17,7 +17,10 @@ export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
     ['plus75ans', { codeTrancheAge: 'plus75ans', libelle: "Plus de 75 ans" }]
 ]);
 
-const VMD_BASE_URL = "https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output" //"https://vitemadose.gitlab.io/vitemadose"
+const USE_RAW_GITHUB = false
+const VMD_BASE_URL = USE_RAW_GITHUB
+  ? "https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output"
+  : "https://vitemadose.gitlab.io/vitemadose"
 
 
 export type Plateforme = {
@@ -49,6 +52,8 @@ export type Departement = {
     code_region: number;
     nom_region: string;
 };
+// Permet de convertir un nom de departement en un chemin d'url correct (remplacement des caractères
+// non valides comme les accents ou les espaces)
 export const libelleUrlPathDuDepartement = (departement: Departement) => {
     return Strings.toReadableURLPathValue(departement.nom_departement);
 }
@@ -63,10 +68,7 @@ export type BusinessHours = Record<WeekDay,string>;
 export type Lieu = {
     appointment_count: number;
     departement: CodeDepartement;
-    location: {
-        latitude: number;
-        longitude: number;
-    },
+    location: Coordinates,
     nom: string;
     url: string;
     plateforme: string;
@@ -76,7 +78,8 @@ export type Lieu = {
         phone_number: string|undefined;
         business_hours: BusinessHours|undefined
     },
-    type: TypeLieu
+    type: TypeLieu;
+    vaccine_type: string
 };
 function transformLieu(rawLieu: any): Lieu {
     return {
@@ -92,9 +95,11 @@ function transformLieu(rawLieu: any): Lieu {
                     rawLieu.metadata.address.com_cp,
                     rawLieu.metadata.address.com_nom
                 ].filter(val => !!val).join(" "),
-        }
+        },
+        vaccine_type: rawLieu.vaccine_type?((rawLieu.vaccine_type.length===undefined?[rawLieu.vaccine_type]:rawLieu.vaccine_type)).join(", "):undefined
     };
 }
+export type Coordinates = { latitude: number, longitude: number }
 
 export type LieuxParDepartement = {
     lieuxDisponibles: Lieu[];
@@ -180,5 +185,33 @@ export class State {
             this._statsLieu = statsLieu;
             return statsLieu;
         }
+    }
+
+    private geolocalisationBloquée = false
+    private geolocalisationIndisponible = false
+    private userLocation: Coordinates | 'bloqué' | 'indisponible' | undefined
+    async localisationNavigateur (): Promise<Coordinates | 'bloqué' | 'indisponible'> {
+      if(this.userLocation !== 'indisponible' && this.userLocation !== undefined) {
+          return this.userLocation;
+      }
+
+      const promise = new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 4000,
+        })
+      })
+      try {
+        const { coords } = await (promise as Promise<{ coords: Coordinates }>)
+        this.userLocation = coords
+      } catch (error) {
+        if (error instanceof GeolocationPositionError && error.code === 1) {
+          this.userLocation = 'bloqué'
+        } else {
+          this.userLocation = 'indisponible'
+        }
+      }
+      return this.userLocation
+
     }
 }
