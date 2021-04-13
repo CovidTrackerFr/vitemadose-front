@@ -1,9 +1,13 @@
-name: Déploiement dev Vite ma dose
+name: Déploiement Vite ma dose (branches & PR)
 
 on:
   push:
     branches:
-      - dev
+      - "*"
+      - "!main"
+  pull_request:
+    branches:
+      - "*"
 
 jobs:
   deploy-dev:
@@ -17,9 +21,7 @@ jobs:
         with:
           node-version: "14.12"
       - run: npm ci
-      - run: npm run build-dev
-        env:
-          BASE_URL:  "${{ env.GITHUB_REF_SLUG }}/"
+      - run: npm run build -- --base "${{ env.GITHUB_REF_SLUG }}/"
       - name: rsync deployments
         uses: burnett01/rsync-deployments@4.1
         with:
