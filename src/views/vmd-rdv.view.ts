@@ -6,8 +6,12 @@ import {styleMap} from "lit-html/directives/style-map";
 import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
 import rdvViewCss from "../styles/views/_rdv.scss";
+import delay from "../delay"
+import distanceEntreDeuxPoints from "../distance"
 import {
+    Lieu,
     LieuxParDepartement,
+    Coordinates,
     CodeDepartement,
     CodeTrancheAge,
     Departement,
@@ -17,6 +21,13 @@ import {
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
+import {classMap} from "lit-html/directives/class-map";
+
+type LieuAvecDistance = Lieu & { distance: number|undefined };
+type LieuxAvecDistanceParDepartement = LieuxParDepartement & {
+    lieuxDisponibles: LieuAvecDistance[];
+    lieuxIndisponibles: LieuAvecDistance[];
+};
 
 @customElement('vmd-rdv')
 export class VmdRdvView extends LitElement {
@@ -33,8 +44,61 @@ export class VmdRdvView extends LitElement {
     @property({type: String}) codeDepartementSelectionne: CodeDepartement | undefined = undefined;
 
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
-    @property({type: Array, attribute: false}) lieuxParDepartement: LieuxParDepartement | undefined = undefined;
+    @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
+
+    @property({type: String, attribute: false}) critèreDeTri: 'date' | 'distance' = 'date'
+    @property({type: Boolean, attribute: false}) recuperationLocationEnCours = false
+    @property({type: Boolean, attribute: false}) geolocalisationBloquée = false
+    @property({type: Boolean, attribute: false}) geolocalisationIndisponible = false
+    @property({type: Boolean, attribute: false}) afficherMessageGeoloc = false
+    private userLocation: Coordinates | undefined
+
+    private lieuxParDepartementTriesParDate: LieuxAvecDistanceParDepartement|undefined = undefined;
+    private lieuxParDepartementTriesParDistance: LieuxAvecDistanceParDepartement|undefined = undefined;
+
+
+    async afficherTriParDistance (e: Event) {
+      let location;
+      try {
+          this.recuperationLocationEnCours = true
+          location = await State.current.localisationNavigateur()
+      } finally {
+          this.recuperationLocationEnCours = false;
+      }
+      if (location === 'bloqué') {
+        this.geolocalisationBloquée = true
+        this.geolocalisationIndisponible = false;
+        this.prévenirSiBloqué()
+      } else if (location === 'indisponible') {
+        this.geolocalisationBloquée = false
+        this.geolocalisationIndisponible = true
+      } else {
+        this.userLocation = location
+        this.critèreDeTri = 'distance'
+        if(!this.lieuxParDepartementTriesParDistance) {
+          this.remplirLieuxParDepartementTresParDistance();
+        }
+        this.lieuxParDepartementAffiches = this.lieuxParDepartementTriesParDistance;
+        this.geolocalisationBloquée = false
+        this.geolocalisationIndisponible = false
+        this.requestUpdate('lieuxParDepartementAffiches');
+      }
+      this.requestUpdate('critèreDeTri');
+    }
+
+    afficherTriParDate(e: Event) {
+        this.critèreDeTri = 'date';
+        this.lieuxParDepartementAffiches = this.lieuxParDepartementTriesParDate;
+    }
+
+    async prévenirSiBloqué () {
+      if (this.geolocalisationBloquée && !this.afficherMessageGeoloc) {
+        this.afficherMessageGeoloc = true
+        await delay(5000)
+        this.afficherMessageGeoloc = false
+      }
+    }
 
     get departementSelectionne() {
         if (this.codeDepartementSelectionne) {
@@ -53,7 +117,12 @@ export class VmdRdvView extends LitElement {
     }
 
     get totalDoses() {
-        return this.lieuxParDepartement?.lieuxDisponibles.reduce((total, lieu) => total+lieu.appointment_count, 0);
+        if (!this.lieuxParDepartementTriesParDate) {
+            return 0;
+        }
+        return this.lieuxParDepartementTriesParDate
+            .lieuxDisponibles
+            .reduce((total, lieu) => total+lieu.appointment_count, 0);
     }
 
     render() {
@@ -84,7 +153,7 @@ export class VmdRdvView extends LitElement {
             </div>
 
             <div class="spacer mt-5 mb-5"></div>
-            
+
             ${this.searchInProgress?html`
               <div class="d-flex justify-content-center">
                 <div class="spinner-border text-primary" style="height: 50px; width: 50px" role="status">
@@ -92,45 +161,73 @@ export class VmdRdvView extends LitElement {
               </div>
             `:html`
                 <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) ? 'block' : 'none'})}">
-                  ${this.totalDoses} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} pour 
+                  ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} pour
                   <span class="fw-bold">${this.departementSelectionne?.nom_departement}
                   ${FEATURES.trancheAgeFilter ? html`, ${this.trancheAgeSelectionee?.libelle}` : html``}
                   </span>
                   <br/>
-                  ${this.lieuxParDepartement?.derniereMiseAJour ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartement?.derniereMiseAJour)}</span>` : html``}
+                  ${this.lieuxParDepartementAffiches?.derniereMiseAJour ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches?.derniereMiseAJour)}</span>` : html``}
                 </h3>
-    
+
                 <div class="spacer mt-5 mb-5"></div>
-                
-                <div class="p-5 text-dark bg-light rounded-3">
-                    ${(this.lieuxParDepartement?.lieuxDisponibles.length || 0) > 0 ? html`
+                <div class="resultats p-5 text-dark bg-light rounded-3">
+                    ${this.lieuxParDepartementAffiches?.lieuxDisponibles.length ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
-                            <i class="bi bi-calendar-check-fill text-success me-2 fs-3 col-auto"></i>
+                            <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${this.lieuxParDepartement?.lieuxDisponibles.length || 0} Lieu${Strings.plural(this.lieuxParDepartement?.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
+                                ${this.lieuxParDepartementAffiches?.lieuxDisponibles.length} Lieu${Strings.plural(this.lieuxParDepartementAffiches?.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
                             </span>
                         </h2>
+                        <div class="tri">
+                          <span class="radio-input">
+                            <input @change="${(e: Event) => this.afficherTriParDate(e)}" type="radio" name="tri" id="tri-date" ?checked=${this.critèreDeTri === 'date'} />
+                            <label for="tri-date">Au plus tôt</label>
+                          </span>
+                          <span class="radio-input">
+                            <input
+                              type="radio" name="tri" id="tri-distance"
+                              title="Vous devez autoriser l'accès à la géolocalisation dans votre navigateur"
+                              @click="${(e: Event) => this.afficherTriParDistance(e)}"
+                              ?checked=${this.critèreDeTri === 'distance'}
+                              ?disabled="${this.geolocalisationBloquée}" />
+                            <label for="tri-distance"
+                              @click="${() => this.prévenirSiBloqué()}"
+                              id="tri-distance-label"
+                              data-toggle="tooltip"
+                              title="Vous devez autoriser l'accès à la géolocalisation pour ViteMaDose dans votre navigateur"
+                            >
+                              Au plus proche
+                              ${this.recuperationLocationEnCours?html`
+                              <div class="spinner-border text-primary" style="height: 15px; width: 15px" role="status">
+                              </div>
+                              `:html``}
+                            </label>
+                          </span>
+                          <p class="blocked-geo ${classMap({ displayed: this.afficherMessageGeoloc})}">Vous n'avez pas autorisé l'accès à votre position géographique au site ViteMaDose.</p>
+                          <p class="geo-indispo ${classMap({ displayed: this.geolocalisationIndisponible})}">La géolocalisation n'est pas disponible pour ViteMaDose</p>
+                        </div>
                     ` : html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">Aucun créneau de vaccination trouvé</h2>
                         <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
                     `}
-                  
-                    ${repeat(this.lieuxParDepartement?.lieuxDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu) => {
-                        return html`<vmd-appointment-card .lieu="${lieu}" .rdvPossible="${true}"></vmd-appointment-card>`;
+
+                <div class="resultats p-5 text-dark bg-light rounded-3">
+                    ${repeat(this.lieuxParDepartementAffiches?.lieuxDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}||${this.critèreDeTri}`), (lieu, index) => {
+                        return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${true}" .distance="${lieu.distance}" />`;
                     })}
-    
-                  ${this.lieuxParDepartement?.lieuxIndisponibles.length ? html`
+
+                  ${this.lieuxParDepartementAffiches?.lieuxIndisponibles.length ? html`
                     <div class="spacer mt-5 mb-5"></div>
-    
+
                     <h5 class="row align-items-center justify-content-center mb-5">
-                        <i class="bi bi-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
+                        <i class="bi vmdicon-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
                         <span class="col col-sm-auto text-black-50">
-                            Autres centres sans créneaux de vaccination détecté
+                            Autres centres sans créneaux de vaccination détectés
                         </span>
                     </h5>
-    
-                    ${repeat(this.lieuxParDepartement?.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu) => {
-                        return html`<vmd-appointment-card .lieu="${lieu}" .rdvPossible="${false}"></vmd-appointment-card>`;
+
+                    ${repeat(this.lieuxParDepartementAffiches?.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu, index) => {
+                        return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${false}"></vmd-appointment-card>`;
                     })}
                   ` : html``}
                 </div>
@@ -149,16 +246,55 @@ export class VmdRdvView extends LitElement {
         this.departementsDisponibles = departementsDisponibles;
     }
 
+    private remplirLieuxParDepartementTresParDistance() {
+        if(this.userLocation) {
+            const origin = this.userLocation
+            const distanceAvec = (lieu: Lieu) => lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity
+
+            const lieuxDisponiblesTriesParDistance: LieuAvecDistance[] = (this.lieuxParDepartementTriesParDate?.lieuxDisponibles || []).map(l => ({
+                ...l, distance: distanceAvec(l)
+            })).sort((a, b) => a.distance! - b.distance!)
+            const lieuxIndisponiblesTriesParDistance: LieuAvecDistance[] = (this.lieuxParDepartementTriesParDate?.lieuxIndisponibles || []).map(l => ({
+                ...l, distance: distanceAvec(l)
+            })).sort((a, b) => a.distance! - b.distance!)
+
+            this.lieuxParDepartementTriesParDistance = {
+                ...this.lieuxParDepartementTriesParDate!,
+                lieuxDisponibles: lieuxDisponiblesTriesParDistance,
+                lieuxIndisponibles: lieuxIndisponiblesTriesParDistance,
+            }
+        } else {
+            this.lieuxParDepartementTriesParDistance = undefined;
+        }
+    }
+
     async refreshLieux() {
         if (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
             try {
                 this.searchInProgress = true;
-                this.lieuxParDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
+                const lieuxParDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
+
+                const { lieuxDisponibles, lieuxIndisponibles } = {
+                    lieuxDisponibles: lieuxParDepartement?.lieuxDisponibles || [],
+                    lieuxIndisponibles: lieuxParDepartement?.lieuxIndisponibles || [],
+                };
+
+                this.lieuxParDepartementTriesParDate = {
+                    ...lieuxParDepartement,
+                    lieuxDisponibles: lieuxDisponibles.map(l => ({...l, distance: undefined})),
+                    lieuxIndisponibles: lieuxIndisponibles.map(l => ({...l, distance: undefined})),
+                };
+
+                this.remplirLieuxParDepartementTresParDistance();
+
+                this.lieuxParDepartementAffiches = this.critèreDeTri==='date'?this.lieuxParDepartementTriesParDate:this.lieuxParDepartementTriesParDistance;
             } finally {
                 this.searchInProgress = false;
             }
         } else {
-            this.lieuxParDepartement = undefined;
+            this.lieuxParDepartementAffiches = undefined;
+            this.lieuxParDepartementTriesParDate = undefined;
+            this.lieuxParDepartementTriesParDistance = undefined;
         }
     }
 

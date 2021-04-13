@@ -40,7 +40,7 @@ export const PLATEFORMES: Record<string, Plateforme> = {
     'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  styleCode: '_ordoclic'},
     'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  styleCode: '_keldoc'},
     'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, styleCode: '_pandalab'},
-    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: false, styleCode: '_mapharma'},
+    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  styleCode: '_mapharma'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
@@ -52,6 +52,8 @@ export type Departement = {
     code_region: number;
     nom_region: string;
 };
+// Permet de convertir un nom de departement en un chemin d'url correct (remplacement des caractères
+// non valides comme les accents ou les espaces)
 export const libelleUrlPathDuDepartement = (departement: Departement) => {
     return Strings.toReadableURLPathValue(departement.nom_departement);
 }
@@ -66,10 +68,7 @@ export type BusinessHours = Record<WeekDay,string>;
 export type Lieu = {
     appointment_count: number;
     departement: CodeDepartement;
-    location: {
-        latitude: number;
-        longitude: number;
-    },
+    location: Coordinates,
     nom: string;
     url: string;
     plateforme: string;
@@ -79,11 +78,13 @@ export type Lieu = {
         phone_number: string|undefined;
         business_hours: BusinessHours|undefined
     },
-    type: TypeLieu
+    type: TypeLieu;
+    vaccine_type: string
 };
 function transformLieu(rawLieu: any): Lieu {
     return {
         ...rawLieu,
+        appointment_count: rawLieu.appointment_count || 0,
         metadata: {
             ...rawLieu.metadata,
             address: (typeof rawLieu.metadata.address === 'string')?
@@ -94,10 +95,11 @@ function transformLieu(rawLieu: any): Lieu {
                     rawLieu.metadata.address.com_cp,
                     rawLieu.metadata.address.com_nom
                 ].filter(val => !!val).join(" "),
-            phone_number: rawLieu.metadata.phone_number?Strings.toNormalizedPhoneNumber(rawLieu.metadata.phone_number):undefined
-        }
+        },
+        vaccine_type: rawLieu.vaccine_type?((rawLieu.vaccine_type.length===undefined?[rawLieu.vaccine_type]:rawLieu.vaccine_type)).join(", "):undefined
     };
 }
+export type Coordinates = { latitude: number, longitude: number }
 
 export type LieuxParDepartement = {
     lieuxDisponibles: Lieu[];
@@ -183,5 +185,33 @@ export class State {
             this._statsLieu = statsLieu;
             return statsLieu;
         }
+    }
+
+    private geolocalisationBloquée = false
+    private geolocalisationIndisponible = false
+    private userLocation: Coordinates | 'bloqué' | 'indisponible' | undefined
+    async localisationNavigateur (): Promise<Coordinates | 'bloqué' | 'indisponible'> {
+      if(this.userLocation !== 'indisponible' && this.userLocation !== undefined) {
+          return this.userLocation;
+      }
+
+      const promise = new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 4000,
+        })
+      })
+      try {
+        const { coords } = await (promise as Promise<{ coords: Coordinates }>)
+        this.userLocation = coords
+      } catch (error) {
+        if (error instanceof GeolocationPositionError && error.code === 1) {
+          this.userLocation = 'bloqué'
+        } else {
+          this.userLocation = 'indisponible'
+        }
+      }
+      return this.userLocation
+
     }
 }
