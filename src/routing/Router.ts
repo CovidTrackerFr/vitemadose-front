@@ -1,6 +1,7 @@
 import page from "page";
 import { TemplateResult } from "lit-html";
 import {html} from "lit-element";
+import {FEATURES} from "../state/State";
 
 export type SlottedTemplateResultFactory = (subViewSlot: TemplateResult) => TemplateResult;
 
@@ -28,8 +29,12 @@ class Routing {
 
         this.declareRoute(`/`, () => (subViewSlot) =>
             html`<vmd-home>${subViewSlot}</vmd-home>`);
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/`, (params) => (subViewSlot) =>
+            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="plus75ans">${subViewSlot}</vmd-rdv>`);
         this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`, (params) => (subViewSlot) =>
             html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/`, (params) => (subViewSlot) =>
+            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="plus75ans">${subViewSlot}</vmd-rdv>`);
         this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`, (params) => (subViewSlot) =>
             html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
         this.declareRoute(`/centres`, (params) => (subViewSlot) =>
@@ -69,7 +74,10 @@ class Routing {
     }
 
     public navigateToRendezVous(codeDepartement: string, pathLibelleDepartement: string, trancheAge: string) {
-        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/age-${trancheAge}/`);
+        if (FEATURES.trancheAgeFilter) {
+            page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/age-${trancheAge}/`);
+        }
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/`);
     }
 
     navigateToHome() {
