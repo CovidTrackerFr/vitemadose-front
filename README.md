@@ -15,13 +15,13 @@ Run vite (we're obviously using vitejs for vite-ma-dose !) :
 Open your browser : http://localhost:3000/
 and enjoy live reload / on-the-fly typescript compilation
 
-# Run with docker
+## Alternative: Running with docker
 If you don't want to install node.js on your machine, you can isolate it with [docker](https://www.docker.com/get-started):
 
 Start docker container (that executes `npm run dev`) :
 `docker-compose up`
 
-## Docker how-to
+### Docker how-to
 The first time `docker-compose up` is run, it will build the `base` docker image with `npm install` inside `node:14` docker image.
 
 When the `package*.json` have changed, you need to rebuild the base image:
