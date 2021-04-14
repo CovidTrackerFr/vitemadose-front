@@ -1,0 +1,50 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "src/styles/bootstrap-variables";
+
+input {
+  padding-top: $form-select-padding-y-lg;
+  padding-bottom: $form-select-padding-y-lg;
+  padding-left: $form-select-padding-x-lg;
+  padding-right: 2.25rem;
+  width: 100%;
+}
+input, .autocomplete {
+  font-weight: $input-font-weight;
+  line-height: $line-height-base;
+  border-width: $input-border-width;
+  border-color: $input-border-color;
+  border-radius: 0rem $input-border-radius-lg $input-border-radius-lg $input-border-radius-lg;
+  box-shadow: $box-shadow-inset;
+  font-size: calc(1.325rem + 0.9vw);
+}
+
+.autocomplete {
+  overflow: scroll;
+  background: white;
+  z-index: 1000;
+  overflow: auto;
+  box-sizing: border-box;
+  padding-left: 0px;
+
+  .result{
+    &:hover {
+      background: $primary;
+      color: $white;
+    }
+    padding-top: $form-select-padding-y-lg;
+    padding-bottom: $form-select-padding-y-lg;
+    padding-left: $form-select-padding-x-lg;
+    font-size: calc(1.325rem + 0.9vw);
+    list-style-type: none;
+    cursor: pointer;
+  }
+}
+
+.autocomplete .group {
+  background: $light;
+}
+
+.zipcode {
+  font-weight: bold;
+}

@@ -125,16 +125,23 @@ export type StatsLieu = {
     global: StatLieuGlobale;
 }
 
+export type CommunesParAutocomplete = Map<string, Commune[]>;
+export type Commune = {
+    code: string;
+    codePostal: string;
+    nom: string;
+    codeDepartement: string;
+    latitude: number|undefined;
+    longitude: number|undefined;
+};
+
 export class State {
     public static current = new State();
-
-    private _departementsDiponibles: Departement[]|undefined = undefined;
-    private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
-    private _statsLieu: StatsLieu|undefined = undefined;
 
     private constructor() {
     }
 
+    private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
     async lieuxPour(codeDepartement: CodeDepartement, codeTrancheAge: CodeTrancheAge): Promise<LieuxParDepartement> {
         if(this._lieuxParDepartement.has(codeDepartement)) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
@@ -150,6 +157,7 @@ export class State {
         }
     }
 
+    private _departementsDiponibles: Departement[]|undefined = undefined;
     async departementsDisponibles(): Promise<Departement[]> {
         if(this._departementsDiponibles !== undefined) {
             return Promise.resolve(this._departementsDiponibles);
@@ -163,6 +171,43 @@ export class State {
         }
     }
 
+    private _communeAutocompleteTriggers: string[]|undefined = undefined;
+    async communeAutocompleteTriggers(basePath: string): Promise<string[]> {
+        if(this._communeAutocompleteTriggers !== undefined) {
+            return Promise.resolve(this._communeAutocompleteTriggers)
+        } else {
+            const autocompletes = await fetch(`${basePath}autocompletes.json`).then(resp => resp.json());
+
+            this._communeAutocompleteTriggers = autocompletes;
+            return autocompletes;
+        }
+    }
+
+    private _communesParAutocomplete: CommunesParAutocomplete = new Map<string, Commune[]>();
+    async communesPourAutocomplete(basePath: string, autocomplete: string): Promise<Commune[]> {
+        if(this._communesParAutocomplete.has(autocomplete)) {
+            return this._communesParAutocomplete.get(autocomplete)!;
+        } else {
+            const communes = await fetch(`${basePath}autocomplete-cache/${autocomplete}.json`)
+                .then(resp => resp.json())
+                .then(communesResult => communesResult.communes.map((c: any) => {
+                    const commune: Commune = {
+                        code: c.c,
+                        codePostal: c.z,
+                        nom: c.n,
+                        codeDepartement: c.d,
+                        longitude: c.g?Number(c.g.split(",")[0]):undefined,
+                        latitude: c.g?Number(c.g.split(",")[1]):undefined,
+                    };
+                    return commune;
+                }));
+
+            this._communesParAutocomplete.set(autocomplete, communes);
+            return communes;
+        }
+    }
+
+    private _statsLieu: StatsLieu|undefined = undefined;
     async statsLieux(): Promise<StatsLieu> {
         if(this._statsLieu !== undefined) {
             return Promise.resolve(this._statsLieu);

@@ -8,12 +8,13 @@ import searchDoseCss from "../styles/components/_searchDose.scss";
 import searchAppointment from "../styles/components/_searchAppointment.scss";
 import {
     CodeDepartement,
-    CodeTrancheAge,
+    CodeTrancheAge, Commune,
     Departement, FEATURES, libelleUrlPathDuDepartement,
     PLATEFORMES,
     State, StatsLieu,
     TRANCHES_AGE
 } from "../state/State";
+import {AutocompleteTriggered, CommuneSelected} from "../components/vmd-commune-selector.component";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {
@@ -34,6 +35,9 @@ export class VmdHomeView extends LitElement {
     @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = FEATURES.trancheAgeFilter?undefined:'plus75ans';
     @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
 
+    @property({type: Array, attribute: false}) communesAutocomplete: Set<string>|undefined = undefined;
+    @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
+    @property({type: Array, attribute: false}) communesDisponibles: Commune[]|undefined = undefined;
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = [];
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
@@ -57,6 +61,17 @@ export class VmdHomeView extends LitElement {
             this.codeDepartementSelectionne!,
             libelleUrlPathDuDepartement(this.departementSelectionne!),
             this.codeTrancheAgeSelectionne!)
+    }
+
+    async communeAutocompleteTriggered(event: CustomEvent<AutocompleteTriggered>) {
+        this.recuperationCommunesEnCours = true;
+        this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, event.detail.value);
+        this.recuperationCommunesEnCours = false;
+        this.requestUpdate('communesDisponibles')
+    }
+
+    communeSelected(commune: Commune) {
+        console.log("Commune selected", commune);
     }
 
     render() {
@@ -89,6 +104,19 @@ export class VmdHomeView extends LitElement {
                                   .departementsDisponibles="${this.departementsDisponibles}"
                             >
                             </vmd-departement-selector>
+                        </div>
+                        <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
+                            Ma ville/Code postal :
+                        </label>
+                        <div class="col">
+                            <vmd-commune-selector class="mb-3"
+                                  @autocomplete-triggered="${this.communeAutocompleteTriggered}"
+                                  @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune)}"
+                                  .autocompleteTriggers="${this.communesAutocomplete}"
+                                  .communesDisponibles="${this.communesDisponibles}"
+                                  .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
+                            >
+                            </vmd-commune-selector>
                         </div>
                     </div>
                     <div class="searchDoseForm-action">
@@ -176,12 +204,14 @@ export class VmdHomeView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [ departementsDisponibles, statsLieu ] = await Promise.all([
+        const [ departementsDisponibles, statsLieu, autocompletes ] = await Promise.all([
             State.current.departementsDisponibles(),
-            State.current.statsLieux()
+            State.current.statsLieux(),
+            State.current.communeAutocompleteTriggers(Router.basePath)
         ])
         this.departementsDisponibles = departementsDisponibles;
         this.statsLieu = statsLieu;
+        this.communesAutocomplete = new Set(autocompletes);
     }
 
     disconnectedCallback() {
