@@ -51,6 +51,11 @@ export class Dates {
         return (isNaN(ts))?undefined:new Date(ts);
     }
 
+    public static formatToFRDate(date: Date) {
+        return `
+            ${FR_WEEK_DAYS[date.getDay()]} ${date.getDate()} ${FR_MONTHES[date.getMonth()]}
+        `;
+    }
     public static formatToFRDateTime(date: Date) {
         return `
             ${FR_WEEK_DAYS[date.getDay()]} ${date.getDate()} ${FR_MONTHES[date.getMonth()]}
@@ -58,6 +63,10 @@ export class Dates {
         `;
     }
 
+    public static isoToFRDate(isoDateStr: ISODateString|null|undefined): string|undefined {
+        const date = Dates.parseISO(isoDateStr);
+        return date?Dates.formatToFRDate(date):undefined;
+    }
     public static isoToFRDatetime(isoDateStr: ISODateString|null|undefined): string|undefined {
         const date = Dates.parseISO(isoDateStr);
         return date?Dates.formatToFRDateTime(date):undefined;

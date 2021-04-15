@@ -1,6 +1,6 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
-import {Lieu, Plateforme, PLATEFORMES, TYPES_LIEUX} from "../state/State";
+import {LieuPlateforme, Plateforme, PLATEFORMES, TYPES_LIEUX} from "../state/State";
 import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
 import appointmentCardCss from "../styles/components/_appointmentCard.scss";
@@ -18,7 +18,7 @@ export class VmdAppointmentCardComponent extends LitElement {
         `
     ];
 
-    @property({type: Object, attribute: false}) lieu!: Lieu;
+    @property({type: Object, attribute: false}) lieu!: LieuPlateforme;
     @property({type: Number, attribute: false}) distance!: number;
     /* dunno why, but boolean string is not properly converted to boolean when using attributes */
     @property({type: Boolean, attribute: false }) rdvPossible!: boolean;

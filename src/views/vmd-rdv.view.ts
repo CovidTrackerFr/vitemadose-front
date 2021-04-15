@@ -213,7 +213,11 @@ export class VmdRdvView extends LitElement {
 
                 <div class="resultats p-5 text-dark bg-light rounded-3">
                     ${repeat(this.lieuxParDepartementAffiches?.lieuxDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}||${this.critèreDeTri}`), (lieu, index) => {
-                        return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${true}" .distance="${lieu.distance}" />`;
+                        if (Lieu.isLieuPlateforme(lieu)) {
+                          return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${true}" .distance="${lieu.distance}" />`;
+                        } else {
+                          return html`<vmd-annonce-card style="--list-index: ${index}" .lieu="${lieu}" .distance="${lieu.distance}" />`;
+                        }
                     })}
 
                   ${this.lieuxParDepartementAffiches?.lieuxIndisponibles.length ? html`

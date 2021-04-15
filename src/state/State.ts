@@ -1,5 +1,6 @@
 import {ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
+import { ANNONCES } from "./Annonces"
 
 type Features = {
     trancheAgeFilter: boolean;
@@ -58,17 +59,42 @@ export const libelleUrlPathDuDepartement = (departement: Departement) => {
     return Strings.toReadableURLPathValue(departement.nom_departement);
 }
 
-export type TypeLieu = 'vaccination-center'|'drugstore'|'general-practitioner';
+export type TypeLieu = 'vaccination-center'|'drugstore'|'general-practitioner'|'annonce';
 export const TYPES_LIEUX: {[k in TypeLieu]: string} = {
     "vaccination-center": 'Centre de vaccination',
     "drugstore": 'Pharmacie',
     "general-practitioner": 'Médecin généraliste',
+    "annonce": 'Médecin généraliste',
 };
 export type BusinessHours = Record<WeekDay,string>;
-export type Lieu = {
+export type Lieu = LieuPlateforme | LieuAnnonce
+export namespace Lieu {
+  export function isLieuAnnonce (lieu: Lieu): lieu is LieuAnnonce {
+    return lieu.type === 'annonce'
+  }
+  export function isLieuPlateforme (lieu: Lieu): lieu is LieuPlateforme {
+    return !isLieuAnnonce(lieu)
+  }
+}
+export interface LieuMinimal {
+    type: TypeLieu;
+    appointment_count: number;
+    departement: CodeDepartement
+    location?: Coordinates
+    nom: string
+    prochain_rdv: ISODateString|null
+}
+export interface LieuAnnonce extends LieuMinimal {
+  type: 'annonce'
+  metadata: {
+    address: string
+    phone_number?: string
+  }
+}
+export interface LieuPlateforme extends LieuMinimal {
     appointment_count: number;
     departement: CodeDepartement;
-    location: Coordinates,
+    location?: Coordinates,
     nom: string;
     url: string;
     plateforme: string;
@@ -78,7 +104,6 @@ export type Lieu = {
         phone_number: string|undefined;
         business_hours: BusinessHours|undefined
     },
-    type: TypeLieu;
     vaccine_type: string
 };
 function transformLieu(rawLieu: any): Lieu {
@@ -141,8 +166,9 @@ export class State {
         } else {
             const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
             const results = await resp.json()
+            const annonces = ANNONCES[codeDepartement] ? [ANNONCES[codeDepartement]] : []
             return {
-                lieuxDisponibles: results.centres_disponibles.map(transformLieu),
+                lieuxDisponibles: annonces.concat(results.centres_disponibles.map(transformLieu)),
                 lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
                 codeDepartement,
                 derniereMiseAJour: results.last_updated
