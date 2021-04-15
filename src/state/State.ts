@@ -3,9 +3,11 @@ import {Strings} from "../utils/Strings";
 
 type Features = {
     trancheAgeFilter: boolean;
+    departementFilter: boolean;
 };
 export const FEATURES: Features = {
-    trancheAgeFilter: false
+    trancheAgeFilter: false,
+    departementFilter: false
 };
 
 export type CodeTrancheAge = 'plus75ans';

@@ -95,6 +95,7 @@ export class VmdHomeView extends LitElement {
                             </vmd-tranche-age-selector>
                         </div>
                         `:html``}
+                      ${FEATURES.departementFilter?html`
                         <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
                             Mon département :
                         </label>
@@ -105,6 +106,7 @@ export class VmdHomeView extends LitElement {
                             >
                             </vmd-departement-selector>
                         </div>
+                        `:html``}
                         <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
                             Ma ville/Code postal :
                         </label>
