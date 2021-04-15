@@ -49,7 +49,7 @@ export class VmdHomeView extends LitElement {
     }
 
     onDepartementSelected(event: CustomEvent<DepartementSelected>) {
-        this.codeDepartementSelectionne = event.detail.departement?.code_departement;
+        this.codeDepartementSelectionne = event.detail.departement?event.detail.departement.code_departement:undefined;
         if(this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
             // Auto-trigger search
             this.rechercherRdv();
@@ -71,7 +71,7 @@ export class VmdHomeView extends LitElement {
     }
 
     communeSelected(commune: Commune) {
-        const departement = this.departementsDisponibles?.find(dpt => dpt.code_departement === commune.codeDepartement);
+        const departement = this.departementsDisponibles?this.departementsDisponibles.find(dpt => dpt.code_departement === commune.codeDepartement):undefined;
         if(!departement) {
             console.error(`Can't find departement matching code ${commune.codeDepartement}`)
             return;
@@ -100,7 +100,7 @@ export class VmdHomeView extends LitElement {
                         </div>
                         <div class="col">
                             <vmd-tranche-age-selector class="mb-3"
-                                  @tranche-age-changed="${(event: CustomEvent<TrancheAgeSelectionne>) => this.codeTrancheAgeSelectionne = event.detail.trancheAge?.codeTrancheAge}"
+                                  @tranche-age-changed="${(event: CustomEvent<TrancheAgeSelectionne>) => this.codeTrancheAgeSelectionne = event.detail.trancheAge?event.detail.trancheAge.codeTrancheAge:undefined}"
                                   .tranchesAge="${TRANCHES_AGE}"
                             >
                             </vmd-tranche-age-selector>
@@ -194,17 +194,17 @@ export class VmdHomeView extends LitElement {
                 <div class="row gx-5">
                     <div class="col-24 col-md text-center">
                         <i class="bi vmdicon-commerical-building fs-6 text-primary"></i>
-                        <div class="h4 mt-4">${this.statsLieu?.global.disponibles.toLocaleString()}</div>
+                        <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.disponibles.toLocaleString():""}</div>
                         <p>Lieux de vaccination ayant des disponibilités</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi vmdicon-geo-alt-fill fs-6 text-primary"></i>
-                        <div class="h4 mt-4">${this.statsLieu?.global.total.toLocaleString()}</div>
+                        <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.total.toLocaleString():""}</div>
                         <p>Lieux de vaccination supportés</p>
                     </div>
                     <div class="col-24 col-md text-center">
                         <i class="bi vmdicon-check-circle-fill fs-6 text-primary"></i>
-                        <div class="h4 mt-4">${this.statsLieu?.global.proportion.toLocaleString()}%</div>
+                        <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.proportion.toLocaleString():""}%</div>
                         <p>Proportion des lieux de vaccination ayant des disponibilités</p>
                     </div>
                 </div>

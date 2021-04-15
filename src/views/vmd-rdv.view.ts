@@ -217,20 +217,20 @@ export class VmdRdvView extends LitElement {
             `:html`
                 <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) ? 'block' : 'none'})}">
                   ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} pour
-                  <span class="fw-bold">${this.departementSelectionne?.nom_departement}
-                  ${FEATURES.trancheAgeFilter ? html`, ${this.trancheAgeSelectionee?.libelle}` : html``}
+                  <span class="fw-bold">${this.departementSelectionne?this.departementSelectionne.nom_departement:"???"}
+                  ${(FEATURES.trancheAgeFilter && this.trancheAgeSelectionee) ? html`, ${this.trancheAgeSelectionee.libelle}` : html``}
                   </span>
                   <br/>
-                  ${this.lieuxParDepartementAffiches?.derniereMiseAJour ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches?.derniereMiseAJour)}</span>` : html``}
+                  ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}</span>` : html``}
                 </h3>
 
                 <div class="spacer mt-5 mb-5"></div>
                 <div class="resultats p-5 text-dark bg-light rounded-3">
-                    ${this.lieuxParDepartementAffiches?.lieuxDisponibles.length ? html`
+                    ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxDisponibles.length) ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${this.lieuxParDepartementAffiches?.lieuxDisponibles.length} Lieu${Strings.plural(this.lieuxParDepartementAffiches?.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
+                                ${this.lieuxParDepartementAffiches.lieuxDisponibles.length} Lieu${Strings.plural(this.lieuxParDepartementAffiches.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
                             </span>
                         </h2>
                         <div class="tri">
@@ -267,11 +267,11 @@ export class VmdRdvView extends LitElement {
                     `}
 
                 <div class="resultats p-5 text-dark bg-light rounded-3">
-                    ${repeat(this.lieuxParDepartementAffiches?.lieuxDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}||${this.critèreDeTri}`), (lieu, index) => {
+                    ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles:[], (c => `${c.departement}||${c.nom}||${c.plateforme}||${this.critèreDeTri}`), (lieu, index) => {
                         return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${true}" .distance="${lieu.distance}" />`;
                     })}
 
-                  ${this.lieuxParDepartementAffiches?.lieuxIndisponibles.length ? html`
+                  ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxIndisponibles.length) ? html`
                     <div class="spacer mt-5 mb-5"></div>
 
                     <h5 class="row align-items-center justify-content-center mb-5">
@@ -281,7 +281,7 @@ export class VmdRdvView extends LitElement {
                         </span>
                     </h5>
 
-                    ${repeat(this.lieuxParDepartementAffiches?.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu, index) => {
+                    ${repeat(this.lieuxParDepartementAffiches.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu, index) => {
                         return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${false}"></vmd-appointment-card>`;
                     })}
                   ` : html``}
@@ -336,10 +336,10 @@ export class VmdRdvView extends LitElement {
             const origin = this.userLocation
             const distanceAvec = (lieu: Lieu) => lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity
 
-            const lieuxDisponiblesTriesParDistance: LieuAvecDistance[] = (this.lieuxParDepartementTriesParDate?.lieuxDisponibles || []).map(l => ({
+            const lieuxDisponiblesTriesParDistance: LieuAvecDistance[] = (this.lieuxParDepartementTriesParDate?this.lieuxParDepartementTriesParDate.lieuxDisponibles:[]).map(l => ({
                 ...l, distance: distanceAvec(l)
             })).sort((a, b) => a.distance! - b.distance!)
-            const lieuxIndisponiblesTriesParDistance: LieuAvecDistance[] = (this.lieuxParDepartementTriesParDate?.lieuxIndisponibles || []).map(l => ({
+            const lieuxIndisponiblesTriesParDistance: LieuAvecDistance[] = (this.lieuxParDepartementTriesParDate?this.lieuxParDepartementTriesParDate.lieuxIndisponibles:[]).map(l => ({
                 ...l, distance: distanceAvec(l)
             })).sort((a, b) => a.distance! - b.distance!)
 
@@ -360,8 +360,8 @@ export class VmdRdvView extends LitElement {
                 const lieuxParDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne);
 
                 const { lieuxDisponibles, lieuxIndisponibles } = {
-                    lieuxDisponibles: lieuxParDepartement?.lieuxDisponibles || [],
-                    lieuxIndisponibles: lieuxParDepartement?.lieuxIndisponibles || [],
+                    lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles:[],
+                    lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles:[],
                 };
 
                 this.lieuxParDepartementTriesParDate = {
@@ -384,13 +384,13 @@ export class VmdRdvView extends LitElement {
     }
 
     trancheAgeMisAJour(event: CustomEvent<TrancheAgeSelectionne>) {
-        this.codeTrancheAgeSelectionne = event.detail.trancheAge?.codeTrancheAge;
+        this.codeTrancheAgeSelectionne = event.detail.trancheAge?event.detail.trancheAge.codeTrancheAge:undefined;
         this.refreshLieux();
         this.refreshPageWhenValidParams();
     }
 
     departementUpdated(event: CustomEvent<DepartementSelected>) {
-        this.codeDepartementSelectionne = event.detail.departement?.code_departement;
+        this.codeDepartementSelectionne = event.detail.departement?event.detail.departement.code_departement:undefined;
         this.refreshLieux();
         this.refreshPageWhenValidParams();
     }

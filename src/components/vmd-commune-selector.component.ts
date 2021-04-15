@@ -46,12 +46,12 @@ export class VmdCommuneSelectorComponent extends LitElement {
         // function here, than the one used in communes-import.js tooling
         const fullTextSearchableQuery = Strings.toFullTextSearchableString(this.filter)
 
-        this.communesAffichees = this.communesDisponibles?.filter(commune => {
+        this.communesAffichees = this.communesDisponibles?this.communesDisponibles.filter(commune => {
             const fullTextSearchableNomCommune = Strings.toFullTextSearchableString(commune.nom)
 
             return commune.codePostal.indexOf(fullTextSearchableQuery) === 0
                 || fullTextSearchableNomCommune.indexOf(fullTextSearchableQuery) !== -1;
-        }).filter((_, index) => index < 50);
+        }).filter((_, index) => index < 50):undefined;
     }
 
     constructor() {
@@ -115,19 +115,26 @@ export class VmdCommuneSelectorComponent extends LitElement {
         }));
     }
 
+    private siwtchAutocompleteButtonFocusClass(handler: (classList: DOMTokenList) => void) {
+        const $inputWithButton = this.shadowRoot!.querySelector('.autocomplete._withButton')
+        if($inputWithButton) {
+            handler($inputWithButton.classList);
+        }
+    }
+
     render() {
         return html`
-          <div class="autocomplete _withButton ${classMap({'_open': !!this.communesAffichees?.length})}">
+          <div class="autocomplete _withButton ${classMap({'_open': (!!this.communesAffichees && !!this.communesAffichees.length)})}">
             <input type="text" class="autocomplete-input" @keyup="${this.valueChanged}" 
-                   @focus="${() => {this.shadowRoot!.querySelector('.autocomplete._withButton')?.classList.add('_focus')}}" 
-                   @blur="${() => {this.shadowRoot!.querySelector('.autocomplete._withButton')?.classList.remove('_focus')}}" 
+                   @focus="${() => this.siwtchAutocompleteButtonFocusClass((classList) => classList.add('_focus'))}"
+                   @blur="${() => this.siwtchAutocompleteButtonFocusClass((classList) => classList.remove('_focus'))}" 
                    .value="${this.filter}" />
             <button class="autocomplete-button">Aa</button>
             ${this.recuperationCommunesEnCours?html`
               <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">
               </div>
             `:html``}
-            ${this.communesAffichees?.length?html`
+            ${(this.communesAffichees && this.communesAffichees.length)?html`
               <ul class="autocomplete-results">
                 ${repeat(this.communesAffichees, (c) => `${c.codePostal}__${c.nom}`, ((commune, index) => {
                     return html`<li class="autocomplete-result" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
@@ -149,7 +156,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
     }
 
     fillCommune(commune: Commune | undefined, autoCompleteCodePostal: string) {
-        this.filter = `${commune?.codePostal} - ${commune?.nom}`;
+        this.filter = `${commune?commune.codePostal:"???"} - ${commune?commune.nom:"???"}`;
         this.filterMatchingAutocomplete = autoCompleteCodePostal;
     }
 }
