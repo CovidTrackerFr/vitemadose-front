@@ -136,6 +136,11 @@ export type Commune = {
     latitude: number|undefined;
     longitude: number|undefined;
 };
+// Permet de convertir un nom de departement en un chemin d'url correct (remplacement des caractères
+// non valides comme les accents ou les espaces)
+export const libelleUrlPathDeCommune = (commune: Commune) => {
+    return Strings.toReadableURLPathValue(commune.nom);
+}
 
 export class State {
     public static current = new State();
@@ -259,6 +264,8 @@ export class State {
         }
       }
       return this.userLocation
-
+    }
+    definirLocalisationManuelle(coordonnees: Coordinates) {
+        this.userLocation = coordonnees;
     }
 }

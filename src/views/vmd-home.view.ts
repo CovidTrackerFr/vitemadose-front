@@ -9,7 +9,7 @@ import searchAppointment from "../styles/components/_searchAppointment.scss";
 import {
     CodeDepartement,
     CodeTrancheAge, Commune,
-    Departement, FEATURES, libelleUrlPathDuDepartement,
+    Departement, FEATURES, libelleUrlPathDeCommune, libelleUrlPathDuDepartement,
     PLATEFORMES,
     State, StatsLieu,
     TRANCHES_AGE
@@ -71,7 +71,18 @@ export class VmdHomeView extends LitElement {
     }
 
     communeSelected(commune: Commune) {
-        console.log("Commune selected", commune);
+        const departement = this.departementsDisponibles?.find(dpt => dpt.code_departement === commune.codeDepartement);
+        if(!departement) {
+            console.error(`Can't find departement matching code ${commune.codeDepartement}`)
+            return;
+        }
+
+        Router.navigateToRendezVousAvecCommune(
+            departement.code_departement,
+            libelleUrlPathDuDepartement(departement),
+            commune.code, commune.codePostal,
+            libelleUrlPathDeCommune(commune)
+        )
     }
 
     render() {

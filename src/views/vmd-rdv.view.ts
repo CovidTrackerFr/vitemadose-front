@@ -17,11 +17,16 @@ import {
     Departement,
     FEATURES,
     State,
-    TRANCHES_AGE, libelleUrlPathDuDepartement
+    TRANCHES_AGE, libelleUrlPathDuDepartement, Commune
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import {classMap} from "lit-html/directives/class-map";
+import {
+    AutocompleteTriggered,
+    CommuneSelected,
+    VmdCommuneSelectorComponent
+} from "../components/vmd-commune-selector.component";
 
 type LieuAvecDistance = Lieu & { distance: number|undefined };
 type LieuxAvecDistanceParDepartement = LieuxParDepartement & {
@@ -42,6 +47,12 @@ export class VmdRdvView extends LitElement {
 
     @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge | undefined = undefined;
     @property({type: String}) codeDepartementSelectionne: CodeDepartement | undefined = undefined;
+    @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
+    @property({type: String}) codePostalSelectionne: string | undefined = undefined;
+
+    @property({type: Array, attribute: false}) communesAutocomplete: Set<string>|undefined = undefined;
+    @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
+    @property({type: Array, attribute: false}) communesDisponibles: Commune[]|undefined = undefined;
 
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
@@ -125,6 +136,33 @@ export class VmdRdvView extends LitElement {
             .reduce((total, lieu) => total+lieu.appointment_count, 0);
     }
 
+    async communeAutocompleteTriggered(event: CustomEvent<AutocompleteTriggered>) {
+        this.recuperationCommunesEnCours = true;
+        this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, event.detail.value);
+        this.recuperationCommunesEnCours = false;
+        this.requestUpdate('communesDisponibles')
+    }
+
+    async communeSelected(commune: Commune): Promise<void> {
+        if(commune.latitude && commune.longitude) {
+            let userCoords = {
+                latitude: commune.latitude,
+                longitude: commune.longitude
+            };
+            State.current.definirLocalisationManuelle(userCoords);
+            this.userLocation = userCoords;
+
+            await this.afficherTriParDistance();
+        }
+
+        if(commune.codeDepartement !== this.codeDepartementSelectionne) {
+            this.codeDepartementSelectionne = commune.codeDepartement;
+            await this.refreshLieux();
+        }
+
+        return Promise.resolve();
+    }
+
     render() {
         return html`
             <div class="p-5 text-dark bg-light rounded-3">
@@ -140,6 +178,7 @@ export class VmdRdvView extends LitElement {
                               @tranche-age-changed="${this.trancheAgeMisAJour}"></vmd-tranche-age-selector>
                     </div>
                     ` : html``}
+                  ${FEATURES.departementFilter ? html`
                     <label class="col-sm-24 col-md-auto mb-md-3 mt-md-3 form-select-lg">
                       Mon département :
                     </label>
@@ -148,6 +187,22 @@ export class VmdRdvView extends LitElement {
                               codeDepartementSelectionne="${this.codeDepartementSelectionne}"
                               .departementsDisponibles="${this.departementsDisponibles}"
                               @departement-changed="${this.departementUpdated}"></vmd-departement-selector>
+                    </div>
+                    `:html``}
+                    <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
+                        Ma ville/Code postal :
+                    </label>
+                    <div class="col">
+                        <vmd-commune-selector class="mb-3"
+                              @autocomplete-triggered="${this.communeAutocompleteTriggered}"
+                              @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune)}"
+                              codeCommuneSelectionne="${this.codeCommuneSelectionne}"
+                              codePostalSelectionne="${this.codePostalSelectionne}"
+                              .autocompleteTriggers="${this.communesAutocomplete}"
+                              .communesDisponibles="${this.communesDisponibles}"
+                              .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
+                        >
+                        </vmd-commune-selector>
                     </div>
                 </div>
             </div>
@@ -238,12 +293,42 @@ export class VmdRdvView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [departementsDisponibles, lieuxParDepartement] = await Promise.all([
+        const [departementsDisponibles, lieuxParDepartement, autocompletes ] = await Promise.all([
             State.current.departementsDisponibles(),
-            this.refreshLieux()
+            this.refreshLieux(),
+            State.current.communeAutocompleteTriggers(Router.basePath).then(autocompletes => {
+                if(this.codePostalSelectionne && this.codeCommuneSelectionne) {
+                    const autocompletesSet = new Set(autocompletes);
+                    const autoCompleteCodePostal = this.codePostalSelectionne.split('')
+                        .map((_, index) => this.codePostalSelectionne!.substring(0, index+1))
+                        .find(autoCompleteAttempt => autocompletesSet.has(autoCompleteAttempt));
+
+                    if(!autoCompleteCodePostal) {
+                        console.error(`Can't find autocomplete matching codepostal ${this.codePostalSelectionne}`);
+                        return autocompletes;
+                    }
+
+                    this.recuperationCommunesEnCours = true;
+                    return State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal).then(communes => {
+                        this.recuperationCommunesEnCours = false;
+
+                        const communeSelectionnee = communes.find(c => c.code === this.codeCommuneSelectionne);
+                        if(communeSelectionnee) {
+                            const component = (this.shadowRoot!.querySelector("vmd-commune-selector") as VmdCommuneSelectorComponent)
+                            component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
+
+                            return this.communeSelected(communeSelectionnee).then(() => autocompletes);
+                        }
+
+                        return autocompletes;
+                    });
+                }
+                return autocompletes;
+            })
         ])
 
         this.departementsDisponibles = departementsDisponibles;
+        this.communesAutocomplete = new Set(autocompletes);
     }
 
     private remplirLieuxParDepartementTresParDistance() {

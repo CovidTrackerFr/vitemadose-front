@@ -21,6 +21,9 @@ export class VmdCommuneSelectorComponent extends LitElement {
         `
     ];
 
+    @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
+    @property({type: String}) codePostalSelectionne: string | undefined = undefined;
+
     @property({type: Array, attribute: false}) autocompleteTriggers: Set<string>|undefined;
     @property({type: Boolean, attribute: false}) recuperationCommunesEnCours: boolean = false;
     @property({type: Array, attribute: false}) set communesDisponibles(cd: Commune[]|undefined) {
@@ -139,5 +142,10 @@ export class VmdCommuneSelectorComponent extends LitElement {
     disconnectedCallback() {
         super.disconnectedCallback();
         // console.log("disconnected callback")
+    }
+
+    fillCommune(commune: Commune | undefined, autoCompleteCodePostal: string) {
+        this.filter = `${commune?.codePostal} - ${commune?.nom}`;
+        this.filterMatchingAutocomplete = autoCompleteCodePostal;
     }
 }

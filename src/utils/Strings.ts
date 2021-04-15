@@ -38,7 +38,7 @@ export class Strings {
 
     public static toReadableURLPathValue(value: string) {
         return value.toLowerCase()
-            .replace(" ", "_")
+            .replace(/[-\s']/gi, "_")
             .replace(/[èéëêêéè]/gi, "e")
             .replace(/[áàâäãåâà]/gi, "a")
             .replace(/[çç]/gi, "c")
