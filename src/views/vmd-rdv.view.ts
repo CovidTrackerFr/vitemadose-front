@@ -212,7 +212,7 @@ export class VmdRdvView extends LitElement {
                     `}
 
                 <div class="resultats p-5 text-dark bg-light rounded-3">
-                    ${repeat(this.lieuxParDepartementAffiches?.lieuxDisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}||${this.critèreDeTri}`), (lieu, index) => {
+                    ${repeat(this.lieuxParDepartementAffiches?.lieuxDisponibles || [], (c => `${c.departement}||${c.nom}||${c.type}||${this.critèreDeTri}`), (lieu, index) => {
                         if (Lieu.isLieuPlateforme(lieu)) {
                           return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${true}" .distance="${lieu.distance}" />`;
                         } else {
@@ -230,7 +230,7 @@ export class VmdRdvView extends LitElement {
                         </span>
                     </h5>
 
-                    ${repeat(this.lieuxParDepartementAffiches?.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu, index) => {
+                    ${repeat(this.lieuxParDepartementAffiches?.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.type}`), (lieu, index) => {
                         return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${false}"></vmd-appointment-card>`;
                     })}
                   ` : html``}
