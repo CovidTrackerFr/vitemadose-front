@@ -144,7 +144,7 @@ export class State {
     }
 
     private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
-    async lieuxPour(codeDepartement: CodeDepartement, codeTrancheAge: CodeTrancheAge): Promise<LieuxParDepartement> {
+    async lieuxPour(codeDepartement: CodeDepartement): Promise<LieuxParDepartement> {
         if(this._lieuxParDepartement.has(codeDepartement)) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
         } else {

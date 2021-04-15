@@ -58,7 +58,7 @@ export class VmdRdvView extends LitElement {
     private lieuxParDepartementTriesParDistance: LieuxAvecDistanceParDepartement|undefined = undefined;
 
 
-    async afficherTriParDistance (e: Event) {
+    async afficherTriParDistance () {
       let location;
       try {
           this.recuperationLocationEnCours = true
@@ -87,7 +87,7 @@ export class VmdRdvView extends LitElement {
       this.requestUpdate('critèreDeTri');
     }
 
-    afficherTriParDate(e: Event) {
+    afficherTriParDate() {
         this.critèreDeTri = 'date';
         this.lieuxParDepartementAffiches = this.lieuxParDepartementTriesParDate;
     }
@@ -180,14 +180,14 @@ export class VmdRdvView extends LitElement {
                         </h2>
                         <div class="tri">
                           <span class="radio-input">
-                            <input @change="${(e: Event) => this.afficherTriParDate(e)}" type="radio" name="tri" id="tri-date" ?checked=${this.critèreDeTri === 'date'} />
+                            <input @change="${(e: Event) => this.afficherTriParDate()}" type="radio" name="tri" id="tri-date" ?checked=${this.critèreDeTri === 'date'} />
                             <label for="tri-date">Au plus tôt</label>
                           </span>
                           <span class="radio-input">
                             <input
                               type="radio" name="tri" id="tri-distance"
                               title="Vous devez autoriser l'accès à la géolocalisation dans votre navigateur"
-                              @click="${(e: Event) => this.afficherTriParDistance(e)}"
+                              @click="${(e: Event) => this.afficherTriParDistance()}"
                               ?checked=${this.critèreDeTri === 'distance'}
                               ?disabled="${this.geolocalisationBloquée}" />
                             <label for="tri-distance"
@@ -269,10 +269,10 @@ export class VmdRdvView extends LitElement {
     }
 
     async refreshLieux() {
-        if (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
+        if (this.codeDepartementSelectionne) {
             try {
                 this.searchInProgress = true;
-                const lieuxParDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne, this.codeTrancheAgeSelectionne);
+                const lieuxParDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne);
 
                 const { lieuxDisponibles, lieuxIndisponibles } = {
                     lieuxDisponibles: lieuxParDepartement?.lieuxDisponibles || [],
