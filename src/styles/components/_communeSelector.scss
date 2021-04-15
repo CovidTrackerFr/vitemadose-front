@@ -14,31 +14,104 @@ input, .autocomplete {
   line-height: $line-height-base;
   border-width: $input-border-width;
   border-color: $input-border-color;
-  border-radius: 0rem $input-border-radius-lg $input-border-radius-lg $input-border-radius-lg;
-  box-shadow: $box-shadow-inset;
+  border-radius: 1.2rem;
   font-size: calc(1.325rem + 0.9vw);
 }
 
 .autocomplete {
-  overflow: scroll;
-  background: white;
-  z-index: 1000;
-  overflow: auto;
-  box-sizing: border-box;
-  padding-left: 0px;
+    position: relative;
 
-  .result{
-    &:hover {
-      background: $primary;
-      color: $white;
+    &._open {
+        &:not(._withButton) {
+            .autocomplete-input {
+                border-radius: 1.2rem 1.2rem 0 0;
+            }
+        }
+
+        &._withButton {
+            .autocomplete-input {
+                border-radius: 1.2rem 0 0 0;
+            }
+
+            .autocomplete-button {
+                border-radius: 0 1.2rem 0 0;
+            }
+
+            &._focus {
+                border-radius: 1.2rem 1.2rem 0 0;
+            }
+        }
+
     }
-    padding-top: $form-select-padding-y-lg;
-    padding-bottom: $form-select-padding-y-lg;
-    padding-left: $form-select-padding-x-lg;
-    font-size: calc(1.325rem + 0.9vw);
-    list-style-type: none;
-    cursor: pointer;
-  }
+
+    &._withButton {
+        display: flex;
+        flex-direction: row;
+        justify-content: stretch;
+        box-shadow: rgb(0 0 0 / 8%) 0 1px 2px inset;
+
+        &._focus {
+            box-shadow: 0 0 0 $form-select-focus-width $input-btn-focus-color;
+            border-radius: 1.2rem 1.2rem 1.2rem 1.2rem;
+        }
+
+
+        .autocomplete-button,
+        .autocomplete-input {
+            box-shadow: none;
+        }
+
+        .autocomplete-input {
+            border-radius: 1.2rem 0 0 1.2rem;
+        }
+    }
+
+    &-input {
+     outline: none;
+
+        &:focus {
+            box-shadow: 0 0 0 $form-select-focus-width $input-btn-focus-color;
+        }
+    }
+
+    &-button {
+        appearance: none;
+        background-color: white;
+        border-radius: 0 1.2rem 1.2rem 0;
+        border: none;
+        box-shadow: rgb(0 0 0 / 8%) 0px 1px 2px inset;
+    }
+
+    &-results {
+        position: absolute;
+        top: calc(100% + 2px);
+        width: 100%;
+        overflow-y: auto;
+        max-height: 20rem;
+        background: white;
+        z-index: 1000;
+        box-sizing: border-box;
+        padding-left: 0;
+        border-radius: 0 0 1.2rem 1.2rem;
+        box-shadow: 0 0 0 $form-select-focus-width $input-btn-focus-color;
+
+        @media screen and (min-width: 1024px){
+            max-height: 40rem;
+        }
+    }
+
+    &-result {
+        &:hover {
+            background: $primary;
+            color: $white;
+        }
+        padding-top: $form-select-padding-y-lg;
+        padding-bottom: $form-select-padding-y-lg;
+        padding-left: $form-select-padding-x-lg;
+        font-size: calc(1.325rem + 0.9vw);
+        list-style-type: none;
+        cursor: pointer;
+    }
 }
 
 .autocomplete .group {

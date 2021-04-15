@@ -117,16 +117,20 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     render() {
         return html`
-          <div class="dropdown">
-            <input type="text" @keyup="${this.valueChanged}" .value="${this.filter}" />
+          <div class="autocomplete _withButton ${classMap({'_open': !!this.communesAffichees?.length})}">
+            <input type="text" class="autocomplete-input" @keyup="${this.valueChanged}" 
+                   @focus="${() => {this.shadowRoot!.querySelector('.autocomplete._withButton')?.classList.add('_focus')}}" 
+                   @blur="${() => {this.shadowRoot!.querySelector('.autocomplete._withButton')?.classList.remove('_focus')}}" 
+                   .value="${this.filter}" />
+            <button class="autocomplete-button">Aa</button>
             ${this.recuperationCommunesEnCours?html`
               <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">
               </div>
             `:html``}
             ${this.communesAffichees?.length?html`
-              <ul class="autocomplete " style="height: auto; max-height: 849px;">
+              <ul class="autocomplete-results">
                 ${repeat(this.communesAffichees, (c) => `${c.codePostal}__${c.nom}`, ((commune, index) => {
-                    return html`<li class="result" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
+                    return html`<li class="autocomplete-result" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
                 }))}
               </ul>
           </div>
