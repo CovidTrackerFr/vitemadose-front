@@ -32,7 +32,7 @@ function search(communes, query) {
     return communes.filter(c => {
         const nomNormalize = toFullTextSearchableString(c.n);
 
-        return c.c.indexOf(query) === 0
+        return c.z.indexOf(query) === 0
             || nomNormalize.indexOf(query) !== -1;
     });
 }
