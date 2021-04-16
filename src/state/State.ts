@@ -106,7 +106,7 @@ export type Coordinates = { latitude: number, longitude: number }
 export type LieuxParDepartement = {
     lieuxDisponibles: Lieu[];
     lieuxIndisponibles: Lieu[];
-    codeDepartement: CodeDepartement;
+    codeDepartements: CodeDepartement[];
     derniereMiseAJour: ISODateString;
 };
 export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
@@ -158,7 +158,7 @@ export class State {
             return {
                 lieuxDisponibles: results.centres_disponibles.map(transformLieu),
                 lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
-                codeDepartement,
+                codeDepartements: [codeDepartement],
                 derniereMiseAJour: results.last_updated
             };
         }

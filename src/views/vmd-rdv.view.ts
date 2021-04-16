@@ -27,6 +27,7 @@ import {
     CommuneSelected,
     VmdCommuneSelectorComponent
 } from "../components/vmd-commune-selector.component";
+import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 
 type LieuAvecDistance = Lieu & { distance: number|undefined };
 type LieuxAvecDistanceParDepartement = LieuxParDepartement & {
@@ -87,8 +88,8 @@ export class VmdRdvView extends LitElement {
       } else {
         this.userLocation = location
         this.critèreDeTri = 'distance'
-        if(!this.lieuxParDepartementTriesParDistance) {
-          this.remplirLieuxParDepartementTresParDistance();
+        if(!this.lieuxParDepartementTriesParDistance && this.lieuxParDepartementTriesParDate) {
+          this.remplirLieuxParDepartementTriesParDistance(this.lieuxParDepartementTriesParDate);
         }
         this.lieuxParDepartementAffiches = this.lieuxParDepartementTriesParDistance;
         this.geolocalisationBloquée = false
@@ -293,10 +294,9 @@ export class VmdRdvView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [departementsDisponibles, lieuxParDepartement, autocompletes ] = await Promise.all([
-            State.current.departementsDisponibles(),
-            this.refreshLieux(),
-            State.current.communeAutocompleteTriggers(Router.basePath).then(autocompletes => {
+        const [departementsDisponibles, autocompletes ] = await Promise.all([
+            State.current.departementsDisponibles().then(departementsDisponibles => this.departementsDisponibles = departementsDisponibles),
+            State.current.communeAutocompleteTriggers(Router.basePath).then(async (autocompletes) => {
                 if(this.codePostalSelectionne && this.codeCommuneSelectionne) {
                     const autocompletesSet = new Set(autocompletes);
                     const autoCompleteCodePostal = this.codePostalSelectionne.split('')
@@ -309,20 +309,20 @@ export class VmdRdvView extends LitElement {
                     }
 
                     this.recuperationCommunesEnCours = true;
-                    return State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal).then(communes => {
-                        this.recuperationCommunesEnCours = false;
+                    const communes = await State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal)
+                    this.recuperationCommunesEnCours = false;
 
-                        const communeSelectionnee = communes.find(c => c.code === this.codeCommuneSelectionne);
-                        if(communeSelectionnee) {
-                            const component = (this.shadowRoot!.querySelector("vmd-commune-selector") as VmdCommuneSelectorComponent)
-                            component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
+                    const communeSelectionnee = communes.find(c => c.code === this.codeCommuneSelectionne);
+                    if (communeSelectionnee) {
+                        const component = (this.shadowRoot!.querySelector("vmd-commune-selector") as VmdCommuneSelectorComponent)
+                        component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
 
-                            return this.communeSelected(communeSelectionnee).then(() => autocompletes);
-                        }
-
-                        return autocompletes;
-                    });
+                        await this.communeSelected(communeSelectionnee);
+                    }
                 }
+
+                await this.refreshLieux();
+
                 return autocompletes;
             })
         ])
@@ -331,20 +331,20 @@ export class VmdRdvView extends LitElement {
         this.communesAutocomplete = new Set(autocompletes);
     }
 
-    private remplirLieuxParDepartementTresParDistance() {
+    private remplirLieuxParDepartementTriesParDistance(lieuxParDepartement: LieuxParDepartement) {
         if(this.userLocation) {
             const origin = this.userLocation
             const distanceAvec = (lieu: Lieu) => lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity
 
-            const lieuxDisponiblesTriesParDistance: LieuAvecDistance[] = (this.lieuxParDepartementTriesParDate?this.lieuxParDepartementTriesParDate.lieuxDisponibles:[]).map(l => ({
+            const lieuxDisponiblesTriesParDistance: LieuAvecDistance[] = (lieuxParDepartement.lieuxDisponibles).map(l => ({
                 ...l, distance: distanceAvec(l)
             })).sort((a, b) => a.distance! - b.distance!)
-            const lieuxIndisponiblesTriesParDistance: LieuAvecDistance[] = (this.lieuxParDepartementTriesParDate?this.lieuxParDepartementTriesParDate.lieuxIndisponibles:[]).map(l => ({
+            const lieuxIndisponiblesTriesParDistance: LieuAvecDistance[] = (lieuxParDepartement.lieuxIndisponibles).map(l => ({
                 ...l, distance: distanceAvec(l)
             })).sort((a, b) => a.distance! - b.distance!)
 
             this.lieuxParDepartementTriesParDistance = {
-                ...this.lieuxParDepartementTriesParDate!,
+                ...lieuxParDepartement!,
                 lieuxDisponibles: lieuxDisponiblesTriesParDistance,
                 lieuxIndisponibles: lieuxIndisponiblesTriesParDistance,
             }
@@ -357,7 +357,25 @@ export class VmdRdvView extends LitElement {
         if (this.codeDepartementSelectionne) {
             try {
                 this.searchInProgress = true;
-                const lieuxParDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne);
+                const lieuxParDepartement = await Promise.all([
+                    State.current.lieuxPour(this.codeDepartementSelectionne),
+                    ...DEPARTEMENTS_LIMITROPHES[this.codeDepartementSelectionne].map(dept => State.current.lieuxPour(dept))
+                ]).then(([...results]) => {
+                    return results.reduce((mergedLieuxParDepartement, lieuxParDepartement) => ({
+                        codeDepartements: mergedLieuxParDepartement.codeDepartements.concat(lieuxParDepartement.codeDepartements),
+                        derniereMiseAJour: new Date(Math.max(
+                            Date.parse(mergedLieuxParDepartement.derniereMiseAJour),
+                            Date.parse(lieuxParDepartement.derniereMiseAJour))).toISOString(),
+                        lieuxDisponibles: mergedLieuxParDepartement.lieuxDisponibles.concat(lieuxParDepartement.lieuxDisponibles),
+                        lieuxIndisponibles: mergedLieuxParDepartement.lieuxIndisponibles.concat(lieuxParDepartement.lieuxIndisponibles),
+                    }), {
+                        codeDepartements: [],
+                        derniereMiseAJour: new Date(0).toISOString(),
+                        lieuxDisponibles: [],
+                        lieuxIndisponibles: []
+                    } as LieuxParDepartement);
+                } )
+
 
                 const { lieuxDisponibles, lieuxIndisponibles } = {
                     lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles:[],
@@ -366,11 +384,11 @@ export class VmdRdvView extends LitElement {
 
                 this.lieuxParDepartementTriesParDate = {
                     ...lieuxParDepartement,
-                    lieuxDisponibles: lieuxDisponibles.map(l => ({...l, distance: undefined})),
-                    lieuxIndisponibles: lieuxIndisponibles.map(l => ({...l, distance: undefined})),
+                    lieuxDisponibles: lieuxDisponibles.map(l => ({...l, distance: undefined})).filter(l => l.departement === this.codeDepartementSelectionne),
+                    lieuxIndisponibles: lieuxIndisponibles.map(l => ({...l, distance: undefined})).filter(l => l.departement === this.codeDepartementSelectionne),
                 };
 
-                this.remplirLieuxParDepartementTresParDistance();
+                this.remplirLieuxParDepartementTriesParDistance(lieuxParDepartement);
 
                 this.lieuxParDepartementAffiches = this.critèreDeTri==='date'?this.lieuxParDepartementTriesParDate:this.lieuxParDepartementTriesParDistance;
             } finally {
