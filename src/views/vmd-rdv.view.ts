@@ -190,7 +190,7 @@ export class VmdRdvView extends LitElement {
                     </div>
                     `:html``}
                     <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
-                        Ma ville/Code postal :
+                        Ma commune :
                     </label>
                     <div class="col">
                         <vmd-commune-selector class="mb-3"
