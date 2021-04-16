@@ -21,6 +21,10 @@ input, .autocomplete {
 .autocomplete {
     position: relative;
 
+    .autocomplete-results {
+        display: none;
+    }
+
     &._open {
         &:not(._withButton) {
             .autocomplete-input {
@@ -42,6 +46,9 @@ input, .autocomplete {
             }
         }
 
+        .autocomplete-results {
+            display: block;
+        }
     }
 
     &._withButton {
