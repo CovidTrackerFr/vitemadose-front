@@ -145,31 +145,33 @@ export class VmdCommuneSelectorComponent extends LitElement {
         // be trigerred
         setTimeout(() => {
             this.inputHasFocus = (this.shadowRoot!.querySelector("input") === this.shadowRoot!.activeElement);
-            console.log('out');
-        }, 100);
+        }, 300);
     }
 
     render() {
         return html`
-          <div @focusout="${this.hideDropdownWhenInputHasNotFocus}" class="autocomplete _withButton ${classMap({'_open': this.showDropdown })}">
-            <input type="text" class="autocomplete-input" 
-               @keyup="${this.valueChanged}" .value="${this.filter}"
-               @focusin="${() => { this.inputHasFocus = true; console.log("in"); }}"
-               inputmode="${this.inputMode}" placeholder="${this.inputMode==='numeric'?'Entrez un code postal':'Entrez un nom de commune'}" 
+          <div class="autocomplete _withButton ${classMap({'_open': this.showDropdown })}">
+            <input type="text" class="autocomplete-input"
+                   @focusin="${() => { this.inputHasFocus = true; }}"
+                   @focusout="${this.hideDropdownWhenInputHasNotFocus}"
+                   @keyup="${this.valueChanged}" .value="${this.filter}"
+                   inputmode="${this.inputMode}" placeholder="${this.inputMode==='numeric'?'Entrez un code postal':'Entrez un nom de commune'}" 
             />
             <button class="autocomplete-button"><span>${this.inputMode==='numeric'?html`0-9`:html`A-Z`}</span></button>
             ${this.recuperationCommunesEnCours?html`
               <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">
               </div>
             `:html``}
+            ${this.showDropdown?html`
               <ul class="autocomplete-results">
                 ${(this.inputMode==='numeric' && (!this.communesAffichees || !this.communesAffichees.length))?html`
-                <li class="autocomplete-result switch-to-text" @click="${() => { console.log("blah"); this.inputMode='text'; this.shadowRoot!.querySelector("input")!.focus(); }}"><em>Je ne connais pas le code postal</em></li>
+                <li class="autocomplete-result switch-to-text" @click="${() => { this.inputMode='text'; this.shadowRoot!.querySelector("input")!.focus(); }}"><em>Je ne connais pas le code postal</em></li>
                 `:html``}
                 ${repeat(this.communesAffichees || [], (c) => `${c.codePostal}__${c.nom}`, ((commune, index) => {
                     return html`<li class="autocomplete-result" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
                 }))}
               </ul>
+              `:html``}
           </div>
         `;
     }
