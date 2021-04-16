@@ -10,6 +10,16 @@ export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
     ['plus75ans', { codeTrancheAge: 'plus75ans', libelle: "Plus de 75 ans" }]
 ]);
 
+export type CodeTriCentre = 'date' | 'distance';
+export type TriCentre = {
+    codeTriCentre: CodeTriCentre;
+    libelle: string;
+};
+export const TRIS_CENTRE: Map<CodeTriCentre, TriCentre> = new Map([
+    ['distance', { codeTriCentre: 'distance', libelle: "Au plus proche" }],
+    ['date', { codeTriCentre: 'date', libelle: "Au plus rapide" }],
+]);
+
 const USE_RAW_GITHUB = false
 const VMD_BASE_URL = USE_RAW_GITHUB
   ? "https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output"

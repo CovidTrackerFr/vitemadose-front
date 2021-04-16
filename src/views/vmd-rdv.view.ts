@@ -24,7 +24,12 @@ import {
     CodeTrancheAge,
     Departement,
     State,
-    TRANCHES_AGE, libelleUrlPathDuDepartement, Commune, libelleUrlPathDeCommune
+    TRANCHES_AGE,
+    libelleUrlPathDuDepartement,
+    Commune,
+    libelleUrlPathDeCommune,
+    TRIS_CENTRE,
+    CodeTriCentre
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
@@ -35,6 +40,7 @@ import {
     VmdCommuneSelectorComponent
 } from "../components/vmd-commune-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
+import {ValueStrCustomEvent} from "../components/vmd-selector.component";
 
 type LieuAvecDistance = Lieu & { distance: number|undefined };
 type LieuxAvecDistanceParDepartement = LieuxParDepartement & {
@@ -88,14 +94,11 @@ export class VmdRdvView extends LitElement {
         return undefined;
     }
 
-    private lieuxParDepartementTriesParDate: LieuxAvecDistanceParDepartement|undefined = undefined;
-    private lieuxParDepartementTriesParDistance: LieuxAvecDistanceParDepartement|undefined = undefined;
-
     get totalDoses() {
-        if (!this.lieuxParDepartementTriesParDate) {
+        if (!this.lieuxParDepartementAffiches) {
             return 0;
         }
-        return this.lieuxParDepartementTriesParDate
+        return this.lieuxParDepartementAffiches
             .lieuxDisponibles
             .reduce((total, lieu) => total+lieu.appointment_count, 0);
     }
@@ -123,9 +126,27 @@ export class VmdRdvView extends LitElement {
         return Promise.resolve();
     }
 
+    critereTriUpdated(triCentre: CodeTriCentre) {
+        this.critèreDeTri = triCentre;
+        this.refreshPageWhenValidParams();
+    }
+
     render() {
         return html`
             <div class="p-5 text-dark bg-light rounded-3">
+                <div class="searchDoseForm-fields row align-items-center">
+                  <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
+                    Je cherche une dose de vaccin :
+                  </label>
+                  <div class="col">
+                    <vmd-selector class="mb-3"
+                                  codeSelectionne="${this.critèreDeTri}"
+                                  .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle }))}"
+                                  @changed="${(event: ValueStrCustomEvent<CodeTriCentre>) => this.critereTriUpdated(event.detail.value)}">
+                    </vmd-selector>
+                  </div>
+                </div>
+
                 <div class="rdvForm-fields row align-items-center">
                     <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
                         Ma commune :
@@ -153,8 +174,8 @@ export class VmdRdvView extends LitElement {
               </div>
             `:html`
                 <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
-                  ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} pour
-                  <span class="fw-bold">${this.departementSelectionne?this.departementSelectionne.nom_departement:"???"}
+                  ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} autours de
+                  <span class="fw-bold">${this.communeSelectionnee?`${this.communeSelectionnee.nom} (${this.communeSelectionnee.codePostal})`:"???"}
                   </span>
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}</span>` : html``}
@@ -238,81 +259,66 @@ export class VmdRdvView extends LitElement {
         this.communesAutocomplete = new Set(autocompletes);
     }
 
-    private remplirLieuxParDepartementTriesParDistance(lieuxParDepartement: LieuxParDepartement) {
-        let communeSelectionnee = this.communeSelectionnee;
-        if(communeSelectionnee && communeSelectionnee.latitude && communeSelectionnee.longitude) {
-            const origin = { longitude: communeSelectionnee.longitude, latitude: communeSelectionnee.latitude }
-            const distanceAvec = (lieu: Lieu) => lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity
-
-            const lieuxDisponiblesTriesParDistance: LieuAvecDistance[] = (lieuxParDepartement.lieuxDisponibles).map(l => ({
-                ...l, distance: distanceAvec(l)
-            })).sort((a, b) => a.distance! - b.distance!)
-            const lieuxIndisponiblesTriesParDistance: LieuAvecDistance[] = (lieuxParDepartement.lieuxIndisponibles).map(l => ({
-                ...l, distance: distanceAvec(l)
-            })).sort((a, b) => a.distance! - b.distance!)
-
-            this.lieuxParDepartementTriesParDistance = {
-                ...lieuxParDepartement!,
-                lieuxDisponibles: lieuxDisponiblesTriesParDistance,
-                lieuxIndisponibles: lieuxIndisponiblesTriesParDistance,
-            }
-        } else {
-            this.lieuxParDepartementTriesParDistance = undefined;
-        }
-    }
-
     async refreshLieux() {
-        if (this.codeDepartementSelectionne) {
+        const communeSelectionnee = this.communeSelectionnee;
+        if (communeSelectionnee && this.codeDepartementSelectionne) {
             try {
                 this.searchInProgress = true;
-                const [...results] = await Promise.all([
+                const [lieuxDepartement, ...lieuxDepartementsLimitrophes] = await Promise.all([
                     State.current.lieuxPour(this.codeDepartementSelectionne),
                     ...DEPARTEMENTS_LIMITROPHES[this.codeDepartementSelectionne].map(dept => State.current.lieuxPour(dept))
                 ]);
 
-                const lieuxParDepartement = results.reduce((mergedLieuxParDepartement, lieuxParDepartement) => ({
+                const lieuxParDepartement = [lieuxDepartement].concat(lieuxDepartementsLimitrophes).reduce((mergedLieuxParDepartement, lieuxParDepartement) => ({
                     codeDepartements: mergedLieuxParDepartement.codeDepartements.concat(lieuxParDepartement.codeDepartements),
-                    derniereMiseAJour: new Date(Math.max(
-                        Date.parse(mergedLieuxParDepartement.derniereMiseAJour),
-                        Date.parse(lieuxParDepartement.derniereMiseAJour))).toISOString(),
+                    derniereMiseAJour: mergedLieuxParDepartement.derniereMiseAJour,
                     lieuxDisponibles: mergedLieuxParDepartement.lieuxDisponibles.concat(lieuxParDepartement.lieuxDisponibles),
                     lieuxIndisponibles: mergedLieuxParDepartement.lieuxIndisponibles.concat(lieuxParDepartement.lieuxIndisponibles),
                 }), {
                     codeDepartements: [],
-                    derniereMiseAJour: new Date(0).toISOString(),
+                    derniereMiseAJour: lieuxDepartement.derniereMiseAJour,
                     lieuxDisponibles: [],
                     lieuxIndisponibles: []
                 } as LieuxParDepartement);
 
+                const origin = (communeSelectionnee.latitude && communeSelectionnee.longitude)?
+                    {longitude:communeSelectionnee.longitude, latitude: communeSelectionnee.latitude}:undefined;
+                const distanceAvec = origin?
+                    (lieu: Lieu) => (lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity)
+                    :(lieu: Lieu) => undefined;
 
                 const { lieuxDisponibles, lieuxIndisponibles } = {
-                    lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles:[],
-                    lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles:[],
+                    lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles.map(l => ({
+                        ...l, distance: distanceAvec(l)
+                    })).filter(l => !l.distance || l.distance < 150):[],
+                    lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles.map(l => ({
+                        ...l, distance: distanceAvec(l)
+                    })).filter(l => !l.distance || l.distance < 150):[],
                 };
 
-                this.lieuxParDepartementTriesParDate = {
-                    ...lieuxParDepartement,
-                    lieuxDisponibles: lieuxDisponibles.map(l => ({...l, distance: undefined})).filter(l => l.departement === this.codeDepartementSelectionne),
-                    lieuxIndisponibles: lieuxIndisponibles.map(l => ({...l, distance: undefined})).filter(l => l.departement === this.codeDepartementSelectionne),
-                };
-
-                this.remplirLieuxParDepartementTriesParDistance(lieuxParDepartement);
-
-                this.lieuxParDepartementAffiches = this.critèreDeTri==='date'?this.lieuxParDepartementTriesParDate:this.lieuxParDepartementTriesParDistance;
+                if(this.critèreDeTri==='date') {
+                    this.lieuxParDepartementAffiches = {
+                        ...lieuxParDepartement,
+                        lieuxDisponibles: [...lieuxDisponibles]
+                            .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
+                        lieuxIndisponibles: [...lieuxIndisponibles]
+                            .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
+                    };
+                } else if(this.critèreDeTri==='distance') {
+                    this.lieuxParDepartementAffiches = {
+                        ...lieuxParDepartement!,
+                        lieuxDisponibles: [...lieuxDisponibles]
+                            .sort((a, b) => a.distance! - b.distance!),
+                        lieuxIndisponibles: [...lieuxIndisponibles]
+                            .sort((a, b) => a.distance! - b.distance!),
+                    };
+                }
             } finally {
                 this.searchInProgress = false;
             }
         } else {
             this.lieuxParDepartementAffiches = undefined;
-            this.lieuxParDepartementTriesParDate = undefined;
-            this.lieuxParDepartementTriesParDistance = undefined;
         }
-    }
-
-    departementUpdated(event: CustomEvent<DepartementSelected>) {
-        this.codeDepartementSelectionne = event.detail.departement?event.detail.departement.code_departement:undefined;
-        this.refreshLieux();
-        this.refreshPageWhenValidParams();
     }
 
     disconnectedCallback() {
@@ -321,8 +327,9 @@ export class VmdRdvView extends LitElement {
     }
 
     private refreshPageWhenValidParams() {
+        this.refreshLieux();
         if(this.departementSelectionne && this.communeSelectionnee && this.codePostalSelectionne) {
-            Router.navigateToRendezVousAvecCommune(this.departementSelectionne.code_departement, libelleUrlPathDuDepartement(this.departementSelectionne), this.communeSelectionnee.code, this.communeSelectionnee.codePostal, libelleUrlPathDeCommune(this.communeSelectionnee));
+            Router.navigateToRendezVousAvecCommune(this.critèreDeTri, this.departementSelectionne.code_departement, libelleUrlPathDuDepartement(this.departementSelectionne), this.communeSelectionnee.code, this.communeSelectionnee.codePostal, libelleUrlPathDeCommune(this.communeSelectionnee));
         } else if (this.codeDepartementSelectionne) {
             Router.navigateToRendezVous(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!));
         }

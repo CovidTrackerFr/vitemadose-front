@@ -6,16 +6,17 @@ import homeViewCss from "../styles/views/_home.scss";
 import searchDoseCss from "../styles/components/_searchDose.scss";
 import searchAppointment from "../styles/components/_searchAppointment.scss";
 import {
-    CodeDepartement,
+    CodeDepartement, CodeTriCentre,
     Commune,
     Departement,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
     PLATEFORMES,
     State,
-    StatsLieu,
+    StatsLieu, TriCentre, TRIS_CENTRE,
 } from "../state/State";
 import {AutocompleteTriggered, CommuneSelected} from "../components/vmd-commune-selector.component";
+import {ValueStrCustomEvent} from "../components/vmd-selector.component";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {
@@ -33,6 +34,8 @@ export class VmdHomeView extends LitElement {
         `
     ];
 
+    @property({type: String}) triCentre: CodeTriCentre = 'distance';
+
     @property({type: Array, attribute: false}) communesAutocomplete: Set<string>|undefined = undefined;
     @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
     @property({type: Array, attribute: false}) communesDisponibles: Commune[]|undefined = undefined;
@@ -49,6 +52,7 @@ export class VmdHomeView extends LitElement {
         }
 
         Router.navigateToRendezVousAvecCommune(
+            this.triCentre,
             departement.code_departement,
             libelleUrlPathDuDepartement(departement),
             this.communeSelectionee!.code, this.communeSelectionee!.codePostal,
@@ -78,7 +82,19 @@ export class VmdHomeView extends LitElement {
                 <div class="searchDose-form">
                     <div class="searchDoseForm-fields row align-items-center">
                         <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
-                            Ma commune :
+                            Je cherche une dose de vaccin :
+                        </label>
+                        <div class="col">
+                            <vmd-selector class="mb-3"
+                              codeSelectionne="distance"
+                              .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle }))}"
+                              @changed="${(e: ValueStrCustomEvent<CodeTriCentre>) => this.triCentre = e.detail.value}">
+                            </vmd-selector>
+                        </div>
+                    </div>
+                    <div class="searchDoseForm-fields row align-items-center">
+                        <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
+                            aux alentours de :
                         </label>
                         <div class="col">
                             <vmd-commune-selector class="mb-3"
