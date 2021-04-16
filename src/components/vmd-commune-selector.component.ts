@@ -24,6 +24,14 @@ export class VmdCommuneSelectorComponent extends LitElement {
     @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
     @property({type: String}) codePostalSelectionne: string | undefined = undefined;
 
+    @property({type: Boolean, attribute: false}) inputHasFocus: boolean = false;
+    @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'numeric';
+    get showDropdown() {
+        return this.inputHasFocus
+            && ((this.inputMode === 'text' && this.communesAffichees && this.communesAffichees.length)
+                    || this.inputMode === 'numeric');
+    }
+
     @property({type: Array, attribute: false}) autocompleteTriggers: Set<string>|undefined;
     @property({type: Boolean, attribute: false}) recuperationCommunesEnCours: boolean = false;
     @property({type: Array, attribute: false}) set communesDisponibles(cd: Commune[]|undefined) {
@@ -116,33 +124,53 @@ export class VmdCommuneSelectorComponent extends LitElement {
         }));
     }
 
-    private siwtchAutocompleteButtonFocusClass(handler: (classList: DOMTokenList) => void) {
+    private switchAutocompleteButtonFocusClass(handler: (classList: DOMTokenList) => void) {
         const $inputWithButton = this.shadowRoot!.querySelector('.autocomplete._withButton')
         if($inputWithButton) {
             handler($inputWithButton.classList);
         }
     }
 
+    hideDropdownWhenInputHasNotFocus() {
+        // That's a hacky workaround because I don't know how to handle this more cleanly..
+        // The problem is  linked to .autocomplete's @focusout and .switch-to-text's @click
+        // It appears that when we click the .switch-to-text <li> tag, .autocomplete's @focusout
+        // event is triggered first (strangely far before than .switch-to-text's @click)
+        // If we would directly update this.inputHasFocus, I don't know how, but it looks like
+        // rendering would happen before .switch-to-text's @click is triggered, thus removing it from
+        // the DOM and totally disabling its event capture (thus, not triggering the click handler at all)
+        // By adding the setTimeout with a proper duration (note that 50ms wouldn't be enough.. it would
+        // still remove the <li> from the DOM prior to it being clicked), we ensure that the @click
+        // will be triggered on .switch-to-text first, _then_ the .autocomplete's @focusout will
+        // be trigerred
+        setTimeout(() => {
+            this.inputHasFocus = (this.shadowRoot!.querySelector("input") === this.shadowRoot!.activeElement);
+            console.log('out');
+        }, 100);
+    }
+
     render() {
         return html`
-          <div class="autocomplete _withButton ${classMap({'_open': (!!this.communesAffichees && !!this.communesAffichees.length)})}">
-            <input type="text" class="autocomplete-input" @keyup="${this.valueChanged}" 
-                   @focus="${() => this.siwtchAutocompleteButtonFocusClass((classList) => classList.add('_focus'))}"
-                   @blur="${() => this.siwtchAutocompleteButtonFocusClass((classList) => classList.remove('_focus'))}" 
-                   .value="${this.filter}" />
-            <button class="autocomplete-button">Aa</button>
+          <div @focusout="${this.hideDropdownWhenInputHasNotFocus}" class="autocomplete _withButton ${classMap({'_open': this.showDropdown })}">
+            <input type="text" class="autocomplete-input" 
+               @keyup="${this.valueChanged}" .value="${this.filter}"
+               @focusin="${() => { this.inputHasFocus = true; console.log("in"); }}"
+               inputmode="${this.inputMode}" placeholder="${this.inputMode==='numeric'?'Entrez un code postal':'Entrez un nom de commune'}" 
+            />
+            <button class="autocomplete-button"><span>${this.inputMode==='numeric'?html`0-9`:html`A-Z`}</span></button>
             ${this.recuperationCommunesEnCours?html`
               <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">
               </div>
             `:html``}
-            ${(this.communesAffichees && this.communesAffichees.length)?html`
               <ul class="autocomplete-results">
-                ${repeat(this.communesAffichees, (c) => `${c.codePostal}__${c.nom}`, ((commune, index) => {
+                ${(this.inputMode==='numeric' && (!this.communesAffichees || !this.communesAffichees.length))?html`
+                <li class="autocomplete-result switch-to-text" @click="${() => { console.log("blah"); this.inputMode='text'; this.shadowRoot!.querySelector("input")!.focus(); }}"><em>Je ne connais pas le code postal</em></li>
+                `:html``}
+                ${repeat(this.communesAffichees || [], (c) => `${c.codePostal}__${c.nom}`, ((commune, index) => {
                     return html`<li class="autocomplete-result" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
                 }))}
               </ul>
           </div>
-            `:html``}
         `;
     }
 
