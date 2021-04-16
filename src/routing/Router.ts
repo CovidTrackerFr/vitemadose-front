@@ -70,8 +70,8 @@ class Routing {
         this.navigateToHome();
     }
 
-    public navigateToRendezVous(codeDepartement: string, pathLibelleDepartement: string, trancheAge: string) {
-        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/age-${trancheAge}/`);
+    public navigateToRendezVous(codeDepartement: string, pathLibelleDepartement: string, trancheAge: string|undefined) {
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}${trancheAge?`/age-${trancheAge}/`:''}`);
     }
 
     public navigateToRendezVousAvecCommune(codeDepartement: string, pathLibelleDepartement: string, codeCommune: string, codePostal: string, pathLibelleCommune: string) {

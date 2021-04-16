@@ -215,7 +215,7 @@ export class VmdRdvView extends LitElement {
                 </div>
               </div>
             `:html`
-                <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) ? 'block' : 'none'})}">
+                <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
                   ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} pour
                   <span class="fw-bold">${this.departementSelectionne?this.departementSelectionne.nom_departement:"???"}
                   ${(FEATURES.trancheAgeFilter && this.trancheAgeSelectionee) ? html`, ${this.trancheAgeSelectionee.libelle}` : html``}
@@ -401,7 +401,7 @@ export class VmdRdvView extends LitElement {
     }
 
     private refreshPageWhenValidParams() {
-        if (this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
+        if (this.codeDepartementSelectionne) {
             Router.navigateToRendezVous(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!), this.codeTrancheAgeSelectionne);
         }
     }
