@@ -1,15 +1,6 @@
 import {ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 
-type Features = {
-    trancheAgeFilter: boolean;
-    departementFilter: boolean;
-};
-export const FEATURES: Features = {
-    trancheAgeFilter: false,
-    departementFilter: false
-};
-
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
     codeTrancheAge: CodeTrancheAge;
@@ -237,35 +228,5 @@ export class State {
             this._statsLieu = statsLieu;
             return statsLieu;
         }
-    }
-
-    private geolocalisationBloquée = false
-    private geolocalisationIndisponible = false
-    private userLocation: Coordinates | 'bloqué' | 'indisponible' | undefined
-    async localisationNavigateur (): Promise<Coordinates | 'bloqué' | 'indisponible'> {
-      if(this.userLocation !== 'indisponible' && this.userLocation !== undefined) {
-          return this.userLocation;
-      }
-
-      const promise = new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 4000,
-        })
-      })
-      try {
-        const { coords } = await (promise as Promise<{ coords: Coordinates }>)
-        this.userLocation = coords
-      } catch (error) {
-        if (error instanceof GeolocationPositionError && error.code === 1) {
-          this.userLocation = 'bloqué'
-        } else {
-          this.userLocation = 'indisponible'
-        }
-      }
-      return this.userLocation
-    }
-    definirLocalisationManuelle(coordonnees: Coordinates) {
-        this.userLocation = coordonnees;
     }
 }

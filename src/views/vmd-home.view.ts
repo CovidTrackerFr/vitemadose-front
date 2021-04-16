@@ -1,5 +1,4 @@
-import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
-import {TrancheAgeSelectionne} from "../components/vmd-tranche-age-selector.component";
+import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {DepartementSelected} from "../components/vmd-departement-selector.component";
 import {Router} from "../routing/Router";
 import globalCss from "../styles/global.scss";
@@ -8,11 +7,13 @@ import searchDoseCss from "../styles/components/_searchDose.scss";
 import searchAppointment from "../styles/components/_searchAppointment.scss";
 import {
     CodeDepartement,
-    CodeTrancheAge, Commune,
-    Departement, FEATURES, libelleUrlPathDeCommune, libelleUrlPathDuDepartement,
+    Commune,
+    Departement,
+    libelleUrlPathDeCommune,
+    libelleUrlPathDuDepartement,
     PLATEFORMES,
-    State, StatsLieu,
-    TRANCHES_AGE
+    State,
+    StatsLieu,
 } from "../state/State";
 import {AutocompleteTriggered, CommuneSelected} from "../components/vmd-commune-selector.component";
 
@@ -32,35 +33,27 @@ export class VmdHomeView extends LitElement {
         `
     ];
 
-    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = FEATURES.trancheAgeFilter?undefined:'plus75ans';
-    @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
-
     @property({type: Array, attribute: false}) communesAutocomplete: Set<string>|undefined = undefined;
     @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
     @property({type: Array, attribute: false}) communesDisponibles: Commune[]|undefined = undefined;
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = [];
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
-    get departementSelectionne(): Departement|undefined {
-        if(!this.codeDepartementSelectionne || !this.departementsDisponibles) {
-            return undefined;
-        }
-        return this.departementsDisponibles.find(dpt => dpt.code_departement === this.codeDepartementSelectionne);
-    }
-
-    onDepartementSelected(event: CustomEvent<DepartementSelected>) {
-        this.codeDepartementSelectionne = event.detail.departement?event.detail.departement.code_departement:undefined;
-        if(this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
-            // Auto-trigger search
-            this.rechercherRdv();
-        }
-    }
+    private departementsDisponibles: Departement[]|undefined = [];
+    private communeSelectionee: Commune|undefined = undefined;
 
     rechercherRdv() {
-        Router.navigateToRendezVous(
-            this.codeDepartementSelectionne!,
-            libelleUrlPathDuDepartement(this.departementSelectionne!),
-            this.codeTrancheAgeSelectionne!)
+        const departement = this.departementsDisponibles?this.departementsDisponibles.find(dpt => dpt.code_departement === this.communeSelectionee!.codeDepartement):undefined;
+        if(!departement) {
+            console.error(`Can't find departement matching code ${this.communeSelectionee!.codeDepartement}`)
+            return;
+        }
+
+        Router.navigateToRendezVousAvecCommune(
+            departement.code_departement,
+            libelleUrlPathDuDepartement(departement),
+            this.communeSelectionee!.code, this.communeSelectionee!.codePostal,
+            libelleUrlPathDeCommune(this.communeSelectionee!)
+        )
     }
 
     async communeAutocompleteTriggered(event: CustomEvent<AutocompleteTriggered>) {
@@ -71,18 +64,8 @@ export class VmdHomeView extends LitElement {
     }
 
     communeSelected(commune: Commune) {
-        const departement = this.departementsDisponibles?this.departementsDisponibles.find(dpt => dpt.code_departement === commune.codeDepartement):undefined;
-        if(!departement) {
-            console.error(`Can't find departement matching code ${commune.codeDepartement}`)
-            return;
-        }
-
-        Router.navigateToRendezVousAvecCommune(
-            departement.code_departement,
-            libelleUrlPathDuDepartement(departement),
-            commune.code, commune.codePostal,
-            libelleUrlPathDeCommune(commune)
-        )
+        this.communeSelectionee = commune;
+        this.rechercherRdv();
     }
 
     render() {
@@ -94,30 +77,6 @@ export class VmdHomeView extends LitElement {
 
                 <div class="searchDose-form">
                     <div class="searchDoseForm-fields row align-items-center">
-                      ${FEATURES.trancheAgeFilter?html`
-                        <div class="col-sm-24 col-md-auto mb-md-3">
-                            J'ai
-                        </div>
-                        <div class="col">
-                            <vmd-tranche-age-selector class="mb-3"
-                                  @tranche-age-changed="${(event: CustomEvent<TrancheAgeSelectionne>) => this.codeTrancheAgeSelectionne = event.detail.trancheAge?event.detail.trancheAge.codeTrancheAge:undefined}"
-                                  .tranchesAge="${TRANCHES_AGE}"
-                            >
-                            </vmd-tranche-age-selector>
-                        </div>
-                        `:html``}
-                      ${FEATURES.departementFilter?html`
-                        <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
-                            Mon département :
-                        </label>
-                        <div class="col">
-                            <vmd-departement-selector class="mb-3"
-                                  @departement-changed="${this.onDepartementSelected}"
-                                  .departementsDisponibles="${this.departementsDisponibles}"
-                            >
-                            </vmd-departement-selector>
-                        </div>
-                        `:html``}
                         <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
                             Ma commune :
                         </label>
@@ -133,7 +92,7 @@ export class VmdHomeView extends LitElement {
                         </div>
                     </div>
                     <div class="searchDoseForm-action">
-                        <button class="btn btn-primary btn-lg" ?disabled="${!this.codeDepartementSelectionne || !this.codeTrancheAgeSelectionne}"
+                        <button class="btn btn-primary btn-lg" ?disabled="${!this.communeSelectionee}"
                                 @click="${this.rechercherRdv}">
                             Rechercher
                         </button>

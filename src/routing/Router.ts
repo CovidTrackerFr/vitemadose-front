@@ -29,11 +29,11 @@ class Routing {
         this.declareRoute(`/`, () => (subViewSlot) =>
             html`<vmd-home>${subViewSlot}</vmd-home>`);
         this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`, (params) => (subViewSlot) =>
-            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
+            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv>`);
         this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`, (params) => (subViewSlot) =>
-            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
+            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv>`);
         this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/`, (params) => (subViewSlot) =>
-            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeCommuneSelectionne="${params[`codeCommune`]}" codePostalSelectionne="${params['codePostal']}">${subViewSlot}</vmd-rdv>`);
+            html`<vmd-rdv codeCommuneSelectionne="${params[`codeCommune`]}" codePostalSelectionne="${params[`codePostal`]}">${subViewSlot}</vmd-rdv>`);
         this.declareRoute(`/centres`, (params) => (subViewSlot) =>
             html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
         this.declareRoute(`/apropos`, (params) => (subViewSlot) =>
@@ -70,8 +70,8 @@ class Routing {
         this.navigateToHome();
     }
 
-    public navigateToRendezVous(codeDepartement: string, pathLibelleDepartement: string, trancheAge: string|undefined) {
-        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}${trancheAge?`/age-${trancheAge}/`:''}`);
+    public navigateToRendezVous(codeDepartement: string, pathLibelleDepartement: string) {
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}}`);
     }
 
     public navigateToRendezVousAvecCommune(codeDepartement: string, pathLibelleDepartement: string, codeCommune: string, codePostal: string, pathLibelleCommune: string) {

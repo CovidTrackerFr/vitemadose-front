@@ -1,4 +1,4 @@
-import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
+import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
 import {Commune} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
@@ -22,15 +22,9 @@ export class VmdCommuneSelectorComponent extends LitElement {
     ];
 
     @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
-    @property({type: String}) codePostalSelectionne: string | undefined = undefined;
 
     @property({type: Boolean, attribute: false}) inputHasFocus: boolean = false;
     @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'numeric';
-    get showDropdown() {
-        return this.inputHasFocus
-            && ((this.inputMode === 'text' && this.communesAffichees && this.communesAffichees.length)
-                    || this.inputMode === 'numeric');
-    }
 
     @property({type: Array, attribute: false}) autocompleteTriggers: Set<string>|undefined;
     @property({type: Boolean, attribute: false}) recuperationCommunesEnCours: boolean = false;
@@ -44,10 +38,25 @@ export class VmdCommuneSelectorComponent extends LitElement {
     }
     get communesDisponibles(): Commune[]|undefined{ return this._communesDisponibles; }
     private _communesDisponibles: Commune[]|undefined = undefined;
+
     @property({type: Array, attribute: false}) communesAffichees: Commune[]|undefined = undefined;
     @property({type: String, attribute: false}) filter: string = "";
+
     private filterMatchingAutocomplete: string|undefined = undefined;
 
+    get showDropdown() {
+        return this.inputHasFocus
+            && ((this.inputMode === 'text' && this.communesAffichees && this.communesAffichees.length)
+                || this.inputMode === 'numeric');
+    }
+
+    get communeSelectionnee(): Commune | undefined {
+        let communesDisponibles = this.communesDisponibles;
+        if(this.codeCommuneSelectionne && communesDisponibles) {
+            return communesDisponibles.find(c => c.code === this.codeCommuneSelectionne);
+        }
+        return undefined;
+    }
 
     private filtrerCommunesAffichees() {
         // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
@@ -122,13 +131,6 @@ export class VmdCommuneSelectorComponent extends LitElement {
                 commune
             }
         }));
-    }
-
-    private switchAutocompleteButtonFocusClass(handler: (classList: DOMTokenList) => void) {
-        const $inputWithButton = this.shadowRoot!.querySelector('.autocomplete._withButton')
-        if($inputWithButton) {
-            handler($inputWithButton.classList);
-        }
     }
 
     hideDropdownWhenInputHasNotFocus() {
