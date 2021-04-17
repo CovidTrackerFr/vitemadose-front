@@ -1,0 +1,11 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "src/styles/bootstrap-variables";
+
+.option {
+  font-size: calc(1.325rem + 0.9vw);
+
+  &.not-selected {
+    border-color: $gray-500;
+  }
+}
