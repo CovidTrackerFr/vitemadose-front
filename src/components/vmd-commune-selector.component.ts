@@ -24,6 +24,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
     @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
 
     @property({type: Boolean, attribute: false}) inputHasFocus: boolean = false;
+    @property({type: Boolean, attribute: false}) inputModeFixedToText = true;
     @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'numeric';
 
     @property({type: Array, attribute: false}) autocompleteTriggers: Set<string>|undefined;
@@ -157,9 +158,11 @@ export class VmdCommuneSelectorComponent extends LitElement {
                    @focusin="${() => { this.inputHasFocus = true; }}"
                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                    @keyup="${this.valueChanged}" .value="${this.filter}"
-                   inputmode="${this.inputMode}" placeholder="${this.inputMode==='numeric'?'Entrez un code postal':'Entrez un nom de commune'}" 
+                   inputmode="${this.inputMode}" placeholder="${this.inputModeFixedToText?'Saisissez une commune':this.inputMode==='numeric'?'Saisissez un code postal':'Saisissez un nom de commune'}" 
             />
+            ${this.inputModeFixedToText?html``:html`
             <button class="autocomplete-button"><span>${this.inputMode==='numeric'?html`0-9`:html`A-Z`}</span></button>
+            `}
             ${this.recuperationCommunesEnCours?html`
               <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">
               </div>
@@ -180,6 +183,10 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
+
+        if(this.inputModeFixedToText) {
+            this.inputMode = 'text';
+        }
         // console.log("connected callback")
     }
 
