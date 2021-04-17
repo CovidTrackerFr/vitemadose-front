@@ -17,7 +17,7 @@ export type TriCentre = {
 };
 export const TRIS_CENTRE: Map<CodeTriCentre, TriCentre> = new Map([
     ['distance', { codeTriCentre: 'distance', libelle: "Au plus proche" }],
-    ['date', { codeTriCentre: 'date', libelle: "Au plus rapide" }],
+    ['date', { codeTriCentre: 'date', libelle: "Disponible au plus vite" }],
 ]);
 
 const USE_RAW_GITHUB = false

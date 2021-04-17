@@ -134,19 +134,6 @@ export class VmdRdvView extends LitElement {
     render() {
         return html`
             <div class="p-5 text-dark bg-light rounded-3">
-                <div class="searchDoseForm-fields row align-items-center">
-                  <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
-                    Je cherche une dose de vaccin :
-                  </label>
-                  <div class="col">
-                    <vmd-selector class="mb-3"
-                                  codeSelectionne="${this.critèreDeTri}"
-                                  .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle }))}"
-                                  @changed="${(event: ValueStrCustomEvent<CodeTriCentre>) => this.critereTriUpdated(event.detail.value)}">
-                    </vmd-selector>
-                  </div>
-                </div>
-
                 <div class="rdvForm-fields row align-items-center">
                     <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
                       Localisation recherchée :
@@ -162,6 +149,18 @@ export class VmdRdvView extends LitElement {
                         >
                         </vmd-commune-selector>
                     </div>
+                </div>
+                <div class="rdvForm-fields row align-items-center">
+                  <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
+                    Je recherche une dose de vaccin :
+                  </label>
+                  <div class="col">
+                    <vmd-button-switch class="mb-3"
+                                       codeSelectionne="${this.critèreDeTri}"
+                                       .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle }))}"
+                                       @changed="${(event: ValueStrCustomEvent<CodeTriCentre>) => this.critereTriUpdated(event.detail.value)}">
+                    </vmd-button-switch>
+                  </div>
                 </div>
             </div>
 
