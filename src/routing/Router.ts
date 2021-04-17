@@ -34,11 +34,11 @@ class Routing {
         this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`, (params) => (subViewSlot) =>
             html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv>`);
         this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`, (params) => (subViewSlot) =>
-            html`<vmd-rdv codeCommuneSelectionne="${params[`codeCommune`]}" 
+            html`<vmd-rdv-par-commune codeCommuneSelectionne="${params[`codeCommune`]}" 
                           codePostalSelectionne="${params[`codePostal`]}"
                           critèreDeTri="${params[`codeTriCentre`]}">
                      ${subViewSlot}
-                 </vmd-rdv>`);
+                 </vmd-rdv-par-commune>`);
         this.declareRoute(`/centres`, (params) => (subViewSlot) =>
             html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
         this.declareRoute(`/apropos`, (params) => (subViewSlot) =>
