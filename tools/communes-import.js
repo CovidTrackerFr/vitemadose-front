@@ -1,11 +1,12 @@
 var fetch = require('node-fetch');
 var fs = require('fs');
 
-const INDEXED_CHARS = `abcdefghijklmnopqrstuvwxyz01234567890_'`.split('');
+const INDEXED_CHARS = `abcdefghijklmnopqrstuvwxyz01234567890_`.split('');
 // const INDEXED_CHARS = `abc'`.split(''); // For testing purposes
 
 // FYI, 800 => file size is ~50Ko
-const MAX_NUMBER_OF_COMMUNES_PER_FILE = 2000;
+const MAX_NUMBER_OF_COMMUNES_PER_FILE = 800;
+const MAX_AUTOCOMPLETE_TRIGGER_LENGTH = 7;
 
 function keyOf(commune) {
     return `${commune.c}__${commune.n}`;
@@ -16,7 +17,7 @@ function toFullTextSearchableString(value) {
     // function here, than the one used defined in Strings.toFullTextSearchableString()
     // ALSO, note that INDEXED_CHARS would have every possible translated values defined below
     return value.toLowerCase()
-        .replace(/[-\s]/gi, "_")
+        .replace(/[-\s']/gi, "_")
         .replace(/[èéëêêéè]/gi, "e")
         .replace(/[áàâäãåâà]/gi, "a")
         .replace(/[çç]/gi, "c")
@@ -42,7 +43,7 @@ function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
         const matchingCommunes = search(communes, query);
         if(matchingCommunes.length === 0) {
             return [];
-        } else if(matchingCommunes.length < MAX_NUMBER_OF_COMMUNES_PER_FILE || query.length === 3) {
+        } else if(matchingCommunes.length < MAX_NUMBER_OF_COMMUNES_PER_FILE || query.length === MAX_AUTOCOMPLETE_TRIGGER_LENGTH) {
             matchingCommunes.forEach(matchingCommune => unreferencedCommuneKeys.delete(keyOf(matchingCommune)));
             fs.writeFileSync(`../public/autocomplete-cache/${query}.json`, JSON.stringify({query, communes: matchingCommunes}), 'utf8');
             console.info(`Autocomplete cache for query [${query}] completed !`)
@@ -58,17 +59,17 @@ function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
     }
 }
 
-let communes = [];
-fetch(`https://geo.api.gouv.fr/communes?boost=population&fields=code,nom,codeDepartement,centre,codesPostaux`)
-    .then(resp => resp.json())
-    .then(rawCommunes => rawCommunes.map(rawCommune => rawCommune.codesPostaux.map(cp => ({
-        c: rawCommune.code,
-        z: cp,
-        n: rawCommune.nom,
-        d: rawCommune.codeDepartement,
-        g: (rawCommune && rawCommune.centre && rawCommune.centre.coordinates)?rawCommune.centre.coordinates.join(","):undefined
-    }))).flat()).then(results => {
-    communes = results;
+Promise.all([
+    fetch(`https://geo.api.gouv.fr/communes?boost=population&fields=code,nom,codeDepartement,centre,codesPostaux`).then(resp => resp.json()),
+]).then(([rawCommunes]) => {
+    const communes = rawCommunes.map(rawCommune => rawCommune.codesPostaux.map(cp => ({
+        // Converting commune info in a most compacted way : keeping only useful fields, 1-char keys, latng compaction
+            c: rawCommune.code,
+            z: cp,
+            n: rawCommune.nom,
+            d: rawCommune.codeDepartement,
+            g: (rawCommune && rawCommune.centre && rawCommune.centre.coordinates)?rawCommune.centre.coordinates.join(","):undefined
+        }))).flat();
 
     const communeByKey = communes.reduce((map, commune) => {
         map.set(keyOf(commune), commune);
@@ -83,4 +84,4 @@ fetch(`https://geo.api.gouv.fr/communes?boost=population&fields=code,nom,codeDep
     }, []);
 
     fs.writeFileSync("../public/autocompletes.json", JSON.stringify(generatedIndexes), 'utf8');
-})
+});

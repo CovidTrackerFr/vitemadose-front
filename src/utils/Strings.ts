@@ -53,7 +53,7 @@ export class Strings {
         // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
         // function here, than the one used in communes-import.js tooling
         return value.toLowerCase()
-            .replace(/[-\s]/gi, "_")
+            .replace(/[-\s']/gi, "_")
             .replace(/[èéëêêéè]/gi, "e")
             .replace(/[áàâäãåâà]/gi, "a")
             .replace(/[çç]/gi, "c")
