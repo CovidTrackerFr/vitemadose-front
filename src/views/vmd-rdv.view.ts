@@ -59,10 +59,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
 
     get communeSelectionnee(): Commune|undefined {
-        if(!this.getCodeCommuneSelectionne() || !this.communesDisponibles) {
-            return undefined;
-        }
-        return this.communesDisponibles.find(c => c.code === this.getCodeCommuneSelectionne());
+        // Calling a non-getter as getter overriden methods don't seem to be able to call
+        // super.departementSelectionne
+        return this.getCommuneSelectionnee();
     }
 
     get departementSelectionne(): Departement|undefined {
@@ -80,6 +79,17 @@ export abstract class AbstractVmdRdvView extends LitElement {
             return this.departementsDisponibles.find(d => this.codeDepartementSelectionne === d.code_departement);
         }
 
+        return undefined;
+    }
+
+    protected getCodeCommuneSelectionne(): string|undefined {
+        if(!this.communeSelectionnee) {
+            return undefined;
+        }
+        return this.communeSelectionnee.code;
+    }
+
+    protected getCommuneSelectionnee(): Commune|undefined {
         return undefined;
     }
 
@@ -127,7 +137,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     async departementSelected(departement: Departement, triggerNavigation: boolean): Promise<void> {
-        if(this.getCodeCommuneSelectionne()) {
+        if(this.communeSelectionnee) {
             Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement));
             return;
         }
@@ -314,7 +324,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return html``;
     }
 
-    abstract getCodeCommuneSelectionne(): string|undefined;
     abstract libelleLieuSelectionne(): TemplateResult;
     abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement;
 }
@@ -378,7 +387,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal)
             this.recuperationCommunesEnCours = false;
 
-            const communeSelectionnee = this.communesDisponibles.find(c => c.code === this.codeCommuneSelectionne && c.codePostal === this.codePostalSelectionne);
+            const communeSelectionnee = this.getCommuneSelectionnee();
             if (communeSelectionnee) {
                 const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneSelectorComponent)
                 component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
@@ -392,8 +401,11 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         return autocompletes;
     }
 
-    getCodeCommuneSelectionne(): string|undefined {
-        return this.codeCommuneSelectionne;
+    protected getCommuneSelectionnee(): Commune|undefined {
+        if(!this.codeCommuneSelectionne || !this.communesDisponibles) {
+            return undefined;
+        }
+        return this.communesDisponibles.find(c => c.code === this.codeCommuneSelectionne && c.codePostal === this.codePostalSelectionne);
     }
 
     resetCommuneSelectionneeTo(commune: Commune|undefined) {
@@ -463,10 +475,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
 @customElement('vmd-rdv-par-departement')
 export class VmdRdvParDepartementView extends AbstractVmdRdvView {
-
-    getCodeCommuneSelectionne(): string|undefined {
-        return undefined;
-    }
 
     async onceStartupPromiseResolved() {
         if(this.codeDepartementSelectionne) {
