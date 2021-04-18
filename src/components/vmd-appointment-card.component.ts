@@ -41,7 +41,7 @@ export class VmdAppointmentCardComponent extends LitElement {
               distance = distance.toFixed(1)
             }
             return html`
-            <div class="card rounded-3 mb-5 ${classMap({clickable: this.estCliquable})}"
+            <div class="card rounded-5 mb-5 ${classMap({clickable: this.estCliquable})}"
                  @click="${() => Router.navigateToUrlIfPossible(this.lieu.url)}">
                 <div class="card-body">
                     <div class="row align-items-center ">
@@ -100,7 +100,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             `;
         } else {
             return html`
-              <div class="card rounded-3 mb-5 p-4 bg-disabled">
+              <div class="card rounded-5 mb-5 p-4 bg-disabled">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">
