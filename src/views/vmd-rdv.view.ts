@@ -365,7 +365,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
     libelleLieuSelectionne(): TemplateResult {
         return html`
-          autours de
+          autour de
           <span class="fw-bold">${this.communeSelectionnee?`${this.communeSelectionnee.nom} (${this.communeSelectionnee.codePostal})`:"???"}
           </span>
         `
