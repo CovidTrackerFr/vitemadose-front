@@ -157,7 +157,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     render() {
         return html`
-            <div class="p-5 text-dark bg-light rounded-3">
+            <div class="p-5 text-dark bg-light rounded-5">
                 <div class="rdvForm-fields row align-items-center">
                     <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
                       Localisation :
@@ -195,7 +195,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </h3>
 
                 <div class="spacer mt-5 mb-5"></div>
-                <div class="resultats p-5 text-dark bg-light rounded-3">
+                <div class="resultats p-5 text-dark bg-light rounded-5">
                     ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxDisponibles.length) ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
