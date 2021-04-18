@@ -12,22 +12,28 @@ export class Strings {
         return (value && value>1)?pluralForm:'';
     }
 
-    static toNormalizedPhoneNumber(phoneNumber: string) {
-        let normaliedPhoneNumber = phoneNumber;
-        if(normaliedPhoneNumber.indexOf("+33") === 0) {
-            normaliedPhoneNumber = `0${normaliedPhoneNumber.substring("+33".length)}`
-        }
-        if(normaliedPhoneNumber[2] !== " ") {
-            normaliedPhoneNumber = [
-                normaliedPhoneNumber[0], normaliedPhoneNumber[1], " ",
-                normaliedPhoneNumber[2], normaliedPhoneNumber[3], " ",
-                normaliedPhoneNumber[4], normaliedPhoneNumber[5], " ",
-                normaliedPhoneNumber[6], normaliedPhoneNumber[7], " ",
-                normaliedPhoneNumber[8], normaliedPhoneNumber[9]
-            ].join("");
+    static toNormalizedPhoneNumber(phoneNumber: string|undefined) {
+        if(phoneNumber === undefined) {
+            return undefined;
         }
 
-        return normaliedPhoneNumber;
+        let normalizedPhoneNumber = phoneNumber!;
+        const formatInternational = normalizedPhoneNumber.indexOf("+") === 0;
+        // Removing non-chars
+        normalizedPhoneNumber = normalizedPhoneNumber.replace(/[\.\s]/gi, "");
+        if(formatInternational) {
+            normalizedPhoneNumber = `0${normalizedPhoneNumber.substring(normalizedPhoneNumber.length - 9, normalizedPhoneNumber.length)}`
+        }
+
+        normalizedPhoneNumber = [
+            normalizedPhoneNumber[0], normalizedPhoneNumber[1], " ",
+            normalizedPhoneNumber[2], normalizedPhoneNumber[3], " ",
+            normalizedPhoneNumber[4], normalizedPhoneNumber[5], " ",
+            normalizedPhoneNumber[6], normalizedPhoneNumber[7], " ",
+            normalizedPhoneNumber[8], normalizedPhoneNumber[9]
+        ].join("");
+
+        return normalizedPhoneNumber;
     }
 
     public static toReadableURLPathValue(value: string) {
