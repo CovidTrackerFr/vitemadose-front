@@ -19,6 +19,7 @@ export class VmdAppointmentCardComponent extends LitElement {
     ];
 
     @property({type: Object, attribute: false}) lieu!: Lieu;
+    @property({type: Number, attribute: false}) distance!: number;
     /* dunno why, but boolean string is not properly converted to boolean when using attributes */
     @property({type: Boolean, attribute: false }) rdvPossible!: boolean;
 
@@ -33,30 +34,44 @@ export class VmdAppointmentCardComponent extends LitElement {
     render() {
         if(this.rdvPossible) {
             const plateforme: Plateforme|undefined = PLATEFORMES[this.lieu.plateforme];
+            let distance: any = this.distance
+            if (distance >= 10) {
+              distance = distance.toFixed(0)
+            } else if (distance) {
+              distance = distance.toFixed(1)
+            }
             return html`
-            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
+            <div class="card rounded-3 mb-5 ${classMap({clickable: this.estCliquable})}"
                  @click="${() => Router.navigateToUrlIfPossible(this.lieu.url)}">
                 <div class="card-body">
                     <div class="row align-items-center ">
                         <div class="col">
-                            <h5 class="card-title">${Dates.isoToFRDatetime(this.lieu.prochain_rdv)}</h5>
+                            <h5 class="card-title">${Dates.isoToFRDatetime(this.lieu.prochain_rdv)}<small class="distance">${distance ? `- ${distance} km` : ''}</small></h5>
                             <div class="row">
-                              <vmd-appointment-metadata widthType="full-width" icon="bi-geo-alt-fill">
+                              <vmd-appointment-metadata class="mb-2" widthType="full-width" icon="vmdicon-geo-alt-fill">
                                 <div slot="content">
                                   <span class="fw-bold text-dark">${this.lieu.nom}</span>
                                   <br/>
                                   <em>${this.lieu.metadata.address}</em>
                                 </div>
                               </vmd-appointment-metadata>
-                              <vmd-appointment-metadata widthType="fit-to-content" icon="bi-telephone-fill" .displayed="${!!this.lieu.metadata.phone_number}">
-                                <span slot="content">${this.lieu.metadata.phone_number}</span>
+                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-telephone-fill" .displayed="${!!this.lieu.metadata.phone_number}">
+                                <span slot="content">
+                                    <a href="tel:${this.lieu.metadata.phone_number}"
+                                       @click="${(e: Event) => e.stopImmediatePropagation()}">
+                                        ${Strings.toNormalizedPhoneNumber(this.lieu.metadata.phone_number)}
+                                    </a>
+                                </span>
                               </vmd-appointment-metadata>
-                              <vmd-appointment-metadata widthType="fit-to-content" icon="bi-bag-plus">
+                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-commerical-building">
                                 <span slot="content">${TYPES_LIEUX[this.lieu.type]}</span>
+                              </vmd-appointment-metadata>
+                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-syringe" .displayed="${!!this.lieu.vaccine_type}">
+                                <span slot="content">${this.lieu.vaccine_type}</span>
                               </vmd-appointment-metadata>
                             </div>
                         </div>
-                        
+
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
                             <a target="_blank" class="btn btn-primary btn-lg">
@@ -90,7 +105,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                   <div class="row align-items-center">
                     <div class="col">
                       <h5 class="card-title">Aucun rendez-vous</h5>
-                      <vmd-appointment-metadata widthType="full-width" icon="bi-geo-alt-fill">
+                      <vmd-appointment-metadata widthType="full-width" icon="vmdicon-geo-alt-fill">
                         <div slot="content">
                           <span class="fw-bold text-dark">${this.lieu.nom}</span>
                           <br/>
