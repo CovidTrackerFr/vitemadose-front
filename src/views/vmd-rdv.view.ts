@@ -378,7 +378,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal)
             this.recuperationCommunesEnCours = false;
 
-            const communeSelectionnee = this.communesDisponibles.find(c => c.code === this.codeCommuneSelectionne);
+            const communeSelectionnee = this.communesDisponibles.find(c => c.code === this.codeCommuneSelectionne && c.codePostal === this.codePostalSelectionne);
             if (communeSelectionnee) {
                 const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneSelectorComponent)
                 component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
