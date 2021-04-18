@@ -18,10 +18,12 @@ export class Strings {
         }
 
         let normalizedPhoneNumber = phoneNumber!;
-        if(normalizedPhoneNumber.indexOf("+") === 0) {
+        const formatInternational = normalizedPhoneNumber.indexOf("+") === 0;
+        // Removing non-chars
+        normalizedPhoneNumber = normalizedPhoneNumber.replace(/[\.\s]/gi, "");
+        if(formatInternational) {
             normalizedPhoneNumber = `0${normalizedPhoneNumber.substring(normalizedPhoneNumber.length - 9, normalizedPhoneNumber.length)}`
         }
-        normalizedPhoneNumber = normalizedPhoneNumber.replace(/[\.\s]/gi, "");
 
         normalizedPhoneNumber = [
             normalizedPhoneNumber[0], normalizedPhoneNumber[1], " ",

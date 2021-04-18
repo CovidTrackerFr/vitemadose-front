@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  frontend:
+    build:
+      context: .
+      target: base
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    working_dir: /app
+    command: npm run dev
+    #command: sleep infinity
+    ports:
+      - 3000:3000
+
+volumes:
+  node_modules:

@@ -54,11 +54,8 @@ export class VmdAppComponent extends LitElement {
             
             <footer class="row justify-content-between">
                 <div class="col-auto">
-                    © Vite Ma Dose par CovidTracker \
-                    • Contributeurs : \
-                    <a href="https://github.com/CovidTrackerFr/vitemadose-front/graphs/contributors" target = "_blank"> front-end, \
-                    <a href="https://github.com/CovidTrackerFr/vitemadose/graphs/contributors" target = "_blank"> back-end, \
-                    • Design Adrien Rochet
+                    Vite Ma Dose ! par CovidTracker -
+                    <a href="https://github.com/CovidTrackerFr/vitemadose-front/blob/main/LICENSE">(CC BY-NC-SA 4.0)</a>
                 </div>
                 <div class="col-auto">
                     <div class="row">
