@@ -161,7 +161,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
                    @focusin="${() => { this.inputHasFocus = true; }}"
                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                    @keyup="${this.valueChanged}" .value="${this.filter}"
-                   inputmode="${this.inputMode}" placeholder="${this.inputModeFixedToText?'Saisissez une commune':this.inputMode==='numeric'?'Saisissez un code postal':'Saisissez un nom de commune'}" 
+                   inputmode="${this.inputMode}" placeholder="${this.inputModeFixedToText?'Commune, Code postal, Département...':this.inputMode==='numeric'?'Saisissez un code postal':'Saisissez un nom de commune'}" 
             />
             ${this.inputModeFixedToText?html``:html`
             <button class="autocomplete-button"><span>${this.inputMode==='numeric'?html`0-9`:html`A-Z`}</span></button>

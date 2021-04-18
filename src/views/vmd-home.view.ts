@@ -92,7 +92,7 @@ export class VmdHomeView extends LitElement {
                 <div class="searchDose-form">
                     <div class="searchDoseForm-fields row align-items-center">
                         <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
-                            Localisation recherchée :
+                            Localisation :
                         </label>
                         <div class="col">
                             <vmd-commune-or-departement-selector class="mb-3"
