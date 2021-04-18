@@ -21,17 +21,20 @@ import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import {
     AutocompleteTriggered,
-    CommuneSelected,
+    CommuneSelected, DepartementSelected, VmdCommuneOrDepartmentSelectorComponent,
     VmdCommuneSelectorComponent
 } from "../components/vmd-commune-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {ValueStrCustomEvent} from "../components/vmd-selector.component";
+import {TemplateResult} from "lit-html";
 
 type LieuAvecDistance = Lieu & { distance: number|undefined };
 type LieuxAvecDistanceParDepartement = LieuxParDepartement & {
     lieuxDisponibles: LieuAvecDistance[];
     lieuxIndisponibles: LieuAvecDistance[];
 };
+
+const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
 export abstract class AbstractVmdRdvView extends LitElement {
 
@@ -44,7 +47,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
     ];
 
     @property({type: String}) codeDepartementSelectionne: CodeDepartement | undefined = undefined;
-    @property({type: String}) critèreDeTri: 'date' | 'distance' = 'distance'
 
     @property({type: Array, attribute: false}) communesAutocomplete: Set<string>|undefined = undefined;
     @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
@@ -64,6 +66,16 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     get departementSelectionne(): Departement|undefined {
+        // Calling a non-getter as getter overriden methods don't seem to be able to call
+        // super.departementSelectionne
+        return this.getDepartementSelectionne();
+    }
+
+    resetCommuneSelectionneeTo(commune: Commune|undefined) {
+        // overridable
+    }
+
+    protected getDepartementSelectionne(): Departement|undefined {
         if(this.codeDepartementSelectionne && this.departementsDisponibles) {
             return this.departementsDisponibles.find(d => this.codeDepartementSelectionne === d.code_departement);
         }
@@ -87,14 +99,41 @@ export abstract class AbstractVmdRdvView extends LitElement {
         this.requestUpdate('communesDisponibles')
     }
 
-    _communeSelected(commune: Commune): void {
-        // to be overriden
+    async communeSelected(commune: Commune, triggerNavigation: boolean): Promise<void> {
+        if(!this.communeSelectionnee) {
+            const departement = this.departementsDisponibles.find(d => d.code_departement === commune.codeDepartement);
+            Router.navigateToRendezVousAvecCommune('distance',
+                commune.codeDepartement,
+                libelleUrlPathDuDepartement(departement!),
+                commune.code,
+                commune.codePostal,
+                libelleUrlPathDeCommune(commune)
+            );
+            return;
+        }
+
+        if(this.communeSelectionnee.code !== commune.code || this.codeDepartementSelectionne !== commune.codeDepartement) {
+            this.codeDepartementSelectionne = commune.codeDepartement;
+            this.resetCommuneSelectionneeTo(commune);
+
+            if(triggerNavigation) {
+                this.refreshPageWhenValidParams();
+            }
+        }
+
+        await this.refreshLieux();
+
+        return Promise.resolve();
     }
 
-    async communeSelected(commune: Commune, triggerNavigation: boolean): Promise<void> {
-        if(commune.codeDepartement !== this.codeDepartementSelectionne) {
-            this._communeSelected(commune);
-            this.codeDepartementSelectionne = commune.codeDepartement;
+    async departementSelected(departement: Departement, triggerNavigation: boolean): Promise<void> {
+        if(this.getCodeCommuneSelectionne()) {
+            Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement));
+            return;
+        }
+
+        if(departement.code_departement !== this.codeDepartementSelectionne) {
+            this.codeDepartementSelectionne = departement.code_departement;
 
             if(triggerNavigation) {
                 this.refreshPageWhenValidParams();
@@ -106,11 +145,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return Promise.resolve();
     }
 
-    critereTriUpdated(triCentre: CodeTriCentre) {
-        this.critèreDeTri = triCentre;
-        this.refreshPageWhenValidParams();
-    }
-
     render() {
         return html`
             <div class="p-5 text-dark bg-light rounded-3">
@@ -119,29 +153,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
                       Localisation recherchée :
                     </label>
                     <div class="col">
-                        <vmd-commune-selector class="mb-3"
+                        <vmd-commune-or-departement-selector class="mb-3"
                               @autocomplete-triggered="${(event: CustomEvent<AutocompleteTriggered>) => this.communeAutocompleteTriggered(event.detail.value)}"
                               @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune, true)}"
+                              @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement, true)}"
                               codeCommuneSelectionne="${this.getCodeCommuneSelectionne()}"
+                              .departementsDisponibles="${this.departementsDisponibles}"
                               .autocompleteTriggers="${this.communesAutocomplete}"
                               .communesDisponibles="${this.communesDisponibles}"
                               .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
                         >
-                        </vmd-commune-selector>
+                        </vmd-commune-or-departement-selector>
                     </div>
                 </div>
-                <div class="rdvForm-fields row align-items-center">
-                  <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
-                    Je recherche une dose de vaccin :
-                  </label>
-                  <div class="col">
-                    <vmd-button-switch class="mb-3"
-                                       codeSelectionne="${this.critèreDeTri}"
-                                       .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle }))}"
-                                       @changed="${(event: ValueStrCustomEvent<CodeTriCentre>) => this.critereTriUpdated(event.detail.value)}">
-                    </vmd-button-switch>
-                  </div>
-                </div>
+                ${this.renderAdditionnalSearchCriteria()}
             </div>
 
             <div class="spacer mt-5 mb-5"></div>
@@ -153,9 +178,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
               </div>
             `:html`
                 <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
-                  ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)} autours de
-                  <span class="fw-bold">${this.communeSelectionnee?`${this.communeSelectionnee.nom} (${this.communeSelectionnee.codePostal})`:"???"}
-                  </span>
+                  ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)}
+                  ${this.libelleLieuSelectionne()}
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}</span>` : html``}
                 </h3>
@@ -175,7 +199,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     `}
 
                 <div class="resultats p-5 text-dark bg-light rounded-3">
-                    ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles:[], (c => `${c.departement}||${c.nom}||${c.plateforme}||${this.critèreDeTri}`), (lieu, index) => {
+                    ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
                         return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${true}" .distance="${lieu.distance}" />`;
                     })}
 
@@ -202,28 +226,44 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return Promise.resolve(autocompletes);
     }
 
+    onceStartupPromiseResolved() {
+        // to be overriden
+    }
+
     async connectedCallback() {
         super.connectedCallback();
 
-        const [departementsDisponibles, autocompletes ] = await Promise.all([
-            State.current.departementsDisponibles(),
+        await Promise.all([
+            State.current.departementsDisponibles().then(departementsDisponibles => {
+                this.departementsDisponibles = departementsDisponibles;
+            }),
             State.current.communeAutocompleteTriggers(Router.basePath).then((autocompletes) => {
                 return this.onCommuneAutocompleteLoaded(autocompletes);
+            }).then(autocompletes => {
+                this.communesAutocomplete = new Set(autocompletes);
             })
         ])
 
-        this.departementsDisponibles = departementsDisponibles;
-        this.communesAutocomplete = new Set(autocompletes);
+        this.onceStartupPromiseResolved();
+    }
+
+    preventRafraichissementLieux(): boolean {
+        // overridable
+        return false;
+    }
+
+    codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[] {
+        // overridable
+        return [];
     }
 
     async refreshLieux() {
-        const communeSelectionnee = this.communeSelectionnee;
-        if (communeSelectionnee && this.codeDepartementSelectionne) {
+        if(this.codeDepartementSelectionne && !this.preventRafraichissementLieux()) {
             try {
                 this.searchInProgress = true;
                 const [lieuxDepartement, ...lieuxDepartementsLimitrophes] = await Promise.all([
                     State.current.lieuxPour(this.codeDepartementSelectionne),
-                    ...DEPARTEMENTS_LIMITROPHES[this.codeDepartementSelectionne].map(dept => State.current.lieuxPour(dept))
+                    ...this.codeDepartementAdditionnels(this.codeDepartementSelectionne).map(dept => State.current.lieuxPour(dept))
                 ]);
 
                 const lieuxParDepartement = [lieuxDepartement].concat(lieuxDepartementsLimitrophes).reduce((mergedLieuxParDepartement, lieuxParDepartement) => ({
@@ -238,38 +278,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     lieuxIndisponibles: []
                 } as LieuxParDepartement);
 
-                const origin = (communeSelectionnee.latitude && communeSelectionnee.longitude)?
-                    {longitude:communeSelectionnee.longitude, latitude: communeSelectionnee.latitude}:undefined;
-                const distanceAvec = origin?
-                    (lieu: Lieu) => (lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity)
-                    :(lieu: Lieu) => undefined;
-
-                const { lieuxDisponibles, lieuxIndisponibles } = {
-                    lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles.map(l => ({
-                        ...l, distance: distanceAvec(l)
-                    })).filter(l => !l.distance || l.distance < 150):[],
-                    lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles.map(l => ({
-                        ...l, distance: distanceAvec(l)
-                    })).filter(l => !l.distance || l.distance < 150):[],
-                };
-
-                if(this.critèreDeTri==='date') {
-                    this.lieuxParDepartementAffiches = {
-                        ...lieuxParDepartement,
-                        lieuxDisponibles: [...lieuxDisponibles]
-                            .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
-                        lieuxIndisponibles: [...lieuxIndisponibles]
-                            .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
-                    };
-                } else if(this.critèreDeTri==='distance') {
-                    this.lieuxParDepartementAffiches = {
-                        ...lieuxParDepartement!,
-                        lieuxDisponibles: [...lieuxDisponibles]
-                            .sort((a, b) => a.distance! - b.distance!),
-                        lieuxIndisponibles: [...lieuxIndisponibles]
-                            .sort((a, b) => a.distance! - b.distance!),
-                    };
-                }
+                this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement);
             } finally {
                 this.searchInProgress = false;
             }
@@ -289,7 +298,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return "continue";
     }
 
-    private refreshPageWhenValidParams() {
+    protected refreshPageWhenValidParams() {
         this.refreshLieux();
 
         if(this._onRefreshPageWhenValidParams() === 'return') {
@@ -297,11 +306,17 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
 
         if (this.codeDepartementSelectionne) {
-            Router.navigateToRendezVous(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!));
+            Router.navigateToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!));
         }
     }
 
+    renderAdditionnalSearchCriteria(): TemplateResult {
+        return html``;
+    }
+
     abstract getCodeCommuneSelectionne(): string|undefined;
+    abstract libelleLieuSelectionne(): TemplateResult;
+    abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement;
 }
 
 @customElement('vmd-rdv-par-commune')
@@ -309,18 +324,23 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
     @property({type: String}) codePostalSelectionne: string | undefined = undefined;
 
-    get departementSelectionne(): Departement|undefined {
+    @property({type: String}) critèreDeTri: 'date' | 'distance' = 'distance'
+
+    preventRafraichissementLieux() {
+        return !this.communeSelectionnee;
+    }
+
+    codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement) {
+        return DEPARTEMENTS_LIMITROPHES[codeDepartementSelectionne];
+    }
+
+    protected getDepartementSelectionne(): Departement|undefined {
         let communeSelectionnee = this.communeSelectionnee;
         if(communeSelectionnee && this.departementsDisponibles) {
             return this.departementsDisponibles.find(d => communeSelectionnee!.codeDepartement === d.code_departement);
         }
 
-        return undefined;
-    }
-
-    _communeSelected(commune: Commune): void {
-        this.codeCommuneSelectionne = commune.code;
-        this.codePostalSelectionne = commune.codePostal;
+        return super.getDepartementSelectionne();
     }
 
     _onRefreshPageWhenValidParams() {
@@ -331,6 +351,15 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         }
 
         return 'continue';
+    }
+
+
+    libelleLieuSelectionne(): TemplateResult {
+        return html`
+          autours de
+          <span class="fw-bold">${this.communeSelectionnee?`${this.communeSelectionnee.nom} (${this.communeSelectionnee.codePostal})`:"???"}
+          </span>
+        `
     }
 
     async onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<string[]> {
@@ -351,7 +380,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
             const communeSelectionnee = this.communesDisponibles.find(c => c.code === this.codeCommuneSelectionne);
             if (communeSelectionnee) {
-                const component = (this.shadowRoot!.querySelector("vmd-commune-selector") as VmdCommuneSelectorComponent)
+                const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneSelectorComponent)
                 component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
 
                 await this.communeSelected(communeSelectionnee, false);
@@ -363,9 +392,72 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         return autocompletes;
     }
 
-
     getCodeCommuneSelectionne(): string|undefined {
         return this.codeCommuneSelectionne;
+    }
+
+    resetCommuneSelectionneeTo(commune: Commune|undefined) {
+        this.codeCommuneSelectionne = commune?commune.code:undefined;
+        this.codePostalSelectionne = commune?commune.codePostal:undefined;
+    }
+
+    afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement {
+        const origin = (this.communeSelectionnee!.latitude && this.communeSelectionnee!.longitude)?
+            {longitude:this.communeSelectionnee!.longitude, latitude: this.communeSelectionnee!.latitude}:undefined;
+        const distanceAvec = origin?
+            (lieu: Lieu) => (lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity)
+            :(lieu: Lieu) => undefined;
+
+        const { lieuxDisponibles, lieuxIndisponibles } = {
+            lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles.map(l => ({
+                ...l, distance: distanceAvec(l)
+            })).filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM):[],
+            lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles.map(l => ({
+                ...l, distance: distanceAvec(l)
+            })).filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM):[],
+        };
+
+        if(this.critèreDeTri==='date') {
+            return {
+                ...lieuxParDepartement,
+                lieuxDisponibles: [...lieuxDisponibles]
+                    .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
+                lieuxIndisponibles: [...lieuxIndisponibles]
+                    .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
+            };
+        } else if(this.critèreDeTri==='distance') {
+            return {
+                ...lieuxParDepartement!,
+                lieuxDisponibles: [...lieuxDisponibles]
+                    .sort((a, b) => a.distance! - b.distance!),
+                lieuxIndisponibles: [...lieuxIndisponibles]
+                    .sort((a, b) => a.distance! - b.distance!),
+            };
+        } else {
+            throw new Error("No critereDeTri defined !");
+        }
+    }
+
+    critereTriUpdated(triCentre: CodeTriCentre) {
+        this.critèreDeTri = triCentre;
+        this.refreshPageWhenValidParams();
+    }
+
+    renderAdditionnalSearchCriteria(): TemplateResult {
+        return html`
+          <div class="rdvForm-fields row align-items-center">
+            <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
+              Je recherche une dose de vaccin :
+            </label>
+            <div class="col">
+              <vmd-button-switch class="mb-3"
+                     codeSelectionne="${this.critèreDeTri}"
+                     .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle }))}"
+                     @changed="${(event: ValueStrCustomEvent<CodeTriCentre>) => this.critereTriUpdated(event.detail.value)}">
+              </vmd-button-switch>
+            </div>
+          </div>
+        `;
     }
 }
 
@@ -374,5 +466,46 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
 
     getCodeCommuneSelectionne(): string|undefined {
         return undefined;
+    }
+
+    async onceStartupPromiseResolved() {
+        if(this.codeDepartementSelectionne) {
+            const departementSelectionne = this.departementsDisponibles.find(d => d.code_departement === this.codeDepartementSelectionne);
+            if (departementSelectionne) {
+                const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneOrDepartmentSelectorComponent)
+                component.fillDepartement(departementSelectionne);
+
+                await this.departementSelected(departementSelectionne, false);
+            }
+        }
+
+        await this.refreshLieux();
+    }
+
+    libelleLieuSelectionne(): TemplateResult {
+        return html`
+          pour
+          <span class="fw-bold">${this.departementSelectionne?`${this.departementSelectionne.nom_departement} (${this.departementSelectionne.code_departement})`:"???"}
+          </span>
+        `
+    }
+
+    afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement {
+        const { lieuxDisponibles, lieuxIndisponibles } = {
+            lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles.map(l => ({
+                ...l, distance: undefined
+            })):[],
+            lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles.map(l => ({
+                ...l, distance: undefined
+            })):[],
+        };
+
+        return {
+            ...lieuxParDepartement,
+            lieuxDisponibles: [...lieuxDisponibles]
+                .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
+            lieuxIndisponibles: [...lieuxIndisponibles]
+                .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
+        };
     }
 }

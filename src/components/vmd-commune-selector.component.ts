@@ -1,14 +1,17 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
-import {Commune} from "../state/State";
+import {Commune, Departement} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
 import communeSelectorCss from "../styles/components/_communeSelector.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
+import {TemplateResult} from "lit-html";
+import {DirectiveFn} from "lit-html/lib/directive";
 
 
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
+export type DepartementSelected = { departement: Departement };
 
 @customElement('vmd-commune-selector')
 export class VmdCommuneSelectorComponent extends LitElement {
@@ -172,13 +175,17 @@ export class VmdCommuneSelectorComponent extends LitElement {
                 ${(this.inputMode==='numeric' && (!this.communesAffichees || !this.communesAffichees.length))?html`
                 <li class="autocomplete-result switch-to-text" @click="${() => { this.inputMode='text'; this.shadowRoot!.querySelector("input")!.focus(); }}"><em>Je ne connais pas le code postal</em></li>
                 `:html``}
-                ${repeat(this.communesAffichees || [], (c) => `${c.codePostal}__${c.nom}`, ((commune, index) => {
-                    return html`<li class="autocomplete-result" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
-                }))}
+                ${this.renderListItems()}
               </ul>
               `:html``}
           </div>
         `;
+    }
+
+    renderListItems(): TemplateResult|DirectiveFn {
+        return repeat(this.communesAffichees || [], (c) => `comm_${c.codePostal}__${c.nom}`, ((commune, index) => {
+            return html`<li class="autocomplete-result" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
+        }));
     }
 
     connectedCallback() {
@@ -198,5 +205,55 @@ export class VmdCommuneSelectorComponent extends LitElement {
     fillCommune(commune: Commune | undefined, autoCompleteCodePostal: string) {
         this.filter = `${commune?commune.codePostal:"???"} - ${commune?commune.nom:"???"}`;
         this.filterMatchingAutocomplete = autoCompleteCodePostal;
+    }
+}
+
+
+@customElement('vmd-commune-or-departement-selector')
+export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorComponent {
+    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
+    @property({type: Array, attribute: false}) departementsAffiches: Departement[] = [];
+
+    departementSelectionne(dpt: Departement) {
+        this.filter = `${dpt.code_departement} - ${dpt.nom_departement}`;
+        this.communesDisponibles = [];
+        this.departementsAffiches = [];
+
+        this.dispatchEvent(new CustomEvent<DepartementSelected>('on-departement-selected', {
+            detail: {
+                departement: dpt
+            }
+        }));
+    }
+
+    valueChanged(event: Event) {
+        super.valueChanged(event);
+
+        this.filtrerDepartementsAffichees();
+    }
+
+    private filtrerDepartementsAffichees() {
+        const fullTextSearchableQuery = Strings.toFullTextSearchableString(this.filter)
+
+        this.departementsAffiches = this.departementsDisponibles?this.departementsDisponibles.filter(dpt => {
+            const fullTextSearchableNomCommune = Strings.toFullTextSearchableString(dpt.nom_departement)
+
+            return dpt.code_departement.indexOf(fullTextSearchableQuery) === 0
+                || fullTextSearchableNomCommune.indexOf(fullTextSearchableQuery) !== -1;
+        }):[];
+    }
+
+    renderListItems(): TemplateResult|DirectiveFn {
+        return html`
+            ${repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, ((dpt, index) => {
+                return html`<li class="autocomplete-result" @click="${() => this.departementSelectionne(dpt)}"><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
+            }))}
+            ${super.renderListItems()}
+        `;
+    }
+
+    fillDepartement(departement: Departement | undefined) {
+        this.filter = `${departement?departement.code_departement:'???'} - ${departement?departement.nom_departement:'???'}`
+        // this.filterMatchingAutocomplete = autoCompleteCodePostal;
     }
 }

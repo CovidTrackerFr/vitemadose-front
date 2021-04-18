@@ -13,7 +13,11 @@ import {
     State,
     StatsLieu,
 } from "../state/State";
-import {AutocompleteTriggered, CommuneSelected} from "../components/vmd-commune-selector.component";
+import {
+    AutocompleteTriggered,
+    CommuneSelected,
+    DepartementSelected
+} from "../components/vmd-commune-selector.component";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {
@@ -38,8 +42,14 @@ export class VmdHomeView extends LitElement {
 
     private departementsDisponibles: Departement[]|undefined = [];
     private communeSelectionee: Commune|undefined = undefined;
+    private departementSelectione: Departement|undefined = undefined;
 
     rechercherRdv() {
+        if(this.departementSelectione) {
+            Router.navigateToRendezVousAvecDepartement(this.departementSelectione.code_departement, libelleUrlPathDuDepartement(this.departementSelectione));
+            return;
+        }
+
         const departement = this.departementsDisponibles?this.departementsDisponibles.find(dpt => dpt.code_departement === this.communeSelectionee!.codeDepartement):undefined;
         if(!departement) {
             console.error(`Can't find departement matching code ${this.communeSelectionee!.codeDepartement}`)
@@ -67,6 +77,11 @@ export class VmdHomeView extends LitElement {
         this.rechercherRdv();
     }
 
+    departementSelected(departement: Departement) {
+        this.departementSelectione = departement;
+        this.rechercherRdv();
+    }
+
     render() {
         return html`
             <div class="searchDose">
@@ -80,14 +95,16 @@ export class VmdHomeView extends LitElement {
                             Localisation recherchée :
                         </label>
                         <div class="col">
-                            <vmd-commune-selector class="mb-3"
+                            <vmd-commune-or-departement-selector class="mb-3"
                                   @autocomplete-triggered="${this.communeAutocompleteTriggered}"
                                   @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune)}"
+                                  @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement)}"
+                                  .departementsDisponibles="${this.departementsDisponibles}"
                                   .autocompleteTriggers="${this.communesAutocomplete}"
                                   .communesDisponibles="${this.communesDisponibles}"
                                   .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
                             >
-                            </vmd-commune-selector>
+                            </vmd-commune-or-departement-selector>
                         </div>
                     </div>
                     <div class="searchDoseForm-action">
