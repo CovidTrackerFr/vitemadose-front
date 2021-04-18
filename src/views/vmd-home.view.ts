@@ -107,12 +107,6 @@ export class VmdHomeView extends LitElement {
                             </vmd-commune-or-departement-selector>
                         </div>
                     </div>
-                    <div class="searchDoseForm-action">
-                        <button class="btn btn-primary btn-lg" ?disabled="${!this.communeSelectionee}"
-                                @click="${this.rechercherRdv}">
-                            Rechercher
-                        </button>
-                    </div>
                 </div>
             </div>
 
