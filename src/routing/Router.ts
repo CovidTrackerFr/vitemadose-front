@@ -67,6 +67,7 @@ class Routing {
                 this._viewChangeCallbacks.forEach(callback => callback(slottedViewTemplateFactory, path));
 
                 (window as any).dataLayer.push({
+                    'event': 'change_screen',
                     'site_name' : 'vite_ma_dose',
                     'page_type' : pageName
                 });
