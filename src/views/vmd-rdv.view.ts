@@ -200,7 +200,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${this.lieuxParDepartementAffiches.lieuxDisponibles.length} Lieu${Strings.plural(this.lieuxParDepartementAffiches.lieuxDisponibles.length, 'x')} de vaccination covid ont des disponibilités
+                                ${this.lieuxParDepartementAffiches.lieuxDisponibles.length} Lieu${Strings.plural(this.lieuxParDepartementAffiches.lieuxDisponibles.length, 'x')} de vaccination covid avec des disponibilités
                             </span>
                         </h2>
                     ` : html`
