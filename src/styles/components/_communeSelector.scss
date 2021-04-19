@@ -45,7 +45,7 @@ input, .autocomplete {
 
         &._withButton {
             .autocomplete-input {
-                border-radius: 1.2rem 1.2rem 0 0;
+                border-radius: 1.2rem 0 0 0;
             }
 
             .autocomplete-button {
@@ -80,7 +80,7 @@ input, .autocomplete {
         }
 
         .autocomplete-input {
-            border-radius: 1.2rem 1.2rem 1.2rem 1.2rem;
+            border-radius: 1.2rem 0 0 1.2rem;
         }
     }
 
