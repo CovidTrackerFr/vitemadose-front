@@ -9,7 +9,7 @@ Don't hesitate to install multiple `node` version in your dev environment using 
 # Boostrap
 
 Install dependencies :
-`npm install`
+`npm ci`
 
 Run vite (we're obviously using vitejs for vite-ma-dose !) :
 `npm run dev` or `vite` (see `package.json` scripts)
