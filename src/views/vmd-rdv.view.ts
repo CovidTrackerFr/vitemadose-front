@@ -57,8 +57,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
 
+    protected derniereCommuneSelectionnee: Commune|undefined = undefined;
+
 
     get communeSelectionnee(): Commune|undefined {
+        if(this.derniereCommuneSelectionnee) {
+            return this.derniereCommuneSelectionnee;
+        }
+
         // Calling a non-getter as getter overriden methods don't seem to be able to call
         // super.departementSelectionne
         return this.getCommuneSelectionnee();
@@ -71,7 +77,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     resetCommuneSelectionneeTo(commune: Commune|undefined) {
-        // overridable
+        this.derniereCommuneSelectionnee = commune;
     }
 
     protected getDepartementSelectionne(): Departement|undefined {
@@ -111,6 +117,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     async communeSelected(commune: Commune, triggerNavigation: boolean): Promise<void> {
         if(!this.communeSelectionnee) {
+            this.derniereCommuneSelectionnee = commune;
+
             const departement = this.departementsDisponibles.find(d => d.code_departement === commune.codeDepartement);
             Router.navigateToRendezVousAvecCommune('distance',
                 commune.codeDepartement,
@@ -409,6 +417,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     }
 
     resetCommuneSelectionneeTo(commune: Commune|undefined) {
+        super.resetCommuneSelectionneeTo(commune);
         this.codeCommuneSelectionne = commune?commune.code:undefined;
         this.codePostalSelectionne = commune?commune.codePostal:undefined;
     }
