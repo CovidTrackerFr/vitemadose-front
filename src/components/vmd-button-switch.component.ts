@@ -37,7 +37,7 @@ export class VmdButtonSwitchComponent extends LitElement {
           <div class="btn-group" role="group">
               ${repeat(this.options, option => option.code, option => html`
                 <button type="button" 
-                        class="btn option ${classMap({ 'btn-primary': option.code===this.codeSelectionne, 'not-selected': option.code!==this.codeSelectionne })}" 
+                        class="option ${classMap({ 'active': option.code===this.codeSelectionne })}" 
                         @click="${() => this.valeurSelectionnee(option.code)}">
                   ${option.libelle}
                 </button>
