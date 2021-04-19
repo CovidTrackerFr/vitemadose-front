@@ -3,7 +3,9 @@
 @import "src/styles/bootstrap-variables";
 
 .option {
-  font-size: calc(1.1rem + 0.8vw);
+  @include media-breakpoint-up(md) {
+    font-size: 2.4rem;
+  }
   font-weight: bold;
 
   &:first-child {
