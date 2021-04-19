@@ -1,13 +1,6 @@
 import {ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 
-type Features = {
-    trancheAgeFilter: boolean;
-};
-export const FEATURES: Features = {
-    trancheAgeFilter: false
-};
-
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
     codeTrancheAge: CodeTrancheAge;
@@ -15,6 +8,16 @@ export type TrancheAge = {
 };
 export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
     ['plus75ans', { codeTrancheAge: 'plus75ans', libelle: "Plus de 75 ans" }]
+]);
+
+export type CodeTriCentre = 'date' | 'distance';
+export type TriCentre = {
+    codeTriCentre: CodeTriCentre;
+    libelle: string;
+};
+export const TRIS_CENTRE: Map<CodeTriCentre, TriCentre> = new Map([
+    ['distance', { codeTriCentre: 'distance', libelle: "Au plus proche" }],
+    ['date', { codeTriCentre: 'date', libelle: "Disponible au plus vite" }],
 ]);
 
 const USE_RAW_GITHUB = false
@@ -105,7 +108,7 @@ export type Coordinates = { latitude: number, longitude: number }
 export type LieuxParDepartement = {
     lieuxDisponibles: Lieu[];
     lieuxIndisponibles: Lieu[];
-    codeDepartement: CodeDepartement;
+    codeDepartements: CodeDepartement[];
     derniereMiseAJour: ISODateString;
 };
 export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
@@ -126,17 +129,29 @@ export type StatsLieu = {
     global: StatLieuGlobale;
 }
 
+export type CommunesParAutocomplete = Map<string, Commune[]>;
+export type Commune = {
+    code: string;
+    codePostal: string;
+    nom: string;
+    codeDepartement: string;
+    latitude: number|undefined;
+    longitude: number|undefined;
+};
+// Permet de convertir un nom de departement en un chemin d'url correct (remplacement des caractères
+// non valides comme les accents ou les espaces)
+export const libelleUrlPathDeCommune = (commune: Commune) => {
+    return Strings.toReadableURLPathValue(commune.nom);
+}
+
 export class State {
     public static current = new State();
-
-    private _departementsDiponibles: Departement[]|undefined = undefined;
-    private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
-    private _statsLieu: StatsLieu|undefined = undefined;
 
     private constructor() {
     }
 
-    async lieuxPour(codeDepartement: CodeDepartement, codeTrancheAge: CodeTrancheAge): Promise<LieuxParDepartement> {
+    private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
+    async lieuxPour(codeDepartement: CodeDepartement): Promise<LieuxParDepartement> {
         if(this._lieuxParDepartement.has(codeDepartement)) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
         } else {
@@ -145,12 +160,13 @@ export class State {
             return {
                 lieuxDisponibles: results.centres_disponibles.map(transformLieu),
                 lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
-                codeDepartement,
+                codeDepartements: [codeDepartement],
                 derniereMiseAJour: results.last_updated
             };
         }
     }
 
+    private _departementsDiponibles: Departement[]|undefined = undefined;
     async departementsDisponibles(): Promise<Departement[]> {
         if(this._departementsDiponibles !== undefined) {
             return Promise.resolve(this._departementsDiponibles);
@@ -164,6 +180,43 @@ export class State {
         }
     }
 
+    private _communeAutocompleteTriggers: string[]|undefined = undefined;
+    async communeAutocompleteTriggers(basePath: string): Promise<string[]> {
+        if(this._communeAutocompleteTriggers !== undefined) {
+            return Promise.resolve(this._communeAutocompleteTriggers)
+        } else {
+            const autocompletes = await fetch(`${basePath}autocompletes.json`).then(resp => resp.json());
+
+            this._communeAutocompleteTriggers = autocompletes;
+            return autocompletes;
+        }
+    }
+
+    private _communesParAutocomplete: CommunesParAutocomplete = new Map<string, Commune[]>();
+    async communesPourAutocomplete(basePath: string, autocomplete: string): Promise<Commune[]> {
+        if(this._communesParAutocomplete.has(autocomplete)) {
+            return this._communesParAutocomplete.get(autocomplete)!;
+        } else {
+            const communes = await fetch(`${basePath}autocomplete-cache/${autocomplete}.json`)
+                .then(resp => resp.json())
+                .then(communesResult => communesResult.communes.map((c: any) => {
+                    const commune: Commune = {
+                        code: c.c,
+                        codePostal: c.z,
+                        nom: c.n,
+                        codeDepartement: c.d,
+                        longitude: c.g?Number(c.g.split(",")[0]):undefined,
+                        latitude: c.g?Number(c.g.split(",")[1]):undefined,
+                    };
+                    return commune;
+                }));
+
+            this._communesParAutocomplete.set(autocomplete, communes);
+            return communes;
+        }
+    }
+
+    private _statsLieu: StatsLieu|undefined = undefined;
     async statsLieux(): Promise<StatsLieu> {
         if(this._statsLieu !== undefined) {
             return Promise.resolve(this._statsLieu);
@@ -186,33 +239,5 @@ export class State {
             this._statsLieu = statsLieu;
             return statsLieu;
         }
-    }
-
-    private geolocalisationBloquée = false
-    private geolocalisationIndisponible = false
-    private userLocation: Coordinates | 'bloqué' | 'indisponible' | undefined
-    async localisationNavigateur (): Promise<Coordinates | 'bloqué' | 'indisponible'> {
-      if(this.userLocation !== 'indisponible' && this.userLocation !== undefined) {
-          return this.userLocation;
-      }
-
-      const promise = new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 4000,
-        })
-      })
-      try {
-        const { coords } = await (promise as Promise<{ coords: Coordinates }>)
-        this.userLocation = coords
-      } catch (error) {
-        if (error instanceof GeolocationPositionError && error.code === 1) {
-          this.userLocation = 'bloqué'
-        } else {
-          this.userLocation = 'indisponible'
-        }
-      }
-      return this.userLocation
-
     }
 }

@@ -1,6 +1,7 @@
 import page from "page";
 import { TemplateResult } from "lit-html";
 import {html} from "lit-element";
+import {CodeTriCentre} from "../state/State";
 
 export type SlottedTemplateResultFactory = (subViewSlot: TemplateResult) => TemplateResult;
 
@@ -29,9 +30,18 @@ class Routing {
         this.declareRoute(`/`, () => (subViewSlot) =>
             html`<vmd-home>${subViewSlot}</vmd-home>`);
         this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`, (params) => (subViewSlot) =>
-            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
+            html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv-par-departement>`);
         this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`, (params) => (subViewSlot) =>
-            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
+            html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv-par-departement>`);
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt`, (params) => (subViewSlot) =>
+            html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv-par-departement>`);
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`, (params) => (subViewSlot) =>
+            html`<vmd-rdv-par-commune 
+                          codeCommuneSelectionne="${params[`codeCommune`]}" 
+                          codePostalSelectionne="${params[`codePostal`]}"
+                          critèreDeTri="${params[`codeTriCentre`]}">
+                     ${subViewSlot}
+                 </vmd-rdv-par-commune>`);
         this.declareRoute(`/centres`, (params) => (subViewSlot) =>
             html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
         this.declareRoute(`/apropos`, (params) => (subViewSlot) =>
@@ -68,8 +78,12 @@ class Routing {
         this.navigateToHome();
     }
 
-    public navigateToRendezVous(codeDepartement: string, pathLibelleDepartement: string, trancheAge: string) {
-        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/age-${trancheAge}/`);
+    public navigateToRendezVousAvecDepartement(codeDepartement: string, pathLibelleDepartement: string) {
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}`);
+    }
+
+    public navigateToRendezVousAvecCommune(codeTriCentre: CodeTriCentre, codeDepartement: string, pathLibelleDepartement: string, codeCommune: string, codePostal: string, pathLibelleCommune: string) {
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/commune${codeCommune}-${codePostal}-${pathLibelleCommune}/en-triant-par-${codeTriCentre}`);
     }
 
     navigateToHome() {
