@@ -106,7 +106,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                            <a href="#" target="_blank" class="btn btn-primary btn-lg">
+                            <a href="#" class="btn btn-primary btn-lg">
                               Prendre rendez-vous
                             </a>
                             <div class="row align-items-center justify-content-center mt-3 text-black-50">
@@ -148,7 +148,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                     ${this.estCliquable?html`
                     <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                      <a href="#" target="_blank" class="btn btn-info btn-lg">Vérifier le centre de vaccination</a>
+                      <a href="#" class="btn btn-info btn-lg">Vérifier le centre de vaccination</a>
                     </div>
                     `:html``}
                   </div>
