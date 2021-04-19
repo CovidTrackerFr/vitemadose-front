@@ -297,6 +297,16 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 } as LieuxParDepartement);
 
                 this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement);
+
+                (window as any).dataLayer.push({
+                    'event': this.communeSelectionnee?'search_by_commune':'search_by_departement',
+                    'search_departement': this.codeDepartementSelectionne,
+                    'search_commune' : this.communeSelectionnee?`${this.communeSelectionnee.codePostal} - ${this.communeSelectionnee.nom} (${this.communeSelectionnee.code})`:undefined,
+                    'search_nb_doses' : this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles.reduce((totalDoses, lieu) => totalDoses+lieu.appointment_count, 0):undefined,
+                    'search_nb_lieu_vaccination' : this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles.length:undefined,
+                    'search_nb_lieu_vaccination_inactive' : this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxIndisponibles.length:undefined,
+                    'search_filter_type': (this as any).critèreDeTri || 'date'
+                });
             } finally {
                 this.searchInProgress = false;
             }
@@ -461,6 +471,12 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
     critereTriUpdated(triCentre: CodeTriCentre) {
         this.critèreDeTri = triCentre;
+
+        (window as any).dataLayer.push({
+            'event': 'sort_change',
+            'sort_changed_to' : triCentre,
+        });
+
         this.refreshPageWhenValidParams();
     }
 
