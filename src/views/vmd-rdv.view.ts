@@ -197,7 +197,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 <div class="spacer mt-5 mb-5"></div>
                 <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
                     ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxDisponibles.length) ? html`
-                        <h2 class="row align-items-center justify-content-center mb-5 h5">
+                        <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
                                 ${this.lieuxParDepartementAffiches.lieuxDisponibles.length} Lieu${Strings.plural(this.lieuxParDepartementAffiches.lieuxDisponibles.length, 'x')} de vaccination covid avec des disponibilités
@@ -216,7 +216,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxIndisponibles.length) ? html`
                     <div class="spacer mt-5 mb-5"></div>
 
-                    <h5 class="row align-items-center justify-content-center mb-5">
+                    <h5 class="row align-items-center justify-content-center mb-5 px-3">
                         <i class="bi vmdicon-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
                         <span class="col col-sm-auto text-black-50">
                             Autres centres sans créneaux de vaccination détectés
