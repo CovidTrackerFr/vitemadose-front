@@ -158,8 +158,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
     render() {
         return html`
             <div class="p-5 text-dark bg-light rounded-5">
-                <div class="rdvForm-fields row align-items-center">
-                    <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
+                <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
+                    <label class="col-sm-24 col-md-auto">
                       Localisation :
                     </label>
                     <div class="col">
@@ -195,7 +195,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </h3>
 
                 <div class="spacer mt-5 mb-5"></div>
-                <div class="resultats p-5 text-dark bg-light rounded-5">
+                <div class="resultats px-2 py-5 text-dark bg-light rounded-5">
                     ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxDisponibles.length) ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
@@ -208,7 +208,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
                     `}
 
-                <div class="resultats p-5 text-dark bg-light rounded-3">
+                <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
                     ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
                         return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${true}" .distance="${lieu.distance}" />`;
                     })}
@@ -458,7 +458,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     renderAdditionnalSearchCriteria(): TemplateResult {
         return html`
           <div class="rdvForm-fields row align-items-center">
-            <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
+            <label class="col-sm-24 col-md-auto mb-md-3">
               Je recherche une dose de vaccin :
             </label>
             <div class="col">

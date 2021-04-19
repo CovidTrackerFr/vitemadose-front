@@ -8,11 +8,12 @@
         margin: auto;
 
         @include media-breakpoint-up(xl) {
-            max-width: 45vw;
-
-            label, select {
-                font-size: 2.4rem;
-            }
+            max-width: 65vw;
+        }
+        @include media-breakpoint-up(md) {
+          label, select, input {
+            font-size: calc(1.325rem + 0.9vw);
+          }
         }
     }
 }

@@ -15,11 +15,22 @@ input, .autocomplete {
   border-width: $input-border-width;
   border-color: $input-border-color;
   border-radius: 1.2rem;
-  font-size: calc(1.325rem + 0.9vw);
+
+  @include media-breakpoint-up(md) {
+      font-size: calc(1.325rem + 0.9vw);
+  }
 }
 
 .autocomplete {
     position: relative;
+
+    @include media-breakpoint-up(xl) {
+        /*
+        This covers longest commune :
+        51290 - Saint-Remy-en-Bouzemont-Saint-Genest-et-Isson
+         */
+        max-width: 50vw;
+    }
 
     .autocomplete-results {
         display: none;
@@ -34,7 +45,7 @@ input, .autocomplete {
 
         &._withButton {
             .autocomplete-input {
-                border-radius: 1.2rem 0 0 0;
+                border-radius: 1.2rem 1.2rem 0 0;
             }
 
             .autocomplete-button {
@@ -69,7 +80,7 @@ input, .autocomplete {
         }
 
         .autocomplete-input {
-            border-radius: 1.2rem 0 0 1.2rem;
+            border-radius: 1.2rem 1.2rem 1.2rem 1.2rem;
         }
     }
 
