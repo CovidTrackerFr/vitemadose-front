@@ -27,7 +27,7 @@
 }
 
 .card {
-  max-width: 75vw;
+  max-width: 80vw;
   margin: auto;
 
   .distance {
@@ -44,7 +44,7 @@
   }
 
   @include media-breakpoint-up(xl) {
-    max-width: 55vw;
+    max-width: 65vw;
   }
 }
 

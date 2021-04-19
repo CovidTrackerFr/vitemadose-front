@@ -15,25 +15,23 @@
     };
 }
 
-.fixed-card-height {
-    // Can't, as this is very complicated to tune properly for every breakpoints
-    //min-height: 45vw;
-    @include media-breakpoint-down(sm) { // < 576
-        //min-height: 300px;
+.homeCard {
+    display: flex;
+
+    &-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 2rem;
     }
-    @include media-breakpoint-between(sm, md) { // > 576
-        //min-height: 240px;
+
+    &-content {
+
     }
-    @include media-breakpoint-between(md, lg) { // > 768
-        min-height: 360px;
-    }
-    @include media-breakpoint-between(lg, xl) { // > 992
-        min-height: 360px;
-    }
-    @include media-breakpoint-between(xl, xxl) { // > 1200
-        min-height: 270px;
-    }
-    @include media-breakpoint-up(xxl) { // > 1400
-        min-height: 270px;
+
+
+    &-actions {
+
     }
 }

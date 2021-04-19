@@ -5,3 +5,12 @@
 .bg-disabled {
     background-color: $gray-400;
 }
+
+.form-select-lg {
+    padding-right: 4.8rem;
+
+    &.form-select {
+        background-position: right 0.55rem center;
+        background-size: 4.8rem 2rem;
+    }
+}

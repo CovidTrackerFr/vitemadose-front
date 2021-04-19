@@ -35,7 +35,7 @@ export class VmdAppComponent extends LitElement {
                     <img src="${Router.basePath}assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Trouvez votre créneau de vaccination avec Vite Ma Dose">
                 </div>
                 <div class="col">
-                    <div class="row justify-content-end">
+                    <div class="row justify-content-end gx-5">
                         <div class="col-auto">
                             <a href="${Router.basePath}apropos">À propos</a>
                         </div>
@@ -54,7 +54,8 @@ export class VmdAppComponent extends LitElement {
             
             <footer class="row justify-content-between">
                 <div class="col-auto">
-                    © Vite Ma Dose par CovidTracker • Contributeurs • Design Adrien Rochet
+                    Vite Ma Dose ! par CovidTracker -
+                    <a href="https://github.com/CovidTrackerFr/vitemadose-front/blob/main/LICENSE">(CC BY-NC-SA 4.0)</a>
                 </div>
                 <div class="col-auto">
                     <div class="row">

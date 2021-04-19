@@ -1,6 +1,7 @@
 import page from "page";
 import { TemplateResult } from "lit-html";
 import {html} from "lit-element";
+import {CodeTriCentre} from "../state/State";
 
 export type SlottedTemplateResultFactory = (subViewSlot: TemplateResult) => TemplateResult;
 
@@ -26,15 +27,28 @@ class Routing {
         page.redirect(`${this.basePath}home`, `/`);
         page.redirect(`${this.basePath}index.html`, `/`);
 
-        this.declareRoute(`/`, () => (subViewSlot) =>
+        this.declareRoute(`/`, 'home', () => (subViewSlot) =>
             html`<vmd-home>${subViewSlot}</vmd-home>`);
-        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`, (params) => (subViewSlot) =>
-            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
-        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`, (params) => (subViewSlot) =>
-            html`<vmd-rdv codeDepartementSelectionne="${params[`codeDpt`]}" codeTrancheAgeSelectionne="${params[`trancheAge`]}">${subViewSlot}</vmd-rdv>`);
-        this.declareRoute(`/centres`, (params) => (subViewSlot) =>
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`,
+            'search_results_by_department', (params) => (subViewSlot) =>
+            html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv-par-departement>`);
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`,
+            'search_results_by_department',(params) => (subViewSlot) =>
+            html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv-par-departement>`);
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
+            'search_results_by_department',(params) => (subViewSlot) =>
+            html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv-par-departement>`);
+        this.declareRoute(`/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`,
+            'search_results_by_city',(params) => (subViewSlot) =>
+            html`<vmd-rdv-par-commune 
+                          codeCommuneSelectionne="${params[`codeCommune`]}" 
+                          codePostalSelectionne="${params[`codePostal`]}"
+                          critèreDeTri="${params[`codeTriCentre`]}">
+                     ${subViewSlot}
+                 </vmd-rdv-par-commune>`);
+        this.declareRoute(`/centres`, 'centres',(params) => (subViewSlot) =>
             html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
-        this.declareRoute(`/apropos`, (params) => (subViewSlot) =>
+        this.declareRoute(`/apropos`, 'a_propos',(params) => (subViewSlot) =>
             html`<vmd-apropos>${subViewSlot}</vmd-apropos>`);
 
         page(`*`, (context) => this._notFoundRoute(context));
@@ -43,7 +57,7 @@ class Routing {
         return callbackCleaner;
     }
 
-    private declareRoute(path: string, viewComponentCreator: (pathParams: Record<string, string>) => Promise<SlottedTemplateResultFactory>|SlottedTemplateResultFactory) {
+    private declareRoute(path: string, pageName: string, viewComponentCreator: (pathParams: Record<string, string>) => Promise<SlottedTemplateResultFactory>|SlottedTemplateResultFactory) {
         page(`${this.basePath}${path.substring(path[0]==='/'?1:0)}`, (context) => {
             const slottedViewComponentFactoryResult = viewComponentCreator(context.params);
             ((slottedViewComponentFactoryResult instanceof Promise)?slottedViewComponentFactoryResult:Promise.resolve(slottedViewComponentFactoryResult)).then(slottedViewTemplateFactory => {
@@ -51,6 +65,12 @@ class Routing {
                 this.currentTemplateResultCreator = slottedViewTemplateFactory;
 
                 this._viewChangeCallbacks.forEach(callback => callback(slottedViewTemplateFactory, path));
+
+                (window as any).dataLayer.push({
+                    'event': 'change_screen',
+                    'site_name' : 'vite_ma_dose',
+                    'page_type' : pageName
+                });
             })
         });
     }
@@ -68,8 +88,12 @@ class Routing {
         this.navigateToHome();
     }
 
-    public navigateToRendezVous(codeDepartement: string, pathLibelleDepartement: string, trancheAge: string) {
-        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/age-${trancheAge}/`);
+    public navigateToRendezVousAvecDepartement(codeDepartement: string, pathLibelleDepartement: string) {
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}`);
+    }
+
+    public navigateToRendezVousAvecCommune(codeTriCentre: CodeTriCentre, codeDepartement: string, pathLibelleDepartement: string, codeCommune: string, codePostal: string, pathLibelleCommune: string) {
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/commune${codeCommune}-${codePostal}-${pathLibelleCommune}/en-triant-par-${codeTriCentre}`);
     }
 
     navigateToHome() {

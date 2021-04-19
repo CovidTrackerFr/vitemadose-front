@@ -18,10 +18,12 @@ export class Strings {
         }
 
         let normalizedPhoneNumber = phoneNumber!;
-        if(normalizedPhoneNumber.indexOf("+") === 0) {
+        const formatInternational = normalizedPhoneNumber.indexOf("+") === 0;
+        // Removing non-chars
+        normalizedPhoneNumber = normalizedPhoneNumber.replace(/[\.\s]/gi, "");
+        if(formatInternational) {
             normalizedPhoneNumber = `0${normalizedPhoneNumber.substring(normalizedPhoneNumber.length - 9, normalizedPhoneNumber.length)}`
         }
-        normalizedPhoneNumber = normalizedPhoneNumber.replace(/[\.\s]/gi, "");
 
         normalizedPhoneNumber = [
             normalizedPhoneNumber[0], normalizedPhoneNumber[1], " ",
@@ -36,7 +38,22 @@ export class Strings {
 
     public static toReadableURLPathValue(value: string) {
         return value.toLowerCase()
-            .replace(" ", "_")
+            .replace(/[-\s']/gi, "_")
+            .replace(/[èéëêêéè]/gi, "e")
+            .replace(/[áàâäãåâà]/gi, "a")
+            .replace(/[çç]/gi, "c")
+            .replace(/[íìîï]/gi, "i")
+            .replace(/[ñ]/gi, "n")
+            .replace(/[óòôöõô]/gi, "o")
+            .replace(/[úùûüûù]/gi, "u")
+            .replace(/[œ]/gi, "oe");
+    }
+
+    public static toFullTextSearchableString(value: string) {
+        // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
+        // function here, than the one used in communes-import.js tooling
+        return value.toLowerCase()
+            .replace(/[-\s']/gi, "_")
             .replace(/[èéëêêéè]/gi, "e")
             .replace(/[áàâäãåâà]/gi, "a")
             .replace(/[çç]/gi, "c")

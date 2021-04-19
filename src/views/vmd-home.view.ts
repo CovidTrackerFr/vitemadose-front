@@ -1,19 +1,23 @@
-import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
-import {TrancheAgeSelectionne} from "../components/vmd-tranche-age-selector.component";
-import {DepartementSelected} from "../components/vmd-departement-selector.component";
+import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {Router} from "../routing/Router";
 import globalCss from "../styles/global.scss";
 import homeViewCss from "../styles/views/_home.scss";
 import searchDoseCss from "../styles/components/_searchDose.scss";
 import searchAppointment from "../styles/components/_searchAppointment.scss";
 import {
-    CodeDepartement,
-    CodeTrancheAge,
-    Departement, FEATURES, libelleUrlPathDuDepartement,
+    Commune,
+    Departement,
+    libelleUrlPathDeCommune,
+    libelleUrlPathDuDepartement,
     PLATEFORMES,
-    State, StatsLieu,
-    TRANCHES_AGE
+    State,
+    StatsLieu,
 } from "../state/State";
+import {
+    AutocompleteTriggered,
+    CommuneSelected,
+    DepartementSelected
+} from "../components/vmd-commune-selector.component";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {
@@ -31,32 +35,51 @@ export class VmdHomeView extends LitElement {
         `
     ];
 
-    @property({type: String}) codeTrancheAgeSelectionne: CodeTrancheAge|undefined = FEATURES.trancheAgeFilter?undefined:'plus75ans';
-    @property({type: String}) codeDepartementSelectionne: CodeDepartement|undefined = undefined;
-
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[]|undefined = [];
+    @property({type: Array, attribute: false}) communesAutocomplete: Set<string>|undefined = undefined;
+    @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
+    @property({type: Array, attribute: false}) communesDisponibles: Commune[]|undefined = undefined;
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
-    get departementSelectionne(): Departement|undefined {
-        if(!this.codeDepartementSelectionne || !this.departementsDisponibles) {
-            return undefined;
-        }
-        return this.departementsDisponibles.find(dpt => dpt.code_departement === this.codeDepartementSelectionne);
-    }
-
-    onDepartementSelected(event: CustomEvent<DepartementSelected>) {
-        this.codeDepartementSelectionne = event.detail.departement?.code_departement;
-        if(this.codeDepartementSelectionne && this.codeTrancheAgeSelectionne) {
-            // Auto-trigger search
-            this.rechercherRdv();
-        }
-    }
+    private departementsDisponibles: Departement[]|undefined = [];
+    private communeSelectionee: Commune|undefined = undefined;
+    private departementSelectione: Departement|undefined = undefined;
 
     rechercherRdv() {
-        Router.navigateToRendezVous(
-            this.codeDepartementSelectionne!,
-            libelleUrlPathDuDepartement(this.departementSelectionne!),
-            this.codeTrancheAgeSelectionne!)
+        if(this.departementSelectione) {
+            Router.navigateToRendezVousAvecDepartement(this.departementSelectione.code_departement, libelleUrlPathDuDepartement(this.departementSelectione));
+            return;
+        }
+
+        const departement = this.departementsDisponibles?this.departementsDisponibles.find(dpt => dpt.code_departement === this.communeSelectionee!.codeDepartement):undefined;
+        if(!departement) {
+            console.error(`Can't find departement matching code ${this.communeSelectionee!.codeDepartement}`)
+            return;
+        }
+
+        Router.navigateToRendezVousAvecCommune(
+            'distance',
+            departement.code_departement,
+            libelleUrlPathDuDepartement(departement),
+            this.communeSelectionee!.code, this.communeSelectionee!.codePostal,
+            libelleUrlPathDeCommune(this.communeSelectionee!)
+        )
+    }
+
+    async communeAutocompleteTriggered(event: CustomEvent<AutocompleteTriggered>) {
+        this.recuperationCommunesEnCours = true;
+        this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, event.detail.value);
+        this.recuperationCommunesEnCours = false;
+        this.requestUpdate('communesDisponibles')
+    }
+
+    communeSelected(commune: Commune) {
+        this.communeSelectionee = commune;
+        this.rechercherRdv();
+    }
+
+    departementSelected(departement: Departement) {
+        this.departementSelectione = departement;
+        this.rechercherRdv();
     }
 
     render() {
@@ -68,34 +91,21 @@ export class VmdHomeView extends LitElement {
 
                 <div class="searchDose-form">
                     <div class="searchDoseForm-fields row align-items-center">
-                      ${FEATURES.trancheAgeFilter?html`
-                        <div class="col-sm-24 col-md-auto mb-md-3">
-                            J'ai
-                        </div>
-                        <div class="col">
-                            <vmd-tranche-age-selector class="mb-3"
-                                  @tranche-age-changed="${(event: CustomEvent<TrancheAgeSelectionne>) => this.codeTrancheAgeSelectionne = event.detail.trancheAge?.codeTrancheAge}"
-                                  .tranchesAge="${TRANCHES_AGE}"
-                            >
-                            </vmd-tranche-age-selector>
-                        </div>
-                        `:html``}
-                        <label class="col-sm-24 col-md-auto mb-md-3 form-select-lg">
-                            Mon département :
+                        <label class="col-sm-24 col-md-auto mb-md-1">
+                            Localisation :
                         </label>
                         <div class="col">
-                            <vmd-departement-selector class="mb-3"
-                                  @departement-changed="${this.onDepartementSelected}"
+                            <vmd-commune-or-departement-selector class="mb-3"
+                                  @autocomplete-triggered="${this.communeAutocompleteTriggered}"
+                                  @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune)}"
+                                  @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement)}"
                                   .departementsDisponibles="${this.departementsDisponibles}"
+                                  .autocompleteTriggers="${this.communesAutocomplete}"
+                                  .communesDisponibles="${this.communesDisponibles}"
+                                  .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
                             >
-                            </vmd-departement-selector>
+                            </vmd-commune-or-departement-selector>
                         </div>
-                    </div>
-                    <div class="searchDoseForm-action">
-                        <button class="btn btn-primary btn-lg" ?disabled="${!this.codeDepartementSelectionne || !this.codeTrancheAgeSelectionne}"
-                                @click="${this.rechercherRdv}">
-                            Rechercher
-                        </button>
                     </div>
                 </div>
             </div>
@@ -107,7 +117,7 @@ export class VmdHomeView extends LitElement {
                   ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
                       return html`
                         <div class="col-auto">
-                          <a href=""><img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}"></a>
+                          <a href="${plateforme.website}" target="_blank"><img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}"></a>
                         </div>
                       `
                   })}
@@ -116,55 +126,67 @@ export class VmdHomeView extends LitElement {
 
             <div class="spacer mt-5 mb-5"></div>
 
-            <div class="row gx-5">
-                <div class="col-sm-24 col-md mb-5 mb-md-0"">
-                    <div class="p-5 text-dark bg-light rounded-3 fixed-card-height">
-                        <h2>VaccinTracker</h2>
-
-                        <p>
-                            Combien de personnes ont été vaccinées ? Combien de premières injections ? Quel pourcentage de seconde injection ? Suivez la campagne vaccinale en France sur Vaccintracker.
-                        </p>
-
-                        <div class="row justify-content-center mt-5">
-                            <a href="https://covidtracker.fr/vaccintracker/" target="_blank" class="col-auto btn btn-primary btn-lg">
-                                Accéder à VaccinTracker&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-24 col-md">
-                    <div class="p-5 text-dark bg-light rounded-3 fixed-card-height">
-                        <h2>Carte des centres de vaccination contre la Covid-19</h2>
-
-                        <p>
-                            Trouvez un centre de vaccination contre la Covid-19 proche de chez vous, consultez les centres pour savoir s’il y a des rendez-vous
-                        </p>
-
-                        <div class="row justify-content-center mt-5">
-                            <a href="${Router.basePath}centres" class="col-auto btn btn-primary btn-lg">
-                                Accéder à la carte des centres&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-5 text-dark bg-light rounded-3 mt-5">
+            <div class="container-xxl">
                 <div class="row gx-5">
-                    <div class="col-24 col-md text-center">
-                        <i class="bi vmdicon-commerical-building fs-6 text-primary"></i>
-                        <div class="h4 mt-4">${this.statsLieu?.global.disponibles.toLocaleString()}</div>
-                        <p>Lieux de vaccination ayant des disponibilités</p>
+                    <div class="col-sm-24 col-md mb-5 mb-md-0 homeCard">
+                        <div class="p-5 text-dark bg-light homeCard-container">
+                            <div class="homeCard-content">
+                                <h2>VaccinTracker</h2>
+        
+                                <p>
+                                    Combien de personnes ont été vaccinées ? Combien de premières injections ? Quel pourcentage de seconde injection ? Suivez la campagne vaccinale en France sur Vaccintracker.
+                                </p>
+                            </div>
+
+                            <div class="homeCard-actions">
+                                <div class="row justify-content-center justify-content-lg-start mt-5">
+                                    <a href="https://covidtracker.fr/vaccintracker/" target="_blank" class="col-auto btn btn-primary btn-lg">
+                                        Accéder à VaccinTracker&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-24 col-md text-center">
-                        <i class="bi vmdicon-geo-alt-fill fs-6 text-primary"></i>
-                        <div class="h4 mt-4">${this.statsLieu?.global.total.toLocaleString()}</div>
-                        <p>Lieux de vaccination supportés</p>
+                    <div class="col-sm-24 col-md homeCard">
+                        <div class="p-5 text-dark bg-light homeCard-container">
+                            <div class="homeCard-content">
+                                <h2>Carte des centres de vaccination contre la Covid-19</h2>
+        
+                                <p>
+                                    Trouvez un centre de vaccination contre la Covid-19 proche de chez vous, consultez les centres pour savoir s’il y a des rendez-vous
+                                </p>
+                            </div>
+
+                            <div class="homeCard-actions">
+                                <div class="row justify-content-center justify-content-lg-start mt-5">
+                                    <a href="${Router.basePath}centres" class="col-auto btn btn-primary btn-lg">
+                                        Accéder à la carte des centres&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-24 col-md text-center">
-                        <i class="bi vmdicon-check-circle-fill fs-6 text-primary"></i>
-                        <div class="h4 mt-4">${this.statsLieu?.global.proportion.toLocaleString()}%</div>
-                        <p>Proportion des lieux de vaccination ayant des disponibilités</p>
+                </div>
+
+                <div class="homeCard">
+                    <div class="p-5 text-dark bg-light homeCard-container mt-5">
+                        <div class="row gx-5">
+                            <div class="col-24 col-md text-center">
+                                <i class="bi vmdicon-commerical-building fs-6 text-primary"></i>
+                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.disponibles.toLocaleString():""}</div>
+                                <p>Lieux de vaccination ayant des disponibilités</p>
+                            </div>
+                            <div class="col-24 col-md text-center">
+                                <i class="bi vmdicon-geo-alt-fill fs-6 text-primary"></i>
+                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.total.toLocaleString():""}</div>
+                                <p>Lieux de vaccination supportés</p>
+                            </div>
+                            <div class="col-24 col-md text-center">
+                                <i class="bi vmdicon-check-circle-fill fs-6 text-primary"></i>
+                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.proportion.toLocaleString():""}%</div>
+                                <p>Proportion des lieux de vaccination ayant des disponibilités</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -176,12 +198,14 @@ export class VmdHomeView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [ departementsDisponibles, statsLieu ] = await Promise.all([
+        const [ departementsDisponibles, statsLieu, autocompletes ] = await Promise.all([
             State.current.departementsDisponibles(),
-            State.current.statsLieux()
+            State.current.statsLieux(),
+            State.current.communeAutocompleteTriggers(Router.basePath)
         ])
         this.departementsDisponibles = departementsDisponibles;
         this.statsLieu = statsLieu;
+        this.communesAutocomplete = new Set(autocompletes);
     }
 
     disconnectedCallback() {
