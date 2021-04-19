@@ -39,12 +39,12 @@ export type Plateforme = {
     styleCode: string;
 };
 export const PLATEFORMES: Record<string, Plateforme> = {
-    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',            styleCode: '_doctolib'},
-    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/',              styleCode: '_maiia'},
-    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/',            styleCode: '_ordoclic'},
-    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  website: 'https://www.keldoc.com/',             styleCode: '_keldoc'},
+    'Doctolib': { code: 'Doctolib', logo: 'V2light-Doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',            styleCode: '_doctolib'},
+    'Maiia':    { code: 'Maiia',    logo: 'V2light-Maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/',              styleCode: '_maiia'},
+    'Ordoclic': { code: 'Ordoclic', logo: 'V2light-Ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/',            styleCode: '_ordoclic'},
+    'Keldoc':   { code: 'Keldoc',   logo: 'V2light-KelDoc.png',   nom: 'Keldoc',   promoted: true,  website: 'https://www.keldoc.com/',             styleCode: '_keldoc'},
     'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, website: 'https://masante.pandalab.eu/welcome', styleCode: '_pandalab'},
-    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login',          styleCode: '_mapharma'},
+    'Mapharma': { code: 'Mapharma', logo: 'V2light-Mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login',          styleCode: '_mapharma'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
