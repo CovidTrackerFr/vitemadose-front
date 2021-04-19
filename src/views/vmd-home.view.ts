@@ -91,7 +91,7 @@ export class VmdHomeView extends LitElement {
 
                 <div class="searchDose-form">
                     <div class="searchDoseForm-fields row align-items-center">
-                        <label class="col-sm-24 col-md-auto mb-md-3">
+                        <label class="col-sm-24 col-md-auto mb-md-1">
                             Localisation :
                         </label>
                         <div class="col">

@@ -159,7 +159,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return html`
             <div class="p-5 text-dark bg-light rounded-5">
                 <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
-                    <label class="col-sm-24 col-md-auto mb-md-3">
+                    <label class="col-sm-24 col-md-auto">
                       Localisation :
                     </label>
                     <div class="col">
