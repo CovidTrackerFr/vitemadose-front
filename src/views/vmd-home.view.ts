@@ -117,7 +117,7 @@ export class VmdHomeView extends LitElement {
                   ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
                       return html`
                         <div class="col-auto">
-                          <a href="${plateforme.website}" target="_blank"><img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}"></a>
+                          <img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}">
                         </div>
                       `
                   })}
