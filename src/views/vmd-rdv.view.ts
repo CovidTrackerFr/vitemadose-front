@@ -471,6 +471,12 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
     critereTriUpdated(triCentre: CodeTriCentre) {
         this.critèreDeTri = triCentre;
+
+        (window as any).dataLayer.push({
+            'event': 'sort_change',
+            'sort_changed_to' : triCentre,
+        });
+
         this.refreshPageWhenValidParams();
     }
 
