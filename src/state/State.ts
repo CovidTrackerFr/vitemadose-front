@@ -121,6 +121,14 @@ function convertDepartementForSort(codeDepartement: CodeDepartement) {
     }
 }
 
+function sanitizeCodeDepartement(codeDepartement: CodeDepartement) {
+    switch (codeDepartement) {
+        case '2A': return '20';
+        case '2B': return '20';
+        default: return codeDepartement;
+    }
+}
+
 export type StatLieu = {disponibles: number, total: number, creneaux: number};
 export type StatLieuGlobale = StatLieu & { proportion: number };
 export type StatsLieuParDepartement = Record<string, StatLieu>
@@ -146,6 +154,22 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
 
 export class State {
     public static current = new State();
+
+    private static DEPARTEMENT_VIDE: Departement = {
+        code_departement: "",
+        code_region: 0,
+        nom_departement: "",
+        nom_region: ""
+    };
+
+    private static COMMUNE_VIDE: Commune = {
+        code: "",
+        codeDepartement: "",
+        codePostal: "",
+        latitude: undefined,
+        longitude: undefined,
+        nom: ""
+    };
 
     private constructor() {
     }
@@ -178,6 +202,14 @@ export class State {
             this._departementsDiponibles.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
             return departements;
         }
+    }
+
+    chercheDepartementParCode(code: string): Promise<Departement> {
+        return this.departementsDisponibles()
+            .then(deps => {
+                let departementsFiltres = deps.filter(dep => dep.code_departement == code);
+                return departementsFiltres.length >= 1 ? departementsFiltres[0] : State.DEPARTEMENT_VIDE;
+            });
     }
 
     private _communeAutocompleteTriggers: string[]|undefined = undefined;
@@ -214,6 +246,15 @@ export class State {
             this._communesParAutocomplete.set(autocomplete, communes);
             return communes;
         }
+    }
+
+    chercheCommuneParCode(basePath: string, codeDpt: string, codeCommune: string): Promise<Commune> {
+        let codeDptConverti = sanitizeCodeDepartement(codeDpt);
+        return this.communesPourAutocomplete(basePath, codeDptConverti)
+            .then(communes => {
+                let communesFiltrees = communes.filter(commune => commune.code === codeCommune);
+                return communesFiltrees.length >= 1 ? communesFiltrees[0] : State.COMMUNE_VIDE;
+            });
     }
 
     private _statsLieu: StatsLieu|undefined = undefined;
