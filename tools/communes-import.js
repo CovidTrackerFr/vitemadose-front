@@ -35,34 +35,74 @@ function search(communes, query) {
     );
 }
 
+function toCompactedCommune(c) {
+    return {
+        c: c.code,
+        z: c.codePostal,
+        n: c.nom,
+        d: c.codeDepartement,
+        g: (c && c.centre && c.centre.coordinates)?c.centre.coordinates.join(","):undefined
+    };
+}
+
+function communeComparatorFor(query) {
+    return (c1, c2) =>
+           Math.min(leven(c1.fullTextSearchableNom, query), leven(c1.codePostal, query))
+         - Math.min(leven(c2.fullTextSearchableNom, query), leven(c2.codePostal, query));
+}
+
 function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
     try {
         const matchingCommunes = search(communes, query);
+        const matchingCommunesByKey = new Map(matchingCommunes.map(c => [keyOf(c), c]));
+
         if(matchingCommunes.length === 0) {
             return [];
         } else if(matchingCommunes.length < MAX_NUMBER_OF_COMMUNES_PER_FILE || query.length === MAX_AUTOCOMPLETE_TRIGGER_LENGTH) {
-            matchingCommunes.forEach(matchingCommune => unreferencedCommuneKeys.delete(keyOf(matchingCommune)));
-            matchingCommunes.sort((c1, c2) => {
-                return Math.min(leven(c1.fullTextSearchableNom, query), leven(c1.codePostal, query))
-                     - Math.min(leven(c2.fullTextSearchableNom, query), leven(c2.codePostal, query))
-            });
+            matchingCommunesByKey.forEach((commune, matchingCommuneKey) => unreferencedCommuneKeys.delete(matchingCommuneKey));
+
+            matchingCommunes.sort(communeComparatorFor(query));
 
             // Converting commune info in a most compacted way : keeping only useful fields, 1-char keys, latng compaction
-            const compactedCommunes = matchingCommunes.map(c => ({
-                c: c.code,
-                z: c.codePostal,
-                n: c.nom,
-                d: c.codeDepartement,
-                g: (c && c.centre && c.centre.coordinates)?c.centre.coordinates.join(","):undefined
-            }))
-            fs.writeFileSync(`../public/autocomplete-cache/${query}.json`, JSON.stringify({query, communes: compactedCommunes}), 'utf8');
+            const compactedCommunes = matchingCommunes.map(toCompactedCommune)
+
+            fs.writeFileSync(`../public/autocomplete-cache/${query}.json`, JSON.stringify({query, communes: compactedCommunes }), 'utf8');
             console.info(`Autocomplete cache for query [${query}] completed !`)
-            return [query];
+
+            return [{ query, matchingCommunesByKey }];
         } else {
-            return INDEXED_CHARS.reduce((queries, q) => {
-                Array.prototype.push.apply(queries, generateFilesForQuery(query+q, communes, unreferencedCommuneKeys));
-                return queries;
+            const subQueries = INDEXED_CHARS.reduce((subQueries, q) => {
+                Array.prototype.push.apply(subQueries, generateFilesForQuery(query+q, matchingCommunes, unreferencedCommuneKeys));
+                return subQueries;
             }, [])
+
+            let filteredMatchingCommunesByKey = new Map(matchingCommunesByKey);
+            subQueries.forEach(r => {
+                r.matchingCommunesByKey.forEach((commune, key) => filteredMatchingCommunesByKey.delete(key));
+            });
+
+            // Here, the idea is to add communes with name shorter than the autocomplete keys
+            // For example, we have the communes named "Y" and "Sai" while minimum autocomplete for these
+            // kind of communes are respectively longer than 1 and 3
+            // That's why we're adding here specific keys for these communes
+            // Note that we don't have a lot of communes in that case, only 10 commune names, representing 13 different
+            // communes
+            filteredMatchingCommunesByKey = new Map([...filteredMatchingCommunesByKey].filter(([k, v]) => v.fullTextSearchableNom.length === query.length))
+            if(filteredMatchingCommunesByKey.size) {
+                const communesMatchantExactement = [...filteredMatchingCommunesByKey.values()];
+                [...filteredMatchingCommunesByKey.keys()].forEach(k => unreferencedCommuneKeys.delete(k));
+
+                communesMatchantExactement.sort(communeComparatorFor(query));
+
+                // Converting commune info in a most compacted way : keeping only useful fields, 1-char keys, latng compaction
+                const compactedCommunesNonGereesParLesSousNoeuds = communesMatchantExactement.map(toCompactedCommune)
+                fs.writeFileSync(`../public/autocomplete-cache/${query}.json`, JSON.stringify({query, communes: compactedCommunesNonGereesParLesSousNoeuds /*, subsequentAutoCompletes: true */ }), 'utf8');
+                console.info(`Intermediate autocomplete cache for query [${query}] completed with ${compactedCommunesNonGereesParLesSousNoeuds.length} communes !`)
+
+                subQueries.splice(0, 0, {query, matchingCommunesByKey: filteredMatchingCommunesByKey });
+            }
+
+            return subQueries;
         }
     } catch(e) {
         console.error(e);
@@ -86,7 +126,7 @@ Promise.all([
     const unreferencedCommuneKeys = new Set(communeByKey.keys());
 
     const generatedIndexes = INDEXED_CHARS.reduce((queries, q) => {
-        Array.prototype.push.apply(queries, generateFilesForQuery(q, communes, unreferencedCommuneKeys));
+        Array.prototype.push.apply(queries, generateFilesForQuery(q, communes, unreferencedCommuneKeys).map(r => r.query));
         return queries;
     }, []);
 

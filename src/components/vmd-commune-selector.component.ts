@@ -100,7 +100,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
             // If it changed, then we need to raise a new autocomplete-triggered event, so that
             // communesDisponibles is updated with a new autocomplete key
             const filterMatchedAnAutocomplete = this.filter.split('').some((_, filterSizeAttempt) => {
-                let filterAttempt = this.filter.substring(0, filterSizeAttempt+1);
+                let filterAttempt = this.filter.substring(0, this.filter.length - filterSizeAttempt);
                 const searchableFilterAttempt = Strings.toFullTextSearchableString(filterAttempt);
                 if(this.autocompleteTriggers!.has(searchableFilterAttempt)) {
                     if(filterAttempt === this.filterMatchingAutocomplete) {
