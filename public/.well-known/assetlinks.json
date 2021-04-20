@@ -5,7 +5,7 @@
         ],
         "target": {
             "namespace": "android_app",
-            "package_name": "app.vitemadose",
+            "package_name": "com.cvtracker.vmd2",
             "sha256_cert_fingerprints": [
                 "66:95:60:8F:4E:32:A8:A2:93:0A:B8:51:0C:3E:DD:AB:00:D3:35:9F:38:3B:7B:94:DA:03:27:36:13:91:13:7D"
             ]
