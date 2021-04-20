@@ -248,12 +248,18 @@ export class State {
         }
     }
 
-    chercheCommuneParCode(basePath: string, codeDpt: string, codeCommune: string): Promise<Commune> {
-        let codeDptConverti = sanitizeCodeDepartement(codeDpt);
-        return this.communesPourAutocomplete(basePath, codeDptConverti)
-            .then(communes => {
-                let communesFiltrees = communes.filter(commune => commune.code === codeCommune);
-                return communesFiltrees.length >= 1 ? communesFiltrees[0] : State.COMMUNE_VIDE;
+    chercheCommuneParCode(basePath: string, codePostal: string, codeCommune: string): Promise<Commune> {
+        return this.communeAutocompleteTriggers(basePath)
+            .then(triggers => triggers.filter(trigger => codePostal.startsWith(trigger)))
+            .then(filteredTriggers => {
+                if (filteredTriggers.length > 0) {
+                    let trigger = filteredTriggers[0];
+                    return this.communesPourAutocomplete(basePath, trigger)
+                        .then(communes => communes.filter(commune => commune.code === codeCommune))
+                        .then(communesFiltrees => communesFiltrees.length > 0 ? communesFiltrees[0] : State.COMMUNE_VIDE);
+                } else {
+                    return Promise.resolve(State.COMMUNE_VIDE);
+                }
             });
     }
 

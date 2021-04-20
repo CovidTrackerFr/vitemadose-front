@@ -61,7 +61,7 @@ class Routing {
                      ${subViewSlot}
                  </vmd-rdv-par-commune>`,
             (params) =>
-                State.current.chercheCommuneParCode(Router.basePath, params['codeDpt'], params['codeCommune'])
+                State.current.chercheCommuneParCode(Router.basePath, params['codePostal'], params['codeCommune'])
                     .then(commune => 'Vaccination COVID-19 à ' + commune.nom + ' ' + commune.codePostal));
         this.declareRoute(`/centres`, 'centres',(params) => (subViewSlot) =>
             html`<vmd-lieux>${subViewSlot}</vmd-lieux>`);
