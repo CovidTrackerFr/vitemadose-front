@@ -11,6 +11,11 @@ on:
 
 jobs:
   deploy-dev:
+    # This workflow is only of value to the CovidTrackerFr/vitemadose-front repository and
+    # would always fail in forks, so we limit this job to CovidTrackerFr/vitemadose-front
+    # See : https://github.com/CovidTrackerFr/vitemadose-front/issues/89
+    if: ${{ github.event.pull_request.head.repo.full_name == 'CovidTrackerFr/vitemadose-front' }}
+
     runs-on: ubuntu-latest
     steps:
       - name: Inject slug/short variables
