@@ -183,8 +183,8 @@ export class VmdHomeView extends LitElement {
                             </div>
                             <div class="col-24 col-md text-center">
                                 <i class="bi vmdicon-check-circle-fill fs-6 text-primary"></i>
-                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.proportion.toLocaleString():""}%</div>
-                                <p>Proportion des lieux de vaccination ayant des disponibilités</p>
+                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.creneaux.toLocaleString():""}</div>
+                                <p>Créneaux de vaccination disponibles</p>
                             </div>
                         </div>
                     </div>
