@@ -196,12 +196,9 @@ export class State {
         }
     }
 
-    chercheDepartementParCode(code: string): Promise<Departement> {
-        return this.departementsDisponibles()
-            .then(deps => {
-                let departementsFiltres = deps.filter(dep => dep.code_departement == code);
-                return departementsFiltres.length >= 1 ? departementsFiltres[0] : State.DEPARTEMENT_VIDE;
-            });
+    async chercheDepartementParCode(code: string): Promise<Departement> {
+        let deps = await this.departementsDisponibles();
+        return deps.find(dep => dep.code_departement === code) || State.DEPARTEMENT_VIDE;
     }
 
     private _communeAutocompleteTriggers: string[]|undefined = undefined;
