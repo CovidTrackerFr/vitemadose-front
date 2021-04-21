@@ -3,7 +3,7 @@ import {classMap} from "lit-html/directives/class-map";
 import {Lieu, Plateforme, PLATEFORMES, TYPES_LIEUX} from "../state/State";
 import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
-import appointmentCardCss from "../styles/components/_appointmentCard.scss";
+import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
 

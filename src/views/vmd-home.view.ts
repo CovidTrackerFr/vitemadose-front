@@ -1,9 +1,7 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {Router} from "../routing/Router";
 import globalCss from "../styles/global.scss";
-import homeViewCss from "../styles/views/_home.scss";
-import searchDoseCss from "../styles/components/_searchDose.scss";
-import searchAppointment from "../styles/components/_searchAppointment.scss";
+import homeViewCss from "./vmd-home.view.scss";
 import {
     Commune,
     Departement,
@@ -26,8 +24,6 @@ export class VmdHomeView extends LitElement {
     static styles = [
         css`${unsafeCSS(globalCss)}`,
         css`${unsafeCSS(homeViewCss)}`,
-        css`${unsafeCSS(searchDoseCss)}`,
-        css`${unsafeCSS(searchAppointment)}`,
         css`
             :host {
                 display: block;
