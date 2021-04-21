@@ -121,7 +121,7 @@ function convertDepartementForSort(codeDepartement: CodeDepartement) {
     }
 }
 
-export type StatLieu = {disponibles: number, total: number};
+export type StatLieu = {disponibles: number, total: number, creneaux: number};
 export type StatLieuGlobale = StatLieu & { proportion: number };
 export type StatsLieuParDepartement = Record<string, StatLieu>
 export type StatsLieu = {
