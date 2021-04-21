@@ -45,7 +45,7 @@ For debug purposes, if you want to generate sourcemaps for production build, you
 
 # Mobile apps
 
-See [dedicated readme in `mobile/` directory](mobile/README.md)
+See [vitemadose-android](https://github.com/CovidTrackerFr/vitemadose-android) and [vitemadose-ios](https://github.com/CovidTrackerFr/vitemadose-ios).
 
 # Development workflow
 
