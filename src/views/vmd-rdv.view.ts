@@ -381,25 +381,31 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
     async onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<string[]> {
         if(this.codePostalSelectionne && this.codeCommuneSelectionne) {
-            const autocompletesSet = new Set(autocompletes);
-            const autoCompleteCodePostal = this.codePostalSelectionne.split('')
-                .map((_, index) => this.codePostalSelectionne!.substring(0, index+1))
-                .find(autoCompleteAttempt => autocompletesSet.has(autoCompleteAttempt));
+            let codePostalSelectionne = this.codePostalSelectionne;
+            return await this.refreshBasedOnCodePostalSelectionne(autocompletes, codePostalSelectionne);
+        } else {
+            await this.refreshLieux();
+            return autocompletes;
+        }
+    }
 
-            if(!autoCompleteCodePostal) {
-                console.error(`Can't find autocomplete matching codepostal ${this.codePostalSelectionne}`);
-                return autocompletes;
-            }
+    private async refreshBasedOnCodePostalSelectionne(autocompletes: string[], codePostalSelectionne: string) {
+        const autocompletesSet = new Set(autocompletes);
+        const autoCompleteCodePostal = codePostalSelectionne.split('')
+            .map((_, index) => codePostalSelectionne!.substring(0, index + 1))
+            .find(autoCompleteAttempt => autocompletesSet.has(autoCompleteAttempt));
 
-            await this.updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal);
+        if (!autoCompleteCodePostal) {
+            console.error(`Can't find autocomplete matching codepostal ${codePostalSelectionne}`);
+            return autocompletes;
+        }
 
-            const communeSelectionnee = this.getCommuneSelectionnee();
-            if (communeSelectionnee) {
-                this.fillCommuneInSelector(communeSelectionnee, autoCompleteCodePostal);
-                await this.communeSelected(communeSelectionnee, false);
-            } else {
-                await this.refreshLieux();
-            }
+        await this.updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal);
+
+        const communeSelectionnee = this.getCommuneSelectionnee();
+        if (communeSelectionnee) {
+            this.fillCommuneInSelector(communeSelectionnee, autoCompleteCodePostal);
+            await this.communeSelected(communeSelectionnee, false);
         } else {
             await this.refreshLieux();
         }
