@@ -28,6 +28,7 @@ import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {ValueStrCustomEvent} from "../components/vmd-selector.component";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
+import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -213,7 +214,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
                 <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
                     ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
-                        return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${true}" .distance="${lieu.distance}" />`;
+                        return html`<vmd-appointment-card 
+                            style="--list-index: ${index}" 
+                            .lieu="${lieu}" 
+                            .rdvPossible="${true}" 
+                            .distance="${lieu.distance}"
+                            @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
+                            @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.verifierRdv(event.detail.lieu)}"
+                        />`;
                     })}
 
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxIndisponibles.length) ? html`
@@ -326,6 +334,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
         if (this.codeDepartementSelectionne) {
             Router.navigateToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!));
         }
+    }
+
+    private prendreRdv(lieu: Lieu) {
+        if(lieu.url) {
+            Analytics.INSTANCE.clickSurRdv(lieu);
+        }
+        Router.navigateToUrlIfPossible(lieu.url);
+    }
+
+    private verifierRdv(lieu: Lieu) {
+        if(lieu.url) {
+            Analytics.INSTANCE.clickSurVerifRdv(lieu);
+        }
+        Router.navigateToUrlIfPossible(lieu.url);
     }
 
     renderAdditionnalSearchCriteria(): TemplateResult {

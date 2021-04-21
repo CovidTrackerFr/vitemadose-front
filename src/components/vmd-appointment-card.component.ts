@@ -6,7 +6,9 @@ import {Dates} from "../utils/Dates";
 import appointmentCardCss from "../styles/components/_appointmentCard.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
-import {Analytics} from "../utils/Analytics";
+
+type LieuCliqueContext = {lieu: Lieu};
+export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
 
 @customElement('vmd-appointment-card')
 export class VmdAppointmentCardComponent extends LitElement {
@@ -33,17 +35,15 @@ export class VmdAppointmentCardComponent extends LitElement {
     }
 
     prendreRdv() {
-        if(this.lieu.url) {
-            Analytics.INSTANCE.clickSurRdv(this.lieu);
-        }
-        Router.navigateToUrlIfPossible(this.lieu.url);
+        this.dispatchEvent(new CustomEvent<LieuCliqueContext>('prise-rdv-cliquee', {
+            detail: { lieu: this.lieu }
+        }));
     }
 
     verifierRdv() {
-        if(this.lieu.url) {
-            Analytics.INSTANCE.clickSurVerifRdv(this.lieu);
-        }
-        Router.navigateToUrlIfPossible(this.lieu.url);
+        this.dispatchEvent(new CustomEvent<LieuCliqueContext>('verification-rdv-cliquee', {
+            detail: { lieu: this.lieu }
+        }));
     }
 
     render() {
