@@ -401,10 +401,12 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
                 component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
 
                 await this.communeSelected(communeSelectionnee, false);
+            } else {
+                await this.refreshLieux();
             }
+        } else {
+            await this.refreshLieux();
         }
-
-        await this.refreshLieux();
 
         return autocompletes;
     }
