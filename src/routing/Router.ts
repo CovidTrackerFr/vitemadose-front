@@ -78,13 +78,18 @@ class Routing {
                          titlePromise = Routing.DEFAULT_TITLE_PROMISE) {
         page(`${this.basePath}${path.substring(path[0]==='/'?1:0)}`, (context) => {
             const slottedViewComponentFactoryResult = viewComponentCreator(context.params);
-            ((slottedViewComponentFactoryResult instanceof Promise)?slottedViewComponentFactoryResult:Promise.resolve(slottedViewComponentFactoryResult)).then(slottedViewTemplateFactory => {
+
+            Promise.all([
+                ((slottedViewComponentFactoryResult instanceof Promise)?
+                    slottedViewComponentFactoryResult
+                    :
+                    Promise.resolve(slottedViewComponentFactoryResult)),
+                titlePromise(context.params).catch(() => Routing.DEFAULT_TITLE)
+            ]).then(([slottedViewTemplateFactory, title]) => {
                 this.currentPath = path;
                 this.currentTemplateResultCreator = slottedViewTemplateFactory;
 
-                titlePromise(context.params)
-                    .catch(() => Routing.DEFAULT_TITLE)
-                    .then(title => document.title = title);
+                document.title = title;
 
                 this._viewChangeCallbacks.forEach(callback => callback(slottedViewTemplateFactory, path));
 

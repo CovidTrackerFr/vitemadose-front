@@ -121,14 +121,6 @@ function convertDepartementForSort(codeDepartement: CodeDepartement) {
     }
 }
 
-function sanitizeCodeDepartement(codeDepartement: CodeDepartement) {
-    switch (codeDepartement) {
-        case '2A': return '20';
-        case '2B': return '20';
-        default: return codeDepartement;
-    }
-}
-
 export type StatLieu = {disponibles: number, total: number, creneaux: number};
 export type StatLieuGlobale = StatLieu & { proportion: number };
 export type StatsLieuParDepartement = Record<string, StatLieu>
@@ -248,19 +240,15 @@ export class State {
         }
     }
 
-    chercheCommuneParCode(basePath: string, codePostal: string, codeCommune: string): Promise<Commune> {
-        return this.communeAutocompleteTriggers(basePath)
-            .then(triggers => triggers.filter(trigger => codePostal.startsWith(trigger)))
-            .then(filteredTriggers => {
-                if (filteredTriggers.length > 0) {
-                    let trigger = filteredTriggers[0];
-                    return this.communesPourAutocomplete(basePath, trigger)
-                        .then(communes => communes.filter(commune => commune.code === codeCommune))
-                        .then(communesFiltrees => communesFiltrees.length > 0 ? communesFiltrees[0] : State.COMMUNE_VIDE);
-                } else {
-                    return Promise.resolve(State.COMMUNE_VIDE);
-                }
-            });
+    async chercheCommuneParCode(basePath: string, codePostal: string, codeCommune: string): Promise<Commune> {
+        let triggers = await this.communeAutocompleteTriggers(basePath);
+        let trigger = triggers.find(trigger => codePostal.startsWith(trigger));
+        if (trigger) {
+            let communes = await this.communesPourAutocomplete(basePath, trigger);
+            return communes.find(commune => commune.code === codeCommune) || State.COMMUNE_VIDE;
+        } else {
+            return Promise.resolve(State.COMMUNE_VIDE);
+        }
     }
 
     private _statsLieu: StatsLieu|undefined = undefined;
