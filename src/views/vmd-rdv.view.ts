@@ -390,11 +390,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     }
 
     private async refreshBasedOnCodePostalSelectionne(autocompletes: string[], codePostalSelectionne: string) {
-        const autocompletesSet = new Set(autocompletes);
-        const autoCompleteCodePostal = codePostalSelectionne.split('')
-            .map((_, index) => codePostalSelectionne!.substring(0, index + 1))
-            .find(autoCompleteAttempt => autocompletesSet.has(autoCompleteAttempt));
-
+        const autoCompleteCodePostal = this.getAutoCompleteCodePostal(autocompletes, codePostalSelectionne);
         if (!autoCompleteCodePostal) {
             console.error(`Can't find autocomplete matching codepostal ${codePostalSelectionne}`);
             return autocompletes;
@@ -411,6 +407,13 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         }
 
         return autocompletes;
+    }
+
+    private getAutoCompleteCodePostal(autocompletes: string[], codePostalSelectionne: string) {
+        const autocompletesSet = new Set(autocompletes);
+        return codePostalSelectionne.split('')
+            .map((_, index) => codePostalSelectionne!.substring(0, index + 1))
+            .find(autoCompleteAttempt => autocompletesSet.has(autoCompleteAttempt));
     }
 
     private async updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal: string) {
