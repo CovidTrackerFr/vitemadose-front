@@ -391,15 +391,11 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
                 return autocompletes;
             }
 
-            this.recuperationCommunesEnCours = true;
-            this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal)
-            this.recuperationCommunesEnCours = false;
+            await this.updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal);
 
             const communeSelectionnee = this.getCommuneSelectionnee();
             if (communeSelectionnee) {
-                const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneSelectorComponent)
-                component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
-
+                this.fillCommuneInSelector(communeSelectionnee, autoCompleteCodePostal);
                 await this.communeSelected(communeSelectionnee, false);
             } else {
                 await this.refreshLieux();
@@ -409,6 +405,17 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         }
 
         return autocompletes;
+    }
+
+    private async updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal: string) {
+        this.recuperationCommunesEnCours = true;
+        this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal)
+        this.recuperationCommunesEnCours = false;
+    }
+
+    private fillCommuneInSelector(communeSelectionnee: Commune, autoCompleteCodePostal: string) {
+        const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneSelectorComponent)
+        component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
     }
 
     protected getCommuneSelectionnee(): Commune|undefined {
