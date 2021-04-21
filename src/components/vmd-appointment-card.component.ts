@@ -6,6 +6,7 @@ import {Dates} from "../utils/Dates";
 import appointmentCardCss from "../styles/components/_appointmentCard.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
+import {Analytics} from "../utils/Analytics";
 
 @customElement('vmd-appointment-card')
 export class VmdAppointmentCardComponent extends LitElement {
@@ -33,32 +34,14 @@ export class VmdAppointmentCardComponent extends LitElement {
 
     prendreRdv() {
         if(this.lieu.url) {
-            (window as any).dataLayer.push({
-                'event': 'rdv_click',
-                'rdv_departement' : this.lieu.departement,
-                'rdv_platorm' : this.lieu.plateforme,
-                'rdv_platform' : this.lieu.plateforme,
-                'rdv_name': this.lieu.nom,
-                'rdv_location_type' : this.lieu.type,
-                'rdv_vaccine' : this.lieu.vaccine_type,
-                'rdv_filter_type' : undefined
-            });
+            Analytics.INSTANCE.clickSurRdv(this.lieu);
         }
         Router.navigateToUrlIfPossible(this.lieu.url);
     }
 
     verifierRdv() {
         if(this.lieu.url) {
-            (window as any).dataLayer.push({
-                'event': 'rdv_verify',
-                'rdv_departement' : this.lieu.departement,
-                'rdv_platorm' : this.lieu.plateforme,
-                'rdv_platform' : this.lieu.plateforme,
-                'rdv_name': this.lieu.nom,
-                'rdv_location_type' : this.lieu.type,
-                'rdv_vaccine' : this.lieu.vaccine_type,
-                'rdv_filter_type' : undefined
-            });
+            Analytics.INSTANCE.clickSurVerifRdv(this.lieu);
         }
         Router.navigateToUrlIfPossible(this.lieu.url);
     }

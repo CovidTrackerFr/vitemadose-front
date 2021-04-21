@@ -113,6 +113,12 @@ export type LieuxParDepartement = {
 };
 export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
 
+export type LieuAvecDistance = Lieu & { distance: number|undefined };
+export type LieuxAvecDistanceParDepartement = LieuxParDepartement & {
+    lieuxDisponibles: LieuAvecDistance[];
+    lieuxIndisponibles: LieuAvecDistance[];
+};
+
 function convertDepartementForSort(codeDepartement: CodeDepartement) {
     switch(codeDepartement) {
         case '2A': return '20A';
