@@ -153,6 +153,22 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
 export class State {
     public static current = new State();
 
+    private static DEPARTEMENT_VIDE: Departement = {
+        code_departement: "",
+        code_region: 0,
+        nom_departement: "",
+        nom_region: ""
+    };
+
+    private static COMMUNE_VIDE: Commune = {
+        code: "",
+        codeDepartement: "",
+        codePostal: "",
+        latitude: undefined,
+        longitude: undefined,
+        nom: ""
+    };
+
     private constructor() {
     }
 
@@ -184,6 +200,11 @@ export class State {
             this._departementsDiponibles.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
             return departements;
         }
+    }
+
+    async chercheDepartementParCode(code: string): Promise<Departement> {
+        let deps = await this.departementsDisponibles();
+        return deps.find(dep => dep.code_departement === code) || State.DEPARTEMENT_VIDE;
     }
 
     private _communeAutocompleteTriggers: string[]|undefined = undefined;
@@ -219,6 +240,17 @@ export class State {
 
             this._communesParAutocomplete.set(autocomplete, communes);
             return communes;
+        }
+    }
+
+    async chercheCommuneParCode(basePath: string, codePostal: string, codeCommune: string): Promise<Commune> {
+        let triggers = await this.communeAutocompleteTriggers(basePath);
+        let trigger = triggers.find(trigger => codePostal.startsWith(trigger));
+        if (trigger) {
+            let communes = await this.communesPourAutocomplete(basePath, trigger);
+            return communes.find(commune => commune.code === codeCommune) || State.COMMUNE_VIDE;
+        } else {
+            return Promise.resolve(State.COMMUNE_VIDE);
         }
     }
 
