@@ -63,7 +63,7 @@ See [vitemadose-android](https://github.com/CovidTrackerFr/vitemadose-android) a
 We're using :
 
   - **Typescript** as the main language => [typescript for js programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
-  - **lit-component** as the web-component library => [lit-element guide](https://lit-element.polymer-project.org/guide) and [lit-html guide](https://lit-html.polymer-project.org/guide)
+  - **lit-element** as the web-component library => https://lit.dev/
   - **pagejs** as our routing library => [documentation](https://visionmedia.github.io/page.js/)
   - **Bootstrap** as the CSS library => https://getbootstrap.com/docs/5.0/getting-started/introduction/ ([icons](https://icons.getbootstrap.com/))
   - **SASS** as CSS transpiler => [documentation](https://sass-lang.com/documentation)
