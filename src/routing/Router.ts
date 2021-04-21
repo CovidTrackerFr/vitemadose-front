@@ -2,6 +2,7 @@ import page from "page";
 import { TemplateResult } from "lit-html";
 import {html} from "lit-element";
 import {CodeTriCentre, State} from "../state/State";
+import {Analytics} from "../utils/Analytics";
 
 export type SlottedTemplateResultFactory = (subViewSlot: TemplateResult) => TemplateResult;
 
@@ -114,11 +115,7 @@ class Routing {
 
                 this._viewChangeCallbacks.forEach(callback => callback(slottedViewTemplateFactory, path));
 
-                (window as any).dataLayer.push({
-                    'event': 'change_screen',
-                    'site_name' : 'vite_ma_dose',
-                    'page_type' : pageName
-                });
+                Analytics.INSTANCE.navigationSurNouvellePage(pageName);
             })
         });
     }
