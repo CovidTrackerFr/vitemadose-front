@@ -16,6 +16,7 @@ import {
     CommuneSelected,
     DepartementSelected
 } from "../components/vmd-commune-or-departement-selector.component";
+import Chart from "chart.js";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {
@@ -188,10 +189,46 @@ export class VmdHomeView extends LitElement {
                         </div>
                     </div>
                 </div>
+
+                <div class="homeCard">
+                    <div class="p-5 text-dark bg-light homeCard-container mt-5">
+                        <canvas id="chartCreneaux" width="400" height="150"></canvas>
+                    </div>
+                </div>
             </div>
 
             <slot name="about"></slot>
         `;
+    }
+
+    protected firstUpdated(_changedProperties: PropertyValues) {
+        super.firstUpdated(_changedProperties);
+
+        console.log("log")
+        console.log(this.statsLieu?this.statsLieu.global.creneaux.toLocaleString():"")
+
+        const labels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+        ];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [0, 10, 5, 2, 20, 30, 45],
+            }]
+        };
+        var myChart = new Chart(this.shadowRoot!.querySelector("#chartCreneaux") as HTMLCanvasElement, {
+            type: 'line',
+            data,
+            options: {}
+        });
     }
 
     async connectedCallback() {
@@ -211,4 +248,8 @@ export class VmdHomeView extends LitElement {
         super.disconnectedCallback();
         // console.log("disconnected callback")
     }
+
+
 }
+
+

@@ -158,6 +158,14 @@ export type Commune = {
     latitude: number|undefined;
     longitude: number|undefined;
 };
+
+export type StatsByDate = {
+    dates: ISODateString,
+    total_centres_disponibles: number[],
+    total_centres: number[],
+    total_appointments: number[]
+}
+
 // Permet de convertir un nom de departement en un chemin d'url correct (remplacement des caractères
 // non valides comme les accents ou les espaces)
 export const libelleUrlPathDeCommune = (commune: Commune) => {
@@ -221,6 +229,20 @@ export class State {
     async chercheDepartementParCode(code: string): Promise<Departement> {
         let deps = await this.departementsDisponibles();
         return deps.find(dep => dep.code_departement === code) || State.DEPARTEMENT_VIDE;
+    }
+
+    private _statsByDate: StatsByDate|undefined = undefined;
+    async statsByDate(): Promise<StatsByDate> {
+        if(this._statsByDate !== undefined) {
+            return Promise.resolve(this._statsByDate);
+        } else {
+            const resp = await fetch(`${VMD_BASE_URL}/stats_by_date.json`)
+            const statsByDate: StatsByDate = await resp.json()
+
+            this._statsByDate = statsByDate;
+            //this._statsByDate.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
+            return statsByDate;
+        }
     }
 
     private _communeAutocompleteTriggers: string[]|undefined = undefined;
