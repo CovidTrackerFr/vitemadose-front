@@ -52,8 +52,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
+    @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
+    protected lieuBackgroundRefreshIntervalId: number|undefined = undefined;
 
 
     get communeSelectionnee(): Commune|undefined {
@@ -195,7 +197,16 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination Covid trouvée${Strings.plural(this.totalDoses)}
                   ${this.libelleLieuSelectionne()}
                   <br/>
-                  ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}</span>` : html``}
+                  ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ?
+                      html`
+                      <span class="fs-6 text-black-50">
+                        Dernière mise à jour : il y a
+                        ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}
+                        ${this.miseAJourDisponible?html`
+                          <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; }}">Rafraîchir</button>
+                        `:html``}
+                      </span>`
+                      : html``}
                 </h3>
 
                 <div class="spacer mt-5 mb-5"></div>
@@ -247,7 +258,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return Promise.resolve(autocompletes);
     }
 
-    onceStartupPromiseResolved() {
+    async onceStartupPromiseResolved() {
         // to be overriden
     }
 
@@ -265,7 +276,18 @@ export abstract class AbstractVmdRdvView extends LitElement {
             })
         ])
 
-        this.onceStartupPromiseResolved();
+        await this.onceStartupPromiseResolved();
+
+        this.lieuBackgroundRefreshIntervalId = setInterval(async () => {
+            if(this.codeDepartementSelectionne) {
+                const derniereMiseAJour = this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.derniereMiseAJour:undefined;
+                const lieuxAJourPourDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne, true)
+                this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
+
+                // Used only to refresh derniereMiseAJour's displayed relative time
+                this.requestUpdate();
+            }
+        }, 45000);
     }
 
     preventRafraichissementLieux(): boolean {
@@ -315,7 +337,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        // console.log("disconnected callback")
+
+        if(this.lieuBackgroundRefreshIntervalId) {
+            clearInterval(this.lieuBackgroundRefreshIntervalId);
+            this.lieuBackgroundRefreshIntervalId = undefined;
+        }
     }
 
     _onRefreshPageWhenValidParams(): "return"|"continue" {

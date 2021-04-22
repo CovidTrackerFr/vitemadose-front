@@ -173,8 +173,8 @@ export class State {
     }
 
     private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
-    async lieuxPour(codeDepartement: CodeDepartement): Promise<LieuxParDepartement> {
-        if(this._lieuxParDepartement.has(codeDepartement)) {
+    async lieuxPour(codeDepartement: CodeDepartement, avoidCache: boolean = false): Promise<LieuxParDepartement> {
+        if(this._lieuxParDepartement.has(codeDepartement) && !avoidCache) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
         } else {
             const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
