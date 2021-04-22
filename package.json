@@ -13,7 +13,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build-dev": "tsc && vite --base dev/ build"
+    "build-dev": "tsc && vite --base dev/ build",
+    "serve": "vite preview"
   },
   "devDependencies": {
     "@types/leaflet": "1.7.0",
