@@ -90,9 +90,9 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                            <a href="${this.lieu.url}" class="btn btn-primary btn-lg">
+                            <span tabindex="0" role="link" data-href="${this.lieu.url}" class="btn btn-primary btn-lg">
                               Prendre rendez-vous
-                            </a>
+                            </span>
                             <div class="row align-items-center justify-content-center mt-3 text-black-50">
                                 <div class="col-auto">
                                   ${this.lieu.appointment_count.toLocaleString()} dose${Strings.plural(this.lieu.appointment_count)}
@@ -134,7 +134,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                     ${this.estCliquable?html`
                     <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                      <a href="${this.lieu.url}" class="btn btn-info btn-lg">Vérifier le centre de vaccination</a>
+                      <span tabindex="0" role="link" data-href="${this.lieu.url}" class="btn btn-info btn-lg">Vérifier le centre de vaccination</span>
                     </div>
                     `:html``}
                   </div>
