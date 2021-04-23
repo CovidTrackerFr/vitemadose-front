@@ -56,7 +56,7 @@ export class VmdAppointmentCardComponent extends LitElement {
               distance = distance.toFixed(1)
             }
             return html`
-            <div class="card rounded-3 mb-5 ${classMap({clickable: this.estCliquable})}"
+            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
                  @click="${() => this.prendreRdv()}">
                 <div class="card-body">
                     <div class="row align-items-center ">
