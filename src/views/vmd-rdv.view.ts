@@ -235,8 +235,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
         `;
     }
 
-    onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<string[]> {
-        return Promise.resolve(autocompletes);
+    onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<void> {
+        return Promise.resolve();
     }
 
     onceStartupPromiseResolved() {
@@ -250,9 +250,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
             State.current.departementsDisponibles().then(departementsDisponibles => {
                 this.departementsDisponibles = departementsDisponibles;
             }),
-            State.current.communeAutocompleteTriggers(Router.basePath).then((autocompletes) => {
-                return this.onCommuneAutocompleteLoaded(autocompletes);
-            }).then(autocompletes => {
+            State.current.communeAutocompleteTriggers(Router.basePath).then(async (autocompletes) => {
+                await this.onCommuneAutocompleteLoaded(autocompletes);
                 this.communesAutocomplete = new Set(autocompletes);
             })
         ])
@@ -379,13 +378,12 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         `
     }
 
-    async onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<string[]> {
+    async onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<void> {
         if(this.codePostalSelectionne && this.codeCommuneSelectionne) {
             let codePostalSelectionne = this.codePostalSelectionne;
-            return await this.refreshBasedOnCodePostalSelectionne(autocompletes, codePostalSelectionne);
+            await this.refreshBasedOnCodePostalSelectionne(autocompletes, codePostalSelectionne);
         } else {
             await this.refreshLieux();
-            return autocompletes;
         }
     }
 
