@@ -46,6 +46,20 @@ export class VmdAppointmentCardComponent extends LitElement {
         }));
     }
 
+    makeEnterAsClick(event: Event, type: String) {
+        if (event.key !== 'Enter') {
+            return;
+        }
+        switch (type) {
+            case 'prendreRdv':
+                return this.prendreRdv();
+            case 'verifierRdv':
+                return this.verifierRdv();
+            default:
+                return;
+        }
+    }
+
     render() {
         if(this.rdvPossible) {
             const plateforme: Plateforme|undefined = PLATEFORMES[this.lieu.plateforme];
@@ -90,7 +104,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                            <span tabindex="0" role="link" data-href="${this.lieu.url}" class="btn btn-primary btn-lg">
+                            <span class="btn btn-primary btn-lg" tabindex="0" role="link" data-href="${this.lieu.url}" @keydown="${(event) => this.makeEnterAsClick(event, 'prendreRdv')}">
                               Prendre rendez-vous
                             </span>
                             <div class="row align-items-center justify-content-center mt-3 text-black-50">
@@ -134,7 +148,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                     ${this.estCliquable?html`
                     <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                      <span tabindex="0" role="link" data-href="${this.lieu.url}" class="btn btn-info btn-lg">Vérifier le centre de vaccination</span>
+                      <span class="btn btn-info btn-lg" tabindex="0" role="link" data-href="${this.lieu.url}" @keydown="${(event) => this.makeEnterAsClick(event, 'verifierRdv')}">Vérifier le centre de vaccination</span>
                     </div>
                     `:html``}
                   </div>
