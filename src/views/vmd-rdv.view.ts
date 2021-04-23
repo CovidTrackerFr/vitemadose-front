@@ -134,8 +134,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
             }
         }
 
-        await this.refreshLieux();
-
         return Promise.resolve();
     }
 
@@ -151,8 +149,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
             if(triggerNavigation) {
                 this.refreshPageWhenValidParams();
             }
-
-            await this.refreshLieux();
         }
 
         return Promise.resolve();
@@ -256,7 +252,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
             })
         ])
 
-        this.onceStartupPromiseResolved();
+        await this.onceStartupPromiseResolved();
+        await this.refreshLieux();
     }
 
     preventRafraichissementLieux(): boolean {
@@ -382,8 +379,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         if(this.codePostalSelectionne && this.codeCommuneSelectionne) {
             let codePostalSelectionne = this.codePostalSelectionne;
             await this.refreshBasedOnCodePostalSelectionne(autocompletes, codePostalSelectionne);
-        } else {
-            await this.refreshLieux();
         }
     }
 
@@ -400,8 +395,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         if (communeSelectionnee) {
             this.fillCommuneInSelector(communeSelectionnee, autoCompleteCodePostal);
             await this.communeSelected(communeSelectionnee, false);
-        } else {
-            await this.refreshLieux();
         }
 
         return autocompletes;
@@ -514,8 +507,6 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
                 await this.departementSelected(departementSelectionne, false);
             }
         }
-
-        await this.refreshLieux();
     }
 
     libelleLieuSelectionne(): TemplateResult {
