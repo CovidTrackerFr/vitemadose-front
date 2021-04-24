@@ -1,5 +1,6 @@
 import {ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
+import {Router} from "../routing/Router";
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -177,7 +178,8 @@ export class State {
         if(this._lieuxParDepartement.has(codeDepartement)) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
         } else {
-            const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
+            const baseUrl = localStorage.getItem("dev-mode")?`${Router.basePath}dummy-data`:VMD_BASE_URL
+            const resp = await fetch(`${baseUrl}/${codeDepartement}.json`)
             const results = await resp.json()
             const lieuxParDepartement = {
                 lieuxDisponibles: results.centres_disponibles.map(transformLieu),

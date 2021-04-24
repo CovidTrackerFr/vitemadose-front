@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "last_updated": "2021-04-24T01:08:24.120059+02:00",
+  "centres_disponibles": [
+    {
+      "departement": "47",
+      "nom": "Vaccination Covid 19 - Centre Hospitalier Intercommunal Marmande Tonneins",
+      "url": "https://partners.doctolib.fr/centre-de-vaccinations-internationales/marmande/ch-intercommunal-marmande",
+      "location": {
+        "longitude": 0.143962898069692,
+        "latitude": 44.5094189602252,
+        "city": "Marmande"
+      },
+      "metadata": {
+        "address": "Espace Exposition - Route de Bordeaux, RN 113, 47200 Marmande",
+        "phone_number": "+33553203110",
+        "business_hours": {
+          "lundi": "09:00-13:00, 14:00-17:00",
+          "mardi": "09:00-13:00, 14:00-17:00",
+          "mercredi": "09:00-13:00, 14:00-17:00",
+          "jeudi": "09:00-13:00, 14:00-17:00",
+          "vendredi": "09:00-13:00, 14:00-17:00",
+          "samedi": null,
+          "dimanche": null
+        }
+      },
+      "prochain_rdv": "2021-04-24T15:35:00.000+02:00",
+      "plateforme": "Doctolib",
+      "type": "vaccination-center",
+      "appointment_count": 202,
+      "internal_id": "241548[]",
+      "vaccine_type": [
+        "Pfizer-BioNTech",
+        "AstraZeneca"
+      ],
+      "appointment_by_phone_only": false,
+      "erreur": null,
+      "last_scan_with_availabilities": "2021-04-24T01:08:23.889686+02:00",
+      "gid": "d241548"
+    },
+    {
+      "departement": "47",
+      "nom": "Centre Hospitalier N\u00e9rac (Vaccination COVID)",
+      "url": "https://partners.doctolib.fr/hopital-public/nerac/centre-hospitalier-nerac-vaccination-covid",
+      "location": {
+        "longitude": 0.3420583,
+        "latitude": 44.1357255,
+        "city": "N\u00e9rac"
+      },
+      "metadata": {
+        "address": "2 Rue S\u00e9derie, 47600 N\u00e9rac",
+        "phone_number": "+33553697476",
+        "business_hours": {
+          "lundi": "08:30-17:00",
+          "mardi": "08:30-17:00",
+          "mercredi": "08:30-17:00",
+          "jeudi": "08:30-17:00",
+          "vendredi": "08:30-17:00",
+          "samedi": "08:30-17:00",
+          "dimanche": null
+        }
+      },
+      "prochain_rdv": "2021-04-26T09:35:00.000+02:00",
+      "plateforme": "Doctolib",
+      "type": "vaccination-center",
+      "appointment_count": 931,
+      "internal_id": "242444[]",
+      "vaccine_type": [
+        "Pfizer-BioNTech"
+      ],
+      "appointment_by_phone_only": false,
+      "erreur": null,
+      "last_scan_with_availabilities": "2021-04-24T01:08:23.890506+02:00",
+      "gid": "d242444"
+    },
+    {
+      "departement": "47",
+      "nom": "Centre de vaccination Centre des Congr\u00e8s d'Agen",
+      "url": "https://partners.doctolib.fr/centre-de-sante/agen/centre-de-vaccination-centre-des-congres-d-agen",
+      "location": {
+        "longitude": 0.6172746,
+        "latitude": 44.1819241,
+        "city": "Agen"
+      },
+      "metadata": {
+        "address": "1 Avenue du Midi, 47000 Agen",
+        "business_hours": {
+          "lundi": null,
+          "mardi": null,
+          "mercredi": null,
+          "jeudi": null,
+          "vendredi": null,
+          "samedi": null,
+          "dimanche": null
+        }
+      },
+      "prochain_rdv": "2021-04-26T10:15:00.000+02:00",
+      "plateforme": "Doctolib",
+      "type": "vaccination-center",
+      "appointment_count": 70,
+      "internal_id": "254883[]",
+      "vaccine_type": [
+        "Pfizer-BioNTech"
+      ],
+      "appointment_by_phone_only": false,
+      "erreur": null,
+      "last_scan_with_availabilities": "2021-04-24T01:08:23.890600+02:00",
+      "gid": "d254883"
+    },
+    {
+      "departement": "47",
+      "nom": "Centre de vaccination de la Myre Mory",
+      "url": "https://partners.doctolib.fr/centre-de-sante/villeneuve-sur-lot/pole-de-sante-du-villeneuvois-vaccination-covid-19-3b10160b-a824-4b06-8a44-f4c31ab8e388",
+      "location": {
+        "longitude": 0.7095579,
+        "latitude": 44.3935499,
+        "city": "Villeneuve-sur-Lot"
+      },
+      "metadata": {
+        "address": "Avenue d'Agen, 47300 Villeneuve-sur-Lot",
+        "business_hours": {
+          "lundi": null,
+          "mardi": null,
+          "mercredi": null,
+          "jeudi": null,
+          "vendredi": null,
+          "samedi": null,
+          "dimanche": null
+        }
+      },
+      "prochain_rdv": "2021-04-27T12:20:00.000+02:00",
+      "plateforme": "Doctolib",
+      "type": "vaccination-center",
+      "appointment_count": 1218,
+      "internal_id": "261964[178187]",
+      "vaccine_type": [
+        "Pfizer-BioNTech"
+      ],
+      "appointment_by_phone_only": false,
+      "erreur": null,
+      "last_scan_with_availabilities": "2021-04-24T01:08:23.890410+02:00",
+      "gid": "d261964"
+    }
+  ],
+  "centres_indisponibles": [
+    {
+      "departement": "47",
+      "nom": "P\u00f4le de Sant\u00e9 du Villeneuvois - Vaccination Covid-19",
+      "url": "https://partners.doctolib.fr/hopital-public/villeneuve-sur-lot/pole-sante-du-villeneuvois-vaccination-covid-villeneuve-sur-lot",
+      "location": {
+        "longitude": 0.7360715,
+        "latitude": 44.4088659,
+        "city": "Villeneuve-sur-Lot"
+      },
+      "metadata": {
+        "address": "47305 Route de Fumel, 47300 Villeneuve-sur-Lot",
+        "phone_number": "+33553722800",
+        "business_hours": {
+          "lundi": "09:00-13:00, 14:00-17:00",
+          "mardi": "09:00-13:00, 14:00-17:00",
+          "mercredi": "09:00-13:00, 14:00-17:00",
+          "jeudi": "09:00-13:00, 14:00-17:00",
+          "vendredi": "09:00-13:00, 14:00-17:00",
+          "samedi": "09:00-13:00, 14:00-17:00",
+          "dimanche": null
+        }
+      },
+      "prochain_rdv": null,
+      "plateforme": "Doctolib",
+      "type": "vaccination-center",
+      "appointment_count": 0,
+      "internal_id": "242375[]",
+      "vaccine_type": null,
+      "appointment_by_phone_only": true,
+      "erreur": null,
+      "last_scan_with_availabilities": null,
+      "gid": "d242375"
+    }
+  ]
+}
