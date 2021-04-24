@@ -351,6 +351,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
             return `${firstLevelSort}__${Strings.padLeft(Date.parse(lieu.prochain_rdv!) || 0, 15, '0')}`;
         } else if(tri === 'distance') {
             let firstLevelSort;
+
+            // Considering only 2 kind of sorting sections :
+            // - the one with (potentially) available appointments (with url, or appointment by phone only)
+            // - the one with unavailable appointments (without url, or with 0 available appointments)
             if(lieu.appointment_by_phone_only && lieu.metadata.phone_number) {
                 firstLevelSort = 0;
             } else if(lieu.url) {
