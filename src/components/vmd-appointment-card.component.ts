@@ -57,7 +57,8 @@ export class VmdAppointmentCardComponent extends LitElement {
             }
             return html`
             <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
-                 @click="${() => this.prendreRdv()}">
+              title="${this.estCliquable ? this.lieu.url : ''}"
+              @click="${() => this.prendreRdv()}">
                 <div class="card-body">
                     <div class="row align-items-center ">
                         <div class="col">
@@ -89,9 +90,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                            <a href="#" class="btn btn-primary btn-lg">
-                              Prendre rendez-vous
-                            </a>
+                            <a class="btn btn-primary btn-lg" href="#">Prendre rendez-vous</a>
                             <div class="row align-items-center justify-content-center mt-3 text-black-50">
                                 <div class="col-auto">
                                   ${this.lieu.appointment_count.toLocaleString()} dose${Strings.plural(this.lieu.appointment_count)}
@@ -115,7 +114,9 @@ export class VmdAppointmentCardComponent extends LitElement {
             `;
         } else {
             return html`
-              <div class="card rounded-3 mb-5 p-4 bg-disabled" @click="${() => this.verifierRdv()}">
+              <div title="${this.estCliquable ? this.lieu.url : ''}"
+                class="card rounded-3 mb-5 p-4 bg-disabled ${classMap({clickable: this.estCliquable})}"
+                @click="${() => this.verifierRdv()}">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">
@@ -131,7 +132,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                     ${this.estCliquable?html`
                     <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                      <a href="#" class="btn btn-info btn-lg">Vérifier le centre de vaccination</a>
+                      <a class="btn btn-info btn-lg" href="#">Vérifier le centre de vaccination</a>
                     </div>
                     `:html``}
                   </div>
