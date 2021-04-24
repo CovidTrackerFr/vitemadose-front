@@ -66,3 +66,11 @@ vmd-appointment-metadata [slot='content'] a {
     text-decoration-width: 1px;
   }
 }
+
+a:hover {
+  color: $link-color;
+}
+
+.btn-primary.disabled {
+  background-color: tint-color($primary, 20%);
+}
