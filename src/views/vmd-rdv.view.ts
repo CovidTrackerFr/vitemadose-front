@@ -29,6 +29,7 @@ import {ValueStrCustomEvent} from "../components/vmd-selector.component";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
+import {setDebouncedInterval} from "../utils/Schedulers";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -278,14 +279,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
         await this.onceStartupPromiseResolved();
 
-        this.lieuBackgroundRefreshIntervalId = setInterval(async () => {
+        this.lieuBackgroundRefreshIntervalId = setDebouncedInterval(async () => {
             if(this.codeDepartementSelectionne) {
                 const derniereMiseAJour = this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.derniereMiseAJour:undefined;
                 const lieuxAJourPourDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne, true)
                 this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
 
                 // Used only to refresh derniereMiseAJour's displayed relative time
-                this.requestUpdate();
+                await this.requestUpdate();
             }
         }, 45000);
     }
