@@ -108,7 +108,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                             ${content}
                           </a>`,
                     actions: html`
-                          <a href="#" class="btn btn-warning btn-lg">Appeler le ${Strings.toNormalizedPhoneNumber(this.lieu.metadata.phone_number)}</a>
+                          <a href="#" class="btn btn-tel btn-lg">Appeler le ${Strings.toNormalizedPhoneNumber(this.lieu.metadata.phone_number)}</a>
                         `
                 };
             } else {

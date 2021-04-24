@@ -74,3 +74,8 @@ a:hover {
 .btn-primary.disabled {
   background-color: tint-color($primary, 20%);
 }
+
+.btn-tel {
+  background-color: tint-color($primary, 80%);
+  color: $primary;
+}
