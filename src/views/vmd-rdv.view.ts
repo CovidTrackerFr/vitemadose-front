@@ -211,7 +211,12 @@ export abstract class AbstractVmdRdvView extends LitElement {
                             Aucun créneau de vaccination trouvé
                           </span>
                         </h2>
-                        <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
+                        <div class="px-3 mb-5">
+                          <em>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19 
+                            sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement 
+                            les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. 
+                            Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</em>
+                        </div>
                     `}
                   
                     ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
