@@ -67,7 +67,7 @@ vmd-appointment-metadata [slot='content'] a {
   }
 }
 
-a:hover {
+a:hover, a:focus {
   color: $link-color;
 }
 
