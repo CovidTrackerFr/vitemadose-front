@@ -54,8 +54,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
 
-    @property({type: String, attribute: false}) strategieTriDistance: 'par-section'|'par-dispo'|'tout-confondu' = 'par-section';
-
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
 
 
@@ -353,24 +351,12 @@ export abstract class AbstractVmdRdvView extends LitElement {
             return `${firstLevelSort}__${Strings.padLeft(Date.parse(lieu.prochain_rdv!) || 0, 15, '0')}`;
         } else if(tri === 'distance') {
             let firstLevelSort;
-            if(this.strategieTriDistance === 'par-section') {
-                if(lieu.appointment_by_phone_only && lieu.metadata.phone_number) {
-                    firstLevelSort = 1;
-                } else if(lieu.url) {
-                    firstLevelSort = lieu.appointment_count !== 0 ? 0:2;
-                } else {
-                    firstLevelSort = 3;
-                }
-            } else if(this.strategieTriDistance === 'par-dispo') {
-                if(lieu.appointment_by_phone_only && lieu.metadata.phone_number) {
-                    firstLevelSort = 0;
-                } else if(lieu.url) {
-                    firstLevelSort = lieu.appointment_count !== 0 ? 0:1;
-                } else {
-                    firstLevelSort = 1;
-                }
-            } else {
+            if(lieu.appointment_by_phone_only && lieu.metadata.phone_number) {
                 firstLevelSort = 0;
+            } else if(lieu.url) {
+                firstLevelSort = lieu.appointment_count !== 0 ? 0:1;
+            } else {
+                firstLevelSort = 1;
             }
 
             return `${firstLevelSort}__${Strings.padLeft(Math.round(lieu.distance!*1000), 8, '0')}`;
@@ -527,20 +513,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
               </vmd-button-switch>
             </div>
           </div>
-          ${this.critèreDeTri === 'distance'?html`
-          <div class="rdvForm-fields row align-items-center">
-            <label class="col-sm-24 col-md-auto mb-md-3">
-              Stratégie de tri distance :
-            </label>
-            <div class="col">
-              <vmd-button-switch class="mb-3"
-                     codeSelectionne="${this.strategieTriDistance}"
-                     .options="${[{code: 'par-section', libelle: 'Par section' }, {code: 'par-dispo', libelle: 'Par disponibilité' }, {code: 'tout-confondu', libelle: 'Toutes sections confondues' }]}"
-                     @changed="${(event: ValueStrCustomEvent<any>) => { this.strategieTriDistance = event.detail.value; this.refreshLieux(); }}">
-              </vmd-button-switch>
-            </div>
-          </div>
-          `:html``}
         `;
     }
 }
