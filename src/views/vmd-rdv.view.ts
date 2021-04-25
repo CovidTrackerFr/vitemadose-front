@@ -14,7 +14,7 @@ import {
     libelleUrlPathDuDepartement,
     Lieu,
     LieuxAvecDistanceParDepartement,
-    LieuxParDepartement,
+    LieuxParDepartement, sameLieu,
     State,
     TRIS_CENTRE
 } from "../state/State";
@@ -31,9 +31,12 @@ import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {ValueStrCustomEvent} from "../components/vmd-selector.component";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
-import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
+import {
+    AbonnementCliqueCustomEvent, ActionAbonnement,
+    LieuCliqueCustomEvent
+} from "../components/vmd-appointment-card.component";
 import {PushNotifications} from "../utils/ServiceWorkers";
-import {DB} from "../storage/DB";
+import {DB, Subscription} from "../storage/DB";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -57,6 +60,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
+
+    @property({type: Array, attribute: false}) abonnements: Subscription[] = [];
+    protected refreshAbonnementsIntervalId: number|undefined = undefined;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
 
@@ -220,6 +226,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                             .lieu="${lieu}"
                             .rdvPossible="${true}"
                             .distance="${lieu.distance}"
+                            .watching="${this.abonnementSur(lieu)}"
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
                         />`;
@@ -240,9 +247,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
                             style="--list-index: ${index}"
                             .lieu="${lieu}"
                             .rdvPossible="${false}"
+                            .watching="${this.abonnementSur(lieu)}"
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
-                            @abonnement-clique="${(event: LieuCliqueCustomEvent) => this.sabonnerAuCentre(event.detail.lieu) }"
+                            @abonnement-clique="${(event: AbonnementCliqueCustomEvent) => this.changerAbonnementAuLieu(event.detail.lieu, event.detail.action) }"
                         ></vmd-appointment-card>`;
                     })}
                   ` : html``}
@@ -251,17 +259,23 @@ export abstract class AbstractVmdRdvView extends LitElement {
         `;
     }
 
-    async sabonnerAuCentre(lieu: Lieu) {
-        const outcome = await PushNotifications.INSTANCE.ensureGranted();
-        if(outcome.granted) {
-            DB.INSTANCE.subscribeToCenterAppointments({
-                ts: Date.now(),
-                departement: this.departementSelectionne!,
-                commune: this.communeSelectionnee,
-                // TODO: distance should be available once #117 will be merged
-                lieu: {...lieu, distance: undefined},
-                notificationUrl: window.location.href
-            });
+    async changerAbonnementAuLieu(lieu: Lieu, action: ActionAbonnement) {
+        if(action === 'subscribe') {
+            const outcome = await PushNotifications.INSTANCE.ensureGranted();
+            if(outcome.granted) {
+                await DB.INSTANCE.subscribeToCenterAppointments({
+                    ts: Date.now(),
+                    departement: this.departementSelectionne!,
+                    commune: this.communeSelectionnee,
+                    // TODO: distance should be available once #117 will be merged
+                    lieu: {...lieu, distance: undefined},
+                    notificationUrl: window.location.href
+                });
+                await this.refreshAbonnements();
+            }
+        } else if(action === 'unsubscribe') {
+            await DB.INSTANCE.unsubscribeToCenterAppointments(lieu);
+            await this.refreshAbonnements();
         }
     }
 
@@ -287,7 +301,21 @@ export abstract class AbstractVmdRdvView extends LitElement {
         ])
 
         await this.onceStartupPromiseResolved();
+
+        await this.refreshAbonnements();
+        this.refreshAbonnementsIntervalId = setInterval(async() => {
+            await this.refreshAbonnements();
+        }, 60000);
+
         await this.refreshLieux();
+    }
+
+    async refreshAbonnements() {
+        this.abonnements = await DB.INSTANCE.fetchAllSubscriptions();
+    }
+
+    abonnementSur(lieu: Lieu) {
+        return !!this.abonnements.find(a => sameLieu(a.lieu, lieu));
     }
 
     preventRafraichissementLieux(): boolean {
@@ -337,7 +365,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        // console.log("disconnected callback")
+
+        clearInterval(this.refreshAbonnementsIntervalId);
     }
 
     _onRefreshPageWhenValidParams(): "return"|"continue" {

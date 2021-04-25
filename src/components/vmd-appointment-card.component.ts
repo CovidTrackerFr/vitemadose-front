@@ -10,6 +10,10 @@ import {Strings} from "../utils/Strings";
 type LieuCliqueContext = {lieu: Lieu};
 export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
 
+export type ActionAbonnement = "unsubscribe"|"subscribe";
+export type AbonnementCliqueContext = LieuCliqueContext & {action: ActionAbonnement};
+export type AbonnementCliqueCustomEvent = CustomEvent<LieuCliqueContext & AbonnementCliqueContext>;
+
 @customElement('vmd-appointment-card')
 export class VmdAppointmentCardComponent extends LitElement {
 
@@ -25,6 +29,7 @@ export class VmdAppointmentCardComponent extends LitElement {
     @property({type: Number, attribute: false}) distance!: number;
     /* dunno why, but boolean string is not properly converted to boolean when using attributes */
     @property({type: Boolean, attribute: false }) rdvPossible!: boolean;
+    @property({type: Boolean, attribute: false}) watching!: boolean;
 
     private get estCliquable() {
         return !!this.lieu.url;
@@ -135,7 +140,15 @@ export class VmdAppointmentCardComponent extends LitElement {
                       <a class="btn btn-info btn-lg" href="#">Vérifier le centre de vaccination</a>
                     </div>
                     <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                      <a class="btn btn-warning btn-lg" href="#" @click="${(e: Event) => { this.subscribe(); e.stopPropagation(); }}">Surveiller ce centre</a>
+                      <a class="btn btn-warning btn-lg" href="#" @click="${(e: Event) => { this.changeSubscription(); e.preventDefault(); e.stopPropagation(); }}">
+                      ${this.watching?html`
+                      <i class="bi vmdicon-eye-slash-solid" style="margin-right: 3px"></i>
+                      Ne plus surveiller ce centre
+                      `:html`
+                      <i class="bi vmdicon-eye-solid" style="margin-right: 3px"></i>
+                      Surveiller ce centre
+                      `}
+                      </a>
                     </div>
                     `:html``}
                   </div>
@@ -145,9 +158,12 @@ export class VmdAppointmentCardComponent extends LitElement {
         }
     }
 
-    subscribe() {
-        this.dispatchEvent(new CustomEvent<LieuCliqueContext>('abonnement-clique', {
-            detail: { lieu: this.lieu }
+    changeSubscription() {
+        this.dispatchEvent(new CustomEvent<AbonnementCliqueContext>('abonnement-clique', {
+            detail: {
+                lieu: this.lieu,
+                action: this.watching?'unsubscribe':'subscribe'
+            }
         }));
     }
 

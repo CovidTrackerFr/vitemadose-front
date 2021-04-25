@@ -1,5 +1,5 @@
 import {IDBPDatabase, openDB} from "idb";
-import {Commune, Departement, LieuAvecDistance} from "../state/State";
+import {Commune, Departement, Lieu, LieuAvecDistance, sameLieu} from "../state/State";
 
 
 export type Subscription = {
@@ -55,5 +55,17 @@ export class DB {
         }
 
         return await this.db.transaction(["subscriptions"]).objectStore("subscriptions").getAll();
+    }
+
+    async unsubscribeToCenterAppointments(lieu: Lieu) {
+        if(!this.db) {
+            throw new Error("DB not initialized !");
+        }
+
+        const subscriptions = await this.fetchAllSubscriptions();
+        const subscriptionToDelete = await subscriptions.find(s => sameLieu(s.lieu, lieu))
+        if(subscriptionToDelete) {
+            await this.db.transaction(["subscriptions"], "readwrite").objectStore("subscriptions").delete(subscriptionToDelete.ts);
+        }
     }
 }

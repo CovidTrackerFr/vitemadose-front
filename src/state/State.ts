@@ -85,6 +85,12 @@ export type Lieu = {
     type: TypeLieu;
     vaccine_type: string
 };
+
+export function sameLieu(l1: Lieu, l2: Lieu) {
+    // TODO: do a better matching ? (based on an id on lieu ?)
+    return l1.nom === l2.nom;
+}
+
 function transformLieu(rawLieu: any): Lieu {
     return {
         ...rawLieu,
