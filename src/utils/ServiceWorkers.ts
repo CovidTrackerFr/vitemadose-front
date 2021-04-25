@@ -56,6 +56,24 @@ export class ServiceWorkers {
             console.log(event.data.payload);
         }
 
+        // If at least 1 subscription defined, ensuring that push notifications are still granted
+        // - if user subscribed to some push notifs, we should update sw's push notification granted
+        // flag with what is currently in place
+        // - otherwise, no need to ask any permission until user clicks on subscription button
+        const allSubscriptions = await DB.INSTANCE.fetchAllSubscriptions()
+        if(allSubscriptions.length) {
+            if (Notification.permission === 'default') {
+                await PushNotifications.INSTANCE.ensureGranted();
+            } else if(Notification.permission === 'denied') {
+                // TODO: CHANGE THIS TO A STICKY FOOTER ERROR ???
+                console.error("User subscribed to some center updated, but denied PUSH Notifications")
+            } else if(Notification.permission === 'granted') {
+                await PushNotifications.INSTANCE.pushNotificationGrantToServiceWorker();
+            }
+        }
+
+        await serviceWorkerRegistration.sync.register("check-subscriptions");
+
         return true;
     }
 }

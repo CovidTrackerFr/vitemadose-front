@@ -12,7 +12,8 @@ import {
     Departement,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
-    Lieu, LieuxAvecDistanceParDepartement,
+    Lieu,
+    LieuxAvecDistanceParDepartement,
     LieuxParDepartement,
     State,
     TRIS_CENTRE
@@ -21,7 +22,9 @@ import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import {
     AutocompleteTriggered,
-    CommuneSelected, DepartementSelected, VmdCommuneOrDepartmentSelectorComponent,
+    CommuneSelected,
+    DepartementSelected,
+    VmdCommuneOrDepartmentSelectorComponent,
     VmdCommuneSelectorComponent
 } from "../components/vmd-commune-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
@@ -29,6 +32,8 @@ import {ValueStrCustomEvent} from "../components/vmd-selector.component";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
+import {PushNotifications} from "../utils/ServiceWorkers";
+import {DB} from "../storage/DB";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -237,12 +242,27 @@ export abstract class AbstractVmdRdvView extends LitElement {
                             .rdvPossible="${false}"
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
+                            @abonnement-clique="${(event: LieuCliqueCustomEvent) => this.sabonnerAuCentre(event.detail.lieu) }"
                         ></vmd-appointment-card>`;
                     })}
                   ` : html``}
                 </div>
             `}
         `;
+    }
+
+    async sabonnerAuCentre(lieu: Lieu) {
+        const outcome = await PushNotifications.INSTANCE.ensureGranted();
+        if(outcome.granted) {
+            DB.INSTANCE.subscribeToCenterAppointments({
+                ts: Date.now(),
+                departement: this.departementSelectionne!,
+                commune: this.communeSelectionnee,
+                // TODO: distance should be available once #117 will be merged
+                lieu: {...lieu, distance: undefined},
+                notificationUrl: window.location.href
+            });
+        }
     }
 
     onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<void> {

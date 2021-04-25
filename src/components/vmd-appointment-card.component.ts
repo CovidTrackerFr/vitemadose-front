@@ -134,12 +134,21 @@ export class VmdAppointmentCardComponent extends LitElement {
                     <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
                       <a class="btn btn-info btn-lg" href="#">Vérifier le centre de vaccination</a>
                     </div>
+                    <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
+                      <a class="btn btn-warning btn-lg" href="#" @click="${(e: Event) => { this.subscribe(); e.stopPropagation(); }}">Surveiller ce centre</a>
+                    </div>
                     `:html``}
                   </div>
                 </div>
               </div>
             `;
         }
+    }
+
+    subscribe() {
+        this.dispatchEvent(new CustomEvent<LieuCliqueContext>('abonnement-clique', {
+            detail: { lieu: this.lieu }
+        }));
     }
 
     connectedCallback() {
