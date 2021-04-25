@@ -8,8 +8,9 @@ import {
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
     PLATEFORMES,
-    State, StatsByDate,
+    State,
     StatsLieu,
+    StatsByDate
 } from "../state/State";
 import {
     AutocompleteTriggered,
@@ -37,6 +38,7 @@ export class VmdHomeView extends LitElement {
     @property({type: Array, attribute: false}) communesDisponibles: Commune[]|undefined = undefined;
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
     @property({type: Array, attribute: false}) statsByDates: StatsByDate|undefined = undefined;
+    @property({type: Array, attribute: false}) statsByDate: StatsByDate|undefined = undefined;
 
     private departementsDisponibles: Departement[]|undefined = [];
     private communeSelectionee: Commune|undefined = undefined;
@@ -78,21 +80,6 @@ export class VmdHomeView extends LitElement {
     departementSelected(departement: Departement) {
         this.departementSelectione = departement;
         this.rechercherRdv();
-    }
-
-    async connectedCallback() {
-        super.connectedCallback();
-
-        const [ departementsDisponibles, statsLieu, statsByDates, autocompletes ] = await Promise.all([
-            State.current.departementsDisponibles(),
-            State.current.statsLieux(),
-            State.current.statsByDate(),
-            State.current.communeAutocompleteTriggers(Router.basePath)
-        ])
-        this.departementsDisponibles = departementsDisponibles;
-        this.statsLieu = statsLieu;
-        this.statsByDates = statsByDates;
-        this.communesAutocomplete = new Set(autocompletes);
     }
 
     render() {
@@ -215,6 +202,53 @@ export class VmdHomeView extends LitElement {
 
             <slot name="about"></slot>
         `;
+    }
+
+    protected refreshGraph(){
+        const data = {
+            labels: this.statsByDate?this.statsByDate.dates:"",
+            datasets: [{
+                label: 'Nombre de créneaux disponibles',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: this.statsByDate?this.statsByDate.total_appointments:"",
+            }]
+        };
+        var myChart = new Chart(this.shadowRoot!.querySelector("#chartCreneaux") as HTMLCanvasElement, {
+            type: 'bar',
+            data,
+            options: {
+                scales:{
+                    xAxes: [{
+                        ticks:{
+                            source: 'auto'
+                        },
+                        type: 'time',
+                        distribution: 'linear',
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+    async connectedCallback() {
+
+        super.connectedCallback();
+
+        const [ departementsDisponibles, statsLieu, autocompletes, statsByDate ] = await Promise.all([
+            State.current.departementsDisponibles(),
+            State.current.statsLieux(),
+            State.current.communeAutocompleteTriggers(Router.basePath),
+            State.current.statsByDate()
+        ])
+        this.departementsDisponibles = departementsDisponibles;
+        this.statsLieu = statsLieu;
+        this.statsByDate = statsByDate;
+        this.refreshGraph();
+        this.communesAutocomplete = new Set(autocompletes);
     }
 
     disconnectedCallback() {

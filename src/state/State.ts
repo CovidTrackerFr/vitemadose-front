@@ -240,7 +240,6 @@ export class State {
             const statsByDate: StatsByDate = await resp.json()
 
             this._statsByDate = statsByDate;
-            //this._statsByDate.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
             return statsByDate;
         }
     }
