@@ -22,10 +22,8 @@ export class DB {
     public async initialize(): Promise<void> {
         this.db = await openDB('vite-ma-dose', 1, {
             upgrade(db, oldVersion, newVersion, transaction) {
-                switch(oldVersion) {
-                    case 0:
-                        db.createObjectStore('subscriptions', { keyPath: 'ts' })
-                        break;
+                if(oldVersion < 1) {
+                    db.createObjectStore('subscriptions', { keyPath: 'ts' })
                 }
             },
             blocked() {

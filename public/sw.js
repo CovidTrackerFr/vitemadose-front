@@ -136,24 +136,7 @@ class DB {
 
     static initialize() {
         var _this = DB._INSTANCE;
-        idb.openDB('vite-ma-dose', 1, {
-            upgrade(db, oldVersion, newVersion, transaction) {
-                switch(oldVersion) {
-                    case 0:
-                        db.createObjectStore('subscriptions', { keyPath: 'ts' })
-                        break;
-                }
-            },
-            blocked() {
-                console.error("openDB blocked")
-            },
-            blocking() {
-                console.warn("Blocking openDB")
-            },
-            terminated() {
-                console.info("Terminated openDB")
-            },
-        }).then(function(db) {
+        idb.openDB('vite-ma-dose', 1).then(function(db) {
             _this.dbResolver(db);
         });
         return _this.dbPromise;
