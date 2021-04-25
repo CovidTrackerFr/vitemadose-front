@@ -9,11 +9,13 @@ const VMD_BASE_URL = USE_RAW_GITHUB
 
 let getVersionPort = undefined;
 let pushNotificationsGranted=false;
+let clientRootUrl = undefined;
 
-// self.addEventListener('install', function(event) {
-//     console.log('Service Worker activating...');
-//     event.waitUntil(self.skipWaiting()); // Activate worker immediately
-// });
+self.addEventListener('install', function(event) {
+    console.log('Service Worker activating...');
+    clientRootUrl = event.target.location.href.replace("sw.js","");
+    // event.waitUntil(self.skipWaiting()); // Activate worker immediately
+});
 
 self.addEventListener('activate', function(event) {
     console.log('Service Worker activating...');
@@ -66,10 +68,10 @@ function checkSubscriptions() {
                         lang: 'fr-FR',
                         body: abonnementAvecRvdDispos.appointment_count+" créneaux de vaccination trouvés sur "
                             + abonnementAvecRvdDispos.subscription.lieu.nom+" ("+abonnementAvecRvdDispos.subscription.departement.code_departement+")",
-                        badge: 'https://deca76fefa39.ngrok.io/assets/images/png/vmd-badge.png',
-                        icon: 'https://deca76fefa39.ngrok.io/assets/images/favicon/android-chrome-512x512.png',
+                        badge: clientRootUrl+'assets/images/png/vmd-badge.png',
+                        icon: clientRootUrl+'assets/images/favicon/android-chrome-512x512.png',
                         // That's too big.. the icon above is enough
-                        // image: 'https://deca76fefa39.ngrok.io/assets/images/favicon/android-chrome-512x512.png',
+                        // image: clientRootUrl+'assets/images/favicon/android-chrome-512x512.png',
                         data: {
                             notificationUrl: abonnementAvecRvdDispos.subscription.notificationUrl,
                             departement: abonnementAvecRvdDispos.subscription.departement,
