@@ -60,7 +60,7 @@ export class VmdAppComponent extends LitElement {
             
             <footer class="row justify-content-between">
                 <div class="col-auto">
-                    Vite Ma Dose&nbsp;! par CovidTracker -
+                    <span @click="${() => this.tryDebug()}">Vite Ma Dose&nbsp;! par CovidTracker</span> -
                     <a href="https://github.com/CovidTrackerFr/vitemadose-front/blob/main/LICENSE">(CC BY-NC-SA 4.0)</a>
                 </div>
                 <div class="col-auto">
@@ -78,6 +78,15 @@ export class VmdAppComponent extends LitElement {
                 </div>
             </footer>
         `;
+    }
+
+    private debugCounter = 0;
+    tryDebug() {
+        this.debugCounter++;
+        if(this.debugCounter%5 === 0) {
+            console.log("Debug mode switch detection triggered !");
+            DB.INSTANCE.switchDebugMode();
+        }
     }
 
     connectedCallback() {

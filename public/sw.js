@@ -96,6 +96,12 @@ function rechercherAbonnementsAvecRdvDispos(subscriptions) {
             .then(function(resp) { return resp.json(); })
             .then(function(centres) { return { centres: centres, codeDepartement: codeDepartement }; })
     })).then(function(results) {
+        return DB.instance().then(function(db) {
+            return db.transaction(['debug']).objectStore("debug").count()
+        }).then(function(count) { return { results: results, debugEnabled: count !== 0 }; });
+    }).then(function(_) {
+        const results = _.results;
+        const debugEnabled = _.debugEnabled;
         return results.reduce(function(abosAvecRdvDispos, centresParDepartement) {
             return subscriptionsByCodesDepartement.get(centresParDepartement.codeDepartement).reduce(function(abosAvecRdvDispos, subscription) {
                 const centre = centresParDepartement.centres.centres_disponibles.find(function(l) {
@@ -106,6 +112,11 @@ function rechercherAbonnementsAvecRdvDispos(subscriptions) {
                     abosAvecRdvDispos.push({
                         subscription: subscription,
                         appointment_count: centre.appointment_count
+                    });
+                } else if(debugEnabled) {
+                    abosAvecRdvDispos.push({
+                        subscription: subscription,
+                        appointment_count: Math.round(Math.random()*100)
                     });
                 }
                 return abosAvecRdvDispos;
@@ -136,7 +147,7 @@ class DB {
 
     static initialize() {
         var _this = DB._INSTANCE;
-        idb.openDB('vite-ma-dose', 1).then(function(db) {
+        idb.openDB('vite-ma-dose', 2).then(function(db) {
             _this.dbResolver(db);
         });
         return _this.dbPromise;

@@ -20,10 +20,13 @@ export class DB {
     }
 
     public async initialize(): Promise<void> {
-        this.db = await openDB('vite-ma-dose', 1, {
+        this.db = await openDB('vite-ma-dose', 2, {
             upgrade(db, oldVersion, newVersion, transaction) {
                 if(oldVersion < 1) {
                     db.createObjectStore('subscriptions', { keyPath: 'ts' })
+                }
+                if(oldVersion < 2) {
+                    db.createObjectStore('debug', {keyPath: 'name'})
                 }
             },
             blocked() {
@@ -64,6 +67,23 @@ export class DB {
         const subscriptionToDelete = await subscriptions.find(s => sameLieu(s.lieu, lieu))
         if(subscriptionToDelete) {
             await this.db.transaction(["subscriptions"], "readwrite").objectStore("subscriptions").delete(subscriptionToDelete.ts);
+        }
+    }
+
+    async switchDebugMode() {
+        if(!this.db) {
+            throw new Error("DB not initialized !");
+        }
+
+        const debugs = await this.db.transaction(["debug"]).objectStore("debug").getAll()
+        const debugStoreExists = (debugs.length!==0);
+
+        if(debugStoreExists) {
+            await this.db.transaction(["debug"], "readwrite").objectStore("debug").delete(debugs[0].name);
+            alert("Switched to debugMode=disabled")
+        } else {
+            await this.db.transaction(["debug"], "readwrite").objectStore("debug").add({name: 'enabled'});
+            alert("Switched to debugMode=enabled")
         }
     }
 }
