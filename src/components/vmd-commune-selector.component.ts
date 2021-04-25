@@ -247,8 +247,8 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     }
 
     valueChanged(event: KeyboardEvent) {
-        const keysIgnored = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
-        if (!keysIgnored.includes(event.key)) {
+        const keysToIgnore = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+        if (!keysToIgnore.includes(event.key)) {
             super.valueChanged(event);
             this.filtrerDepartementsAffichees();
             const container = this.renderRoot.querySelector(`.autocomplete-results`);
@@ -283,12 +283,12 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     goToPreviousOption() {
         if (this.departementHighlighted) {
             const prevIndex = this.departementsAffiches.indexOf(this.departementHighlighted) - 1;
-            if (prevIndex >= 0) {
-                this.departementHighlighted = this.departementsAffiches[prevIndex];
-            }
+            this.departementHighlighted = this.departementsAffiches[prevIndex] || this.departementHighlighted;
+            
         } else if (this.communeHighlighted && this.communesAffichees && this.communesAffichees.length > 0) {
             const prevIndex = this.communesAffichees.indexOf(this.communeHighlighted) - 1;
-            if (prevIndex >= 0) {
+
+            if (this.communesAffichees[prevIndex]) {
                 this.communeHighlighted = this.communesAffichees[prevIndex];
             } else if (this.departementsAffiches.length > 0) {
                 this.departementHighlighted = this.departementsAffiches[this.departementsAffiches.length - 1];
@@ -297,21 +297,20 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
 
         this.scrollToOption('up');
     }
+
     goToNextOption() {
         if (this.departementHighlighted) {
             const nextIndex = this.departementsAffiches.indexOf(this.departementHighlighted) + 1;
-            if (nextIndex < this.departementsAffiches.length) {
+
+            if (this.departementsAffiches[nextIndex]) {
                 this.departementHighlighted = this.departementsAffiches[nextIndex];
             } else if (this.communesAffichees && this.communesAffichees.length > 0) {
                 this.departementHighlighted = undefined;
-                // show the first comm
                 this.communeHighlighted = this.communesAffichees[0];
             }
         } else if (this.communeHighlighted && this.communesAffichees && this.communesAffichees.length > 0) {
             const nextIndex = this.communesAffichees.indexOf(this.communeHighlighted) + 1;
-            if (nextIndex < this.communesAffichees.length) {
-                this.communeHighlighted = this.communesAffichees[nextIndex];
-            }
+            this.communeHighlighted = this.communesAffichees[nextIndex] || this.communeHighlighted;            
         }
 
         this.scrollToOption('down');
@@ -321,17 +320,15 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         const optionId = this.departementHighlighted
             ? `#dpt-${this.departementHighlighted.code_departement}`
             : `#comm-${this.communeHighlighted?.codePostal}-${this.communeHighlighted?.code}`;
-        const optionElement = this.renderRoot.querySelector(optionId);
         const containerElement = this.renderRoot.querySelector(`.autocomplete-results`);
+        const containerPosition = containerElement?.getBoundingClientRect();
+        const optionPosition = this.renderRoot.querySelector(optionId)?.getBoundingClientRect();
 
-        if (optionElement && containerElement) {
-            const containerPosition = containerElement.getBoundingClientRect();
-            const optionPosition = optionElement.getBoundingClientRect();
-
+        if (containerElement && containerPosition && optionPosition) {
             if (direction === 'down' && optionPosition.bottom > containerPosition.bottom) {
                 containerElement.scrollTop += optionPosition.bottom - containerPosition.bottom;
             } else if (direction === 'up' && optionPosition.top < containerPosition.top) {
-                containerElement.scrollTop -= containerPosition.top - optionPosition.top;
+                containerElement.scrollTop -= containerPosition.top - optionPosition.top;                
             }
         }
     }
