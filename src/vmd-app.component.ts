@@ -2,6 +2,7 @@ import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-ele
 import {Router, SlottedTemplateResultFactory} from "./routing/Router";
 import globalCss from './styles/global.scss'
 import {TemplateResult} from "lit-html";
+import {ServiceWorkers} from "./utils/ServiceWorkers";
 import {DB} from "./storage/DB";
 
 @customElement('vmd-app')
@@ -27,7 +28,9 @@ export class VmdAppComponent extends LitElement {
             this.viewTemplateResult = viewTemplateResult;
         })
 
-        DB.INSTANCE.initialize()
+        DB.INSTANCE.initialize().then(() => {
+            ServiceWorkers.INSTANCE.startup();
+        })
     }
 
     render() {
