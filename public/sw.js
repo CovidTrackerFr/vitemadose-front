@@ -52,11 +52,6 @@ function checkSubscriptions() {
 
     return DB.instance().then(function(db) {
         return db.transaction(["subscriptions"]).objectStore("subscriptions").getAll().then(function(results) {
-            if (!results.length) {
-                // No subscription declared, skipping
-                return;
-            }
-
             return rechercherAbonnementsAvecRdvDispos(results);
         }).then(function(abonnementsAvecRvdDispos) {
             return Promise.all(abonnementsAvecRvdDispos.map(function(abonnementAvecRvdDispos) {
