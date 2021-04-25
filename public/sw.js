@@ -3,6 +3,7 @@ importScripts(
 )
 
 let getVersionPort = undefined;
+let pushNotificationsGranted=false;
 
 // self.addEventListener('install', function(event) {
 //     console.log('Service Worker activating...');
@@ -25,6 +26,11 @@ self.addEventListener('sync', function(event) {
 self.addEventListener("message", function(event) {
     if (event.data && event.data.type === 'INIT_PORT') {
         getVersionPort = event.ports[0];
+    }
+
+    if (event.data && event.data.type === 'UPDATE_PUSH_NOTIF_GRANT') {
+        pushNotificationsGranted = event.data.granted;
+        console.info("Update push notification granted to ["+pushNotificationsGranted+"]");
     }
 });
 
