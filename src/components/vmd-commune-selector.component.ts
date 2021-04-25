@@ -2,7 +2,7 @@ import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-ele
 import {classMap} from "lit-html/directives/class-map";
 import {Commune, Departement} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
-import communeSelectorCss from "../styles/components/_communeSelector.scss";
+import communeSelectorCss from "./vmd-commune-selector.component.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";

@@ -3,7 +3,7 @@ import {repeat} from "lit-html/directives/repeat";
 import {styleMap} from "lit-html/directives/style-map";
 import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
-import rdvViewCss from "../styles/views/_rdv.scss";
+import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
 import {
     CodeDepartement,
@@ -12,7 +12,7 @@ import {
     Departement,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
-    Lieu,
+    Lieu, LieuxAvecDistanceParDepartement,
     LieuxParDepartement,
     State,
     TRIS_CENTRE
@@ -27,12 +27,8 @@ import {
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {ValueStrCustomEvent} from "../components/vmd-selector.component";
 import {TemplateResult} from "lit-html";
-
-type LieuAvecDistance = Lieu & { distance: number|undefined };
-type LieuxAvecDistanceParDepartement = LieuxParDepartement & {
-    lieuxDisponibles: LieuAvecDistance[];
-    lieuxIndisponibles: LieuAvecDistance[];
-};
+import {Analytics} from "../utils/Analytics";
+import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -139,8 +135,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
             }
         }
 
-        await this.refreshLieux();
-
         return Promise.resolve();
     }
 
@@ -156,8 +150,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
             if(triggerNavigation) {
                 this.refreshPageWhenValidParams();
             }
-
-            await this.refreshLieux();
         }
 
         return Promise.resolve();
@@ -213,12 +205,19 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         </h2>
                     ` : html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">Aucun créneau de vaccination trouvé</h2>
-                        <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
+                        <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
                     `}
 
                 <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
                     ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
-                        return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${true}" .distance="${lieu.distance}" />`;
+                        return html`<vmd-appointment-card
+                            style="--list-index: ${index}"
+                            .lieu="${lieu}"
+                            .rdvPossible="${true}"
+                            .distance="${lieu.distance}"
+                            @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
+                            @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
+                        />`;
                     })}
 
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxIndisponibles.length) ? html`
@@ -232,7 +231,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     </h5>
 
                     ${repeat(this.lieuxParDepartementAffiches.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu, index) => {
-                        return html`<vmd-appointment-card style="--list-index: ${index}" .lieu="${lieu}" .rdvPossible="${false}"></vmd-appointment-card>`;
+                        return html`<vmd-appointment-card
+                            style="--list-index: ${index}"
+                            .lieu="${lieu}"
+                            .rdvPossible="${false}"
+                            @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
+                            @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
+                        ></vmd-appointment-card>`;
                     })}
                   ` : html``}
                 </div>
@@ -240,8 +245,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
         `;
     }
 
-    onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<string[]> {
-        return Promise.resolve(autocompletes);
+    onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<void> {
+        return Promise.resolve();
     }
 
     onceStartupPromiseResolved() {
@@ -255,14 +260,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
             State.current.departementsDisponibles().then(departementsDisponibles => {
                 this.departementsDisponibles = departementsDisponibles;
             }),
-            State.current.communeAutocompleteTriggers(Router.basePath).then((autocompletes) => {
-                return this.onCommuneAutocompleteLoaded(autocompletes);
-            }).then(autocompletes => {
+            State.current.communeAutocompleteTriggers(Router.basePath).then(async (autocompletes) => {
+                await this.onCommuneAutocompleteLoaded(autocompletes);
                 this.communesAutocomplete = new Set(autocompletes);
             })
         ])
 
-        this.onceStartupPromiseResolved();
+        await this.onceStartupPromiseResolved();
+        await this.refreshLieux();
     }
 
     preventRafraichissementLieux(): boolean {
@@ -298,15 +303,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
                 this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement);
 
-                (window as any).dataLayer.push({
-                    'event': this.communeSelectionnee?'search_by_commune':'search_by_departement',
-                    'search_departement': this.codeDepartementSelectionne,
-                    'search_commune' : this.communeSelectionnee?`${this.communeSelectionnee.codePostal} - ${this.communeSelectionnee.nom} (${this.communeSelectionnee.code})`:undefined,
-                    'search_nb_doses' : this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles.reduce((totalDoses, lieu) => totalDoses+lieu.appointment_count, 0):undefined,
-                    'search_nb_lieu_vaccination' : this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles.length:undefined,
-                    'search_nb_lieu_vaccination_inactive' : this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxIndisponibles.length:undefined,
-                    'search_filter_type': (this as any).critèreDeTri || 'date'
-                });
+                Analytics.INSTANCE.rechercheLieuEffectuee(
+                    this.codeDepartementSelectionne,
+                    this.communeSelectionnee,
+                    this.lieuxParDepartementAffiches);
             } finally {
                 this.searchInProgress = false;
             }
@@ -336,6 +336,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
         if (this.codeDepartementSelectionne) {
             Router.navigateToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!));
         }
+    }
+
+    private prendreRdv(lieu: Lieu) {
+        if(lieu.url) {
+            Analytics.INSTANCE.clickSurRdv(lieu);
+        }
+        Router.navigateToUrlIfPossible(lieu.url);
+    }
+
+    private verifierRdv(lieu: Lieu) {
+        if(lieu.url) {
+            Analytics.INSTANCE.clickSurVerifRdv(lieu);
+        }
+        Router.navigateToUrlIfPossible(lieu.url);
     }
 
     renderAdditionnalSearchCriteria(): TemplateResult {
@@ -389,34 +403,47 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         `
     }
 
-    async onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<string[]> {
+    async onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<void> {
         if(this.codePostalSelectionne && this.codeCommuneSelectionne) {
-            const autocompletesSet = new Set(autocompletes);
-            const autoCompleteCodePostal = this.codePostalSelectionne.split('')
-                .map((_, index) => this.codePostalSelectionne!.substring(0, index+1))
-                .find(autoCompleteAttempt => autocompletesSet.has(autoCompleteAttempt));
+            let codePostalSelectionne = this.codePostalSelectionne;
+            await this.refreshBasedOnCodePostalSelectionne(autocompletes, codePostalSelectionne);
+        }
+    }
 
-            if(!autoCompleteCodePostal) {
-                console.error(`Can't find autocomplete matching codepostal ${this.codePostalSelectionne}`);
-                return autocompletes;
-            }
-
-            this.recuperationCommunesEnCours = true;
-            this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal)
-            this.recuperationCommunesEnCours = false;
-
-            const communeSelectionnee = this.getCommuneSelectionnee();
-            if (communeSelectionnee) {
-                const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneSelectorComponent)
-                component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
-
-                await this.communeSelected(communeSelectionnee, false);
-            }
+    private async refreshBasedOnCodePostalSelectionne(autocompletes: string[], codePostalSelectionne: string) {
+        const autoCompleteCodePostal = this.getAutoCompleteCodePostal(autocompletes, codePostalSelectionne);
+        if (!autoCompleteCodePostal) {
+            console.error(`Can't find autocomplete matching codepostal ${codePostalSelectionne}`);
+            return autocompletes;
         }
 
-        await this.refreshLieux();
+        await this.updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal);
+
+        const communeSelectionnee = this.getCommuneSelectionnee();
+        if (communeSelectionnee) {
+            this.fillCommuneInSelector(communeSelectionnee, autoCompleteCodePostal);
+            await this.communeSelected(communeSelectionnee, false);
+        }
 
         return autocompletes;
+    }
+
+    private getAutoCompleteCodePostal(autocompletes: string[], codePostalSelectionne: string) {
+        const autocompletesSet = new Set(autocompletes);
+        return codePostalSelectionne.split('')
+            .map((_, index) => codePostalSelectionne!.substring(0, index + 1))
+            .find(autoCompleteAttempt => autocompletesSet.has(autoCompleteAttempt));
+    }
+
+    private async updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal: string) {
+        this.recuperationCommunesEnCours = true;
+        this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal)
+        this.recuperationCommunesEnCours = false;
+    }
+
+    private fillCommuneInSelector(communeSelectionnee: Commune, autoCompleteCodePostal: string) {
+        const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneSelectorComponent)
+        component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
     }
 
     protected getCommuneSelectionnee(): Commune|undefined {
@@ -472,10 +499,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     critereTriUpdated(triCentre: CodeTriCentre) {
         this.critèreDeTri = triCentre;
 
-        (window as any).dataLayer.push({
-            'event': 'sort_change',
-            'sort_changed_to' : triCentre,
-        });
+        Analytics.INSTANCE.critereTriCentresMisAJour(triCentre);
 
         this.refreshPageWhenValidParams();
     }
@@ -511,8 +535,6 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
                 await this.departementSelected(departementSelectionne, false);
             }
         }
-
-        await this.refreshLieux();
     }
 
     libelleLieuSelectionne(): TemplateResult {

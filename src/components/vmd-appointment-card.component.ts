@@ -3,9 +3,12 @@ import {classMap} from "lit-html/directives/class-map";
 import {Lieu, Plateforme, PLATEFORMES, TYPES_LIEUX} from "../state/State";
 import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
-import appointmentCardCss from "../styles/components/_appointmentCard.scss";
+import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
+
+type LieuCliqueContext = {lieu: Lieu};
+export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
 
 @customElement('vmd-appointment-card')
 export class VmdAppointmentCardComponent extends LitElement {
@@ -32,35 +35,15 @@ export class VmdAppointmentCardComponent extends LitElement {
     }
 
     prendreRdv() {
-        if(this.lieu.url) {
-            (window as any).dataLayer.push({
-                'event': 'rdv_click',
-                'rdv_departement' : this.lieu.departement,
-                'rdv_platorm' : this.lieu.plateforme,
-                'rdv_platform' : this.lieu.plateforme,
-                'rdv_name': this.lieu.nom,
-                'rdv_location_type' : this.lieu.type,
-                'rdv_vaccine' : this.lieu.vaccine_type,
-                'rdv_filter_type' : undefined
-            });
-        }
-        Router.navigateToUrlIfPossible(this.lieu.url);
+        this.dispatchEvent(new CustomEvent<LieuCliqueContext>('prise-rdv-cliquee', {
+            detail: { lieu: this.lieu }
+        }));
     }
 
     verifierRdv() {
-        if(this.lieu.url) {
-            (window as any).dataLayer.push({
-                'event': 'rdv_verify',
-                'rdv_departement' : this.lieu.departement,
-                'rdv_platorm' : this.lieu.plateforme,
-                'rdv_platform' : this.lieu.plateforme,
-                'rdv_name': this.lieu.nom,
-                'rdv_location_type' : this.lieu.type,
-                'rdv_vaccine' : this.lieu.vaccine_type,
-                'rdv_filter_type' : undefined
-            });
-        }
-        Router.navigateToUrlIfPossible(this.lieu.url);
+        this.dispatchEvent(new CustomEvent<LieuCliqueContext>('verification-rdv-cliquee', {
+            detail: { lieu: this.lieu }
+        }));
     }
 
     render() {
@@ -73,8 +56,9 @@ export class VmdAppointmentCardComponent extends LitElement {
               distance = distance.toFixed(1)
             }
             return html`
-            <div class="card rounded-3 mb-5 ${classMap({clickable: this.estCliquable})}"
-                 @click="${() => this.prendreRdv()}">
+            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
+              title="${this.estCliquable ? this.lieu.url : ''}"
+              @click="${() => this.prendreRdv()}">
                 <div class="card-body">
                     <div class="row align-items-center ">
                         <div class="col">
@@ -106,9 +90,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                         ${this.estCliquable?html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                            <a href="#" class="btn btn-primary btn-lg">
-                              Prendre rendez-vous
-                            </a>
+                            <a class="btn btn-primary btn-lg" href="#">Prendre rendez-vous</a>
                             <div class="row align-items-center justify-content-center mt-3 text-black-50">
                                 <div class="col-auto">
                                   ${this.lieu.appointment_count.toLocaleString()} créneau${Strings.plural(this.lieu.appointment_count, "x")}
@@ -132,7 +114,9 @@ export class VmdAppointmentCardComponent extends LitElement {
             `;
         } else {
             return html`
-              <div class="card rounded-3 mb-5 p-4 bg-disabled" @click="${() => this.verifierRdv()}">
+              <div title="${this.estCliquable ? this.lieu.url : ''}"
+                class="card rounded-3 mb-5 p-4 bg-disabled ${classMap({clickable: this.estCliquable})}"
+                @click="${() => this.verifierRdv()}">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">
@@ -148,7 +132,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                     ${this.estCliquable?html`
                     <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
-                      <a href="#" class="btn btn-info btn-lg">Vérifier le centre de vaccination</a>
+                      <a class="btn btn-info btn-lg" href="#">Vérifier le centre de vaccination</a>
                     </div>
                     `:html``}
                   </div>

@@ -54,7 +54,7 @@ export class VmdAppComponent extends LitElement {
             
             <footer class="row justify-content-between">
                 <div class="col-auto">
-                    Vite Ma Dose ! par CovidTracker -
+                    Vite Ma Dose&nbsp;! par CovidTracker -
                     <a href="https://github.com/CovidTrackerFr/vitemadose-front/blob/main/LICENSE">(CC BY-NC-SA 4.0)</a>
                 </div>
                 <div class="col-auto">
