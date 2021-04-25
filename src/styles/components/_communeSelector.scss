@@ -17,7 +17,7 @@ input, .autocomplete {
   border-radius: 1.2rem;
 
   @include media-breakpoint-up(md) {
-      font-size: calc(1.325rem + 0.9vw);
+      font-size: calc(2rem + 0.2vw);
   }
 }
 
@@ -102,7 +102,7 @@ input, .autocomplete {
             white-space: nowrap;
             padding: 6px;
             border-radius: 5px;
-            background-color: grey;
+            background-color: white;
             color: white;
             font-weight: bold;
         }
