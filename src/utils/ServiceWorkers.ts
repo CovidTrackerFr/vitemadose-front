@@ -79,7 +79,7 @@ export class ServiceWorkers {
             });
             if(periodicBackgroundSyncStatus.state === 'granted') {
                 await (serviceWorkerRegistration as any).periodicSync.register("check-subscriptions", {
-                    minInterval: 30 * 1000,
+                    minInterval: 1000,
                 });
             } else {
                 await serviceWorkerRegistration.sync.register("check-subscriptions");
