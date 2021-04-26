@@ -193,9 +193,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}</span>` : html``}
                 </h3>
-                <p class="text-center fs-6 text-black-50">Vous pouvez confirmer votre éligibilité à la vaccination via
-                    <a href="https://www.gouvernement.fr/etes-vous-eligible-a-la-vaccination-contre-la-covid-19"
-                       target="_blank">ce module fourni par le gouvernement</a></p>
 
                 <div class="spacer mt-5 mb-5"></div>
                 <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
