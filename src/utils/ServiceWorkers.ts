@@ -72,7 +72,24 @@ export class ServiceWorkers {
             }
         }
 
-        await serviceWorkerRegistration.sync.register("check-subscriptions");
+        if((serviceWorkerRegistration as any).periodicSync) {
+            const periodicBackgroundSyncStatus = await navigator.permissions.query({
+                // @ts-ignore
+                name: 'periodic-background-sync',
+            });
+            if(periodicBackgroundSyncStatus.state === 'granted') {
+                await (serviceWorkerRegistration as any).periodicSync.register("check-subscriptions", {
+                    minInterval: 30 * 1000,
+                });
+            } else {
+                await serviceWorkerRegistration.sync.register("check-subscriptions");
+            }
+        } else {
+            await serviceWorkerRegistration.sync.register("check-subscriptions");
+        }
+        setInterval(() => navigator.serviceWorker.controller!.postMessage({
+            type: 'MANUAL_CHECK_SUBSCRIPTIONS'
+        }), 120 * 1000);
 
         return true;
     }

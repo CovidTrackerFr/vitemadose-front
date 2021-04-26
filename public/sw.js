@@ -35,7 +35,7 @@ self.addEventListener('fetch', function(event) {
 self.addEventListener('sync', function(event) {
     console.log("sync event", event);
     if (event.tag === 'check-subscriptions') {
-        checkSubscriptions();
+        checkSubscriptions("bg");
     }
 });
 self.addEventListener("message", function(event) {
@@ -47,9 +47,14 @@ self.addEventListener("message", function(event) {
         pushNotificationsGranted = event.data.granted;
         console.info("Update push notification granted to ["+pushNotificationsGranted+"]");
     }
+
+    if(event.data && event.data.type === 'MANUAL_CHECK_SUBSCRIPTIONS') {
+        console.info("manual check subscription triggered")
+        checkSubscriptions("man");
+    }
 });
 
-function checkSubscriptions() {
+function checkSubscriptions(prefix) {
     if(!pushNotificationsGranted) {
         console.info("Push notifications not granted, skipping any sync event !")
         return;
@@ -63,7 +68,7 @@ function checkSubscriptions() {
                 return Promise.all([
                     db.transaction(["subscriptions"], "readwrite").objectStore("subscriptions").delete(abonnementAvecRvdDispos.subscription.ts),
                     self.registration.showNotification(
-                    "ViteMaDose - "+abonnementAvecRvdDispos.appointment_count+" créneaux trouvés",
+                    "["+prefix+"] ViteMaDose - "+abonnementAvecRvdDispos.appointment_count+" créneaux trouvés",
                     {
                         lang: 'fr-FR',
                         body: abonnementAvecRvdDispos.appointment_count+" créneaux de vaccination trouvés sur "
