@@ -81,11 +81,14 @@ export class ServiceWorkers {
                 await (serviceWorkerRegistration as any).periodicSync.register("check-subscriptions", {
                     minInterval: 1000,
                 });
+                console.log("periodicSync started !")
             } else {
                 await serviceWorkerRegistration.sync.register("check-subscriptions");
+                console.log("sync started (periodicSync fallback) !")
             }
         } else {
             await serviceWorkerRegistration.sync.register("check-subscriptions");
+            console.log("sync started !")
         }
         setInterval(() => navigator.serviceWorker.controller!.postMessage({
             type: 'MANUAL_CHECK_SUBSCRIPTIONS'
