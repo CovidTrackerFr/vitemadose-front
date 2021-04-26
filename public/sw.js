@@ -38,6 +38,12 @@ self.addEventListener('sync', function(event) {
         event.waitUntil(checkSubscriptions("bg"));
     }
 });
+self.addEventListener('periodicsync', function(event) {
+    console.log("sync event", event);
+    if (event.tag === 'check-subscriptions') {
+        event.waitUntil(checkSubscriptions("bg"));
+    }
+});
 self.addEventListener("message", function(event) {
     if (event.data && event.data.type === 'INIT_PORT') {
         getVersionPort = event.ports[0];
