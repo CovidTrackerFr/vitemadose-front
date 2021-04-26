@@ -37,6 +37,7 @@ import {
 } from "../components/vmd-appointment-card.component";
 import {PushNotifications} from "../utils/ServiceWorkers";
 import {DB, Subscription} from "../storage/DB";
+import {Capabilities, CapabilityEligibility} from "../utils/Capabilities";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -62,6 +63,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
 
     @property({type: Array, attribute: false}) abonnements: Subscription[] = [];
+    @property({type: String, attribute: false}) locationWatchEligibility: CapabilityEligibility = "not-eligible";
     protected refreshAbonnementsIntervalId: number|undefined = undefined;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
@@ -226,6 +228,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                             .lieu="${lieu}"
                             .rdvPossible="${true}"
                             .distance="${lieu.distance}"
+                            .locationWatchEligibility="${this.locationWatchEligibility}"
                             .watching="${this.abonnementSur(lieu)}"
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
@@ -247,6 +250,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                             style="--list-index: ${index}"
                             .lieu="${lieu}"
                             .rdvPossible="${false}"
+                            .locationWatchEligibility="${this.locationWatchEligibility}"
                             .watching="${this.abonnementSur(lieu)}"
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
@@ -303,7 +307,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
         await this.onceStartupPromiseResolved();
 
         await this.refreshAbonnements();
+        this.locationWatchEligibility = Capabilities.INSTANCE.currentDeviceIsEligibleToLocationWatch();
         this.refreshAbonnementsIntervalId = setInterval(async() => {
+            this.locationWatchEligibility = Capabilities.INSTANCE.currentDeviceIsEligibleToLocationWatch();
             await this.refreshAbonnements();
         }, 60000);
 

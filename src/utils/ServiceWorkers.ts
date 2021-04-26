@@ -104,6 +104,22 @@ export class PushNotifications {
         })
     }
 
+    currentStatus(): "missing-capability"|"granted"|"denied"|"available-but-unknown"|"unexpected-unknown" {
+        if(!Notification) {
+            return "missing-capability";
+        }
+
+        if(Notification.permission === "granted") {
+            return "granted";
+        } else if(Notification.permission === "denied") {
+            return "denied";
+        } else if(Notification.permission === "default") {
+            return "available-but-unknown";
+        }
+
+        return "unexpected-unknown";
+    }
+
     async pushNotificationGrantToServiceWorker() {
         await navigator.serviceWorker.controller!.postMessage({
             type: 'UPDATE_PUSH_NOTIF_GRANT',
