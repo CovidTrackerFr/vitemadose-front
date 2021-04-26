@@ -20,8 +20,11 @@ self.addEventListener('install', function(event) {
 self.addEventListener('activate', function(event) {
     console.log('Service Worker activating...');
     event.waitUntil(
-        DB.initialize().then(function() {
-            console.log('DB created !');
+        Promise.all([
+            DB.initialize(),
+            initializeSyncEvents()
+        ]).then(function() {
+            console.log('DB and sync events created !');
             return self.clients.claim();
         })
     );
@@ -214,4 +217,3 @@ class DB {
     }
 }
 
-initializeSyncEvents();
