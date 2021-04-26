@@ -35,7 +35,7 @@ self.addEventListener('fetch', function(event) {
 self.addEventListener('sync', function(event) {
     console.log("sync event", event);
     if (event.tag === 'check-subscriptions') {
-        checkSubscriptions("bg");
+        event.waitUntil(checkSubscriptions("bg"));
     }
 });
 self.addEventListener("message", function(event) {
@@ -50,14 +50,14 @@ self.addEventListener("message", function(event) {
 
     if(event.data && event.data.type === 'MANUAL_CHECK_SUBSCRIPTIONS') {
         console.info("manual check subscription triggered")
-        checkSubscriptions("man");
+        event.waitUntil(checkSubscriptions("man"));
     }
 });
 
 function checkSubscriptions(prefix) {
     if(!pushNotificationsGranted) {
         console.info("Push notifications not granted, skipping any sync event !")
-        return;
+        return Promise.resolve();
     }
 
     return DB.instance().then(function(db) {
