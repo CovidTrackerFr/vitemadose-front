@@ -27,6 +27,11 @@ self.addEventListener('activate', function(event) {
     );
 });
 
+// Dummy fetch handler to make PWA installable (without this, we won't have the installation CTA on the website)
+self.addEventListener('fetch', function(event) {
+    //console.log("in dummy fetch handler");
+});
+
 self.addEventListener('sync', function(event) {
     console.log("sync event", event);
     if (event.tag === 'check-subscriptions') {
