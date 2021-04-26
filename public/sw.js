@@ -32,18 +32,6 @@ self.addEventListener('fetch', function(event) {
     //console.log("in dummy fetch handler");
 });
 
-self.addEventListener('sync', function(event) {
-    console.log("sync event", event);
-    if (event.tag === 'check-subscriptions') {
-        event.waitUntil(checkSubscriptions("bg"));
-    }
-});
-self.addEventListener('periodicsync', function(event) {
-    console.log("sync event", event);
-    if (event.tag === 'check-subscriptions') {
-        event.waitUntil(checkSubscriptions("bg"));
-    }
-});
 self.addEventListener("message", function(event) {
     if (event.data && event.data.type === 'INIT_PORT') {
         getVersionPort = event.ports[0];
@@ -59,6 +47,67 @@ self.addEventListener("message", function(event) {
         event.waitUntil(checkSubscriptions("man"));
     }
 });
+
+function initializeSyncEvents() {
+    const PBS_TAG = 'check-subscriptions';
+    if ('periodicSync' in self.registration) {
+        self.addEventListener('periodicsync', function(event) {
+            console.log("periodicsync event", event);
+            if (event.tag === PBS_TAG) {
+                event.waitUntil(checkSubscriptions("bg"));
+            }
+        });
+
+        self.navigator.permissions.query({
+            name: 'periodic-background-sync',
+        }).then(function(status) {
+            if (status.state === 'granted') {
+                return self.registration.periodicSync.getTags().then(function(tags) {
+                    if (tags.indexOf(PBS_TAG) !== -1) {
+                        console.log("Already registered for periodic background sync with tag",  PBS_TAG);
+                    } else {
+                        return self.registration.periodicSync.register(PBS_TAG, {
+                            // An interval of one day.
+                            minInterval: 1000,
+                        }).then(function() {
+                            console.log("Registered for periodic background sync with tag", PBS_TAG);
+                        }, function(error) {
+                            console.error("Periodic background sync permission is 'granted', " +
+                                "but something went wrong:", error);
+                        });
+                    }
+                });
+            } else {
+                console.info("Periodic background sync permission is not 'granted', so " +
+                    "skipping registration.");
+            }
+        });
+    } else {
+        console.log("Periodic background sync is not available in this browser, falling back on sync");
+        self.addEventListener('sync', function(event) {
+            console.log("sync event", event);
+            if (event.tag === PBS_TAG) {
+                event.waitUntil(checkSubscriptions("bg"));
+            }
+        });
+
+
+        return self.registration.sync.getTags().then(function(tags) {
+            if (tags.indexOf(PBS_TAG) !== -1) {
+                console.log("Already registered for background sync with tag", PBS_TAG);
+            } else {
+                return self.registration.sync.register(PBS_TAG, {
+                    // An interval of one day.
+                    minInterval: 1000,
+                }).then(function() {
+                    console.log("Registered for background sync with tag", PBS_TAG);
+                }, function(error) {
+                    console.error("Background sync went wrong:", error);
+                });
+            }
+        });
+    }
+}
 
 function checkSubscriptions(prefix) {
     if(!pushNotificationsGranted) {
@@ -164,3 +213,5 @@ class DB {
         return _this.dbPromise;
     }
 }
+
+initializeSyncEvents();

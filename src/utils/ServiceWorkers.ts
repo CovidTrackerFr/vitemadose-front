@@ -72,24 +72,6 @@ export class ServiceWorkers {
             }
         }
 
-        if((serviceWorkerRegistration as any).periodicSync) {
-            const periodicBackgroundSyncStatus = await navigator.permissions.query({
-                // @ts-ignore
-                name: 'periodic-background-sync',
-            });
-            if(periodicBackgroundSyncStatus.state === 'granted') {
-                await (serviceWorkerRegistration as any).periodicSync.register("check-subscriptions", {
-                    minInterval: 1000,
-                });
-                console.log("periodicSync started !")
-            } else {
-                await serviceWorkerRegistration.sync.register("check-subscriptions");
-                console.log("sync started (periodicSync fallback) !")
-            }
-        } else {
-            await serviceWorkerRegistration.sync.register("check-subscriptions");
-            console.log("sync started !")
-        }
         setInterval(() => navigator.serviceWorker.controller!.postMessage({
             type: 'MANUAL_CHECK_SUBSCRIPTIONS'
         }), 120 * 1000);
