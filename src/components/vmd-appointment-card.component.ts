@@ -93,7 +93,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                             <a class="btn btn-primary btn-lg" href="#">Prendre rendez-vous</a>
                             <div class="row align-items-center justify-content-center mt-3 text-black-50">
                                 <div class="col-auto">
-                                  ${this.lieu.appointment_count.toLocaleString()} dose${Strings.plural(this.lieu.appointment_count)}
+                                  ${this.lieu.appointment_count.toLocaleString()} créneau${Strings.plural(this.lieu.appointment_count, "x")}
                                 </div>
                                 ${this.lieu.plateforme?html`
                                 |
