@@ -75,9 +75,10 @@ export class VmdAppointmentCardComponent extends LitElement {
                     disabledBG: specificCardConfig.disabledBG,
                     libelleDateAbsente: specificCardConfig.libelleDateAbsente,
                     cardLink: (content) =>
-                        html`<a href="#" @click="${() => specificCardConfig.onclick()}">${content}</a>`,
+                        html`<a href="#" @click="${(e: Event) => { specificCardConfig.onclick(); e.preventDefault(); } }">${content}</a>`,
                     actions: html`
-                      <a href="#" class="btn btn-lg ${classMap({ 'btn-primary': specificCardConfig.typeBouton==='btn-primary', 'btn-info': specificCardConfig.typeBouton==='btn-info' })}">
+                      <a href="#" @click="${(e: Event) => e.preventDefault()}" 
+                         class="btn btn-lg ${classMap({ 'btn-primary': specificCardConfig.typeBouton==='btn-primary', 'btn-info': specificCardConfig.typeBouton==='btn-info' })}">
                         ${specificCardConfig.libelleBouton}
                       </a>
                       <div class="row align-items-center justify-content-center mt-3 text-black-50">
@@ -103,12 +104,13 @@ export class VmdAppointmentCardComponent extends LitElement {
                     disabledBG: false,
                     libelleDateAbsente: 'Réservation tél uniquement',
                     cardLink: (content) => html`
-                          <a href="tel:${this.lieu.metadata.phone_number}"
-                             @click="${(e: Event) => e.stopImmediatePropagation()}">
+                          <a href="tel:${this.lieu.metadata.phone_number}">
                             ${content}
                           </a>`,
                     actions: html`
-                          <a href="#" class="btn btn-tel btn-lg">Appeler le ${Strings.toNormalizedPhoneNumber(this.lieu.metadata.phone_number)}</a>
+                          <a href="tel:${this.lieu.metadata.phone_number}" class="btn btn-tel btn-lg">
+                            Appeler le ${Strings.toNormalizedPhoneNumber(this.lieu.metadata.phone_number)}
+                          </a>
                         `
                 };
             } else {
@@ -142,7 +144,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                               <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-telephone-fill" .displayed="${!!this.lieu.metadata.phone_number}">
                                 <span slot="content">
                                     <a href="tel:${this.lieu.metadata.phone_number}"
-                                       @click="${(e: Event) => e.stopImmediatePropagation()}">
+                                       @click="${(e: Event) => { e.stopImmediatePropagation(); }}">
                                         ${Strings.toNormalizedPhoneNumber(this.lieu.metadata.phone_number)}
                                     </a>
                                 </span>
