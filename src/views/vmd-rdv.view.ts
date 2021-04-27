@@ -196,7 +196,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
               </div>
             `:html`
                 <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
-                  ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)}
+                  ${this.totalDoses.toLocaleString()} créneau${Strings.plural(this.totalDoses, "x")} de vaccination trouvé${Strings.plural(this.totalDoses)}
                   ${this.libelleLieuSelectionne()}
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}</span>` : html``}
