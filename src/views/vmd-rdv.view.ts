@@ -1,4 +1,4 @@
-import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
+import {css, customElement, html, LitElement, property, PropertyValues, unsafeCSS} from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
 import {styleMap} from "lit-html/directives/style-map";
 import globalCss from "../styles/global.scss";
@@ -55,6 +55,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
 
+    private eligibilityCriteriaTimeout: number|undefined = undefined;
+    private eligibilityCriteriaDisplayed: boolean = true;
 
     get communeSelectionnee(): Commune|undefined {
         if(this.derniereCommuneSelectionnee) {
@@ -74,6 +76,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     resetCommuneSelectionneeTo(commune: Commune|undefined) {
         this.derniereCommuneSelectionnee = commune;
+    }
+
+    protected firstUpdated(_changedProperties: PropertyValues) {
+        super.firstUpdated(_changedProperties);
+        this.eligibilityCriteriaTimeout = setTimeout(async () => {
+            this.eligibilityCriteriaDisplayed = false;
+            await this.requestUpdate();
+        }, 10000);
     }
 
     protected getDepartementSelectionne(): Departement|undefined {
@@ -241,13 +251,21 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     })}
                   ` : html``}
                 </div>
-                <div class="eligibility-criteria">
-                    <p>Soyons citoyens et respectons les conditions d'éligibilité :-)</p>
-                </div>
+                ${this.renderEligibilityCriteria()}
             `}
         `;
     }
 
+    private renderEligibilityCriteria() {
+        if (this.eligibilityCriteriaDisplayed) {
+            return html`
+                <div class="eligibility-criteria">
+                    <p>Soyons citoyens et respectons les conditions d'éligibilité :-)</p>
+                </div>`;
+        }
+
+        return ``;
+    }
     onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<void> {
         return Promise.resolve();
     }
