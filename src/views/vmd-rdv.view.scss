@@ -76,6 +76,21 @@
 
 }
 
+.eligibility-criteria {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    color: $red;
+    width: 100%;
+    background-color: $pink-100;
+    text-align: center;
+    vertical-align: center;
+
+    p {
+        margin: .5em;
+    }
+}
+
 vmd-appointment-card {
     display: block;
     opacity: 1;
