@@ -196,7 +196,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
               </div>
             `:html`
                 <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
-                  ${this.totalDoses.toLocaleString()} dose${Strings.plural(this.totalDoses)} de vaccination covid trouvée${Strings.plural(this.totalDoses)}
+                  ${this.totalDoses.toLocaleString()} créneau${Strings.plural(this.totalDoses, "x")} de vaccination trouvé${Strings.plural(this.totalDoses)}
                   ${this.libelleLieuSelectionne()}
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ? html`<span class="fs-6 text-black-50">Dernière mise à jour : il y a ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}</span>` : html``}
@@ -208,7 +208,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${this.lieuxParDepartementAffiches.lieuxDisponibles.length} Lieu${Strings.plural(this.lieuxParDepartementAffiches.lieuxDisponibles.length, 'x')} de vaccination covid avec des disponibilités
+                                ${this.lieuxParDepartementAffiches.lieuxDisponibles.length} Lieu${Strings.plural(this.lieuxParDepartementAffiches.lieuxDisponibles.length, 'x')} de vaccination avec des disponibilités
                             </span>
                         </h2>
                     ` : html`
