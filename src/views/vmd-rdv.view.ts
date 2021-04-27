@@ -241,6 +241,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     })}
                   ` : html``}
                 </div>
+                <div class="eligibility-criteria">
+                    <p>Soyons citoyens et respectons les conditions d'éligibilité :-)</p>
+                </div>
             `}
         `;
     }
