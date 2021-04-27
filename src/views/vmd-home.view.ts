@@ -195,9 +195,16 @@ export class VmdHomeView extends LitElement {
 
                 <div class="homeCard">
                     <div class="p-5 text-dark bg-light homeCard-container mt-5">
-                      <vmd-stats-by-date-graph width="400" height="150" .data="${this.statsByDates}"></vmd-stats-by-date-graph>
+                      <vmd-stats-by-date-creneaux-graph width="400" height="150" .data="${this.statsByDates}"></vmd-stats-by-date-creneaux-graph>
                     </div>
                 </div>
+
+                <div class="homeCard">
+                    <div class="p-5 text-dark bg-light homeCard-container mt-5">
+                      <vmd-stats-by-date-centres-graph width="400" height="150" .data="${this.statsByDates}"></vmd-stats-by-date-creneaux-graph>
+                    </div>
+                </div>
+
             </div>
 
             <slot name="about"></slot>
