@@ -82,7 +82,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                       </a>
                       <div class="row align-items-center justify-content-center mt-3 text-black-50">
                         <div class="col-auto">
-                          ${this.lieu.appointment_count.toLocaleString()} dose${Strings.plural(this.lieu.appointment_count)}
+                          ${this.lieu.appointment_count.toLocaleString()} créneau${Strings.plural(this.lieu.appointment_count, "x")}
                         </div>
                         ${this.lieu.plateforme?html`
                         |
@@ -122,7 +122,8 @@ export class VmdAppointmentCardComponent extends LitElement {
             }
 
             return cardConfig.cardLink(html`
-            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: cardConfig.estCliquable, 'bg-disabled': cardConfig.disabledBG })}">
+            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: cardConfig.estCliquable, 'bg-disabled': cardConfig.disabledBG })}"
+                 title="${cardConfig.estCliquable ? this.lieu.url : ''}">
                 <div class="card-body">
                     <div class="row align-items-center ">
                         <div class="col">

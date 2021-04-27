@@ -42,6 +42,12 @@
       background-color: darken($card-bg, 3%);
     }
 
+    &.bg-disabled {
+      &:hover {
+        background-color: darken($gray-400, 3%);
+      }
+    }
+
     cursor: pointer;
   }
 
