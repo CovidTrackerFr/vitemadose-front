@@ -12,9 +12,9 @@ import {
     Departement,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
-    Lieu, LieuxAvecDistanceParDepartement,
+    Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
     LieuxParDepartement,
-    State,
+    State, TriCentre,
     TRIS_CENTRE
 } from "../state/State";
 import {Dates} from "../utils/Dates";
@@ -30,6 +30,7 @@ import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
 import {setDebouncedInterval} from "../utils/Schedulers";
+import {ArrayBuilder} from "../utils/Arrays";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -216,42 +217,28 @@ export abstract class AbstractVmdRdvView extends LitElement {
                             </span>
                         </h2>
                     ` : html`
-                        <h2 class="row align-items-center justify-content-center mb-5 h5">Aucun créneau de vaccination trouvé</h2>
-                        <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid sur ces centres, nous vous recommandons toutefois de vérifier manuellement les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
+                        <h2 class="row align-items-center justify-content-center mb-5 h5">
+                          <i class="bi vmdicon-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
+                          <span class="col col-sm-auto">
+                            Aucun créneau de vaccination trouvé
+                          </span>
+                        </h2>
+                        <div class="px-3 mb-5">
+                          <em>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19 
+                            sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement 
+                            les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. 
+                            Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</em>
+                        </div>
                     `}
-
-                <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
-                    ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxDisponibles:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
-                        return html`<vmd-appointment-card
-                            style="--list-index: ${index}"
-                            .lieu="${lieu}"
-                            .rdvPossible="${true}"
-                            .distance="${lieu.distance}"
+                  
+                    ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
+                        return html`<vmd-appointment-card 
+                            style="--list-index: ${index}" 
+                            .lieu="${lieu}" 
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
                         />`;
                     })}
-
-                  ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxIndisponibles.length) ? html`
-                    <div class="spacer mt-5 mb-5"></div>
-
-                    <h5 class="row align-items-center justify-content-center mb-5 px-3">
-                        <i class="bi vmdicon-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
-                        <span class="col col-sm-auto text-black-50">
-                            Autres centres sans créneaux de vaccination détectés
-                        </span>
-                    </h5>
-
-                    ${repeat(this.lieuxParDepartementAffiches.lieuxIndisponibles || [], (c => `${c.departement}||${c.nom}||${c.plateforme}`), (lieu, index) => {
-                        return html`<vmd-appointment-card
-                            style="--list-index: ${index}"
-                            .lieu="${lieu}"
-                            .rdvPossible="${false}"
-                            @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
-                            @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
-                        ></vmd-appointment-card>`;
-                    })}
-                  ` : html``}
                 </div>
             `}
         `;
@@ -383,6 +370,37 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return html``;
     }
 
+    protected extraireFormuleDeTri(lieu: LieuAffichableAvecDistance, tri: CodeTriCentre) {
+        if(tri === 'date') {
+            let firstLevelSort;
+            if(lieu.appointment_by_phone_only && lieu.metadata.phone_number) {
+                firstLevelSort = 2;
+            } else if(lieu.url) {
+                firstLevelSort = lieu.appointment_count !== 0 ? (lieu.prochain_rdv!==null? 0:1):3;
+            } else {
+                firstLevelSort = 4;
+            }
+            return `${firstLevelSort}__${Strings.padLeft(Date.parse(lieu.prochain_rdv!) || 0, 15, '0')}`;
+        } else if(tri === 'distance') {
+            let firstLevelSort;
+
+            // Considering only 2 kind of sorting sections :
+            // - the one with (potentially) available appointments (with url, or appointment by phone only)
+            // - the one with unavailable appointments (without url, or with 0 available appointments)
+            if(lieu.appointment_by_phone_only && lieu.metadata.phone_number) {
+                firstLevelSort = 0;
+            } else if(lieu.url) {
+                firstLevelSort = lieu.appointment_count !== 0 ? 0:1;
+            } else {
+                firstLevelSort = 1;
+            }
+
+            return `${firstLevelSort}__${Strings.padLeft(Math.round(lieu.distance!*1000), 8, '0')}`;
+        } else {
+            throw new Error(`Unsupported tri : ${tri}`);
+        }
+    }
+
     abstract libelleLieuSelectionne(): TemplateResult;
     abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement;
 }
@@ -494,33 +512,19 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             :(lieu: Lieu) => undefined;
 
         const { lieuxDisponibles, lieuxIndisponibles } = {
-            lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles.map(l => ({
-                ...l, distance: distanceAvec(l)
-            })).filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM):[],
-            lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles.map(l => ({
-                ...l, distance: distanceAvec(l)
-            })).filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM):[],
+            lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles:[],
+            lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles:[],
         };
 
-        if(this.critèreDeTri==='date') {
-            return {
-                ...lieuxParDepartement,
-                lieuxDisponibles: [...lieuxDisponibles]
-                    .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
-                lieuxIndisponibles: [...lieuxIndisponibles]
-                    .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
-            };
-        } else if(this.critèreDeTri==='distance') {
-            return {
-                ...lieuxParDepartement!,
-                lieuxDisponibles: [...lieuxDisponibles]
-                    .sort((a, b) => a.distance! - b.distance!),
-                lieuxIndisponibles: [...lieuxIndisponibles]
-                    .sort((a, b) => a.distance! - b.distance!),
-            };
-        } else {
-            throw new Error("No critereDeTri defined !");
-        }
+        return {
+            ...lieuxParDepartement,
+            lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
+                .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
+                .map(l => ({...l, distance: distanceAvec(l) }))
+                .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
+                .sortBy(l => this.extraireFormuleDeTri(l, this.critèreDeTri))
+                .build()
+        };
     }
 
     critereTriUpdated(triCentre: CodeTriCentre) {
@@ -574,20 +578,17 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
 
     afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement {
         const { lieuxDisponibles, lieuxIndisponibles } = {
-            lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles.map(l => ({
-                ...l, distance: undefined
-            })):[],
-            lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles.map(l => ({
-                ...l, distance: undefined
-            })):[],
+            lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles:[],
+            lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles:[],
         };
 
         return {
             ...lieuxParDepartement,
-            lieuxDisponibles: [...lieuxDisponibles]
-                .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
-            lieuxIndisponibles: [...lieuxIndisponibles]
-                .sort((a, b) => Date.parse(a.prochain_rdv!) - Date.parse(b.prochain_rdv!)),
+            lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
+                .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
+                .map(l => ({...l, distance: undefined }))
+                .sortBy(l => this.extraireFormuleDeTri(l, 'date'))
+                .build()
         };
     }
 }

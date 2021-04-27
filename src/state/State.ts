@@ -75,6 +75,7 @@ export type Lieu = {
     location: Coordinates,
     nom: string;
     url: string;
+    appointment_by_phone_only: boolean;
     plateforme: string;
     prochain_rdv: ISODateString|null;
     metadata: {
@@ -113,10 +114,9 @@ export type LieuxParDepartement = {
 };
 export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
 
-export type LieuAvecDistance = Lieu & { distance: number|undefined };
+export type LieuAffichableAvecDistance = Lieu & { disponible: boolean, distance: number|undefined };
 export type LieuxAvecDistanceParDepartement = LieuxParDepartement & {
-    lieuxDisponibles: LieuAvecDistance[];
-    lieuxIndisponibles: LieuAvecDistance[];
+    lieuxAffichables: LieuAffichableAvecDistance[];
 };
 
 function convertDepartementForSort(codeDepartement: CodeDepartement) {
