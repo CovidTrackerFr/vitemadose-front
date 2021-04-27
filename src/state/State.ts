@@ -179,12 +179,14 @@ export class State {
         } else {
             const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
             const results = await resp.json()
-            return {
+            const lieuxParDepartement = {
                 lieuxDisponibles: results.centres_disponibles.map(transformLieu),
                 lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
                 codeDepartements: [codeDepartement],
                 derniereMiseAJour: results.last_updated
             };
+            this._lieuxParDepartement.set(codeDepartement, lieuxParDepartement);
+            return lieuxParDepartement;
         }
     }
 
