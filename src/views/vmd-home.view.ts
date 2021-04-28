@@ -168,7 +168,7 @@ export class VmdHomeView extends LitElement {
                     <div class="p-5 text-dark bg-light homeCard-container mt-5">
                         <div class="row gx-5">
                             <div class="col-24 col-md text-center">
-                                <i class="bi vmdicon-commerical-building fs-6 text-primary"></i>
+                                <i class="bi vmdicon-building fs-6 text-primary"></i>
                                 <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.disponibles.toLocaleString():""}</div>
                                 <p>Lieux de vaccination ayant des disponibilités</p>
                             </div>
