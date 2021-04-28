@@ -1,6 +1,13 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
-import {Lieu, LieuAffichableAvecDistance, Plateforme, PLATEFORMES, TYPES_LIEUX} from "../state/State";
+import {
+    Lieu,
+    LieuAffichableAvecDistance,
+    Plateforme,
+    PLATEFORMES,
+    typeActionPour,
+    TYPES_LIEUX
+} from "../state/State";
 import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
 import appointmentCardCss from "./vmd-appointment-card.component.scss";
@@ -51,9 +58,10 @@ export class VmdAppointmentCardComponent extends LitElement {
             }
 
             let cardConfig: {cardLink:(content: TemplateResult) => TemplateResult, estCliquable: boolean, disabledBG: boolean, actions: TemplateResult|undefined, libelleDateAbsente: string };
-            if(this.lieu.url && !this.lieu.appointment_by_phone_only) {
+            let typeLieu = typeActionPour(this.lieu);
+            if(typeLieu === 'actif-via-plateforme' || typeLieu === 'inactif-via-plateforme') {
                 let specificCardConfig: { disabledBG: boolean, libelleDateAbsente: string, libelleBouton: string, typeBouton: 'btn-info'|'btn-primary', onclick: ()=>void };
-                if(this.lieu.appointment_count === 0) {
+                if(typeLieu === 'inactif-via-plateforme') {
                     specificCardConfig = {
                         disabledBG: true,
                         libelleDateAbsente: 'Aucun rendez-vous',
@@ -98,7 +106,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                       </div>
                     `
                 };
-            } else if(this.lieu.appointment_by_phone_only && this.lieu.metadata.phone_number) {
+            } else if(typeLieu === 'actif-via-tel') {
                 cardConfig = {
                     estCliquable: true,
                     disabledBG: false,
@@ -113,7 +121,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                           </a>
                         `
                 };
-            } else {
+            } else if(typeLieu === 'inactif') {
                 cardConfig = {
                     estCliquable: false,
                     disabledBG: true,
@@ -121,6 +129,8 @@ export class VmdAppointmentCardComponent extends LitElement {
                     cardLink: (content) => content,
                     actions: undefined
                 };
+            } else {
+                throw new Error(`Unsupported typeLieu : ${typeLieu}`)
             }
 
             return cardConfig.cardLink(html`
