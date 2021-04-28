@@ -1,5 +1,5 @@
-import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
-import {Router} from "../routing/Router";
+import { css, customElement, html, LitElement, property, unsafeCSS } from 'lit-element';
+import { Router } from "../routing/Router";
 import globalCss from "../styles/global.scss";
 import homeViewCss from "./vmd-home.view.scss";
 import {
@@ -31,23 +31,23 @@ export class VmdHomeView extends LitElement {
         `
     ];
 
-    @property({type: Array, attribute: false}) communesAutocomplete: Set<string>|undefined = undefined;
-    @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
-    @property({type: Array, attribute: false}) communesDisponibles: Commune[]|undefined = undefined;
-    @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
+    @property({ type: Array, attribute: false }) communesAutocomplete: Set<string> | undefined = undefined;
+    @property({ type: Array, attribute: false }) recuperationCommunesEnCours: boolean = false;
+    @property({ type: Array, attribute: false }) communesDisponibles: Commune[] | undefined = undefined;
+    @property({ type: Array, attribute: false }) statsLieu: StatsLieu | undefined = undefined;
 
-    private departementsDisponibles: Departement[]|undefined = [];
-    private communeSelectionee: Commune|undefined = undefined;
-    private departementSelectione: Departement|undefined = undefined;
+    private departementsDisponibles: Departement[] | undefined = [];
+    private communeSelectionee: Commune | undefined = undefined;
+    private departementSelectione: Departement | undefined = undefined;
 
     rechercherRdv() {
-        if(this.departementSelectione) {
+        if (this.departementSelectione) {
             Router.navigateToRendezVousAvecDepartement(this.departementSelectione.code_departement, libelleUrlPathDuDepartement(this.departementSelectione));
             return;
         }
 
-        const departement = this.departementsDisponibles?this.departementsDisponibles.find(dpt => dpt.code_departement === this.communeSelectionee!.codeDepartement):undefined;
-        if(!departement) {
+        const departement = this.departementsDisponibles ? this.departementsDisponibles.find(dpt => dpt.code_departement === this.communeSelectionee!.codeDepartement) : undefined;
+        if (!departement) {
             console.error(`Can't find departement matching code ${this.communeSelectionee!.codeDepartement}`)
             return;
         }
@@ -111,12 +111,12 @@ export class VmdHomeView extends LitElement {
 
                 <div class="row justify-content-center align-items-center">
                   ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
-                      return html`
+            return html`
                         <div class="col-auto">
                           <img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}">
                         </div>
                       `
-                  })}
+        })}
                 </div>
             </div>
 
@@ -168,18 +168,18 @@ export class VmdHomeView extends LitElement {
                     <div class="p-5 text-dark bg-light homeCard-container mt-5">
                         <div class="row gx-5">
                             <div class="col-24 col-md text-center">
-                                <i class="bi vmdicon-commerical-building fs-6 text-primary"></i>
-                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.disponibles.toLocaleString():""}</div>
+                                <i class="bi vmdicon-building fs-6 text-primary"></i>
+                                <div class="h4 mt-4">${this.statsLieu ? this.statsLieu.global.disponibles.toLocaleString() : ""}</div>
                                 <p>Lieux de vaccination ayant des disponibilités</p>
                             </div>
                             <div class="col-24 col-md text-center">
                                 <i class="bi vmdicon-geo-alt-fill fs-6 text-primary"></i>
-                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.total.toLocaleString():""}</div>
+                                <div class="h4 mt-4">${this.statsLieu ? this.statsLieu.global.total.toLocaleString() : ""}</div>
                                 <p>Lieux de vaccination supportés</p>
                             </div>
                             <div class="col-24 col-md text-center">
                                 <i class="bi vmdicon-check-circle-fill fs-6 text-primary"></i>
-                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.creneaux.toLocaleString():""}</div>
+                                <div class="h4 mt-4">${this.statsLieu ? this.statsLieu.global.creneaux.toLocaleString() : ""}</div>
                                 <p>Créneaux de vaccination disponibles</p>
                             </div>
                         </div>
@@ -194,7 +194,7 @@ export class VmdHomeView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [ departementsDisponibles, statsLieu, autocompletes ] = await Promise.all([
+        const [departementsDisponibles, statsLieu, autocompletes] = await Promise.all([
             State.current.departementsDisponibles(),
             State.current.statsLieux(),
             State.current.communeAutocompleteTriggers(Router.basePath)

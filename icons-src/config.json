@@ -7,12 +7,6 @@
   "ascent": 850,
   "glyphs": [
     {
-      "uid": "fc455b9530e0b37facc289f42a120fdd",
-      "css": "commerical-building",
-      "code": 59409,
-      "src": "maki"
-    },
-    {
       "uid": "7707c5b47c0a2b29afbfb10cdbab3e28",
       "css": "calendar-x-fill",
       "code": 59393,
@@ -109,6 +103,12 @@
       "search": [
         "arrow-up-right"
       ]
+    },
+    {
+      "uid": "3d1e04316a48ace4e2b81be58343a41c",
+      "css": "building",
+      "code": 61687,
+      "src": "fontawesome"
     }
   ]
 }

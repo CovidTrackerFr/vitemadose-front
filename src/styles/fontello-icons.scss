@@ -2,13 +2,14 @@
   font-family: 'fontello';
   src: url('/assets/fonts/fontello/fontello.eot?5565391');
   src: url('/assets/fonts/fontello/fontello.eot?5565391#iefix') format('embedded-opentype'),
-  url('/assets/fonts/fontello/fontello.woff2?5565391') format('woff2'),
-  url('/assets/fonts/fontello/fontello.woff?5565391') format('woff'),
-  url('/assets/fonts/fontello/fontello.ttf?5565391') format('truetype'),
-  url('/assets/fonts/fontello/fontello.svg?5565391#fontello') format('svg');
+    url('/assets/fonts/fontello/fontello.woff2?5565391') format('woff2'),
+    url('/assets/fonts/fontello/fontello.woff?5565391') format('woff'),
+    url('/assets/fonts/fontello/fontello.ttf?5565391') format('truetype'),
+    url('/assets/fonts/fontello/fontello.svg?5565391#fontello') format('svg');
   font-weight: normal;
   font-style: normal;
 }
+
 /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
 /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
 /*
@@ -20,7 +21,8 @@
 }
 */
 
-[class^="vmdicon-"]:before, [class*=" vmdicon-"]:before {
+[class^="vmdicon-"]:before,
+[class*=" vmdicon-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
@@ -55,11 +57,43 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.vmdicon-arrow-up-right:before { content: '\e800'; } /* '' */
-.vmdicon-calendar-x-fill:before { content: '\e801'; } /* '' */
-.vmdicon-calendar2-check-fill:before { content: '\e802'; } /* '' */
-.vmdicon-check-circle-fill:before { content: '\e803'; } /* '' */
-.vmdicon-telephone-fill:before { content: '\e804'; } /* '' */
-.vmdicon-geo-alt-fill:before { content: '\e805'; } /* '' */
-.vmdicon-syringe:before { content: '\e806'; } /* '' */
-.vmdicon-commerical-building:before { content: '\e811'; } /* '' */
+.vmdicon-arrow-up-right:before {
+  content: '\e800';
+}
+
+/* '' */
+.vmdicon-calendar-x-fill:before {
+  content: '\e801';
+}
+
+/* '' */
+.vmdicon-calendar2-check-fill:before {
+  content: '\e802';
+}
+
+/* '' */
+.vmdicon-check-circle-fill:before {
+  content: '\e803';
+}
+
+/* '' */
+.vmdicon-telephone-fill:before {
+  content: '\e804';
+}
+
+/* '' */
+.vmdicon-geo-alt-fill:before {
+  content: '\e805';
+}
+
+/* '' */
+.vmdicon-syringe:before {
+  content: '\e806';
+}
+
+/* '' */
+.vmdicon-building:before {
+  content: '\f0f7';
+}
+
+/* '' */

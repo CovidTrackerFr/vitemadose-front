@@ -1,62 +1,62 @@
-import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
-import {classMap} from "lit-html/directives/class-map";
-import {Lieu, Plateforme, PLATEFORMES, TYPES_LIEUX} from "../state/State";
-import {Router} from "../routing/Router";
-import {Dates} from "../utils/Dates";
+import { css, customElement, html, LitElement, property, unsafeCSS } from 'lit-element';
+import { classMap } from "lit-html/directives/class-map";
+import { Lieu, Plateforme, PLATEFORMES, TYPES_LIEUX } from "../state/State";
+import { Router } from "../routing/Router";
+import { Dates } from "../utils/Dates";
 import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import globalCss from "../styles/global.scss";
-import {Strings} from "../utils/Strings";
+import { Strings } from "../utils/Strings";
 
-type LieuCliqueContext = {lieu: Lieu};
+type LieuCliqueContext = { lieu: Lieu };
 export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
 
 @customElement('vmd-appointment-card')
 export class VmdAppointmentCardComponent extends LitElement {
 
-    //language=css
-    static styles = [
-        css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(appointmentCardCss)}`,
-        css`
+  //language=css
+  static styles = [
+    css`${unsafeCSS(globalCss)}`,
+    css`${unsafeCSS(appointmentCardCss)}`,
+    css`
         `
-    ];
+  ];
 
-    @property({type: Object, attribute: false}) lieu!: Lieu;
-    @property({type: Number, attribute: false}) distance!: number;
-    /* dunno why, but boolean string is not properly converted to boolean when using attributes */
-    @property({type: Boolean, attribute: false }) rdvPossible!: boolean;
+  @property({ type: Object, attribute: false }) lieu!: Lieu;
+  @property({ type: Number, attribute: false }) distance!: number;
+  /* dunno why, but boolean string is not properly converted to boolean when using attributes */
+  @property({ type: Boolean, attribute: false }) rdvPossible!: boolean;
 
-    private get estCliquable() {
-        return !!this.lieu.url;
-    }
+  private get estCliquable() {
+    return !!this.lieu.url;
+  }
 
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 
-    prendreRdv() {
-        this.dispatchEvent(new CustomEvent<LieuCliqueContext>('prise-rdv-cliquee', {
-            detail: { lieu: this.lieu }
-        }));
-    }
+  prendreRdv() {
+    this.dispatchEvent(new CustomEvent<LieuCliqueContext>('prise-rdv-cliquee', {
+      detail: { lieu: this.lieu }
+    }));
+  }
 
-    verifierRdv() {
-        this.dispatchEvent(new CustomEvent<LieuCliqueContext>('verification-rdv-cliquee', {
-            detail: { lieu: this.lieu }
-        }));
-    }
+  verifierRdv() {
+    this.dispatchEvent(new CustomEvent<LieuCliqueContext>('verification-rdv-cliquee', {
+      detail: { lieu: this.lieu }
+    }));
+  }
 
-    render() {
-        if(this.rdvPossible) {
-            const plateforme: Plateforme|undefined = PLATEFORMES[this.lieu.plateforme];
-            let distance: any = this.distance
-            if (distance >= 10) {
-              distance = distance.toFixed(0)
-            } else if (distance) {
-              distance = distance.toFixed(1)
-            }
-            return html`
-            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: this.estCliquable})}"
+  render() {
+    if (this.rdvPossible) {
+      const plateforme: Plateforme | undefined = PLATEFORMES[this.lieu.plateforme];
+      let distance: any = this.distance
+      if (distance >= 10) {
+        distance = distance.toFixed(0)
+      } else if (distance) {
+        distance = distance.toFixed(1)
+      }
+      return html`
+            <div class="card rounded-3 mb-5 p-4 ${classMap({ clickable: this.estCliquable })}"
                  @click="${() => this.prendreRdv()}">
                 <div class="card-body">
                     <div class="row align-items-center ">
@@ -78,7 +78,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                                     </a>
                                 </span>
                               </vmd-appointment-metadata>
-                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-commerical-building">
+                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-building">
                                 <span slot="content">${TYPES_LIEUX[this.lieu.type]}</span>
                               </vmd-appointment-metadata>
                               <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-syringe" .displayed="${!!this.lieu.vaccine_type}">
@@ -87,7 +87,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                             </div>
                         </div>
 
-                        ${this.estCliquable?html`
+                        ${this.estCliquable ? html`
                         <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
                             <a href="#" class="btn btn-primary btn-lg">
                               Prendre rendez-vous
@@ -96,25 +96,25 @@ export class VmdAppointmentCardComponent extends LitElement {
                                 <div class="col-auto">
                                   ${this.lieu.appointment_count.toLocaleString()} dose${Strings.plural(this.lieu.appointment_count)}
                                 </div>
-                                ${this.lieu.plateforme?html`
+                                ${this.lieu.plateforme ? html`
                                 |
                                 <div class="col-auto">
-                                    ${plateforme?html`
+                                    ${plateforme ? html`
                                     <img class="rdvPlatformLogo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneau de vaccination ${plateforme.nom}">
-                                    `:html`
+                                    `: html`
                                     ${this.lieu.plateforme}
                                     `}
                                 </div>
-                                `:html``}
+                                `: html``}
                             </div>
                         </div>
-                        `:html``}
+                        `: html``}
                     </div>
                 </div>
             </div>
             `;
-        } else {
-            return html`
+    } else {
+      return html`
               <div class="card rounded-3 mb-5 p-4 bg-disabled" @click="${() => this.verifierRdv()}">
                 <div class="card-body">
                   <div class="row align-items-center">
@@ -129,25 +129,25 @@ export class VmdAppointmentCardComponent extends LitElement {
                       </vmd-appointment-metadata>
                     </div>
 
-                    ${this.estCliquable?html`
+                    ${this.estCliquable ? html`
                     <div class="col-24 col-md-auto text-center mt-4 mt-md-0">
                       <a href="#" class="btn btn-info btn-lg">Vérifier le centre de vaccination</a>
                     </div>
-                    `:html``}
+                    `: html``}
                   </div>
                 </div>
               </div>
             `;
-        }
     }
+  }
 
-    connectedCallback() {
-        super.connectedCallback();
-        // console.log("connected callback")
-    }
+  connectedCallback() {
+    super.connectedCallback();
+    // console.log("connected callback")
+  }
 
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        // console.log("disconnected callback")
-    }
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    // console.log("disconnected callback")
+  }
 }
