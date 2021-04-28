@@ -7,7 +7,8 @@ import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {DirectiveFn} from "lit-html/lib/directive";
-
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
 
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
@@ -165,7 +166,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
         return html`
           <div class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter || !this.inputModeFixedToText })}">
             <input type="text" class="autocomplete-input"
-                   @focusin="${() => { this.inputHasFocus = true; }}"
+                   @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                    @keydown="${this.handleKeydown}"
                    @keyup="${this.valueChanged}" .value="${this.filter}"
