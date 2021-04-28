@@ -49,9 +49,12 @@ export class VmdCommuneSelectorComponent extends LitElement {
     private filterMatchingAutocomplete: string|undefined = undefined;
 
     get showDropdown() {
-        return this.inputHasFocus
-            && ((this.inputMode === 'text' && this.communesAffichees && this.communesAffichees.length)
-                || this.inputMode === 'numeric');
+        if (!this.inputHasFocus) {
+            return false;
+        }
+        return this.inputMode === 'text' ?
+            this.communesAffichees && this.communesAffichees.length
+            : this.inputMode === 'numeric';
     }
 
     get communeSelectionnee(): Commune | undefined {
@@ -83,7 +86,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
         // Retrieving current filter
         this.filter = (event.currentTarget as HTMLInputElement).value;
 
-        // If we previously matched an autocomplete filter previously, checking that what we matched
+        // If we previously matched an autocomplete filter, checking that what we matched
         // is still at the 'start' of current filter
         // This is intended to detected start of filter string modifications which would invalidate
         // the current autocompleteFilter
@@ -221,14 +224,9 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         if (!this.inputHasFocus) {
             return false;
         }
-        switch(this.inputMode) {
-            case 'text':
-                return (this.communesAffichees && this.communesAffichees.length) || (this.departementsAffiches && this.departementsAffiches.length)
-            case 'numeric':
-                return true;
-            default:
-                return false;
-            }
+        return this.inputMode === 'text' ?
+            (this.communesAffichees && this.communesAffichees.length) || (this.departementsAffiches && this.departementsAffiches.length)
+            : this.inputMode === 'numeric';
     }
 
     departementSelectionne(dpt: Departement) {
