@@ -7,17 +7,22 @@ import Chart from "chart.js";
 export class VmdStatsByDateGraphComponent extends VmdGraphBaseComponent<StatsByDate> {
 
     rebuildGraph(canvas: HTMLCanvasElement, data: StatsByDate): Promise<Chart> {
+        var dates = data.dates
+        dates.push(dates[dates.length-1])
+
+        var total_appointments = data.total_appointments
+
         let N = data.dates.length
         return Promise.resolve(
             new Chart(canvas, {
                 type: 'bar',
                 data: {
-                    labels: data.dates,
+                    labels: dates,
                     datasets: [{
                         label: 'Nombre de créneaux disponibles',
                         backgroundColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 99, 132)',
-                        data: data.total_appointments,
+                        data: total_appointments,
                     }]
                 },
                 options: {
