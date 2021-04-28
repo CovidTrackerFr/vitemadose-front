@@ -217,6 +217,20 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
     @property({type: Array, attribute: false}) departementsAffiches: Departement[] = [];
 
+    get showDropdown() {
+        if (!this.inputHasFocus) {
+            return false;
+        }
+        switch(this.inputMode) {
+            case 'text':
+                return (this.communesAffichees && this.communesAffichees.length) || (this.departementsAffiches && this.departementsAffiches.length)
+            case 'numeric':
+                return true;
+            default:
+                return false;
+            }
+    }
+
     departementSelectionne(dpt: Departement) {
         this.filter = `${dpt.code_departement} - ${dpt.nom_departement}`;
         this.communesDisponibles = [];
