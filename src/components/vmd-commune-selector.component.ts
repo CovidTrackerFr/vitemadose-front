@@ -1,4 +1,12 @@
-import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
+import {
+    css,
+    customElement,
+    html,
+    internalProperty,
+    LitElement,
+    property,
+    unsafeCSS
+} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
 import {Commune, Departement} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
@@ -26,12 +34,12 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
 
-    @property({type: Boolean, attribute: false}) inputHasFocus: boolean = false;
+    @internalProperty() inputHasFocus: boolean = false;
     @property({type: Boolean, attribute: false}) inputModeFixedToText = true;
     @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'numeric';
 
     @property({type: Array, attribute: false}) autocompleteTriggers: Set<string>|undefined;
-    @property({type: Boolean, attribute: false}) recuperationCommunesEnCours: boolean = false;
+    @internalProperty() recuperationCommunesEnCours: boolean = false;
     @property({type: Array, attribute: false}) set communesDisponibles(cd: Commune[]|undefined) {
         if(cd !== this._communesDisponibles) {
             this._communesDisponibles = cd;
@@ -43,8 +51,8 @@ export class VmdCommuneSelectorComponent extends LitElement {
     get communesDisponibles(): Commune[]|undefined{ return this._communesDisponibles; }
     private _communesDisponibles: Commune[]|undefined = undefined;
 
-    @property({type: Array, attribute: false}) communesAffichees: Commune[]|undefined = undefined;
-    @property({type: String, attribute: false}) filter: string = "";
+    @internalProperty() communesAffichees: Commune[]|undefined = undefined;
+    @internalProperty() filter: string = "";
 
     private filterMatchingAutocomplete: string|undefined = undefined;
 
