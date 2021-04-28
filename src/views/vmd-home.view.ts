@@ -253,8 +253,7 @@ export class VmdHomeView extends LitElement {
         ])
         this.departementsDisponibles = departementsDisponibles;
         this.statsLieu = statsLieu;
-        this.statsByDate = statsByDate;
-        this.refreshGraph();
+        this.statsByDates = statsByDate;
         this.communesAutocomplete = new Set(autocompletes);
     }
 

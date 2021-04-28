@@ -15,17 +15,12 @@ export class VmdStatsByDateGraphComponent extends VmdGraphBaseComponent<StatsByD
                     labels: data.dates,
                     datasets: [
                         {
-                            label: 'Centres disponibles',
+                            label: 'Lieux ayant des RDV disponibles',
                             backgroundColor: '#5561d9',
                             borderColor: '#5561d9',
                             data: data.total_centres_disponibles,
                         },
-                        {
-                            label: 'Centres indisponibles',
-                            backgroundColor: 'rgb(255, 99, 132)',
-                            borderColor: 'rgb(255, 99, 132)',
-                            data: data.total_centres,
-                        },
+                        
                     ]
                 },
                 options: {
