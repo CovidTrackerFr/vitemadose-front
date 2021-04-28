@@ -80,13 +80,13 @@ export class VmdHomeView extends LitElement {
 
     render() {
         return html`
-            <div class="searchDose">
-                <div class="searchDose-title h1">
+            <div class="searchAppointment">
+                <div class="searchAppointment-title h1">
                   <slot name="main-title"></slot>
                 </div>
 
-                <div class="searchDose-form">
-                    <div class="searchDoseForm-fields row align-items-center">
+                <div class="searchAppointment-form">
+                    <div class="searchAppointmentForm-fields row align-items-center">
                         <label class="col-sm-24 col-md-auto mb-md-1">
                             Localisation :
                         </label>
