@@ -244,7 +244,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         `;
     }
 
-    onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<void> {
+    onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void> {
         return Promise.resolve();
     }
 
@@ -256,14 +256,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
         super.connectedCallback();
 
         await Promise.all([
-            State.current.departementsDisponibles().then(departementsDisponibles => {
-                this.departementsDisponibles = departementsDisponibles;
-            }),
-            State.current.communeAutocompleteTriggers(Router.basePath).then(async (autocompletes) => {
-                await this.onCommuneAutocompleteLoaded(autocompletes);
-                this.communesAutocomplete = new Set(autocompletes);
-            })
-        ])
+            State.current.departementsDisponibles(),
+            State.current.communeAutocompleteTriggers(Router.basePath)
+        ]).then(async ([departementsDisponibles, autocompletes]: [Departement[], string[]]) => {
+            this.departementsDisponibles = departementsDisponibles;
+
+            this.communesAutocomplete = new Set(autocompletes);
+            await this.onCommuneAutocompleteLoaded(this.communesAutocomplete);
+        });
 
         await this.onceStartupPromiseResolved();
         await this.refreshLieux();
@@ -448,14 +448,14 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         `
     }
 
-    async onCommuneAutocompleteLoaded(autocompletes: string[]): Promise<void> {
+    async onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void> {
         if(this.codePostalSelectionne && this.codeCommuneSelectionne) {
             let codePostalSelectionne = this.codePostalSelectionne;
             await this.refreshBasedOnCodePostalSelectionne(autocompletes, codePostalSelectionne);
         }
     }
 
-    private async refreshBasedOnCodePostalSelectionne(autocompletes: string[], codePostalSelectionne: string) {
+    private async refreshBasedOnCodePostalSelectionne(autocompletes: Set<string>, codePostalSelectionne: string) {
         const autoCompleteCodePostal = this.getAutoCompleteCodePostal(autocompletes, codePostalSelectionne);
         if (!autoCompleteCodePostal) {
             console.error(`Can't find autocomplete matching codepostal ${codePostalSelectionne}`);
@@ -473,11 +473,10 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         return autocompletes;
     }
 
-    private getAutoCompleteCodePostal(autocompletes: string[], codePostalSelectionne: string) {
-        const autocompletesSet = new Set(autocompletes);
+    private getAutoCompleteCodePostal(autocompletes: Set<string>, codePostalSelectionne: string) {
         return codePostalSelectionne.split('')
             .map((_, index) => codePostalSelectionne!.substring(0, index + 1))
-            .find(autoCompleteAttempt => autocompletesSet.has(autoCompleteAttempt));
+            .find(autoCompleteAttempt => autocompletes.has(autoCompleteAttempt));
     }
 
     private async updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal: string) {
