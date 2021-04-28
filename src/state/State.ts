@@ -75,6 +75,7 @@ export type Lieu = {
     location: Coordinates,
     nom: string;
     url: string;
+    appointment_by_phone_only: boolean;
     plateforme: string;
     prochain_rdv: ISODateString|null;
     metadata: {
@@ -113,11 +114,24 @@ export type LieuxParDepartement = {
 };
 export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
 
-export type LieuAvecDistance = Lieu & { distance: number|undefined };
-export type LieuxAvecDistanceParDepartement = LieuxParDepartement & {
-    lieuxDisponibles: LieuAvecDistance[];
-    lieuxIndisponibles: LieuAvecDistance[];
+export type LieuAffichableAvecDistance = Lieu & { disponible: boolean, distance: number|undefined };
+export type LieuxAvecDistanceParDepartement = {
+    lieuxAffichables: LieuAffichableAvecDistance[];
+    codeDepartements: CodeDepartement[];
+    derniereMiseAJour: ISODateString;
 };
+export function typeActionPour(lieuAffichable: LieuAffichableAvecDistance): 'actif-via-plateforme'|'inactif-via-plateforme'|'actif-via-tel'|'inactif' {
+    const phoneOnly = lieuAffichable.appointment_by_phone_only && lieuAffichable.metadata.phone_number;
+    if(phoneOnly) { // Phone only may have url, but we should ignore it !
+        return 'actif-via-tel';
+    } else if(lieuAffichable && lieuAffichable.appointment_count !== 0){
+        return 'actif-via-plateforme';
+    } else if(lieuAffichable && lieuAffichable.appointment_count === 0){
+        return 'inactif-via-plateforme';
+    } else {
+        return 'inactif';
+    }
+}
 
 function convertDepartementForSort(codeDepartement: CodeDepartement) {
     switch(codeDepartement) {
@@ -173,18 +187,20 @@ export class State {
     }
 
     private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
-    async lieuxPour(codeDepartement: CodeDepartement): Promise<LieuxParDepartement> {
-        if(this._lieuxParDepartement.has(codeDepartement)) {
+    async lieuxPour(codeDepartement: CodeDepartement, avoidCache: boolean = false): Promise<LieuxParDepartement> {
+        if(this._lieuxParDepartement.has(codeDepartement) && !avoidCache) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
         } else {
             const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
             const results = await resp.json()
-            return {
+            const lieuxParDepartement = {
                 lieuxDisponibles: results.centres_disponibles.map(transformLieu),
                 lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
                 codeDepartements: [codeDepartement],
                 derniereMiseAJour: results.last_updated
             };
+            this._lieuxParDepartement.set(codeDepartement, lieuxParDepartement);
+            return lieuxParDepartement;
         }
     }
 
