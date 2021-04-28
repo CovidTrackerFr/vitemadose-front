@@ -229,9 +229,21 @@ export class VmdCommuneSelectorComponent extends LitElement {
 }
 
 
+type DepartementRecherchable = Departement & {
+    fullTextSearchableNom: string;
+    fullTextSearchableCodeDepartement: string;
+};
+
 @customElement('vmd-commune-or-departement-selector')
 export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorComponent {
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
+    @property({type: Array, attribute: false}) set departementsDisponibles(dpts: Departement[]) {
+        this.departementsCherchables = dpts.map(d => ({...d,
+            fullTextSearchableCodeDepartement: Strings.toFullTextSearchableString(d.code_departement),
+            fullTextSearchableNom: Strings.toFullTextSearchableString(d.nom_departement)
+        }));
+    }
+    @internalProperty() departementsCherchables: DepartementRecherchable[] = [];
+
     @property({type: Array, attribute: false}) departementsAffiches: Departement[] = [];
 
     departementSelectionne(dpt: Departement) {
@@ -259,12 +271,10 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     private filtrerDepartementsAffichees() {
         const fullTextSearchableQuery = Strings.toFullTextSearchableString(this.filter)
 
-        this.departementsAffiches = this.departementsDisponibles?this.departementsDisponibles.filter(dpt => {
-            const fullTextSearchableNomCommune = Strings.toFullTextSearchableString(dpt.nom_departement)
-
-            return dpt.code_departement.indexOf(fullTextSearchableQuery) === 0
-                || fullTextSearchableNomCommune.indexOf(fullTextSearchableQuery) !== -1;
-        }):[];
+        this.departementsAffiches = this.departementsCherchables.filter(dpt => {
+            return dpt.fullTextSearchableCodeDepartement.indexOf(fullTextSearchableQuery) === 0
+                || dpt.fullTextSearchableNom.indexOf(fullTextSearchableQuery) !== -1;
+        });
     }
 
     renderListItems(): TemplateResult|DirectiveFn {
