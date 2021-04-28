@@ -99,12 +99,12 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return undefined;
     }
 
-    get totalDoses() {
+    get totalCreneaux() {
         if (!this.lieuxParDepartementAffiches) {
             return 0;
         }
         return this.lieuxParDepartementAffiches
-            .lieuxDisponibles
+            .lieuxAffichables
             .reduce((total, lieu) => total+lieu.appointment_count, 0);
     }
 
@@ -160,6 +160,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     render() {
+        const lieuxDisponibles = (this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxAffichables)?
+            this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => l.disponible)
+            :[];
+
         return html`
             <div class="p-5 text-dark bg-light rounded-3">
                 <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
@@ -192,7 +196,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
               </div>
             `:html`
                 <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
-                  ${this.totalDoses.toLocaleString()} créneau${Strings.plural(this.totalDoses, "x")} de vaccination trouvé${Strings.plural(this.totalDoses)}
+                  ${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}
                   ${this.libelleLieuSelectionne()}
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ?
@@ -209,11 +213,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
                 <div class="spacer mt-5 mb-5"></div>
                 <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
-                    ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxDisponibles.length) ? html`
+                    ${lieuxDisponibles.length ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${this.lieuxParDepartementAffiches.lieuxDisponibles.length} Lieu${Strings.plural(this.lieuxParDepartementAffiches.lieuxDisponibles.length, 'x')} de vaccination avec des disponibilités
+                                ${lieuxDisponibles.length} Lieu${Strings.plural(lieuxDisponibles.length, 'x')} de vaccination avec des disponibilités
                             </span>
                         </h2>
                     ` : html`

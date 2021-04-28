@@ -115,8 +115,10 @@ export type LieuxParDepartement = {
 export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
 
 export type LieuAffichableAvecDistance = Lieu & { disponible: boolean, distance: number|undefined };
-export type LieuxAvecDistanceParDepartement = LieuxParDepartement & {
+export type LieuxAvecDistanceParDepartement = {
     lieuxAffichables: LieuAffichableAvecDistance[];
+    codeDepartements: CodeDepartement[];
+    derniereMiseAJour: ISODateString;
 };
 
 function convertDepartementForSort(codeDepartement: CodeDepartement) {
