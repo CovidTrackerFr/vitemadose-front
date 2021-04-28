@@ -180,7 +180,10 @@ export class VmdHomeView extends LitElement {
                             <div class="col-24 col-md text-center">
                                 <i class="bi vmdicon-check-circle-fill fs-6 text-primary"></i>
                                 <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.creneaux.toLocaleString():""}</div>
-                                <p>Créneaux de vaccination disponibles sur les 50 prochains jours</p>
+                                <p>
+                                  Créneaux de vaccination disponibles dans les prochaines semaines
+                                </p>
+                                <em style="font-size: 1.3rem">Ce nombre ne correspond pas au nombre de doses disponibles</em>
                             </div>
                         </div>
                     </div>
