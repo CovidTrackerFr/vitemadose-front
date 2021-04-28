@@ -58,7 +58,8 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     get showDropdown() {
         return this.inputHasFocus
-            && ((this.inputMode === 'text' && this.communesAffichees && this.communesAffichees.length)
+            && this.filter
+            && ((this.inputMode === 'text' && !this.dropDownVide())
                 || this.inputMode === 'numeric');
     }
 
@@ -68,6 +69,14 @@ export class VmdCommuneSelectorComponent extends LitElement {
             return communesDisponibles.find(c => c.code === this.codeCommuneSelectionne);
         }
         return undefined;
+    }
+
+    protected aucuneCommuneAffichee(): boolean {
+        return !this.communesAffichees || !this.communesAffichees.length;
+    }
+
+    protected dropDownVide(): boolean {
+        return this.aucuneCommuneAffichee();
     }
 
     private filtrerCommunesAffichees() {
@@ -183,7 +192,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
             `:html``}
             ${this.showDropdown?html`
               <ul class="autocomplete-results">
-                ${(this.inputMode==='numeric' && (!this.communesAffichees || !this.communesAffichees.length))?html`
+                ${(this.inputMode==='numeric' && this.aucuneCommuneAffichee())?html`
                 <li class="autocomplete-result switch-to-text" @click="${() => { this.inputMode='text'; this.shadowRoot!.querySelector("input")!.focus(); }}"><em>Je ne connais pas le code postal</em></li>
                 `:html``}
                 ${this.renderListItems()}
@@ -241,6 +250,10 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         super.valueChanged(event);
 
         this.filtrerDepartementsAffichees();
+    }
+
+    protected dropDownVide(): boolean {
+        return this.aucuneCommuneAffichee() && !this.departementsAffiches.length;
     }
 
     private filtrerDepartementsAffichees() {
