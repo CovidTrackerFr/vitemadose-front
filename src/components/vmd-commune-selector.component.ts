@@ -253,10 +253,11 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         const fullTextSearchableQuery = Strings.toFullTextSearchableString(this.filter)
 
         this.departementsAffiches = this.departementsDisponibles?this.departementsDisponibles.filter(dpt => {
-            const fullTextSearchableNomCommune = Strings.toFullTextSearchableString(dpt.nom_departement)
+            const fullTextSearchableDptCode = Strings.toFullTextSearchableString(dpt.code_departement)
+            const fullTextSearchableDptName = Strings.toFullTextSearchableString(dpt.nom_departement)
 
-            return dpt.code_departement.indexOf(fullTextSearchableQuery) === 0
-                || fullTextSearchableNomCommune.indexOf(fullTextSearchableQuery) !== -1;
+            return fullTextSearchableDptCode.indexOf(fullTextSearchableQuery) === 0
+                || fullTextSearchableDptName.indexOf(fullTextSearchableQuery) !== -1;
         }):[];
     }
 
