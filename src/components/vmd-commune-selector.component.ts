@@ -59,6 +59,10 @@ export class VmdCommuneSelectorComponent extends LitElement {
     get showDropdown() {
         return this.inputHasFocus
             && this.filter
+            // This one is done because otherwise we would start showing some departments matching
+            // first digit, and this would encourage search by department (whereas search by commune
+            // is by far better)
+            && this.filter.length >= 2
             && ((this.inputMode === 'text' && !this.dropDownVide())
                 || this.inputMode === 'numeric');
     }
