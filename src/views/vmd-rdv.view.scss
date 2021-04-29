@@ -91,6 +91,17 @@
     }
 }
 
+.fade-in-then-fade-out {
+    animation-name: fade-in-then-fade-out;
+    animation-duration: 10s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fade-in-then-fade-out {
+    0%, 100% {opacity: 0}
+    10%, 90% {opacity: 1}
+}
+
 vmd-appointment-card {
     display: block;
     opacity: 1;
