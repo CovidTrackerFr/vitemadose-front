@@ -108,14 +108,14 @@ class Routing {
                     Promise.resolve(slottedViewComponentFactoryResult)),
                 titlePromise(context.params).catch(() => Routing.DEFAULT_TITLE)
             ]).then(([slottedViewTemplateFactory, title]) => {
+                this.currentPath === '/' && window.scroll({ top: 0, behavior: 'smooth' })
+
                 this.currentPath = path;
                 this.currentTemplateResultCreator = slottedViewTemplateFactory;
 
                 document.title = title;
 
                 this._viewChangeCallbacks.forEach(callback => callback(slottedViewTemplateFactory, path));
-
-                window.scroll({ top: 0, behavior: 'smooth' })
                 
                 Analytics.INSTANCE.navigationSurNouvellePage(pageName);
             })
