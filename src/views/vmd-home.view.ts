@@ -106,14 +106,14 @@ export class VmdHomeView extends LitElement {
                 </div>
             </div>
 
-            <div class="searchAppointment mt-5">
+            <div class="platforms mt-5">
                 <h5 class="text-black-50 text-center mb-5">Trouvez vos rendez-vous avec</h5>
 
                 <div class="row justify-content-center align-items-center">
                   ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
                       return html`
                         <div class="col-auto">
-                          <img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}">
+                          <img class="platforms-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}">
                         </div>
                       `
                   })}
