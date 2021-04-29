@@ -5,7 +5,6 @@ import {
     internalProperty,
     LitElement,
     property,
-    queryAll,
     unsafeCSS
 } from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
@@ -17,7 +16,6 @@ import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {DirectiveFn} from "lit-html/lib/directive";
 
-
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
 export type DepartementSelected = { departement: Departement };
@@ -26,11 +24,11 @@ const KEY_CODE_ARROW_DOWN = 40;
 const KEY_CODE_ARROW_UP = 38;
 const KEY_CODE_ARROW_ENTER = 13;
 
+const DEFAULT_FOCUS = -1;
+const SUGGESTIONS_PER_PAGE = 5;
+
 @customElement('vmd-commune-selector')
 export class VmdCommuneSelectorComponent extends LitElement {
-    // @queryAll('li.autocomplete-result')
-    // _autocompleteResults;
-
     //language=css
     static styles = [
         css`${unsafeCSS(globalCss)}`,
@@ -61,7 +59,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
     @internalProperty() communesAffichees: Commune[]|undefined = undefined;
     @internalProperty() filter: string = "";
 
-    @property({type: Number}) currentFocus: number = -1;
+    @property({type: Number}) currentFocus: number = DEFAULT_FOCUS;
 
     private filterMatchingAutocomplete: string|undefined = undefined;
 
@@ -113,10 +111,6 @@ export class VmdCommuneSelectorComponent extends LitElement {
         const suggestionContainer = this.shadowRoot?.querySelector('ul.autocomplete-results');
         const suggestions = this.shadowRoot?.querySelectorAll('li.autocomplete-result');
 
-        const DEFAULT_FOCUS = -1;
-        const SUGGESTIONS_PER_PAGE = 5;
-
-
         if (!suggestions) {
             return;
         }
@@ -153,7 +147,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
             removeActiveClassName();
             addActiveClassName();
 
-            if (this.currentFocus <= suggestions?.length - SUGGESTIONS_PER_PAGE) {
+            if (this.currentFocus !== DEFAULT_FOCUS && this.currentFocus <= suggestions.length - SUGGESTIONS_PER_PAGE) {
               suggestionContainer.scrollTop -= suggestions[this.currentFocus].clientHeight;
             }
         }
