@@ -118,14 +118,14 @@ export class VmdCommuneSelectorComponent extends LitElement {
         const removeActiveClassName = () => {
             for (let i = 0; i < suggestions.length; i++) {
                 if (suggestions[i] != null) {
-                    suggestions[i].classList.remove("autocomplete-active");
+                    suggestions[i].classList.remove('autocomplete-active');
                 }
             }
         }
 
         const addActiveClassName = () => {
             if (suggestions[this.currentFocus] != null) {
-                suggestions[this.currentFocus].classList.add("autocomplete-active");
+                suggestions[this.currentFocus].classList.add('autocomplete-active');
             }
         }
 
@@ -167,9 +167,11 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
         switch(event.keyCode) {
             case KEY_CODE_ARROW_DOWN:
+                event.preventDefault();
                 handleArrowDown();
                 return;
             case KEY_CODE_ARROW_UP:
+                event.preventDefault();
                 handleArrowUp();
                 return;
             case KEY_CODE_ARROW_ENTER:
