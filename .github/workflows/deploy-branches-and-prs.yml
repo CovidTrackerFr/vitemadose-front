@@ -11,6 +11,14 @@ on:
 
 jobs:
   deploy-dev:
+    # This workflow is only of value to the CovidTrackerFr/vitemadose-front repository and
+    # would always fail in forks, so we limit this job to CovidTrackerFr/vitemadose-front
+    # It means, 2 different cases when we want to run this job :
+    # - 'push' events (as it comes from the repository itself)
+    # - 'pull_requests' comming from the base repository
+    # See : https://github.com/CovidTrackerFr/vitemadose-front/issues/89
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'CovidTrackerFr/vitemadose-front' }}
+
     runs-on: ubuntu-latest
     steps:
       - name: Inject slug/short variables

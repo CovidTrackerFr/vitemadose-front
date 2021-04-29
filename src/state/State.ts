@@ -75,6 +75,7 @@ export type Lieu = {
     location: Coordinates,
     nom: string;
     url: string;
+    appointment_by_phone_only: boolean;
     plateforme: string;
     prochain_rdv: ISODateString|null;
     metadata: {
@@ -113,6 +114,25 @@ export type LieuxParDepartement = {
 };
 export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
 
+export type LieuAffichableAvecDistance = Lieu & { disponible: boolean, distance: number|undefined };
+export type LieuxAvecDistanceParDepartement = {
+    lieuxAffichables: LieuAffichableAvecDistance[];
+    codeDepartements: CodeDepartement[];
+    derniereMiseAJour: ISODateString;
+};
+export function typeActionPour(lieuAffichable: LieuAffichableAvecDistance): 'actif-via-plateforme'|'inactif-via-plateforme'|'actif-via-tel'|'inactif' {
+    const phoneOnly = lieuAffichable.appointment_by_phone_only && lieuAffichable.metadata.phone_number;
+    if(phoneOnly) { // Phone only may have url, but we should ignore it !
+        return 'actif-via-tel';
+    } else if(lieuAffichable && lieuAffichable.appointment_count !== 0){
+        return 'actif-via-plateforme';
+    } else if(lieuAffichable && lieuAffichable.appointment_count === 0){
+        return 'inactif-via-plateforme';
+    } else {
+        return 'inactif';
+    }
+}
+
 function convertDepartementForSort(codeDepartement: CodeDepartement) {
     switch(codeDepartement) {
         case '2A': return '20A';
@@ -147,22 +167,40 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
 export class State {
     public static current = new State();
 
+    private static DEPARTEMENT_VIDE: Departement = {
+        code_departement: "",
+        code_region: 0,
+        nom_departement: "",
+        nom_region: ""
+    };
+
+    private static COMMUNE_VIDE: Commune = {
+        code: "",
+        codeDepartement: "",
+        codePostal: "",
+        latitude: undefined,
+        longitude: undefined,
+        nom: ""
+    };
+
     private constructor() {
     }
 
     private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
-    async lieuxPour(codeDepartement: CodeDepartement): Promise<LieuxParDepartement> {
-        if(this._lieuxParDepartement.has(codeDepartement)) {
+    async lieuxPour(codeDepartement: CodeDepartement, avoidCache: boolean = false): Promise<LieuxParDepartement> {
+        if(this._lieuxParDepartement.has(codeDepartement) && !avoidCache) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
         } else {
             const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
             const results = await resp.json()
-            return {
+            const lieuxParDepartement = {
                 lieuxDisponibles: results.centres_disponibles.map(transformLieu),
                 lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
                 codeDepartements: [codeDepartement],
                 derniereMiseAJour: results.last_updated
             };
+            this._lieuxParDepartement.set(codeDepartement, lieuxParDepartement);
+            return lieuxParDepartement;
         }
     }
 
@@ -178,6 +216,11 @@ export class State {
             this._departementsDiponibles.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
             return departements;
         }
+    }
+
+    async chercheDepartementParCode(code: string): Promise<Departement> {
+        let deps = await this.departementsDisponibles();
+        return deps.find(dep => dep.code_departement === code) || State.DEPARTEMENT_VIDE;
     }
 
     private _communeAutocompleteTriggers: string[]|undefined = undefined;
@@ -213,6 +256,17 @@ export class State {
 
             this._communesParAutocomplete.set(autocomplete, communes);
             return communes;
+        }
+    }
+
+    async chercheCommuneParCode(basePath: string, codePostal: string, codeCommune: string): Promise<Commune> {
+        let triggers = await this.communeAutocompleteTriggers(basePath);
+        let trigger = triggers.find(trigger => codePostal.startsWith(trigger));
+        if (trigger) {
+            let communes = await this.communesPourAutocomplete(basePath, trigger);
+            return communes.find(commune => commune.code === codeCommune) || State.COMMUNE_VIDE;
+        } else {
+            return Promise.resolve(State.COMMUNE_VIDE);
         }
     }
 

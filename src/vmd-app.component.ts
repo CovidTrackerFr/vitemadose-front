@@ -29,18 +29,20 @@ export class VmdAppComponent extends LitElement {
 
     render() {
         return html`
-            <div class="row align-items-center justify-content-between">
-                <div class="col-auto" style="cursor: pointer" @click="${() => Router.navigateToHome()}">
-                    <img src="${Router.basePath}assets/images/svg/vmd-logo-portrait.svg" class="d-block d-sm-none appLogo _phone" alt="Trouvez votre créneau de vaccination avec Vite Ma Dose">
-                    <img src="${Router.basePath}assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Trouvez votre créneau de vaccination avec Vite Ma Dose">
-                </div>
-                <div class="col">
-                    <div class="row justify-content-end gx-5">
-                        <div class="col-auto">
-                            <a href="${Router.basePath}apropos">À propos</a>
-                        </div>
-                        <div class="col-auto border-start">
-                            <a href="https://covidtracker.fr/" target="_blank">CovidTracker&nbsp;<i class="bi vmdicon-arrow-up-right"></i></a>
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto" style="cursor: pointer" @click="${() => Router.navigateToHome()}">
+                        <img src="${Router.basePath}assets/images/svg/vmd-logo-portrait.svg" class="d-block d-sm-none appLogo _phone" alt="Trouvez votre créneau de vaccination avec Vite Ma Dose">
+                        <img src="${Router.basePath}assets/images/svg/vmd-logo-landscape.svg" class="d-none d-sm-block appLogo" alt="Trouvez votre créneau de vaccination avec Vite Ma Dose">
+                    </div>
+                    <div class="col">
+                        <div class="row justify-content-end gx-5">
+                            <div class="col-auto">
+                                <a href="${Router.basePath}apropos">À propos</a>
+                            </div>
+                            <div class="col-auto border-start">
+                                <a href="https://covidtracker.fr/" target="_blank">CovidTracker&nbsp;<i class="bi vmdicon-arrow-up-right"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,7 +56,7 @@ export class VmdAppComponent extends LitElement {
             
             <footer class="row justify-content-between">
                 <div class="col-auto">
-                    Vite Ma Dose ! par CovidTracker -
+                    Vite Ma Dose&nbsp;! par CovidTracker -
                     <a href="https://github.com/CovidTrackerFr/vitemadose-front/blob/main/LICENSE">(CC BY-NC-SA 4.0)</a>
                 </div>
                 <div class="col-auto">

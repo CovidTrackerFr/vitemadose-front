@@ -1,9 +1,7 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {Router} from "../routing/Router";
 import globalCss from "../styles/global.scss";
-import homeViewCss from "../styles/views/_home.scss";
-import searchDoseCss from "../styles/components/_searchDose.scss";
-import searchAppointment from "../styles/components/_searchAppointment.scss";
+import homeViewCss from "./vmd-home.view.scss";
 import {
     Commune,
     Departement,
@@ -26,8 +24,6 @@ export class VmdHomeView extends LitElement {
     static styles = [
         css`${unsafeCSS(globalCss)}`,
         css`${unsafeCSS(homeViewCss)}`,
-        css`${unsafeCSS(searchDoseCss)}`,
-        css`${unsafeCSS(searchAppointment)}`,
         css`
             :host {
                 display: block;
@@ -84,13 +80,13 @@ export class VmdHomeView extends LitElement {
 
     render() {
         return html`
-            <div class="searchDose">
-                <div class="searchDose-title h1">
+            <div class="searchAppointment">
+                <div class="searchAppointment-title h1">
                   <slot name="main-title"></slot>
                 </div>
 
-                <div class="searchDose-form">
-                    <div class="searchDoseForm-fields row align-items-center">
+                <div class="searchAppointment-form">
+                    <div class="searchAppointmentForm-fields row align-items-center">
                         <label class="col-sm-24 col-md-auto mb-md-1">
                             Localisation :
                         </label>
@@ -110,14 +106,14 @@ export class VmdHomeView extends LitElement {
                 </div>
             </div>
 
-            <div class="searchAppointment mt-5">
+            <div class="platforms mt-5">
                 <h5 class="text-black-50 text-center mb-5">Trouvez vos rendez-vous avec</h5>
 
                 <div class="row justify-content-center align-items-center">
                   ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
                       return html`
                         <div class="col-auto">
-                          <img class="searchAppointment-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}">
+                          <img class="platforms-logo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneaux de vaccination ${plateforme.nom}">
                         </div>
                       `
                   })}
@@ -184,7 +180,10 @@ export class VmdHomeView extends LitElement {
                             <div class="col-24 col-md text-center">
                                 <i class="bi vmdicon-check-circle-fill fs-6 text-primary"></i>
                                 <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.creneaux.toLocaleString():""}</div>
-                                <p>Créneaux de vaccination disponibles</p>
+                                <p>
+                                  Créneaux de vaccination disponibles dans les prochaines semaines
+                                </p>
+                                <em style="font-size: 1.3rem">Ce nombre ne correspond pas au nombre de doses disponibles</em>
                             </div>
                         </div>
                     </div>

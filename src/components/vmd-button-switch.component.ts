@@ -1,6 +1,6 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from "lit-element";
 import globalCss from "../styles/global.scss";
-import buttonSwitchCss from "../styles/components/_buttonSwitch.scss";
+import buttonSwitchCss from "./vmd-button-switch.component.scss";
 import {repeat} from "lit-html/directives/repeat";
 import {classMap} from "lit-html/directives/class-map";
 

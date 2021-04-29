@@ -1,8 +1,16 @@
-import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
+import {
+    css,
+    customElement,
+    html,
+    internalProperty,
+    LitElement,
+    property,
+    unsafeCSS
+} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
 import {Commune, Departement} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
-import communeSelectorCss from "../styles/components/_communeSelector.scss";
+import communeSelectorCss from "./vmd-commune-selector.component.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
@@ -26,12 +34,12 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
 
-    @property({type: Boolean, attribute: false}) inputHasFocus: boolean = false;
+    @internalProperty() inputHasFocus: boolean = false;
     @property({type: Boolean, attribute: false}) inputModeFixedToText = true;
     @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'numeric';
 
     @property({type: Array, attribute: false}) autocompleteTriggers: Set<string>|undefined;
-    @property({type: Boolean, attribute: false}) recuperationCommunesEnCours: boolean = false;
+    @internalProperty() recuperationCommunesEnCours: boolean = false;
     @property({type: Array, attribute: false}) set communesDisponibles(cd: Commune[]|undefined) {
         if(cd !== this._communesDisponibles) {
             this._communesDisponibles = cd;
@@ -43,14 +51,19 @@ export class VmdCommuneSelectorComponent extends LitElement {
     get communesDisponibles(): Commune[]|undefined{ return this._communesDisponibles; }
     private _communesDisponibles: Commune[]|undefined = undefined;
 
-    @property({type: Array, attribute: false}) communesAffichees: Commune[]|undefined = undefined;
-    @property({type: String, attribute: false}) filter: string = "";
+    @internalProperty() communesAffichees: Commune[]|undefined = undefined;
+    @internalProperty() filter: string = "";
 
     private filterMatchingAutocomplete: string|undefined = undefined;
 
     get showDropdown() {
         return this.inputHasFocus
-            && ((this.inputMode === 'text' && this.communesAffichees && this.communesAffichees.length)
+            && this.filter
+            // This one is done because otherwise we would start showing some departments matching
+            // first digit, and this would encourage search by department (whereas search by commune
+            // is by far better)
+            && this.filter.length >= 2
+            && ((this.inputMode === 'text' && !this.dropDownVide())
                 || this.inputMode === 'numeric');
     }
 
@@ -60,6 +73,14 @@ export class VmdCommuneSelectorComponent extends LitElement {
             return communesDisponibles.find(c => c.code === this.codeCommuneSelectionne);
         }
         return undefined;
+    }
+
+    protected aucuneCommuneAffichee(): boolean {
+        return !this.communesAffichees || !this.communesAffichees.length;
+    }
+
+    protected dropDownVide(): boolean {
+        return this.aucuneCommuneAffichee();
     }
 
     private filtrerCommunesAffichees() {
@@ -175,7 +196,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
             `:html``}
             ${this.showDropdown?html`
               <ul class="autocomplete-results">
-                ${(this.inputMode==='numeric' && (!this.communesAffichees || !this.communesAffichees.length))?html`
+                ${(this.inputMode==='numeric' && this.aucuneCommuneAffichee())?html`
                 <li class="autocomplete-result switch-to-text" @click="${() => { this.inputMode='text'; this.shadowRoot!.querySelector("input")!.focus(); }}"><em>Je ne connais pas le code postal</em></li>
                 `:html``}
                 ${this.renderListItems()}
@@ -212,9 +233,21 @@ export class VmdCommuneSelectorComponent extends LitElement {
 }
 
 
+type DepartementRecherchable = Departement & {
+    fullTextSearchableNom: string;
+    fullTextSearchableCodeDepartement: string;
+};
+
 @customElement('vmd-commune-or-departement-selector')
 export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorComponent {
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
+    @property({type: Array, attribute: false}) set departementsDisponibles(dpts: Departement[]) {
+        this.departementsCherchables = dpts.map(d => ({...d,
+            fullTextSearchableCodeDepartement: Strings.toFullTextSearchableString(d.code_departement),
+            fullTextSearchableNom: Strings.toFullTextSearchableString(d.nom_departement)
+        }));
+    }
+    @internalProperty() departementsCherchables: DepartementRecherchable[] = [];
+
     @property({type: Array, attribute: false}) departementsAffiches: Departement[] = [];
 
     departementSelectionne(dpt: Departement) {
@@ -235,15 +268,17 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         this.filtrerDepartementsAffichees();
     }
 
+    protected dropDownVide(): boolean {
+        return this.aucuneCommuneAffichee() && !this.departementsAffiches.length;
+    }
+
     private filtrerDepartementsAffichees() {
         const fullTextSearchableQuery = Strings.toFullTextSearchableString(this.filter)
 
-        this.departementsAffiches = this.departementsDisponibles?this.departementsDisponibles.filter(dpt => {
-            const fullTextSearchableNomCommune = Strings.toFullTextSearchableString(dpt.nom_departement)
-
-            return dpt.code_departement.indexOf(fullTextSearchableQuery) === 0
-                || fullTextSearchableNomCommune.indexOf(fullTextSearchableQuery) !== -1;
-        }):[];
+        this.departementsAffiches = this.departementsCherchables.filter(dpt => {
+            return dpt.fullTextSearchableCodeDepartement.indexOf(fullTextSearchableQuery) === 0
+                || dpt.fullTextSearchableNom.indexOf(fullTextSearchableQuery) !== -1;
+        });
     }
 
     renderListItems(): TemplateResult|DirectiveFn {
