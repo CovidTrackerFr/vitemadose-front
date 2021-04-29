@@ -5,6 +5,7 @@ import {
     internalProperty,
     LitElement,
     property,
+    queryAll,
     unsafeCSS
 } from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
@@ -21,8 +22,14 @@ export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
 export type DepartementSelected = { departement: Departement };
 
+const KEY_CODE_ARROW_DOWN = 40;
+const KEY_CODE_ARROW_UP = 38;
+const KEY_CODE_ARROW_ENTER = 13;
+
 @customElement('vmd-commune-selector')
 export class VmdCommuneSelectorComponent extends LitElement {
+    // @queryAll('li.autocomplete-result')
+    // _autocompleteResults;
 
     //language=css
     static styles = [
@@ -53,6 +60,8 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     @internalProperty() communesAffichees: Commune[]|undefined = undefined;
     @internalProperty() filter: string = "";
+
+    @property({type: Number}) currentFocus: number = -1;
 
     private filterMatchingAutocomplete: string|undefined = undefined;
 
@@ -98,6 +107,80 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     constructor() {
         super();
+    }
+
+    scrollSuggestions(event: Event) {
+        const suggestionContainer = this.shadowRoot?.querySelector('ul.autocomplete-results');
+        const suggestions = this.shadowRoot?.querySelectorAll('li.autocomplete-result');
+
+        const DEFAULT_FOCUS = -1;
+        const SUGGESTIONS_PER_PAGE = 5;
+
+
+        if (!suggestions) {
+            return;
+        }
+
+        const removeActiveClassName = () => {
+            for (let i = 0; i < suggestions.length; i++) {
+                if (suggestions[i] != null) {
+                    suggestions[i].classList.remove("autocomplete-active");
+                }
+            }
+        }
+
+        const addActiveClassName = () => {
+            if (suggestions[this.currentFocus] != null) {
+                suggestions[this.currentFocus].classList.add("autocomplete-active");
+            }
+        }
+
+        const handleArrowDown = () => {
+            this.currentFocus++;
+            removeActiveClassName();
+            addActiveClassName();
+
+            if (this.currentFocus >= suggestions.length) {
+                this.currentFocus = DEFAULT_FOCUS;
+                suggestionContainer.scrollTop = 0;
+            } else if (this.currentFocus >= SUGGESTIONS_PER_PAGE) {
+                suggestionContainer.scrollTop += suggestions[this.currentFocus].clientHeight;
+            }
+        }
+
+        const handleArrowUp = () => {
+            this.currentFocus--;
+            removeActiveClassName();
+            addActiveClassName();
+
+            if (this.currentFocus <= suggestions?.length - SUGGESTIONS_PER_PAGE) {
+              suggestionContainer.scrollTop -= suggestions[this.currentFocus].clientHeight;
+            }
+        }
+
+        const handleEnter = () => {
+            if (this.currentFocus > DEFAULT_FOCUS) {
+                suggestions[this.currentFocus].click();
+            }
+
+            removeActiveClassName();
+            this.currentFocus = DEFAULT_FOCUS;
+        }
+
+        switch(event.keyCode) {
+            case KEY_CODE_ARROW_DOWN:
+                handleArrowDown();
+                return;
+            case KEY_CODE_ARROW_UP:
+                handleArrowUp();
+                return;
+            case KEY_CODE_ARROW_ENTER:
+                event.preventDefault();
+                handleEnter();
+                return;
+            default:
+                return;
+        }
     }
 
     valueChanged(event: Event) {
@@ -182,6 +265,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
                    @focusin="${() => { this.inputHasFocus = true; }}"
                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                    @keyup="${this.valueChanged}"
+                   @keydown="${this.scrollSuggestions}"
                    .value="${this.filter}"
                    inputmode="${this.inputMode}"
                    placeholder="${this.inputModeFixedToText?'Commune, Code postal, Département...':this.inputMode==='numeric'?'Saisissez un code postal':'Saisissez un nom de commune'}"
