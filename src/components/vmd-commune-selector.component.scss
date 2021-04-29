@@ -59,6 +59,13 @@ input, .autocomplete {
 
         .autocomplete-results {
             display: block;
+
+            .autocomplete-result {
+                &.autocomplete-active {
+                    background: $primary;
+                    color: $white;
+                }
+            }
         }
     }
 
