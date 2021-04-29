@@ -115,6 +115,8 @@ class Routing {
 
                 this._viewChangeCallbacks.forEach(callback => callback(slottedViewTemplateFactory, path));
 
+                window.scroll({ top: 0, behavior: 'smooth' })
+                
                 Analytics.INSTANCE.navigationSurNouvellePage(pageName);
             })
         });

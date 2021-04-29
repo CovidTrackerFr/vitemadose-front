@@ -7,8 +7,6 @@ import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {DirectiveFn} from "lit-html/lib/directive";
-import smoothscroll from 'smoothscroll-polyfill';
-smoothscroll.polyfill();
 
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
