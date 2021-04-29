@@ -116,16 +116,16 @@ export class VmdCommuneSelectorComponent extends LitElement {
         }
 
         const removeActiveClassName = () => {
-            for (let i = 0; i < suggestions.length; i++) {
-                if (suggestions[i] != null) {
-                    suggestions[i].classList.remove('autocomplete-active');
-                }
-            }
+            suggestions.forEach(suggestion => {
+                suggestion.classList.remove('autocomplete-active');
+                suggestion.setAttribute('aria-selected', false);
+            })
         }
 
         const addActiveClassName = () => {
             if (suggestions[this.currentFocus] != null) {
                 suggestions[this.currentFocus].classList.add('autocomplete-active');
+                suggestions[this.currentFocus].setAttribute('aria-selected', true);
             }
         }
 
@@ -294,7 +294,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     renderListItems(): TemplateResult|DirectiveFn {
         return repeat(this.communesAffichees || [], (c) => `comm_${c.codePostal}__${c.nom}`, ((commune, index) => {
-            return html`<li class="autocomplete-result" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
+            return html`<li class="autocomplete-result" aria-label="Commune: ${commune.codePostal} ${commune.nom}" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
         }));
     }
 
@@ -370,7 +370,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     renderListItems(): TemplateResult|DirectiveFn {
         return html`
             ${repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, ((dpt, index) => {
-                return html`<li class="autocomplete-result" @click="${() => this.departementSelectionne(dpt)}"><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
+                return html`<li class="autocomplete-result" aria-label="Département: ${dpt.code_departement} ${dpt.nom_departement}"  @click="${() => this.departementSelectionne(dpt)}"><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
             }))}
             ${super.renderListItems()}
         `;
