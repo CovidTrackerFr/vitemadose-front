@@ -24,7 +24,7 @@ const KEY_CODE_ARROW_DOWN = 40;
 const KEY_CODE_ARROW_UP = 38;
 const KEY_CODE_ARROW_ENTER = 13;
 
-const DEFAULT_FOCUS = -1;
+const NOT_FOCUSED = -1;
 const SUGGESTIONS_PER_PAGE = 5;
 
 @customElement('vmd-commune-selector')
@@ -59,7 +59,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
     @internalProperty() communesAffichees: Commune[]|undefined = undefined;
     @internalProperty() filter: string = "";
 
-    @property({type: Number}) currentFocus: number = DEFAULT_FOCUS;
+    @property({type: Number}) currentFocus: number = NOT_FOCUSED;
 
     private filterMatchingAutocomplete: string|undefined = undefined;
 
@@ -111,7 +111,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
         const suggestionContainer = this.shadowRoot?.querySelector('ul.autocomplete-results');
         const suggestions = this.shadowRoot?.querySelectorAll('li.autocomplete-result');
 
-        if (!suggestions) {
+        if (!suggestions || suggestions.length === 0) {
             return;
         }
 
@@ -131,34 +131,38 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
         const handleArrowDown = () => {
             this.currentFocus++;
-            removeActiveClassName();
-            addActiveClassName();
 
             if (this.currentFocus >= suggestions.length) {
-                this.currentFocus = DEFAULT_FOCUS;
+                this.currentFocus = NOT_FOCUSED; // Loop among the suggestions
                 suggestionContainer.scrollTop = 0;
             } else if (this.currentFocus >= SUGGESTIONS_PER_PAGE) {
                 suggestionContainer.scrollTop += suggestions[this.currentFocus].clientHeight;
             }
+
+            removeActiveClassName();
+            addActiveClassName();
         }
 
         const handleArrowUp = () => {
-            this.currentFocus--;
+            if (this.currentFocus > NOT_FOCUSED + 1) {
+                this.currentFocus--;
+            }
+
+            if (this.currentFocus > NOT_FOCUSED && this.currentFocus <= suggestions.length - SUGGESTIONS_PER_PAGE) {
+                suggestionContainer.scrollTop -= suggestions[this.currentFocus].clientHeight;
+            }
+
             removeActiveClassName();
             addActiveClassName();
-
-            if (this.currentFocus !== DEFAULT_FOCUS && this.currentFocus <= suggestions.length - SUGGESTIONS_PER_PAGE) {
-              suggestionContainer.scrollTop -= suggestions[this.currentFocus].clientHeight;
-            }
         }
 
         const handleEnter = () => {
-            if (this.currentFocus > DEFAULT_FOCUS) {
+            if (this.currentFocus > NOT_FOCUSED) {
                 suggestions[this.currentFocus].click();
             }
 
             removeActiveClassName();
-            this.currentFocus = DEFAULT_FOCUS;
+            this.currentFocus = NOT_FOCUSED;
         }
 
         switch(event.keyCode) {
