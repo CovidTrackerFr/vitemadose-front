@@ -36,6 +36,12 @@
     }
 }
 
+.homeImgVaccinationRules {
+    cursor:zoom-in;
+    max-width: 500px;
+    margin-top: -15px; /* Remove the image blank margins */
+}
+
 .searchAppointment {
     display: flex;
     flex-direction: column;
