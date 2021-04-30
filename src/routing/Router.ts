@@ -78,6 +78,12 @@ class Routing {
                 html`<vmd-lieux>${subViewSlot}</vmd-lieux>`
         });
         this.declareRoutes({
+          pathPattern: '/statistiques',
+          analyticsViewName: "statistiques",
+          viewContent: () => (subViewSlot) =>
+            html`<vmd-statistiques>${subViewSlot}</vmd-statistiques>`
+        })
+        this.declareRoutes({
             pathPattern: `/apropos`, analyticsViewName: 'a_propos',
             viewContent: (params) => (subViewSlot) =>
                 html`<vmd-apropos>${subViewSlot}</vmd-apropos>`
@@ -116,7 +122,7 @@ class Routing {
                 document.title = title;
 
                 this._viewChangeCallbacks.forEach(callback => callback(slottedViewTemplateFactory, path));
-                
+
                 Analytics.INSTANCE.navigationSurNouvellePage(pageName);
             })
         });
