@@ -22,6 +22,7 @@ export class VmdStatsByDateGraphComponent extends VmdGraphBaseComponent<StatsByD
                         label: 'Nombre de créneaux disponibles',
                         backgroundColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 99, 132)',
+                        barPercentage: 1.0,
                         data: total_appointments,
                     }]
                 },
