@@ -59,6 +59,14 @@ export class VmdLieuxStatistiques extends LitElement {
                     </div>
                 </div> 
 
+                <div class="homeCard">
+                    <div class="p-5 text-dark bg-light homeCard-container mt-5">
+                        <h3 class="h2"> Créneaux disponibles</h3>
+                        <p>Nombre de créneaux disponibles à la réservation pour les prochains jours.</p>
+                        <img src='https://vitemadose.gitlab.io/vitemadose/map_creneaux.svg'></img>
+                    </div>
+                </div> 
+
                 
         `;
     }

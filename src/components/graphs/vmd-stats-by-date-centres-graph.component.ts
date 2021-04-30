@@ -17,8 +17,16 @@ export class VmdStatsByDateGraphComponent extends VmdGraphBaseComponent<StatsByD
                         {
                             label: 'Lieux ayant des RDV disponibles',
                             backgroundColor: '#5561d9',
-                            borderColor: '#5561d9',
+                            barPercentage: 1.0,
+                            borderWidth: 0,
                             data: data.total_centres_disponibles,
+                        },
+                        {
+                            label: 'Total lieux de vaccination',
+                            barPercentage: 1.0,
+                            borderWidth: 0,
+                            backgroundColor: 'grey',
+                            data: data.total_centres,
                         },
                         
                     ]
@@ -27,6 +35,7 @@ export class VmdStatsByDateGraphComponent extends VmdGraphBaseComponent<StatsByD
                     scales:{
                         xAxes: [{
                             stacked: true,
+                            
                             ticks:{
                                 source: 'auto'
                             },
