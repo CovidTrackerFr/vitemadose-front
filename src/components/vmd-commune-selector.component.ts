@@ -185,7 +185,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
                    inputmode="${this.inputMode}" placeholder="${this.inputModeFixedToText?'Commune, Code postal, Département...':this.inputMode==='numeric'?'Saisissez un code postal':'Saisissez un nom de commune'}" 
             />
             ${this.filter?html`
-            <button class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>X</span></button>
+            <button class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>×</span></button>
             `:html``}
             ${this.inputModeFixedToText?html``:html`
             <button class="autocomplete-button"><span>${this.inputMode==='numeric'?html`0-9`:html`A-Z`}</span></button>
@@ -284,7 +284,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     renderListItems(): TemplateResult|DirectiveFn {
         return html`
             ${repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, ((dpt, index) => {
-                return html`<li class="autocomplete-result" @click="${() => this.departementSelectionne(dpt)}"><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
+                return html`<li class="autocomplete-result" @click="${() => this.departementSelectionne(dpt)}"><class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
             }))}
             ${super.renderListItems()}
         `;
