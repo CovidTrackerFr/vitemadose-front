@@ -221,10 +221,6 @@ export class VmdCommuneSelectorComponent extends LitElement {
                     role="option"
                     aria-selected="${!this.departementHighlighted && commune === this.communeHighlighted}"
                     id="comm-${commune.codePostal}-${commune.code}"
-                    @mouseover="${() => {
-                        this.communeHighlighted = commune;
-                        this.departementHighlighted = undefined;
-                    }}"
                     @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
         }));
     }
@@ -389,7 +385,6 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
                         role="option"
                         aria-selected="${dpt === this.departementHighlighted}"
                         id="dpt-${dpt.code_departement}"
-                        @mouseover="${() => { this.departementHighlighted = dpt; this.communeHighlighted = undefined;}}"
                         @click="${() => this.departementSelectionne(dpt)}">
                         <span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
                 }))}

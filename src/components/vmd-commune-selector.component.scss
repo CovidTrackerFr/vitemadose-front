@@ -127,10 +127,13 @@ input, .autocomplete {
     }
 
     &-result {
+        &:hover, &[aria-selected="true"] {
+            background-color: $input-btn-focus-color;
+        } 
         &[aria-selected="true"] {
-            background: $primary;
-            color: $white;
+            box-shadow: $primary 6px 0 0 inset;
         }
+        
         padding-top: $form-select-padding-y-lg;
         padding-bottom: $form-select-padding-y-lg;
         padding-left: $form-select-padding-x-lg;
