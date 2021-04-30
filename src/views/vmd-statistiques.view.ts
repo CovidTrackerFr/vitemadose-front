@@ -37,17 +37,29 @@ export class VmdLieuxStatistiques extends LitElement {
                 <div class="homeCard">
                 
                     <div class="p-5 text-dark bg-light homeCard-container mt-5">
-                    <h3 class="h2"> Nombre de créneaux disponibles</h3>
-                      <vmd-stats-by-date-creneaux-graph width="400" height="150" .data="${this.statsByDates}"></vmd-stats-by-date-creneaux-graph>
+                        <h3 class="h2"> Créneaux disponibles</h3>
+                        <p>Nombre de créneaux de vaccination disponibles à la réservation pour les prochaines heures ou procains jours. <i><small>Ce chiffre ne correspond pas au nombre de doses.</small></i></p>
+                        <vmd-stats-by-date-creneaux-graph width="400" height="150" .data="${this.statsByDates}"></vmd-stats-by-date-creneaux-graph>
                     </div>
                 </div>
 
                 <div class="homeCard">
                     <div class="p-5 text-dark bg-light homeCard-container mt-5">
-                        <h3 class="h2"> Nombre de centres ayant des disponibilités</h3>
-                      <vmd-stats-by-date-centres-graph width="400" height="150" .data="${this.statsByDates}"></vmd-stats-by-date-creneaux-graph>
+                        <h3 class="h2"> Lieux disponibles</h3>
+                        <p>Nombre de lieux de vaccination ayant au moins un créneau de vaccination qui peut être réservé.</p>
+                        <vmd-stats-by-date-centres-graph width="400" height="150" .data="${this.statsByDates}"></vmd-stats-by-date-creneaux-graph>
                     </div>
                 </div> 
+
+                <div class="homeCard">
+                    <div class="p-5 text-dark bg-light homeCard-container mt-5">
+                        <h3 class="h2"> Créneaux disponibles par habitant</h3>
+                        <p>Nombre de créneaux disponibles à la réservation pour les prochains jours rapporté à 100 000 habitants de chaque département.</p>
+                        <img src='https://vitemadose.gitlab.io/vitemadose/map_creneaux_pop.svg'></img>
+                    </div>
+                </div> 
+
+                
         `;
     }
 
