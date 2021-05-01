@@ -27,6 +27,7 @@ export class VmdStatsByDateGraphComponent extends VmdGraphBaseComponent<StatsByD
                     }]
                 },
                 options: {
+                    responsive: true,
                     scales:{
                         xAxes: [{
                             ticks:{

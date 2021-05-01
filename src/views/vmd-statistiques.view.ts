@@ -55,7 +55,7 @@ export class VmdLieuxStatistiques extends LitElement {
                     <div class="col-sm-24 col-md mb-5 mb-md-0 homeCard">
                       <div class="p-5 text-dark bg-light homeCard-container mt-5">
                         <h3 class="h2"> Créneaux disponibles par habitant</h3>
-                        <p>Nombre de créneaux disponibles à la réservation pour les prochains jours rapporté à 100 000 habitants de chaque département.</p>
+                        <p>Nombre de créneaux disponibles à la réservation pour les prochains jours rapporté à 1000 habitants de chaque département.</p>
                         <img class="img-fluid" src='https://vitemadose.gitlab.io/vitemadose/map_creneaux_pop.svg' />
                       </div>
                     </div>
