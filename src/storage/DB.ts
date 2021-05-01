@@ -1,12 +1,12 @@
 import {IDBPDatabase, openDB} from "idb";
-import {Commune, Departement, Lieu, LieuAvecDistance, sameLieu} from "../state/State";
+import {Commune, Departement, Lieu, LieuAffichableAvecDistance, sameLieu} from "../state/State";
 
 
 export type Subscription = {
     ts: number;
     departement: Departement;
     commune?: Commune;
-    lieu: LieuAvecDistance;
+    lieu: LieuAffichableAvecDistance;
     notificationUrl : string;
 };
 

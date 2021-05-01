@@ -36,7 +36,7 @@
     }
 }
 
-.searchDose {
+.searchAppointment {
     display: flex;
     flex-direction: column;
     padding: 9vh 3.2rem;
@@ -86,7 +86,7 @@
     }
 }
 
-.searchDoseForm {
+.searchAppointmentForm {
 
     &-fields {
         max-width: 75vw;
@@ -110,7 +110,7 @@
     }
 }
 
-.searchAppointment {
+.platforms {
     &-logo {
         margin: {
             top: 1.6rem;
@@ -118,6 +118,7 @@
             bottom: 1.6rem;
             left: 3.2rem;
         };
+        max-width: 75vw;
 
         &._doctolib {
             max-height: 6rem;
