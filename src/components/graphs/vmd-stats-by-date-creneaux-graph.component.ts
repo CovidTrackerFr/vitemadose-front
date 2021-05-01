@@ -4,7 +4,7 @@ import {StatsByDate} from "../../state/State";
 import Chart from "chart.js";
 
 @customElement('vmd-stats-by-date-creneaux-graph')
-export class VmdStatsByDateGraphComponent extends VmdGraphBaseComponent<StatsByDate> {
+export class VmdStatsByDateCreneauxGraphComponent extends VmdGraphBaseComponent<StatsByDate> {
 
     rebuildGraph(canvas: HTMLCanvasElement, data: StatsByDate): Promise<Chart> {
         var dates = data.dates
