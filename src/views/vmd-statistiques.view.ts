@@ -1,9 +1,7 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 
 import globalCss from "../styles/global.scss";
-import homeViewCss from "../styles/views/_home.scss";
-import searchDoseCss from "../styles/components/_searchDose.scss";
-import searchAppointment from "../styles/components/_searchAppointment.scss";
+import homeViewCss from "../views/vmd-home.view.scss";
 
 import {
     State,
