@@ -169,7 +169,6 @@ export class VmdHomeView extends LitElement {
                 <div class="homeCard">
                     <div class="p-5 text-dark bg-light homeCard-container mt-5">
                         <div class="row gx-5">
-
                             <div class="col-24 col-md text-center">
                                 <i class="bi vmdicon-commerical-building fs-6 text-primary"></i>
                                 <a href="${Router.basePath}statistiques" >
@@ -191,13 +190,9 @@ export class VmdHomeView extends LitElement {
                                     <p>Créneaux de vaccination disponibles</p>
                                 </a>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <slot name="about"></slot>
@@ -205,13 +200,12 @@ export class VmdHomeView extends LitElement {
     }
 
     async connectedCallback() {
-
         super.connectedCallback();
 
         const [ departementsDisponibles, statsLieu, autocompletes ] = await Promise.all([
             State.current.departementsDisponibles(),
             State.current.statsLieux(),
-            State.current.communeAutocompleteTriggers(Router.basePath),
+            State.current.communeAutocompleteTriggers(Router.basePath)
         ])
         this.departementsDisponibles = departementsDisponibles;
         this.statsLieu = statsLieu;
@@ -222,8 +216,4 @@ export class VmdHomeView extends LitElement {
         super.disconnectedCallback();
         // console.log("disconnected callback")
     }
-
-
 }
-
-
