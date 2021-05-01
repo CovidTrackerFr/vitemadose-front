@@ -36,7 +36,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     @internalProperty() inputHasFocus: boolean = false;
     @property({type: Boolean, attribute: false}) inputModeFixedToText = true;
-    @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'numeric';
+    @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'text';
     @property({ type: String, attribute: false }) communeHighlighted: Commune | undefined;
     @property({ type: String, attribute: false }) departementHighlighted: Departement | undefined;
 
@@ -152,7 +152,8 @@ export class VmdCommuneSelectorComponent extends LitElement {
         }
     }
 
-    handleKeydown(event: KeyboardEvent) { }
+    handleSubmit(event: KeyboardEvent) {}
+    handleKeydown(event: KeyboardEvent) {}
 
     communeSelected(commune: Commune) {
         this.filter = `${commune.codePostal} - ${commune.nom}`;
@@ -184,19 +185,22 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     render() {
         return html`
-          <div class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter || !this.inputModeFixedToText })}">
+          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter })}"
+                @submit="${this.handleSubmit}">
+                
             <input type="text" class="autocomplete-input"
                    @focusin="${() => { this.inputHasFocus = true; }}"
                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                    @keydown="${this.handleKeydown}"
-                   @keyup="${this.valueChanged}" .value="${this.filter}"
-                   inputmode="${this.inputMode}" placeholder="${this.inputModeFixedToText?'Commune, Code postal, Département...':this.inputMode==='numeric'?'Saisissez un code postal':'Saisissez un nom de commune'}" 
+                   @keyup="${this.valueChanged}"
+                   .value="${this.filter}"
+                   placeholder="Commune, Code postal, Département..." 
             />
             ${this.filter?html`
-            <button class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>X</span></button>
+            <button type="button" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>X</span></button>
             `:html``}
             ${this.inputModeFixedToText?html``:html`
-            <button class="autocomplete-button"><span>${this.inputMode==='numeric'?html`0-9`:html`A-Z`}</span></button>
+            <button type="button" class="autocomplete-button"><span>${this.inputMode==='numeric'?html`0-9`:html`A-Z`}</span></button>
             `}
             ${this.recuperationCommunesEnCours?html`
               <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">
@@ -210,7 +214,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
                 ${this.renderListItems()}
               </ul>
               `:html``}
-          </div>
+          </form>
         `;
     }
 
@@ -276,10 +280,11 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     }
 
     valueChanged(event: KeyboardEvent) {
-        const keysToIgnore = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+        const keysToIgnore = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'];
         if (!keysToIgnore.includes(event.key)) {
             super.valueChanged(event);
             this.filtrerDepartementsAffichees();
+
             const container = this.renderRoot.querySelector(`.autocomplete-results`);
             if (container) {
                 container.scrollTop = 0;
@@ -287,14 +292,21 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         }
     }
 
+    handleSubmit(event: Event){
+        event.preventDefault();
+        (this.renderRoot.querySelector('.autocomplete-input') as HTMLInputElement)?.blur();
+
+        if (this.departementHighlighted) {
+            this.departementSelectionne(this.departementHighlighted);
+        } else if (this.communeHighlighted) {
+            this.communeSelected(this.communeHighlighted);
+        }
+    }
+
     handleKeydown(event: KeyboardEvent) {
         switch (event.key) {
             case 'Enter':
-                if (this.departementHighlighted) {
-                    this.departementSelectionne(this.departementHighlighted);
-                } else if (this.communeHighlighted) {
-                    this.communeSelected(this.communeHighlighted);
-                }
+                this.handleSubmit(event);
                 break;
             case 'ArrowUp':
                 event.preventDefault();
