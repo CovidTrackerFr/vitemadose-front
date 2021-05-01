@@ -4,7 +4,7 @@ import {StatsByDate} from "../../state/State";
 import Chart from "chart.js";
 
 @customElement('vmd-stats-by-date-centres-graph')
-export class VmdStatsByDateGraphComponent extends VmdGraphBaseComponent<StatsByDate> {
+export class VmdStatsByDateCentresGraphComponent extends VmdGraphBaseComponent<StatsByDate> {
 
     rebuildGraph(canvas: HTMLCanvasElement, data: StatsByDate): Promise<Chart> {
         let N = data.dates.length
