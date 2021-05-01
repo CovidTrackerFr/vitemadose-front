@@ -85,10 +85,19 @@ input, .autocomplete {
     }
 
     &-input {
+        -webkit-appearance: none;
+        appearance: none;
         outline: none;
 
         &:focus {
             box-shadow: 0 0 0 $form-select-focus-width $input-btn-focus-color;
+        }
+
+        &::-webkit-search-decoration,
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-results-button,
+        &::-webkit-search-results-decoration {
+            -webkit-appearance:none;
         }
     }
 

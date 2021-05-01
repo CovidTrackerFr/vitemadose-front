@@ -188,7 +188,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
           <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter })}"
                 @submit="${this.handleSubmit}">
                 
-            <input type="text" class="autocomplete-input"
+            <input type="search" class="autocomplete-input"
                    @focusin="${() => { this.inputHasFocus = true; }}"
                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                    @keydown="${this.handleKeydown}"
