@@ -436,7 +436,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 				}
 				return result;
 			}else{
-				// Not hiding if vaccinne type is unknow
+				// Not hidding vaccine center of vaccine type is unknown
 				result = true;
 			}
 
@@ -453,12 +453,12 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
     @property({type: String}) codePostalSelectionne: string | undefined = undefined;
 
-    @property({type: String}) critèreDeTri: 'date' | 'distance' = 'distance'
-	@property({type: String}) typeVaccin: 'all' | 'arnm' | 'distance' = 'all'
+    @property({type: String}) critèreDeTri: 'date' | 'distance' = 'distance';
+	@property({type: String}) typeVaccin: 'all' | 'arnm' | 'adenovirus';
 
     preventRafraichissementLieux() {
         return !this.communeSelectionnee;
-    }
+    }	
 
     codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement) {
         return DEPARTEMENTS_LIMITROPHES[codeDepartementSelectionne];
