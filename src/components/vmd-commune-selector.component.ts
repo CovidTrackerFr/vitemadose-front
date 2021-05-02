@@ -22,8 +22,15 @@ export type CommuneSelected = { commune: Commune };
 export type DepartementSelected = { departement: Departement };
 export type ValueStrCustomEvent<T extends string> = CustomEvent<{value: T}>;
 
-@customElement('vmd-commune-selector')
-export class VmdCommuneSelectorComponent extends LitElement {
+type DepartementRecherchable = Departement & {
+    fullTextSearchableNom: string;
+    fullTextSearchableCodeDepartement: string;
+};
+
+@customElement('vmd-commune-or-departement-selector')
+export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
+
+
 
     //language=css
     static styles = [
@@ -82,10 +89,6 @@ export class VmdCommuneSelectorComponent extends LitElement {
         return !this.communesAffichees || !this.communesAffichees.length;
     }
 
-    protected dropDownVide(): boolean {
-        return this.aucuneCommuneAffichee();
-    }
-
     private filtrerCommunesAffichees() {
         // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
         // function here, than the one used in communes-import.js tooling
@@ -102,56 +105,6 @@ export class VmdCommuneSelectorComponent extends LitElement {
     constructor() {
         super();
     }
-
-    valueChanged(event: Event) {
-        // Retrieving current filter
-        this.filter = (event.currentTarget as HTMLInputElement).value;
-
-        // If we previously matched an autocomplete filter previously, checking that what we matched
-        // is still at the 'start' of current filter
-        // This is intended to detected start of filter string modifications which would invalidate
-        // the current autocompleteFilter
-        if(this.filterMatchingAutocomplete && this.filter.indexOf(this.filterMatchingAutocomplete) !== 0) {
-            this.filterMatchingAutocomplete = undefined;
-        }
-
-        if(this.filter && this.autocompleteTriggers) {
-            // Checking every possible substrings of this.filter
-            // For exemple, if this.filter = "abcdef", we're testing "a", then "ab", then "abc" etc..
-            // against this.autocompleteTriggeres, to see if one matches
-            // And if one matches, comparing if this is the same than for previous this.filter's value
-            // If it didn't changed, then we only have to refresh filtered communes with the new this.filter value
-            // If it changed, then we need to raise a new autocomplete-triggered event, so that
-            // communesDisponibles is updated with a new autocomplete key
-            const filterMatchedAnAutocomplete = this.filter.split('').some((_, filterSizeAttempt) => {
-                let filterAttempt = this.filter.substring(0, this.filter.length - filterSizeAttempt);
-                const searchableFilterAttempt = Strings.toFullTextSearchableString(filterAttempt);
-                if(this.autocompleteTriggers!.has(searchableFilterAttempt)) {
-                    if(filterAttempt === this.filterMatchingAutocomplete) {
-                        this.filtrerCommunesAffichees();
-                    } else {
-                        this.filterMatchingAutocomplete = filterAttempt;
-                        this.dispatchEvent(new CustomEvent<AutocompleteTriggered>('autocomplete-triggered', {
-                            detail: {
-                                value: searchableFilterAttempt
-                            }
-                        }));
-                    }
-                    return true;
-                }
-                return false;
-            });
-
-            // In the case we didn't changed any autocomplete trigger yet (typically, when we entered a
-            // too-short this.filter), then we ensure that communesDisponibles are left empty
-            if(!filterMatchedAnAutocomplete) {
-                this.communesDisponibles = [];
-            }
-        }
-    }
-
-    handleSubmit(event: KeyboardEvent) { }
-    handleKeydown(event: KeyboardEvent) { }
 
     communeSelected(commune: Commune) {
         this.filter = `${commune.codePostal} - ${commune.nom}`;
@@ -206,17 +159,6 @@ export class VmdCommuneSelectorComponent extends LitElement {
         `;
     }
 
-    renderListItems(): TemplateResult|DirectiveFn {
-        return repeat(this.communesAffichees || [], (c) => `comm_${c.codePostal}__${c.nom}`, ((commune, index) => {
-            return html`<li
-                    class="autocomplete-result"
-                    role="option"
-                    aria-selected="${index === 0 && this.departementsAffiches.length === 0}"
-                    @click="${() => this.communeSelected(commune)}"
-                    ><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
-        }));
-    }
-
     connectedCallback() {
         super.connectedCallback();
     }
@@ -229,16 +171,22 @@ export class VmdCommuneSelectorComponent extends LitElement {
         this.filter = `${commune?commune.codePostal:"???"} - ${commune?commune.nom:"???"}`;
         this.filterMatchingAutocomplete = autoCompleteCodePostal;
     }
-}
 
 
-type DepartementRecherchable = Departement & {
-    fullTextSearchableNom: string;
-    fullTextSearchableCodeDepartement: string;
-};
 
-@customElement('vmd-commune-or-departement-selector')
-export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorComponent {
+
+
+
+
+
+
+
+
+
+
+
+
+
     @property({type: Array, attribute: false}) set departementsDisponibles(dpts: Departement[]) {
         this.departementsCherchables = dpts.map(d => ({...d,
             fullTextSearchableCodeDepartement: Strings.toFullTextSearchableString(d.code_departement),
@@ -261,9 +209,52 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
 
     valueChanged(event: KeyboardEvent) {
         const keysToIgnore = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'];
-        if (!keysToIgnore.includes(event.key)) {
-            super.valueChanged(event);
-            this.filtrerDepartementsAffichees();
+        if (keysToIgnore.includes(event.key)) {
+          return
+        }
+        // Retrieving current filter
+        this.filter = (event.currentTarget as HTMLInputElement).value;
+
+        // If we previously matched an autocomplete filter previously, checking that what we matched
+        // is still at the 'start' of current filter
+        // This is intended to detect start of filter string modifications which would invalidate
+        // the current autocompleteFilter
+        if(this.filterMatchingAutocomplete && this.filter.includes(this.filterMatchingAutocomplete)) {
+            this.filterMatchingAutocomplete = undefined;
+        }
+
+        if(this.filter && this.autocompleteTriggers) {
+            // Checking every possible substrings of this.filter
+            // For exemple, if this.filter = "abcdef", we're testing "a", then "ab", then "abc" etc..
+            // against this.autocompleteTriggers, to see if one matches
+            // And if one matches, comparing if this is the same than for previous this.filter's value
+            // If it didn't changed, then we only have to refresh filtered communes with the new this.filter value
+            // If it changed, then we need to raise a new autocomplete-triggered event, so that
+            // communesDisponibles is updated with a new autocomplete key
+            const filterMatchedAnAutocomplete = this.filter.split('').some((_, filterSizeAttempt) => {
+                let filterAttempt = this.filter.substring(0, this.filter.length - filterSizeAttempt);
+                const searchableFilterAttempt = Strings.toFullTextSearchableString(filterAttempt);
+                if(this.autocompleteTriggers!.has(searchableFilterAttempt)) {
+                    if(filterAttempt === this.filterMatchingAutocomplete) {
+                        this.filtrerCommunesAffichees();
+                    } else {
+                        this.filterMatchingAutocomplete = filterAttempt;
+                        this.dispatchEvent(new CustomEvent<AutocompleteTriggered>('autocomplete-triggered', {
+                            detail: {
+                                value: searchableFilterAttempt
+                            }
+                        }));
+                    }
+                    return true;
+                }
+                return false;
+            });
+
+            // In the case we didn't changed any autocomplete trigger yet (typically, when we entered a
+            // too-short this.filter), then we ensure that communesDisponibles are left empty
+            if(!filterMatchedAnAutocomplete) {
+                this.communesDisponibles = [];
+            }
 
             if (this.$autoCompleteResults) {
                 this.$autoCompleteResults.scrollTop = 0;
@@ -325,27 +316,25 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         const fullTextSearchableQuery = Strings.toFullTextSearchableString(this.filter)
 
         this.departementsAffiches = this.departementsCherchables.filter(dpt => {
-            return dpt.fullTextSearchableCodeDepartement.indexOf(fullTextSearchableQuery) === 0
-                || dpt.fullTextSearchableNom.indexOf(fullTextSearchableQuery) !== -1;
+            return dpt.fullTextSearchableCodeDepartement.startsWith(fullTextSearchableQuery)
+                || dpt.fullTextSearchableNom.includes(fullTextSearchableQuery)
         });
     }
 
-    renderListItems(): TemplateResult | DirectiveFn {
+    renderListItems(): TemplateResult|DirectiveFn {
+        const suggestionsCommunes = repeat(this.communesAffichees || [], (c) => `comm_${c.codePostal}__${c.nom}`, ((commune, index) => {
+            return html`<li class="autocomplete-result" role="option" aria-selected="${index === 0}" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
+        }));
+        const suggestionsDépartements = repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, ((dpt, index) => {
+            return html`<li class="autocomplete-result" role="option" aria-selected="${index === 0}" @click="${() => this.departementSelectionne(dpt)}"><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
+        }))
         return html`
-            ${repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, ((dpt, index) => {
-            return html`<li
-                        class="autocomplete-result"
-                        role="option"
-                        aria-selected="${index === 0}"
-                        @click="${() => this.departementSelectionne(dpt)}"
-                        ><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
-        }))}
-                ${super.renderListItems()}
-            `;
+            ${suggestionsDépartements}
+            ${suggestionsCommunes}
+        `;
     }
 
-    fillDepartement(departement: Departement | undefined) {
-        this.filter = `${departement?departement.code_departement:'???'} - ${departement?departement.nom_departement:'???'}`
-        // this.filterMatchingAutocomplete = autoCompleteCodePostal;
+    fillDepartement(departement: Departement) {
+        this.filter = `${departement.code_departement} - ${departement.nom_departement}`
     }
 }
