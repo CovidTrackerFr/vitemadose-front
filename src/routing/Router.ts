@@ -65,8 +65,8 @@ class Routing {
                 html`<vmd-rdv-par-commune
                     codeCommuneSelectionne="${params[`codeCommune`]}"
                     codePostalSelectionne="${params[`codePostal`]}"
-                    critèreDeTri="${params[`codeTriCentre`]}">
-					typeVaccin="${params[`typeVaccin`]}">
+                    critèreDeTri="${params[`codeTriCentre`]}"
+                    typeVaccin="${params[`typeVaccin`]}">
                   ${subViewSlot}
                 </vmd-rdv-par-commune>`,
             pageTitleProvider: (params) =>
