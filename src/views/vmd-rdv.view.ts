@@ -195,7 +195,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     <div class="col">
                         <vmd-button-switch class="mb-3"
                               codeSelectionne="${this.typeVaccin}"
-                              .options="${Array.from(FILTRE_TYPE_VACCIN.values()).map(tc => ({code: tc.codeTypeVaccin, libelle: tc.libelle }))}"
+                              .options="${Array.from(FILTRE_TYPE_VACCIN.values()).map(tc => ({code: tc.codeTypeVaccin, libelle: tc.libelle, title: tc.title }))}"
                               @changed="${(event: ValueStrCustomEvent<CodeTypeVaccin>) => this.critereVaccinUpdated(event.detail.value)}">
                         </vmd-button-switch>
                     </div>
@@ -422,7 +422,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
     
     protected filterTypeVaccin(vaccine_type: Array, typeVaccin: CodeTypeVaccin) {
-        if(typeVaccin === 'all') {
+        if(typeVaccin === 'tous') {
             return true;
         } else {
             let result = false;
@@ -607,7 +607,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             <div class="col">
               <vmd-button-switch class="mb-3"
                      codeSelectionne="${this.critèreDeTri}"
-                     .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle }))}"
+                     .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle, title: tc.title }))}"
                      @changed="${(event: ValueStrCustomEvent<CodeTriCentre>) => this.critereTriUpdated(event.detail.value)}">
               </vmd-button-switch>
             </div>
@@ -619,7 +619,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 @customElement('vmd-rdv-par-departement')
 export class VmdRdvParDepartementView extends AbstractVmdRdvView {
 
-    @property({type: String}) typeVaccin: 'all' | 'arnm' | 'adenovirus' = 'all';
+    @property({type: String}) typeVaccin: 'tous' | 'arnm' | 'adenovirus' = 'tous';
 
     async onceStartupPromiseResolved() {
         if(this.codeDepartementSelectionne) {

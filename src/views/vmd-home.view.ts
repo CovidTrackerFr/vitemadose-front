@@ -42,7 +42,7 @@ export class VmdHomeView extends LitElement {
 
     rechercherRdv() {
         if(this.departementSelectione) {
-            Router.navigateToRendezVousAvecDepartement(this.departementSelectione.code_departement, libelleUrlPathDuDepartement(this.departementSelectione),'all');
+            Router.navigateToRendezVousAvecDepartement(this.departementSelectione.code_departement, libelleUrlPathDuDepartement(this.departementSelectione),'tous');
             return;
         }
 
@@ -58,7 +58,7 @@ export class VmdHomeView extends LitElement {
             libelleUrlPathDuDepartement(departement),
             this.communeSelectionee!.code, this.communeSelectionee!.codePostal,
             libelleUrlPathDeCommune(this.communeSelectionee!),
-            'all'
+            'tous'
         )
     }
 
