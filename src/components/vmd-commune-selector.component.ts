@@ -37,8 +37,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
     @internalProperty() inputHasFocus: boolean = false;
     @property({type: Boolean, attribute: false}) inputModeFixedToText = true;
     @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'text';
-    @property({ type: String, attribute: false }) communeHighlighted: Commune | undefined;
-    @property({ type: String, attribute: false }) departementHighlighted: Departement | undefined;
+    @property({ type: String, attribute: false }) optionActiveIndex: number = 0;
 
     @property({type: Array, attribute: false}) autocompleteTriggers: Set<string>|undefined;
     @internalProperty() recuperationCommunesEnCours: boolean = false;
@@ -54,6 +53,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
     private _communesDisponibles: Commune[]|undefined = undefined;
 
     @internalProperty() communesAffichees: Commune[]|undefined = undefined;
+    @internalProperty() departementsAffiches: Departement[] = [];;
     @internalProperty() filter: string = "";
 
     private filterMatchingAutocomplete: string|undefined = undefined;
@@ -96,8 +96,6 @@ export class VmdCommuneSelectorComponent extends LitElement {
             return commune.codePostal.indexOf(fullTextSearchableQuery) === 0
                 || fullTextSearchableNomCommune.indexOf(fullTextSearchableQuery) !== -1;
         }).filter((_, index) => index < 50):undefined;
-
-        this.communeHighlighted = this.communesAffichees && this.communesAffichees.length>0 ? this.communesAffichees[0] : undefined;
     }
 
     constructor() {
@@ -147,13 +145,13 @@ export class VmdCommuneSelectorComponent extends LitElement {
             // too-short this.filter), then we ensure that communesDisponibles are left empty
             if(!filterMatchedAnAutocomplete) {
                 this.communesDisponibles = [];
-                this.communeHighlighted = undefined;
             }
         }
     }
 
-    handleSubmit(event: KeyboardEvent) {}
-    handleKeydown(event: KeyboardEvent) {}
+    handleSubmit(event: KeyboardEvent) { }
+    handleKeydown(event: KeyboardEvent) { }
+    setOptionActive(index : number){}
 
     communeSelected(commune: Commune) {
         this.filter = `${commune.codePostal} - ${commune.nom}`;
@@ -185,7 +183,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     render() {
         return html`
-          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter })}"
+          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter || !this.inputModeFixedToText })}"
                 @submit="${this.handleSubmit}">
                 
             <input type="search" class="autocomplete-input"
@@ -223,9 +221,9 @@ export class VmdCommuneSelectorComponent extends LitElement {
             return html`<li 
                     class="autocomplete-result"
                     role="option"
-                    aria-selected="${!this.departementHighlighted && commune === this.communeHighlighted}"
-                    id="comm-${commune.codePostal}-${commune.code}"
-                    @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
+                    aria-selected="${this.optionActiveIndex === this.departementsAffiches.length+index}"
+                    @click="${() => this.communeSelected(commune)}"
+                    ><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
         }));
     }
 
@@ -265,8 +263,6 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     }
     @internalProperty() departementsCherchables: DepartementRecherchable[] = [];
 
-    @property({type: Array, attribute: false}) departementsAffiches: Departement[] = [];
-
     departementSelectionne(dpt: Departement) {
         this.filter = `${dpt.code_departement} - ${dpt.nom_departement}`;
         this.communesDisponibles = [];
@@ -292,14 +288,14 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         }
     }
 
-    handleSubmit(event: Event){
+    handleSubmit(event: Event) {
         event.preventDefault();
-        (this.renderRoot.querySelector('.autocomplete-input') as HTMLInputElement)?.blur();
-
-        if (this.departementHighlighted) {
-            this.departementSelectionne(this.departementHighlighted);
-        } else if (this.communeHighlighted) {
-            this.communeSelected(this.communeHighlighted);
+        const optionSelected = this.renderRoot.querySelector(`.autocomplete-result:nth-child(${this.optionActiveIndex +1 })`);
+        
+        if(optionSelected)
+        {
+            (optionSelected as HTMLButtonElement)?.click();
+            (this.renderRoot.querySelector('.autocomplete-input') as HTMLInputElement)?.blur();
         }
     }
 
@@ -310,60 +306,31 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
                 break;
             case 'ArrowUp':
                 event.preventDefault();
-                this.goToPreviousOption();
+                this.setOptionActive(this.optionActiveIndex - 1);
                 break;
             case 'ArrowDown':
                 event.preventDefault();
-                this.goToNextOption();
+                this.setOptionActive(this.optionActiveIndex + 1);
                 break;
             default:
                 break;
         }
     }
 
-    goToPreviousOption() {
-        if (this.departementHighlighted) {
-            const prevIndex = this.departementsAffiches.indexOf(this.departementHighlighted) - 1;
-            this.departementHighlighted = this.departementsAffiches[prevIndex] || this.departementHighlighted;
-
-        } else if (this.communeHighlighted && this.communesAffichees && this.communesAffichees.length > 0) {
-            const prevIndex = this.communesAffichees.indexOf(this.communeHighlighted) - 1;
-
-            if (this.communesAffichees[prevIndex]) {
-                this.communeHighlighted = this.communesAffichees[prevIndex];
-            } else if (this.departementsAffiches.length > 0) {
-                this.departementHighlighted = this.departementsAffiches[this.departementsAffiches.length - 1];
-            }
+    setOptionActive(index: number) {
+        const newOption = this.renderRoot.querySelector(`.autocomplete-result:nth-child(${index+1})`);
+        if (newOption) {
+            const direction = index < this.optionActiveIndex ? 'up':'down';
+            this.optionActiveIndex = index;
+            this.scrollToOption(direction);
         }
-
-        this.scrollToOption('up');
-    }
-
-    goToNextOption() {
-        if (this.departementHighlighted) {
-            const nextIndex = this.departementsAffiches.indexOf(this.departementHighlighted) + 1;
-
-            if (this.departementsAffiches[nextIndex]) {
-                this.departementHighlighted = this.departementsAffiches[nextIndex];
-            } else if (this.communesAffichees && this.communesAffichees.length > 0) {
-                this.departementHighlighted = undefined;
-                this.communeHighlighted = this.communesAffichees[0];
-            }
-        } else if (this.communeHighlighted && this.communesAffichees && this.communesAffichees.length > 0) {
-            const nextIndex = this.communesAffichees.indexOf(this.communeHighlighted) + 1;
-            this.communeHighlighted = this.communesAffichees[nextIndex] || this.communeHighlighted;
-        }
-
-        this.scrollToOption('down');
     }
 
     scrollToOption(direction: 'up' | 'down') {
-        const optionId = this.departementHighlighted
-            ? `#dpt-${this.departementHighlighted.code_departement}`
-            : `#comm-${this.communeHighlighted?.codePostal}-${this.communeHighlighted?.code}`;
         const containerElement = this.renderRoot.querySelector(`.autocomplete-results`);
         const containerPosition = containerElement?.getBoundingClientRect();
-        const optionPosition = this.renderRoot.querySelector(optionId)?.getBoundingClientRect();
+        const optionPosition = this.renderRoot.querySelector(`.autocomplete-result:nth-child(${this.optionActiveIndex+1})`)
+                                ?.getBoundingClientRect();
 
         if (containerElement && containerPosition && optionPosition) {
             if (direction === 'down' && optionPosition.bottom > containerPosition.bottom) {
@@ -385,27 +352,25 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
             return dpt.fullTextSearchableCodeDepartement.indexOf(fullTextSearchableQuery) === 0
                 || dpt.fullTextSearchableNom.indexOf(fullTextSearchableQuery) !== -1;
         });
-
-        this.departementHighlighted = this.departementsAffiches.length>0 ? this.departementsAffiches[0] : undefined;
     }
 
-    renderListItems(): TemplateResult|DirectiveFn {
+    renderListItems(): TemplateResult | DirectiveFn {
         return html`
             ${repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, ((dpt, index) => {
-                return html`<li 
+            return html`<li 
                         class="autocomplete-result"
                         role="option"
-                        aria-selected="${dpt === this.departementHighlighted}"
-                        id="dpt-${dpt.code_departement}"
-                        @click="${() => this.departementSelectionne(dpt)}">
-                        <span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
-                }))}
+                        aria-index="${index}"
+                        aria-selected="${this.optionActiveIndex === index}"
+                        @click="${() => this.departementSelectionne(dpt)}"
+                        ><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
+        }))}
                 ${super.renderListItems()}
             `;
-        }
-
-        fillDepartement(departement: Departement | undefined) {
-            this.filter = `${departement?departement.code_departement:'???'} - ${departement?departement.nom_departement:'???'}`
-            // this.filterMatchingAutocomplete = autoCompleteCodePostal;
-        }
     }
+
+    fillDepartement(departement: Departement | undefined) {
+        this.filter = `${departement?departement.code_departement:'???'} - ${departement?departement.nom_departement:'???'}`
+        // this.filterMatchingAutocomplete = autoCompleteCodePostal;
+    }
+}
