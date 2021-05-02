@@ -148,7 +148,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     async departementSelected(departement: Departement, triggerNavigation: boolean): Promise<void> {
         if(this.communeSelectionnee) {
-            Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement));
+            Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement),this.typeVaccin);
             return;
         }
 
@@ -186,6 +186,18 @@ export abstract class AbstractVmdRdvView extends LitElement {
                               .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
                         >
                         </vmd-commune-or-departement-selector>
+                    </div>
+                </div>
+                <div class="rdvForm-fields row align-items-center">
+                    <label class="col-sm-24 col-md-auto mb-md-3">
+                     Je recherche un vaccin de type :
+                    </label>
+                    <div class="col">
+                        <vmd-button-switch class="mb-3"
+                              codeSelectionne="${this.typeVaccin}"
+                              .options="${Array.from(FILTRE_TYPE_VACCIN.values()).map(tc => ({code: tc.codeTypeVaccin, libelle: tc.libelle }))}"
+                              @changed="${(event: ValueStrCustomEvent<CodeTypeVaccin>) => this.critereVaccinUpdated(event.detail.value)}">
+                        </vmd-button-switch>
                     </div>
                 </div>
                 ${this.renderAdditionnalSearchCriteria()}
@@ -356,7 +368,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
 
         if (this.codeDepartementSelectionne) {
-            Router.navigateToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!));
+            Router.navigateToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!),this.typeVaccin);
         }
     }
 
@@ -428,7 +440,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         }
                     });
                 }else{
-                    console.log(TYPES_VACCIN[vaccine_type.trim()]);
                     if(TYPES_VACCIN[vaccine_type.trim()]==typeVaccin)
                     {
                         result = true;
@@ -601,24 +612,14 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
               </vmd-button-switch>
             </div>
           </div>
-          <div class="rdvForm-fields row align-items-center">
-            <label class="col-sm-24 col-md-auto mb-md-3">
-              Je recherche un vaccin de type :
-            </label>
-            <div class="col">
-              <vmd-button-switch class="mb-3"
-                     codeSelectionne="${this.typeVaccin}"
-                     .options="${Array.from(FILTRE_TYPE_VACCIN.values()).map(tc => ({code: tc.codeTypeVaccin, libelle: tc.libelle }))}"
-                     @changed="${(event: ValueStrCustomEvent<CodeTypeVaccin>) => this.critereVaccinUpdated(event.detail.value)}">
-              </vmd-button-switch>
-            </div>
-          </div>
         `;
     }
 }
 
 @customElement('vmd-rdv-par-departement')
 export class VmdRdvParDepartementView extends AbstractVmdRdvView {
+
+    @property({type: String}) typeVaccin: 'all' | 'arnm' | 'adenovirus' = 'all';
 
     async onceStartupPromiseResolved() {
         if(this.codeDepartementSelectionne) {
@@ -651,8 +652,17 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
             lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
                 .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
                 .map(l => ({...l, distance: undefined }))
+                .filter(l => this.filterTypeVaccin(l.vaccine_type,this.typeVaccin))
                 .sortBy(l => this.extraireFormuleDeTri(l, 'date'))
                 .build()
         };
+    }
+
+    critereVaccinUpdated(typeVaccin: CodeTypeVaccin) {
+        this.typeVaccin = typeVaccin;
+
+        Analytics.INSTANCE.critereTypeVaccinMisAJour(typeVaccin);
+
+        this.refreshPageWhenValidParams();
     }
 }
