@@ -244,6 +244,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         />`;
                     })}
                 </div>
+                <div class="eligibility-criteria fade-in-then-fade-out">
+                    <p>Les critères d'éligibilité sont vérifiés lors de la prise de rendez-vous</p>
+                </div>
             `}
         `;
     }
