@@ -15,7 +15,10 @@ import {
     Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
     LieuxParDepartement,
     State, TriCentre,
-    TRIS_CENTRE
+    TRIS_CENTRE,
+	CodeTypeVaccin,
+	FILTRE_TYPE_VACCIN,
+	TYPES_VACCIN,
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
@@ -125,7 +128,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 libelleUrlPathDuDepartement(departement!),
                 commune.code,
                 commune.codePostal,
-                libelleUrlPathDeCommune(commune)
+                libelleUrlPathDeCommune(commune),
+				this.typeVaccin
             );
             return;
         }
@@ -404,6 +408,41 @@ export abstract class AbstractVmdRdvView extends LitElement {
             throw new Error(`Unsupported tri : ${tri}`);
         }
     }
+	
+	protected filterTypeVaccin(vaccine_type: Array, typeVaccin: CodeTypeVaccin) {
+        if(typeVaccin === 'all') {
+            return true;
+        } else {
+			let result = false;
+			
+			if(vaccine_type && vaccine_type.length)
+			{
+				if(vaccine_type.indexOf(',')!==-1)
+				{
+					let arrayVaccinne = vaccine_type.split(',');
+				
+					arrayVaccinne.forEach(function(item){
+						if(TYPES_VACCIN[item.trim()]==typeVaccin)
+						{
+							result = true;
+						}
+					});
+				}else{
+					console.log(TYPES_VACCIN[vaccine_type.trim()]);
+					if(TYPES_VACCIN[vaccine_type.trim()]==typeVaccin)
+					{
+						result = true;
+					}
+				}
+				return result;
+			}else{
+				// Not hiding if vaccinne type is unknow
+				result = true;
+			}
+
+         return result;
+        }
+    }
 
     abstract libelleLieuSelectionne(): TemplateResult;
     abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement;
@@ -415,6 +454,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     @property({type: String}) codePostalSelectionne: string | undefined = undefined;
 
     @property({type: String}) critèreDeTri: 'date' | 'distance' = 'distance'
+	@property({type: String}) typeVaccin: 'all' | 'arnm' | 'distance' = 'all'
 
     preventRafraichissementLieux() {
         return !this.communeSelectionnee;
@@ -436,7 +476,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     _onRefreshPageWhenValidParams() {
         // To be overriden
         if(this.departementSelectionne && this.communeSelectionnee && this.codePostalSelectionne) {
-            Router.navigateToRendezVousAvecCommune(this.critèreDeTri, this.departementSelectionne.code_departement, libelleUrlPathDuDepartement(this.departementSelectionne), this.communeSelectionnee.code, this.communeSelectionnee.codePostal, libelleUrlPathDeCommune(this.communeSelectionnee));
+            Router.navigateToRendezVousAvecCommune(this.critèreDeTri, this.departementSelectionne.code_departement, libelleUrlPathDuDepartement(this.departementSelectionne), this.communeSelectionnee.code, this.communeSelectionnee.codePostal, libelleUrlPathDeCommune(this.communeSelectionnee),this.typeVaccin);
             return 'return';
         }
 
@@ -525,6 +565,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
                 .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
                 .map(l => ({...l, distance: distanceAvec(l) }))
                 .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
+				.filter(l => this.filterTypeVaccin(l.vaccine_type,this.typeVaccin))
                 .sortBy(l => this.extraireFormuleDeTri(l, this.critèreDeTri))
                 .build()
         };
@@ -534,6 +575,14 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         this.critèreDeTri = triCentre;
 
         Analytics.INSTANCE.critereTriCentresMisAJour(triCentre);
+
+        this.refreshPageWhenValidParams();
+    }
+	
+	 critereVaccinUpdated(typeVaccin: CodeTypeVaccin) {
+        this.typeVaccin = typeVaccin;
+
+        Analytics.INSTANCE.critereTypeVaccinMisAJour(typeVaccin);
 
         this.refreshPageWhenValidParams();
     }
@@ -549,6 +598,18 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
                      codeSelectionne="${this.critèreDeTri}"
                      .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle }))}"
                      @changed="${(event: ValueStrCustomEvent<CodeTriCentre>) => this.critereTriUpdated(event.detail.value)}">
+              </vmd-button-switch>
+            </div>
+          </div>
+		  <div class="rdvForm-fields row align-items-center">
+            <label class="col-sm-24 col-md-auto mb-md-3">
+              Je recherche un vaccin de type :
+            </label>
+            <div class="col">
+              <vmd-button-switch class="mb-3"
+                     codeSelectionne="${this.typeVaccin}"
+                     .options="${Array.from(FILTRE_TYPE_VACCIN.values()).map(tc => ({code: tc.codeTypeVaccin, libelle: tc.libelle }))}"
+                     @changed="${(event: ValueStrCustomEvent<CodeTypeVaccin>) => this.critereVaccinUpdated(event.detail.value)}">
               </vmd-button-switch>
             </div>
           </div>

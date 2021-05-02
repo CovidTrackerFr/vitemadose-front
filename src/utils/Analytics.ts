@@ -80,5 +80,12 @@ export class Analytics {
             'sort_changed_to' : triCentre,
         });
     }
+	
+	critereTypeVaccinMisAJour(typeVaccin: CodeTypeVaccin) {
+        window.dataLayer.push({
+            'event': 'type_change',
+            'type_changed_to' : typeVaccin,
+        });
+    }
 
 }

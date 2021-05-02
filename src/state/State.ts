@@ -20,6 +20,22 @@ export const TRIS_CENTRE: Map<CodeTriCentre, TriCentre> = new Map([
     ['date', { codeTriCentre: 'date', libelle: "Disponible au plus vite" }],
 ]);
 
+export type CodeTypeVaccin = 'all' | 'arnm' | 'adenovirus';
+export const FILTRE_TYPE_VACCIN: Map<CodeTypeVaccin> = new Map([
+	['all', {codeTypeVaccin: 'all', libelle: "Tous" }],
+    ['arnm', {codeTypeVaccin: 'arnm', libelle: "ARN messager" }],
+	['adenovirus', {codeTypeVaccin: 'adenovirus', libelle: "à base d'adénovirus" }],
+]);
+
+
+export type TypeCaccin = 'AstraZeneca'|'Pfizer-BioNTech'|'Moderna'|'Johnson';
+export const TYPES_VACCIN: {[k in TypeCaccin]: string} = {
+    "AstraZeneca": 'adenovirus',
+    "Pfizer-BioNTech": 'arnm',
+	"Moderna": 'arnm',
+    "Johnson": 'adenovirus',
+};
+
 const USE_RAW_GITHUB = false
 const VMD_BASE_URL = USE_RAW_GITHUB
   ? "https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output"
