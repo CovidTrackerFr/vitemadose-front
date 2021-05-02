@@ -11,7 +11,7 @@ import {
 import {classMap} from "lit-html/directives/class-map";
 import {Commune, Departement} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
-import communeSelectorCss from "./vmd-commune-selector.component.scss";
+import communeSelectorCss from "./vmd-commune-or-departement-selector.component.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
@@ -29,8 +29,6 @@ type DepartementRecherchable = Departement & {
 
 @customElement('vmd-commune-or-departement-selector')
 export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
-
-
 
     //language=css
     static styles = [
@@ -171,21 +169,6 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         this.filter = `${commune?commune.codePostal:"???"} - ${commune?commune.nom:"???"}`;
         this.filterMatchingAutocomplete = autoCompleteCodePostal;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @property({type: Array, attribute: false}) set departementsDisponibles(dpts: Departement[]) {
         this.departementsCherchables = dpts.map(d => ({...d,
