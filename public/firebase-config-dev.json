@@ -1,0 +1,15 @@
+{
+  "app": {
+    "apiKey": "AIzaSyBHfDE4J0qzAPuBuYkTSNxTQHQRBPnfUEc",
+    "authDomain": "vite-ma-dose-dev.firebaseapp.com",
+    "databaseURL": "https://vite-ma-dose-dev-default-rtdb.europe-west1.firebasedatabase.app",
+    "projectId": "vite-ma-dose-dev",
+    "storageBucket": "vite-ma-dose-dev.appspot.com",
+    "messagingSenderId": "812389299998",
+    "appId": "1:812389299998:web:66e7622863acc6935dfb0f",
+    "measurementId": "G-7HQEBJY2Q7"
+  },
+  "messaging": {
+    "publicVapidKey": "BGgCGzesNu5Pf5FHFCz8Rzp6iOouftd7YfznS8ybN_p53-YScbpow8ROyC_n_7vwomLoHITOztAJx7smV1mC8gg"
+  }
+}

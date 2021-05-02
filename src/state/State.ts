@@ -75,6 +75,7 @@ export type Lieu = {
     location: Coordinates,
     nom: string;
     url: string;
+    gid: string;
     appointment_by_phone_only: boolean;
     plateforme: string;
     prochain_rdv: ISODateString|null;
@@ -299,5 +300,9 @@ export class State {
             this._statsLieu = statsLieu;
             return statsLieu;
         }
+    }
+
+    public static currentEnv(): 'dev'|'prod' {
+        return window.location.hostname === "vitemadose.covidtracker.fr"?'prod':'dev';
     }
 }

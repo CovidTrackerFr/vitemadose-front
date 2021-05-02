@@ -1,5 +1,7 @@
 importScripts(
-    'https://cdn.jsdelivr.net/npm/idb@6.0.0/build/iife/index-min.js'
+    'https://cdn.jsdelivr.net/npm/idb@6.0.0/build/iife/index-min.js',
+    'https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js',
+    'https://www.gstatic.com/firebasejs/8.4.3/firebase-messaging.js'
 )
 
 const USE_RAW_GITHUB = false
@@ -8,12 +10,15 @@ const VMD_BASE_URL = USE_RAW_GITHUB
     : "https://vitemadose.gitlab.io/vitemadose"
 
 let getVersionPort = undefined;
-let pushNotificationsGranted=false;
 let clientRootUrl = undefined;
+let env = undefined;
+let firebaseMessagingToken = undefined;
+let firebaseInitialized = false;
 
 self.addEventListener('install', function(event) {
     console.log('Service Worker activating...');
     clientRootUrl = event.target.location.href.replace("sw.js","");
+    env = (event.target.location.hostname === "vitemadose.covidtracker.fr")?'prod':'dev';
     // event.waitUntil(self.skipWaiting()); // Activate worker immediately
 });
 
@@ -21,8 +26,7 @@ self.addEventListener('activate', function(event) {
     console.log('Service Worker activating...');
     event.waitUntil(
         Promise.all([
-            DB.initialize(),
-            initializeSyncEvents()
+            DB.initialize()
         ]).then(function() {
             console.log('DB and sync events created !');
             return self.clients.claim();
@@ -40,111 +44,62 @@ self.addEventListener("message", function(event) {
         getVersionPort = event.ports[0];
     }
 
-    if (event.data && event.data.type === 'UPDATE_PUSH_NOTIF_GRANT') {
-        pushNotificationsGranted = event.data.granted;
-        console.info("Update push notification granted to ["+pushNotificationsGranted+"]");
+    if (event.data && event.data.type === 'SUBSCRIPTIONS_ADDED') {
+        event.waitUntil(subscribeTo(event.data.subscriptionTopics));
     }
-
-    if(event.data && event.data.type === 'MANUAL_CHECK_SUBSCRIPTIONS') {
-        console.info("manual check subscription triggered")
-        event.waitUntil(checkSubscriptions("man"));
+    if (event.data && event.data.type === 'SUBSCRIPTIONS_REMOVED') {
+        event.waitUntil(unsubscribeFrom(event.data.subscriptionTopics));
     }
 });
 
-function initializeSyncEvents() {
-    const PBS_TAG = 'check-subscriptions';
-    if ('periodicSync' in self.registration) {
-        self.addEventListener('periodicsync', function(event) {
-            console.log("periodicsync event", event);
-            if (event.tag === PBS_TAG) {
-                event.waitUntil(checkSubscriptions("bg"));
-            }
-        });
-
-        self.navigator.permissions.query({
-            name: 'periodic-background-sync',
-        }).then(function(status) {
-            if (status.state === 'granted') {
-                return self.registration.periodicSync.getTags().then(function(tags) {
-                    if (tags.indexOf(PBS_TAG) !== -1) {
-                        console.log("Already registered for periodic background sync with tag",  PBS_TAG);
-                    } else {
-                        return self.registration.periodicSync.register(PBS_TAG, {
-                            // An interval of one day.
-                            minInterval: 1000,
-                        }).then(function() {
-                            console.log("Registered for periodic background sync with tag", PBS_TAG);
-                        }, function(error) {
-                            console.error("Periodic background sync permission is 'granted', " +
-                                "but something went wrong:", error);
-                        });
-                    }
-                });
-            } else {
-                console.info("Periodic background sync permission is not 'granted', so " +
-                    "skipping registration.");
-            }
-        });
-    } else {
-        console.log("Periodic background sync is not available in this browser, falling back on sync");
-        self.addEventListener('sync', function(event) {
-            console.log("sync event", event);
-            if (event.tag === PBS_TAG) {
-                event.waitUntil(checkSubscriptions("bg"));
-            }
-        });
-
-
-        return self.registration.sync.getTags().then(function(tags) {
-            if (tags.indexOf(PBS_TAG) !== -1) {
-                console.log("Already registered for background sync with tag", PBS_TAG);
-            } else {
-                return self.registration.sync.register(PBS_TAG, {
-                    // An interval of one day.
-                    minInterval: 1000,
-                }).then(function() {
-                    console.log("Registered for background sync with tag", PBS_TAG);
-                }, function(error) {
-                    console.error("Background sync went wrong:", error);
-                });
-            }
-        });
-    }
+function subscribeTo(subscriptionTopics) {
+    return resolveFirebaseCloudMessagingToken().then(function(fbToken) {
+        const fbBaseUrl = env==='dev'?'https://europe-west1-vite-ma-dose-dev.cloudfunctions.net':'https://europe-west1-vite-ma-dose.cloudfunctions.net';
+        return Promise.all(subscriptionTopics.map(function(topic) {
+            return fetch(fbBaseUrl+'/subscribeToTopic?token='+fbToken+'&topic='+topic);
+        }));
+    });
 }
 
-function checkSubscriptions(prefix) {
-    if(!pushNotificationsGranted) {
-        console.info("Push notifications not granted, skipping any sync event !")
-        return Promise.resolve();
-    }
+function unsubscribeFrom(subscriptionTopics) {
+    return resolveFirebaseCloudMessagingToken().then(function(fbToken) {
+        const fbBaseUrl = env==='dev'?'https://europe-west1-vite-ma-dose-dev.cloudfunctions.net':'https://europe-west1-vite-ma-dose.cloudfunctions.net';
+        return Promise.all(subscriptionTopics.map(function(topic) {
+            return fetch(fbBaseUrl+'/unsubscribeFromTopic?token='+fbToken+'&topic='+topic);
+        }));
+    });
+}
 
-    return DB.instance().then(function(db) {
-        return db.transaction(["subscriptions"]).objectStore("subscriptions").getAll().then(function(results) {
-            return rechercherAbonnementsAvecRdvDispos(results);
-        }).then(function(abonnementsAvecRvdDispos) {
-            return Promise.all(abonnementsAvecRvdDispos.map(function(abonnementAvecRvdDispos) {
-                return Promise.all([
-                    db.transaction(["subscriptions"], "readwrite").objectStore("subscriptions").delete(abonnementAvecRvdDispos.subscription.ts),
-                    self.registration.showNotification(
-                    "["+prefix+"] ViteMaDose - "+abonnementAvecRvdDispos.appointment_count+" créneaux trouvés",
-                    {
-                        lang: 'fr-FR',
-                        body: abonnementAvecRvdDispos.appointment_count+" créneaux de vaccination trouvés sur "
-                            + abonnementAvecRvdDispos.subscription.lieu.nom+" ("+abonnementAvecRvdDispos.subscription.departement.code_departement+")",
-                        badge: clientRootUrl+'assets/images/png/vmd-badge.png',
-                        icon: clientRootUrl+'assets/images/favicon/android-chrome-512x512.png',
-                        // That's too big.. the icon above is enough
-                        // image: clientRootUrl+'assets/images/favicon/android-chrome-512x512.png',
-                        data: {
-                            notificationUrl: abonnementAvecRvdDispos.subscription.notificationUrl,
-                            departement: abonnementAvecRvdDispos.subscription.departement,
-                            commune: abonnementAvecRvdDispos.subscription.commune
-                        },
-                    })
-                ]);
-            }));
-        });
-    })
+function resolveFirebaseCloudMessagingToken() {
+    if(!firebaseInitialized) {
+        return fetch(clientRootUrl+"firebase-config-"+env+".json")
+            .then(function(resp){return resp.json(); })
+            .then(function(fbConfig) {
+                firebase.initializeApp(fbConfig.app);
+                firebaseInitialized = true;
+
+                const messaging = firebase.messaging();
+                messaging.onBackgroundMessage(function(payload) {
+                    // This is important to keep this debugger here, because putting a breakpoint into this callback will never stop otherwise
+                    // as this is kind of an off-event-loop callback which is (strangely) not inspected by chrome at the moment I'm writing this comment
+                    debugger;
+                    const notificationTitle = payload.data.title;
+                    console.log("Notif received !", notificationTitle);
+                    unsubscribeFrom([ payload.data.topic ]);
+                });
+
+                return messaging.getToken({
+                    serviceWorkerRegistration: self.registration,
+                    vapidKey: fbConfig.messaging.publicVapidKey
+                }).then(function(token) {
+                    firebaseMessagingToken = token;
+                    console.info("Messaging token : ", token);
+                    return token;
+                }, console.error);
+            })
+    } else {
+        return Promise.resolve(firebaseMessagingToken);
+    }
 }
 
 function rechercherAbonnementsAvecRdvDispos(subscriptions) {

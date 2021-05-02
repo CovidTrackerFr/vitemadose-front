@@ -35,11 +35,12 @@ import {
     AbonnementCliqueCustomEvent, ActionAbonnement,
     LieuCliqueCustomEvent
 } from "../components/vmd-appointment-card.component";
-import {PushNotifications} from "../utils/ServiceWorkers";
 import {DB, Subscription} from "../storage/DB";
 import {Capabilities, CapabilityEligibility} from "../utils/Capabilities";
 import {setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
+import {Messaging} from "../utils/Messaging";
+import {PushNotifications} from "../utils/ServiceWorkers";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -265,21 +266,25 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     async changerAbonnementAuLieu(lieu: LieuAffichableAvecDistance, action: ActionAbonnement) {
-        if(action === 'subscribe') {
-            const outcome = await PushNotifications.INSTANCE.ensureGranted();
-            if(outcome.granted) {
-                await DB.INSTANCE.subscribeToCenterAppointments({
-                    ts: Date.now(),
-                    departement: this.departementSelectionne!,
-                    commune: this.communeSelectionnee,
-                    lieu: lieu,
-                    notificationUrl: window.location.href
-                });
+        const outcome = await PushNotifications.INSTANCE.ensureGranted();
+        if(outcome.granted) {
+            const subscription = {
+                ts: Date.now(),
+                departement: this.departementSelectionne!,
+                commune: this.communeSelectionnee,
+                lieu: lieu,
+                notificationUrl: window.location.href
+            };
+
+            if(action === 'subscribe') {
+                await DB.INSTANCE.subscribeToCenterAppointments(subscription);
+                await Messaging.INSTANCE.subscribeTo([ subscription ])
+                await this.refreshAbonnements();
+            } else if(action === 'unsubscribe') {
+                await DB.INSTANCE.unsubscribeToCenterAppointments(lieu);
+                await Messaging.INSTANCE.unsubscribeFrom([ subscription ])
                 await this.refreshAbonnements();
             }
-        } else if(action === 'unsubscribe') {
-            await DB.INSTANCE.unsubscribeToCenterAppointments(lieu);
-            await this.refreshAbonnements();
         }
     }
 

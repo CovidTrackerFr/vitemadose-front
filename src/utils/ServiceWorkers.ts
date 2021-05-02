@@ -1,6 +1,6 @@
 import {Router} from "../routing/Router";
 import {DB} from "../storage/DB";
-
+import {Messaging} from "./Messaging";
 
 export class ServiceWorkers {
 
@@ -18,7 +18,7 @@ export class ServiceWorkers {
             return false;
         }
 
-        // Waiting for 'load' event
+        // Waiting for 'load' event to start service worker registration
         // see https://developers.google.com/web/fundamentals/primers/service-workers/registration#improving_the_boilerplate
         await new Promise((resolve, reject) => window.addEventListener('load', resolve));
 
@@ -56,25 +56,14 @@ export class ServiceWorkers {
             console.log(event.data.payload);
         }
 
-        // If at least 1 subscription defined, ensuring that push notifications are still granted
-        // - if user subscribed to some push notifs, we should update sw's push notification granted
-        // flag with what is currently in place
-        // - otherwise, no need to ask any permission until user clicks on subscription button
+        // If at least 1 subscription defined, ensuring that firebase messaging is still granted
         const allSubscriptions = await DB.INSTANCE.fetchAllSubscriptions()
         if(allSubscriptions.length) {
-            if (Notification.permission === 'default') {
-                await PushNotifications.INSTANCE.ensureGranted();
-            } else if(Notification.permission === 'denied') {
-                // TODO: CHANGE THIS TO A STICKY FOOTER ERROR ???
-                console.error("User subscribed to some center updated, but denied PUSH Notifications")
-            } else if(Notification.permission === 'granted') {
-                await PushNotifications.INSTANCE.pushNotificationGrantToServiceWorker();
-            }
+            await Promise.all([
+                Messaging.INSTANCE.ensureStarted(),
+                PushNotifications.INSTANCE.ensureGranted()
+            ])
         }
-
-        setInterval(() => navigator.serviceWorker.controller!.postMessage({
-            type: 'MANUAL_CHECK_SUBSCRIPTIONS'
-        }), 120 * 1000);
 
         return true;
     }
@@ -93,7 +82,6 @@ export class PushNotifications {
             try {
                 const result = await PushNotifications.askPermission();
 
-                await this.pushNotificationGrantToServiceWorker();
 
                 if(result === 'granted'){
                     resolve({ granted: true });
@@ -120,13 +108,6 @@ export class PushNotifications {
         }
 
         return "unexpected-unknown";
-    }
-
-    async pushNotificationGrantToServiceWorker() {
-        await navigator.serviceWorker.controller!.postMessage({
-            type: 'UPDATE_PUSH_NOTIF_GRANT',
-            granted: Notification.permission === 'granted'
-        });
     }
 
     private static async askPermission(): Promise<PushNotificationGrantResult> {
