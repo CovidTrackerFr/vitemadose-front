@@ -175,7 +175,6 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         this.filter = `${commune?commune.codePostal:"???"} - ${commune?commune.nom:"???"}`;
         this.filterMatchingAutocomplete = autoCompleteCodePostal;
     }
-
     @property({type: Array, attribute: false}) set departementsDisponibles(dpts: Departement[]) {
         this.departementsCherchables = dpts.map(d => ({...d,
             fullTextSearchableCodeDepartement: Strings.toFullTextSearchableString(d.code_departement),
