@@ -12,25 +12,35 @@ import {
     Departement,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
-    Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
-    LieuxParDepartement,
-    State, TriCentre,
+    Lieu,
+   LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
+    LieuxParDepartement, sameLieu,
+    State,
     TRIS_CENTRE
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import {
     AutocompleteTriggered,
-    CommuneSelected, DepartementSelected, VmdCommuneOrDepartmentSelectorComponent,
+    CommuneSelected,
+    DepartementSelected,
+    VmdCommuneOrDepartmentSelectorComponent,
     VmdCommuneSelectorComponent
 } from "../components/vmd-commune-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {ValueStrCustomEvent} from "../components/vmd-selector.component";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
-import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
+import {
+    AbonnementCliqueCustomEvent, ActionAbonnement,
+    LieuCliqueCustomEvent
+} from "../components/vmd-appointment-card.component";
+import {DB, Subscription} from "../storage/DB";
+import {Capabilities, CapabilityEligibility} from "../utils/Capabilities";
 import {setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
+import {Messaging} from "../utils/Messaging";
+import {PushNotifications} from "../utils/ServiceWorkers";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -55,6 +65,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
+
+    @property({type: Array, attribute: false}) abonnements: Subscription[] = [];
+    @property({type: String, attribute: false}) locationWatchEligibility: CapabilityEligibility = "not-eligible";
+    protected refreshAbonnementsIntervalId: number|undefined = undefined;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
     protected lieuBackgroundRefreshIntervalId: number|undefined = undefined;
@@ -239,13 +253,39 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         return html`<vmd-appointment-card 
                             style="--list-index: ${index}" 
                             .lieu="${lieu}" 
+                            .locationWatchEligibility="${this.locationWatchEligibility}"
+                            .watching="${this.abonnementSur(lieu)}"
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
-                        />`;
+                            @abonnement-clique="${(event: AbonnementCliqueCustomEvent) => this.changerAbonnementAuLieu(event.detail.lieu, event.detail.action) }"
+                        ></vmd-appointment-card>`;
                     })}
                 </div>
             `}
         `;
+    }
+
+    async changerAbonnementAuLieu(lieu: LieuAffichableAvecDistance, action: ActionAbonnement) {
+        const outcome = await PushNotifications.INSTANCE.ensureGranted();
+        if(outcome.granted) {
+            const subscription = {
+                ts: Date.now(),
+                departement: this.departementSelectionne!,
+                commune: this.communeSelectionnee,
+                lieu: lieu,
+                notificationUrl: window.location.href
+            };
+
+            if(action === 'subscribe') {
+                await DB.INSTANCE.subscribeToCenterAppointments(subscription);
+                await Messaging.INSTANCE.subscribeTo([ subscription ])
+                await this.refreshAbonnements();
+            } else if(action === 'unsubscribe') {
+                await DB.INSTANCE.unsubscribeToCenterAppointments(lieu);
+                await Messaging.INSTANCE.unsubscribeFrom([ subscription ])
+                await this.refreshAbonnements();
+            }
+        }
     }
 
     onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void> {
@@ -270,6 +310,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
         });
 
         await this.onceStartupPromiseResolved();
+
+        await this.refreshAbonnements();
+        this.locationWatchEligibility = Capabilities.INSTANCE.currentDeviceIsEligibleToLocationWatch();
+        this.refreshAbonnementsIntervalId = setInterval(async() => {
+            this.locationWatchEligibility = Capabilities.INSTANCE.currentDeviceIsEligibleToLocationWatch();
+            await this.refreshAbonnements();
+        }, 60000);
+
         await this.refreshLieux();
 
         this.lieuBackgroundRefreshIntervalId = setDebouncedInterval(async () => {
@@ -282,6 +330,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 await this.requestUpdate();
             }
         }, 45000);
+    }
+
+    async refreshAbonnements() {
+        this.abonnements = await DB.INSTANCE.fetchAllSubscriptions();
+    }
+
+    abonnementSur(lieu: Lieu) {
+        return !!this.abonnements.find(a => sameLieu(a.lieu, lieu));
     }
 
     preventRafraichissementLieux(): boolean {
@@ -331,6 +387,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
+
+        clearInterval(this.refreshAbonnementsIntervalId);
 
         if(this.lieuBackgroundRefreshIntervalId) {
             clearInterval(this.lieuBackgroundRefreshIntervalId);

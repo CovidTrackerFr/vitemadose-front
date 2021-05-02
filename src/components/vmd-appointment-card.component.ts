@@ -13,11 +13,15 @@ import {Dates} from "../utils/Dates";
 import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
+import {CapabilityEligibility} from "../utils/Capabilities";
 import {TemplateResult} from "lit-html";
-import {styleMap} from "lit-html/directives/style-map";
 
-type LieuCliqueContext = {lieu: Lieu};
+type LieuCliqueContext = {lieu: LieuAffichableAvecDistance};
 export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
+
+export type ActionAbonnement = "unsubscribe"|"subscribe";
+export type AbonnementCliqueContext = LieuCliqueContext & {action: ActionAbonnement};
+export type AbonnementCliqueCustomEvent = CustomEvent<LieuCliqueContext & AbonnementCliqueContext>;
 
 @customElement('vmd-appointment-card')
 export class VmdAppointmentCardComponent extends LitElement {
@@ -31,6 +35,8 @@ export class VmdAppointmentCardComponent extends LitElement {
     ];
 
     @property({type: Object, attribute: false}) lieu!: LieuAffichableAvecDistance;
+    @property({type: String, attribute: false}) locationWatchEligibility: CapabilityEligibility = "not-eligible";
+    @property({type: Boolean, attribute: false}) watching!: boolean;
 
     constructor() {
         super();
@@ -60,14 +66,30 @@ export class VmdAppointmentCardComponent extends LitElement {
             let cardConfig: {cardLink:(content: TemplateResult) => TemplateResult, estCliquable: boolean, disabledBG: boolean, actions: TemplateResult|undefined, libelleDateAbsente: string };
             let typeLieu = typeActionPour(this.lieu);
             if(typeLieu === 'actif-via-plateforme' || typeLieu === 'inactif-via-plateforme') {
-                let specificCardConfig: { disabledBG: boolean, libelleDateAbsente: string, libelleBouton: string, typeBouton: 'btn-info'|'btn-primary', onclick: ()=>void };
+                let specificCardConfig: { disabledBG: boolean, libelleDateAbsente: string, libelleBouton: string, typeBouton: 'btn-info'|'btn-primary', onclick: ()=>void, additionalActions: TemplateResult|undefined };
                 if(typeLieu === 'inactif-via-plateforme') {
                     specificCardConfig = {
                         disabledBG: true,
                         libelleDateAbsente: 'Aucun rendez-vous',
                         libelleBouton: 'Vérifier le centre de vaccination',
                         typeBouton: 'btn-info',
-                        onclick: () => this.verifierRdv()
+                        onclick: () => this.verifierRdv(),
+                        additionalActions: html`
+                    <div class="col-24 col-md-auto text-center mt-4">
+                      ${(['eligible', 'eligible-but-denied'].indexOf(this.locationWatchEligibility)!==-1)?html`
+                        <a class="btn btn-warning btn-lg ${classMap({disabled: this.locationWatchEligibility==='eligible-but-denied'})}" 
+                           href="#" @click="${(e: Event) => { this.changeSubscription(); e.preventDefault(); e.stopPropagation(); }}">
+                          ${this.watching?html`
+                          <i class="bi vmdicon-eye-slash-solid" style="margin-right: 3px"></i>
+                          Ne plus surveiller ce centre
+                          `:html`
+                          <i class="bi vmdicon-eye-solid" style="margin-right: 3px"></i>
+                          Surveiller ce centre
+                          `}
+                        </a>
+                      `:html``}
+                    </div>
+                        `
                     };
                 } else {
                     specificCardConfig = {
@@ -75,7 +97,8 @@ export class VmdAppointmentCardComponent extends LitElement {
                         libelleDateAbsente: 'Date inconnue',
                         libelleBouton: 'Prendre rendez-vous',
                         typeBouton: 'btn-primary',
-                        onclick: () => this.prendreRdv()
+                        onclick: () => this.prendreRdv(),
+                        additionalActions: undefined
                     };
                 }
                 cardConfig = {
@@ -89,6 +112,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                          class="btn btn-lg ${classMap({ 'btn-primary': specificCardConfig.typeBouton==='btn-primary', 'btn-info': specificCardConfig.typeBouton==='btn-info' })}">
                         ${specificCardConfig.libelleBouton}
                       </a>
+                      ${specificCardConfig.additionalActions || html``}
                       <div class="row align-items-center justify-content-center mt-3 text-black-50">
                         <div class="col-auto">
                           ${this.lieu.appointment_count.toLocaleString()} créneau${Strings.plural(this.lieu.appointment_count, "x")}
@@ -177,6 +201,15 @@ export class VmdAppointmentCardComponent extends LitElement {
                 </div>
             </div>
             `);
+    }
+
+    changeSubscription() {
+        this.dispatchEvent(new CustomEvent<AbonnementCliqueContext>('abonnement-clique', {
+            detail: {
+                lieu: this.lieu,
+                action: this.watching?'unsubscribe':'subscribe'
+            }
+        }));
     }
 
     connectedCallback() {

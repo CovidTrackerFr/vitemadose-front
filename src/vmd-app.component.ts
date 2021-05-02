@@ -2,6 +2,8 @@ import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-ele
 import {Router, SlottedTemplateResultFactory} from "./routing/Router";
 import globalCss from './styles/global.scss'
 import {TemplateResult} from "lit-html";
+import {ServiceWorkers} from "./utils/ServiceWorkers";
+import {DB} from "./storage/DB";
 
 @customElement('vmd-app')
 export class VmdAppComponent extends LitElement {
@@ -24,6 +26,10 @@ export class VmdAppComponent extends LitElement {
 
         Router.installRoutes((viewTemplateResult, path) => {
             this.viewTemplateResult = viewTemplateResult;
+        })
+
+        DB.INSTANCE.initialize().then(() => {
+            ServiceWorkers.INSTANCE.startup();
         })
     }
 
@@ -56,7 +62,7 @@ export class VmdAppComponent extends LitElement {
             
             <footer class="row justify-content-between">
                 <div class="col-auto">
-                    Vite Ma Dose&nbsp;! par CovidTracker -
+                    <span @click="${() => this.tryDebug()}">Vite Ma Dose&nbsp;! par CovidTracker</span> -
                     <a href="https://github.com/CovidTrackerFr/vitemadose-front/blob/main/LICENSE">(CC BY-NC-SA 4.0)</a>
                 </div>
                 <div class="col-auto">
@@ -74,6 +80,15 @@ export class VmdAppComponent extends LitElement {
                 </div>
             </footer>
         `;
+    }
+
+    private debugCounter = 0;
+    tryDebug() {
+        this.debugCounter++;
+        if(this.debugCounter%5 === 0) {
+            console.log("Debug mode switch detection triggered !");
+            DB.INSTANCE.switchDebugMode();
+        }
     }
 
     connectedCallback() {
