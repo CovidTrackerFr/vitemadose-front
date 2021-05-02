@@ -45,7 +45,6 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
     @query(".autocomplete-results") $autoCompleteResults: HTMLUListElement | undefined;
     @query(".autocomplete-result[aria-selected='true']") $autoCompleteSelectedResult: HTMLOptionElement | undefined;
 
-
     @property({type: Array, attribute: false}) autocompleteTriggers: Set<string>|undefined;
     @internalProperty() recuperationCommunesEnCours: boolean = false;
     @property({type: Array, attribute: false}) set communesDisponibles(cd: Commune[]|undefined) {
