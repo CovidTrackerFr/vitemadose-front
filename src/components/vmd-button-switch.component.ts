@@ -1,5 +1,5 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from "lit-element";
-import globalCss from "../styles/global.scss";
+import globalCss from "../styles/global";
 import buttonSwitchCss from "./vmd-button-switch.component.scss";
 import {repeat} from "lit-html/directives/repeat";
 import {classMap} from "lit-html/directives/class-map";
@@ -16,8 +16,8 @@ export class VmdButtonSwitchComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(buttonSwitchCss)}`,
+        globalCss,
+        unsafeCSS(buttonSwitchCss),
         css`
             :host {
                 display: block;

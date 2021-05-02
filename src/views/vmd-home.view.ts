@@ -1,6 +1,6 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {Router} from "../routing/Router";
-import globalCss from "../styles/global.scss";
+import globalCss from "../styles/global";
 import homeViewCss from "./vmd-home.view.scss";
 import {
     Commune,
@@ -22,8 +22,8 @@ export class VmdHomeView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(homeViewCss)}`,
+        globalCss,
+        unsafeCSS(homeViewCss),
         css`
             :host {
                 display: block;

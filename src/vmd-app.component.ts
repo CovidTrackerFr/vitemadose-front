@@ -1,6 +1,6 @@
 import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
 import {Router, SlottedTemplateResultFactory} from "./routing/Router";
-import globalCss from './styles/global.scss'
+import globalCss from './styles/global'
 import {TemplateResult} from "lit-html";
 
 @customElement('vmd-app')
@@ -8,7 +8,7 @@ export class VmdAppComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        globalCss,
         css`
             .appLogo {}
             .appLogo._phone {

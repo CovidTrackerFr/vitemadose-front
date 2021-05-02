@@ -1,5 +1,5 @@
 import {css, customElement, html, LitElement, unsafeCSS} from 'lit-element';
-import globalCss from "../styles/global.scss";
+import globalCss from "../styles/global";
 import {Icon, map, marker, tileLayer} from 'leaflet'
 import leafletCss from 'leaflet/dist/leaflet.css';
 import leafletMarkerCss from 'leaflet.markercluster/dist/MarkerCluster.Default.css';
@@ -27,9 +27,9 @@ export class VmdLieuxView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(leafletCss)}`,
-        css`${unsafeCSS(leafletMarkerCss)}`,
+        globalCss,
+        unsafeCSS(leafletCss),
+        unsafeCSS(leafletMarkerCss),
         css`
             :host {
                 display: block;
@@ -51,7 +51,7 @@ export class VmdLieuxView extends LitElement {
     connectedCallback() {
         super.connectedCallback();
 
-        this.requestUpdate().then(() => this.loadMap());
+        this.updateComplete.then(() => this.loadMap());
     }
 
     private loadMap() {

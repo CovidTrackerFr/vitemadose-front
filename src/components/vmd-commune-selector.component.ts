@@ -11,7 +11,7 @@ import {classMap} from "lit-html/directives/class-map";
 import {Commune, Departement} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
 import communeSelectorCss from "./vmd-commune-selector.component.scss";
-import globalCss from "../styles/global.scss";
+import globalCss from "../styles/global";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {DirectiveFn} from "lit-html/lib/directive";
@@ -26,8 +26,8 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(communeSelectorCss)}`,
+        globalCss,
+        unsafeCSS(communeSelectorCss),
         css`
         `
     ];

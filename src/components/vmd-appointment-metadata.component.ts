@@ -1,6 +1,6 @@
 import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
-import globalCss from "../styles/global.scss";
+import globalCss from "../styles/global";
 
 export type MetadataWidthType = 'full-width'|'fit-to-content'|'3col-equally-distributed'
 const METADATA_WIDTH_CLASSES: {[type in MetadataWidthType]: string} = {
@@ -15,7 +15,7 @@ export class VmdAppointmentMetadataComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        globalCss,
         css`
         `
     ];

@@ -1,5 +1,5 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from "lit-element";
-import globalCss from "../styles/global.scss";
+import globalCss from "../styles/global";
 import {CodeTrancheAge, TrancheAge} from "../state/State";
 
 export type TrancheAgeSelectionne = { trancheAge: TrancheAge|undefined };
@@ -9,7 +9,7 @@ export class VmdTrancheAgeSelectorComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        globalCss,
         css`
             :host {
                 display: block;

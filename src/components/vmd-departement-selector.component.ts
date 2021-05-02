@@ -1,6 +1,6 @@
 import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element'
 import {repeat} from "lit-html/directives/repeat";
-import globalCss from "../styles/global.scss";
+import globalCss from "../styles/global";
 import {CodeDepartement, Departement} from "../state/State";
 
 export type DepartementSelected = { departement: Departement|undefined };
@@ -10,7 +10,7 @@ export class VmdDepartementSelectorComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        globalCss,
         css`
             :host {
                 display: block;

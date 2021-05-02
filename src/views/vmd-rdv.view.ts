@@ -1,7 +1,7 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
 import {styleMap} from "lit-html/directives/style-map";
-import globalCss from "../styles/global.scss";
+import globalCss from "../styles/global";
 import {Router} from "../routing/Router";
 import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
@@ -38,8 +38,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(rdvViewCss)}`,
+        globalCss,
+        unsafeCSS(rdvViewCss),
         css`
         `
     ];

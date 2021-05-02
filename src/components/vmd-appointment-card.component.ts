@@ -11,7 +11,7 @@ import {
 import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
 import appointmentCardCss from "./vmd-appointment-card.component.scss";
-import globalCss from "../styles/global.scss";
+import globalCss from "../styles/global";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {styleMap} from "lit-html/directives/style-map";
@@ -24,8 +24,8 @@ export class VmdAppointmentCardComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(appointmentCardCss)}`,
+        globalCss,
+        unsafeCSS(appointmentCardCss),
         css`
         `
     ];

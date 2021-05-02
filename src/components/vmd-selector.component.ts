@@ -1,5 +1,5 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from "lit-element";
-import globalCss from "../styles/global.scss";
+import globalCss from "../styles/global";
 import {repeat} from "lit-html/directives/repeat";
 
 export type ValueStrCustomEvent<T extends string> = CustomEvent<{value: T}>;
@@ -14,7 +14,7 @@ export class VmdSelectorComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        globalCss,
         css`
             :host {
                 display: block;
