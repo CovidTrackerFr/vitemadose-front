@@ -16,7 +16,6 @@ import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {DirectiveFn} from "lit-html/lib/directive";
 
-
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
 export type DepartementSelected = { departement: Departement };
@@ -179,7 +178,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
         return html`
           <div class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter || !this.inputModeFixedToText })}">
             <input type="text" class="autocomplete-input"
-                   @focusin="${() => { this.inputHasFocus = true; }}"
+                   @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                    @keyup="${this.valueChanged}" .value="${this.filter}"
                    inputmode="${this.inputMode}" placeholder="${this.inputModeFixedToText?'Commune, Code postal, Département...':this.inputMode==='numeric'?'Saisissez un code postal':'Saisissez un nom de commune'}" 

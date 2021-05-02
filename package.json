@@ -25,10 +25,12 @@
     "vite": "2.1.5"
   },
   "dependencies": {
+    "@types/smoothscroll-polyfill": "0.3.1",
     "bootstrap": "5.0.0-beta3",
     "leaflet": "1.7.1",
     "leaflet.markercluster": "1.4.1",
     "lit-element": "2.4.0",
-    "page": "1.11.6"
+    "page": "1.11.6",
+    "smoothscroll-polyfill": "0.4.4"
   }
 }
