@@ -129,7 +129,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 commune.code,
                 commune.codePostal,
                 libelleUrlPathDeCommune(commune),
-                'all'
+                'tous'
             );
             return;
         }
@@ -465,7 +465,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     @property({type: String}) codePostalSelectionne: string | undefined = undefined;
 
     @property({type: String}) critèreDeTri: 'date' | 'distance' = 'distance';
-    @property({type: String}) typeVaccin: 'all' | 'arnm' | 'adenovirus' = 'all';
+    @property({type: String}) typeVaccin: 'tous' | 'arnm' | 'adenovirus' = 'tous';
 
     preventRafraichissementLieux() {
         return !this.communeSelectionnee;
