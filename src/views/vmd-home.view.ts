@@ -15,7 +15,7 @@ import {
     AutocompleteTriggered,
     CommuneSelected,
     DepartementSelected
-} from "../components/vmd-commune-selector.component";
+} from "../components/vmd-commune-or-departement-selector.component";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {
@@ -128,7 +128,7 @@ export class VmdHomeView extends LitElement {
                         <div class="p-5 text-dark bg-light homeCard-container">
                             <div class="homeCard-content">
                                 <h2>VaccinTracker</h2>
-        
+
                                 <p>
                                     Combien de personnes ont été vaccinées ? Combien de premières injections ? Quel pourcentage de seconde injection ? Suivez la campagne vaccinale en France sur Vaccintracker.
                                 </p>
@@ -147,7 +147,7 @@ export class VmdHomeView extends LitElement {
                         <div class="p-5 text-dark bg-light homeCard-container">
                             <div class="homeCard-content">
                                 <h2>Carte des centres de vaccination contre la Covid-19</h2>
-        
+
                                 <p>
                                     Trouvez un centre de vaccination contre la Covid-19 proche de chez vous, consultez les centres pour savoir s’il y a des rendez-vous
                                 </p>

@@ -22,9 +22,8 @@ import {Strings} from "../utils/Strings";
 import {
     ValueStrCustomEvent,
     AutocompleteTriggered,
-    CommuneSelected, DepartementSelected, VmdCommuneOrDepartmentSelectorComponent,
-    VmdCommuneSelectorComponent
-} from "../components/vmd-commune-selector.component";
+    CommuneSelected, DepartementSelected, VmdCommuneOrDepartmentSelectorComponent
+} from "../components/vmd-commune-or-departement-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
@@ -493,7 +492,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     }
 
     private fillCommuneInSelector(communeSelectionnee: Commune, autoCompleteCodePostal: string) {
-        const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneSelectorComponent)
+        const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneOrDepartmentSelectorComponent)
         component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
     }
 
