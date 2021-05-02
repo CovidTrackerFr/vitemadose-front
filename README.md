@@ -1,5 +1,10 @@
 ![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)
 
+# Fork information
+
+This fork provide ability to choose vaccine type (because young people in France are only able to choose ARNm vaccine) : https://github.com/CovidTrackerFr/vitemadose-front/issues/130#issuecomment-830813601
+
+
 # Requirements
 
 You need minimum `node@12` to be able to properly run `ViteJS`
