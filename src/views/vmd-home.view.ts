@@ -10,7 +10,6 @@ import {
     StatsLieu,
 } from "../state/State";
 import {
-    AutocompleteTriggered,
     CommuneSelected,
     DepartementSelected
 } from "../components/vmd-commune-or-departement-selector.component";
@@ -30,7 +29,6 @@ export class VmdHomeView extends LitElement {
         `
     ];
 
-    @property({type: Array, attribute: false}) communesAutocomplete: Set<string>|undefined = undefined;
     @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
     @property({type: Array, attribute: false}) communesDisponibles: Commune[]|undefined = undefined;
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
@@ -62,13 +60,6 @@ export class VmdHomeView extends LitElement {
         )
     }
 
-    async communeAutocompleteTriggered(event: CustomEvent<AutocompleteTriggered>) {
-        this.recuperationCommunesEnCours = true;
-        this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, event.detail.value);
-        this.recuperationCommunesEnCours = false;
-        this.requestUpdate('communesDisponibles')
-    }
-
     communeSelected(commune: Commune) {
         this.communeSelectionee = commune;
         this.rechercherRdv();
@@ -88,16 +79,10 @@ export class VmdHomeView extends LitElement {
 
                 <div class="searchAppointment-form">
                     <div class="searchAppointmentForm-fields">
-                        <vmd-commune-or-departement-selector class="mb-3"
-                                @autocomplete-triggered="${this.communeAutocompleteTriggered}"
-                                @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune)}"
-                                @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement)}"
-                                .departementsDisponibles="${this.departementsDisponibles}"
-                                .autocompleteTriggers="${this.communesAutocomplete}"
-                                .communesDisponibles="${this.communesDisponibles}"
-                                .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
-                        >
-                        </vmd-commune-or-departement-selector>
+                          <vmd-search
+                            @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune)}"
+                            @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement)}"
+                          />
                     </div>
                 </div>
             </div>
@@ -197,14 +182,12 @@ export class VmdHomeView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
-        const [ departementsDisponibles, statsLieu, autocompletes ] = await Promise.all([
+        const [ departementsDisponibles, statsLieu ] = await Promise.all([
             State.current.departementsDisponibles(),
-            State.current.statsLieux(),
-            State.current.communeAutocompleteTriggers(Router.basePath)
+            State.current.statsLieux()
         ])
         this.departementsDisponibles = departementsDisponibles;
         this.statsLieu = statsLieu;
-        this.communesAutocomplete = new Set(autocompletes);
     }
 
     disconnectedCallback() {
