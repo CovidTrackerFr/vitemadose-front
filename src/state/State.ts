@@ -28,12 +28,13 @@ export const FILTRE_TYPE_VACCIN: Map<CodeTypeVaccin> = new Map([
 ]);
 
 
-export type TypeVaccin = 'AstraZeneca'|'Pfizer-BioNTech'|'Moderna'|'Johnson';
+export type TypeVaccin = 'AstraZeneca'|'Pfizer-BioNTech'|'Moderna'|'Johnson'|'Janssen';
 export const TYPES_VACCIN: {[k in TypeVaccin]: string} = {
     "AstraZeneca": 'adenovirus',
     "Pfizer-BioNTech": 'arnm',
     "Moderna": 'arnm',
     "Johnson": 'adenovirus',
+    "Janssen": 'adenovirus',
 };
 
 const USE_RAW_GITHUB = false
