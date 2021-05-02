@@ -20,12 +20,12 @@ import {
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import {
+    ValueStrCustomEvent,
     AutocompleteTriggered,
     CommuneSelected, DepartementSelected, VmdCommuneOrDepartmentSelectorComponent,
     VmdCommuneSelectorComponent
 } from "../components/vmd-commune-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
-import {ValueStrCustomEvent} from "../components/vmd-selector.component";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
@@ -228,17 +228,17 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           </span>
                         </h2>
                         <div class="px-3 mb-5">
-                          <em>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19 
-                            sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement 
-                            les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. 
+                          <em>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
+                            sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement
+                            les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
                             Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</em>
                         </div>
                     `}
-                  
+
                     ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
-                        return html`<vmd-appointment-card 
-                            style="--list-index: ${index}" 
-                            .lieu="${lieu}" 
+                        return html`<vmd-appointment-card
+                            style="--list-index: ${index}"
+                            .lieu="${lieu}"
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
                         />`;

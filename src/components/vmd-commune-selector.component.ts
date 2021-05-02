@@ -20,6 +20,7 @@ import {DirectiveFn} from "lit-html/lib/directive";
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
 export type DepartementSelected = { departement: Departement };
+export type ValueStrCustomEvent<T extends string> = CustomEvent<{value: T}>;
 
 @customElement('vmd-commune-selector')
 export class VmdCommuneSelectorComponent extends LitElement {
@@ -183,7 +184,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
     render() {
         return html`
           <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter})}"
-                @submit="${this.handleSubmit}">                
+                @submit="${this.handleSubmit}">
             <input type="search" class="autocomplete-input"
                    required
                    @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
@@ -191,7 +192,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
                    @keydown="${this.handleKeydown}"
                    @keyup="${this.valueChanged}"
                    .value="${this.filter}"
-                   placeholder="Commune, Code postal, Département..." 
+                   placeholder="Commune, Code postal, Département..."
             />
             ${this.filter?html`
             <button type="button" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>X</span></button>
@@ -207,7 +208,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     renderListItems(): TemplateResult|DirectiveFn {
         return repeat(this.communesAffichees || [], (c) => `comm_${c.codePostal}__${c.nom}`, ((commune, index) => {
-            return html`<li 
+            return html`<li
                     class="autocomplete-result"
                     role="option"
                     aria-selected="${index === 0 && this.departementsAffiches.length === 0}"
@@ -281,7 +282,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     handleKeydown(event: KeyboardEvent) {
         switch (event.key) {
             case 'ArrowUp':
-                event.preventDefault();                
+                event.preventDefault();
                 const prevOption = this.$autoCompleteSelectedResult?.previousElementSibling;
                 if(prevOption){
                     this.$autoCompleteSelectedResult?.setAttribute('aria-selected','false');
@@ -332,7 +333,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     renderListItems(): TemplateResult | DirectiveFn {
         return html`
             ${repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, ((dpt, index) => {
-            return html`<li 
+            return html`<li
                         class="autocomplete-result"
                         role="option"
                         aria-selected="${index === 0}"
