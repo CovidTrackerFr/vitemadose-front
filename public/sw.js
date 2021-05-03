@@ -91,6 +91,23 @@ function resolveFirebaseCloudMessagingToken() {
                     console.log("Notif received !", notificationTitle);
                     unsubscribeFrom([ payload.data.topic ]);
                 });
+                messaging.setBackgroundMessageHandler(function(payload) {
+                    debugger;
+                    console.log('Received background message ', payload);
+
+                    // Customize notification here
+                    const title = "ViteMaDose overriden title";
+                    const notificationOptions = {
+                        lang: 'fr-FR',
+                        body: "Nouveaux créneaux dispos",
+                        badge: clientRootUrl()+'assets/images/png/vmd-badge.png',
+                        icon: clientRootUrl()+'assets/images/favicon/android-chrome-512x512.png',
+                        // That's too big.. the icon above is enough
+                        // image: clientRootUrl()+'assets/images/favicon/android-chrome-512x512.png',
+                    };
+
+                    return self.registration.showNotification(title, notificationOptions);
+                });
 
                 return messaging.getToken({
                     serviceWorkerRegistration: self.registration,
