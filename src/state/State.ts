@@ -1,5 +1,7 @@
 import {DateString, ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
+import { Autocomplete } from './Autocomplete'
+import { Memoize } from 'typescript-memoize'
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -9,6 +11,19 @@ export type TrancheAge = {
 export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
     ['plus75ans', { codeTrancheAge: 'plus75ans', libelle: "Plus de 75 ans" }]
 ]);
+
+
+export type SearchRequest = SearchRequest.ByCommune | SearchRequest.ByDepartement
+export namespace SearchRequest {
+  export type ByDepartement = { par: 'departement', departement: Departement }
+  export type ByCommune = { par: 'commune', commune: Commune }
+  export function isByDepartement (searchRequest: SearchRequest): searchRequest is ByDepartement {
+    return searchRequest.par === 'departement'
+  }
+  export function isByCommune (searchRequest: SearchRequest): searchRequest is ByCommune {
+    return searchRequest.par === 'commune'
+  }
+}
 
 export type CodeTriCentre = 'date' | 'distance';
 export type TriCentre = {
@@ -58,6 +73,7 @@ export type Departement = {
     code_region: number;
     nom_region: string;
 };
+
 // Permet de convertir un nom de departement en un chemin d'url correct (remplacement des caractères
 // non valides comme les accents ou les espaces)
 export const libelleUrlPathDuDepartement = (departement: Departement) => {
@@ -211,7 +227,10 @@ export class State {
         nom: ""
     };
 
+    readonly autocomplete: Autocomplete
+
     private constructor() {
+      this.autocomplete = new Autocomplete(import.meta.env.BASE_URL, () => this.departementsDisponibles())
     }
 
     private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
@@ -232,18 +251,11 @@ export class State {
         }
     }
 
-    private _departementsDiponibles: Departement[]|undefined = undefined;
+    @Memoize()
     async departementsDisponibles(): Promise<Departement[]> {
-        if(this._departementsDiponibles !== undefined) {
-            return Promise.resolve(this._departementsDiponibles);
-        } else {
-            const resp = await fetch(`${VMD_BASE_URL}/departements.json`)
-            const departements: Departement[] = await resp.json()
-
-            this._departementsDiponibles = departements;
-            this._departementsDiponibles.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
-            return departements;
-        }
+        const resp = await fetch(`${VMD_BASE_URL}/departements.json`)
+        const departements: Departement[] = await resp.json()
+        return departements.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)))
     }
 
     async chercheDepartementParCode(code: string): Promise<Departement> {

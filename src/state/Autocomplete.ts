@@ -12,7 +12,9 @@ export interface CommuneAutocomplete {
 }
 
 export class Autocomplete {
-  constructor (private webBaseUrl: string, private apiBaseUrl: string) {
+  private webBaseUrl: string
+  constructor (webBaseUrl: string, private getDepartementsDisponibles: () => Promise<Departement[]>) {
+    this.webBaseUrl = webBaseUrl.endsWith('/') ? webBaseUrl : `${webBaseUrl}/`
   }
 
   async suggest (prefix: string): Promise<Array<Departement|Commune>> {
@@ -71,21 +73,19 @@ export class Autocomplete {
 
   @Memoize()
   private async getDepartements (): Promise<Departement[]> {
-    const response = await window.fetch(`${this.apiBaseUrl}/departements.json`)
-    const departements = await response.json()
-    return departements as Departement[]
+    return this.getDepartementsDisponibles()
   }
 
   @Memoize()
   private async getAutocompletePrefixes(): Promise<Set<string>> {
-    const response = await window.fetch(`${this.webBaseUrl}/autocompletes.json`)
+    const response = await window.fetch(`${this.webBaseUrl}autocompletes.json`)
     const prefixes = (await response.json()) as string[]
     return new Set<string>(prefixes)
   }
 
   @Memoize()
   private async getAutocompleteOptions(name: NormalizedSearch): Promise<Commune[]> {
-    const response = await window.fetch(`${this.webBaseUrl}/autocomplete-cache/${name}.json`)
+    const response = await window.fetch(`${this.webBaseUrl}autocomplete-cache/${name}.json`)
     const { communes } = await response.json() as { communes: CommuneAutocomplete[] }
     return communes.map(this.mapAutocommpleteToCommune)
   }
