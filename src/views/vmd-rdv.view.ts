@@ -11,7 +11,6 @@ import {
     CodeDepartement,
     CodeTriCentre,
     Commune,
-    Departement,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
     Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
@@ -49,43 +48,15 @@ export abstract class AbstractVmdRdvView extends LitElement {
         `
     ];
 
-    @internalProperty() protected currentSearch: SearchRequest | void = undefined
-
-    @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
-
-    @property({type: Array, attribute: false}) communesDisponibles: Commune[]|undefined = undefined;
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
-
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
+    @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
     @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
     protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
-
-
-    get communeSelectionnee(): Commune|undefined {
-        if(this.derniereCommuneSelectionnee) {
-            return this.derniereCommuneSelectionnee;
-        }
-
-        // Calling a non-getter as getter overriden methods don't seem to be able to call
-        // super.departementSelectionne
-        return this.getCommuneSelectionnee();
-    }
-
-    protected getCodeCommuneSelectionne(): string|undefined {
-        if(!this.communeSelectionnee) {
-            return undefined;
-        }
-        return this.communeSelectionnee.code;
-    }
-
-    protected getCommuneSelectionnee(): Commune|undefined {
-        return undefined;
-    }
 
     get totalCreneaux() {
         if (!this.lieuxParDepartementAffiches) {
@@ -94,13 +65,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return this.lieuxParDepartementAffiches
             .lieuxAffichables
             .reduce((total, lieu) => total+lieu.appointment_count, 0);
-    }
-
-    async communeAutocompleteTriggered(autocomplete: string) {
-        this.recuperationCommunesEnCours = true;
-        this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, autocomplete);
-        this.recuperationCommunesEnCours = false;
-        this.requestUpdate('communesDisponibles')
     }
 
     async onSearchSelected (event: CustomEvent<SearchRequest>) {
@@ -239,15 +203,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     async connectedCallback() {
         super.connectedCallback();
-
-        await Promise.all([
-            State.current.departementsDisponibles(),
-        ]).then(async ([departementsDisponibles]) => {
-            this.departementsDisponibles = departementsDisponibles;
-        });
-
-        await this.refreshLieux();
-
         this.lieuBackgroundRefreshIntervalId = setDebouncedInterval(async () => {
             const currentSearch = this.currentSearch
             if(currentSearch) {
@@ -263,10 +218,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
             }
         }, this.DELAI_VERIFICATION_MISE_A_JOUR);
     }
+    disconnectedCallback() {
+        super.disconnectedCallback();
 
-    preventRafraichissementLieux(): boolean {
-        // overridable
-        return false;
+        if(this.lieuBackgroundRefreshIntervalId) {
+            clearInterval(this.lieuBackgroundRefreshIntervalId);
+            this.lieuBackgroundRefreshIntervalId = undefined;
+        }
     }
 
     abstract codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[]
@@ -274,6 +232,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     async refreshLieux() {
         const currentSearch = this.currentSearch
         if(currentSearch) {
+            // FIXME move all of this to testable file
             const codeDepartement = SearchRequest.isByDepartement(currentSearch)
               ? currentSearch.departement.code_departement
               : currentSearch.commune.codeDepartement
@@ -303,26 +262,18 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     })
                 }
 
+                const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
                     codeDepartement,
                     this.currentCritereTri(),
                     currentSearch.type,
-                    this.communeSelectionnee,
+                    commune,
                     this.lieuxParDepartementAffiches);
             } finally {
                 this.searchInProgress = false;
             }
         } else {
             this.lieuxParDepartementAffiches = undefined;
-        }
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
-
-        if(this.lieuBackgroundRefreshIntervalId) {
-            clearInterval(this.lieuBackgroundRefreshIntervalId);
-            this.lieuBackgroundRefreshIntervalId = undefined;
         }
     }
 
@@ -334,15 +285,15 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     private prendreRdv(lieu: Lieu) {
-        if(this.currentSearch && lieu.url) {
-            Analytics.INSTANCE.clickSurRdv(lieu, this.currentCritereTri(), this.currentSearch.type, this.communeSelectionnee);
+        if(this.currentSearch && SearchRequest.isByCommune(this.currentSearch) && lieu.url) {
+            Analytics.INSTANCE.clickSurRdv(lieu, this.currentCritereTri(), this.currentSearch.type, this.currentSearch.commune);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
 
     private verifierRdv(lieu: Lieu) {
-        if(this.currentSearch && lieu.url) {
-            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentCritereTri(), this.currentSearch.type, this.communeSelectionnee);
+        if(this.currentSearch && SearchRequest.isByCommune(this.currentSearch) && lieu.url) {
+            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentCritereTri(), this.currentSearch.type, this.currentSearch.commune);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
@@ -351,6 +302,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return html``;
     }
 
+    // FIXME move me to testable files
     protected extraireFormuleDeTri(lieu: LieuAffichableAvecDistance, tri: CodeTriCentre) {
         if(tri === 'date') {
             let firstLevelSort;
@@ -400,11 +352,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     abstract currentCritereTri(): CodeTriCentre;
     abstract libelleLieuSelectionne(): TemplateResult;
+    // FIXME move me to a testable file
     abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement, search: SearchRequest): LieuxAvecDistanceParDepartement;
 }
 
 @customElement('vmd-rdv-par-commune')
 export class VmdRdvParCommuneView extends AbstractVmdRdvView {
+    @internalProperty() protected currentSearch: SearchRequest.ByCommune | void = undefined
     @property({type: String}) set searchType(type: SearchType) {
       this._searchType = type
       this.updateCurrentSearch()
@@ -426,7 +380,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     @internalProperty() private _codeCommuneSelectionne: string | undefined = undefined;
     @internalProperty() private _codePostalSelectionne: string | undefined = undefined;
     @internalProperty() private _critèreDeTri: CodeTriCentre = 'distance'
-    @internalProperty() protected currentSearch: SearchRequest.ByCommune | void = undefined
     private currentSearchMarker = {}
 
     private async updateCurrentSearch() {
@@ -441,10 +394,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
           this.refreshLieux()
         }
       }
-    }
-
-    preventRafraichissementLieux() {
-        return !this.communeSelectionnee;
     }
 
     codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement) {
@@ -463,36 +412,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         `
     }
 
-    private async refreshBasedOnCodePostalSelectionne(autocompletes: Set<string>, codePostalSelectionne: string) {
-        const autoCompleteCodePostal = this.getAutoCompleteCodePostal(autocompletes, codePostalSelectionne);
-        if (!autoCompleteCodePostal) {
-            console.error(`Can't find autocomplete matching codepostal ${codePostalSelectionne}`);
-            return autocompletes;
-        }
-
-        await this.updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal);
-        return autocompletes;
-    }
-
-    private getAutoCompleteCodePostal(autocompletes: Set<string>, codePostalSelectionne: string) {
-        return codePostalSelectionne.split('')
-            .map((_, index) => codePostalSelectionne!.substring(0, index + 1))
-            .find(autoCompleteAttempt => autocompletes.has(autoCompleteAttempt));
-    }
-
-    private async updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal: string) {
-        this.recuperationCommunesEnCours = true;
-        this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal)
-        this.recuperationCommunesEnCours = false;
-    }
-
-    protected getCommuneSelectionnee(): Commune|undefined {
-        if(!this.codeCommuneSelectionne || !this.communesDisponibles) {
-            return undefined;
-        }
-        return this.communesDisponibles.find(c => c.code === this.codeCommuneSelectionne && c.codePostal === this.codePostalSelectionne);
-    }
-
+    // FIXME move me to testable file
     afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement, search: SearchRequest.ByCommune): LieuxAvecDistanceParDepartement {
         const origin = search.commune
         const distanceAvec = (lieu: Lieu) => (lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity)
@@ -512,6 +432,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         };
     }
 
+    // FIXME move me to vmd-search)
     critereTriUpdated(triCentre: CodeTriCentre) {
         Analytics.INSTANCE.critereTriCentresMisAJour(triCentre);
         if (this.currentSearch) {
@@ -523,6 +444,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         }
     }
 
+    // FIXME move me to vmd-search
     renderAdditionnalSearchCriteria(): TemplateResult {
         if(SearchRequest.isStandardType(this.currentSearch)) {
             return html`
@@ -602,6 +524,7 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
         `
     }
 
+    // FIXME move me to testable file
     afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement {
         const { lieuxDisponibles, lieuxIndisponibles } = lieuxParDepartement
 
