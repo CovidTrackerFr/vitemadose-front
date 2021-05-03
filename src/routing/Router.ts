@@ -46,6 +46,30 @@ class Routing {
         });
         this.declareRoutes({
             pathPattern: [
+                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/vaccin-:typeVaccin`
+            ], analyticsViewName: 'search_results_by_department',
+            viewContent: (params) => (subViewSlot) =>
+                html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}" typeVaccin="${params[`typeVaccin`]}">${subViewSlot}</vmd-rdv-par-departement>`,
+            pageTitleProvider: (params) =>
+                State.current.chercheDepartementParCode(params[`codeDpt`])
+                    .then(nomDpt => `Vaccination COVID-19 en ${nomDpt.nom_departement} ${params[`codeDpt`]}`)
+        });
+        this.declareRoutes({
+            pathPattern: [
+                // Legacy URLs with tranche age inside ... used only for old URLs referenced by Google
+                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`,
+                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`,
+                // Proper URL really used
+                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
+            ], analyticsViewName: 'search_results_by_department',
+            viewContent: (params) => (subViewSlot) =>
+                html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv-par-departement>`,
+            pageTitleProvider: (params) =>
+                State.current.chercheDepartementParCode(params[`codeDpt`])
+                    .then(nomDpt => `Vaccination COVID-19 en ${nomDpt.nom_departement} ${params[`codeDpt`]}`)
+        });
+        this.declareRoutes({
+            pathPattern: [
                 // Legacy URLs with tranche age inside ... used only for old URLs referenced by Google
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`,
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`,
