@@ -431,7 +431,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
             {
                 if(vaccine_type.indexOf(',')!==-1)
                 {
-                    let arrayVaccinne = vaccine_type.split(',');
+                    const arrayVaccinne = vaccine_type.split(',');
                 
                     arrayVaccinne.forEach(function(item){
                         if(TYPES_VACCIN[item.trim()]==typeVaccin)
