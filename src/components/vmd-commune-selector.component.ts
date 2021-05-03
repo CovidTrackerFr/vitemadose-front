@@ -17,7 +17,6 @@ import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {DirectiveFn} from "lit-html/lib/directive";
 
-
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
 export type DepartementSelected = { departement: Departement };
@@ -184,11 +183,10 @@ export class VmdCommuneSelectorComponent extends LitElement {
     render() {
         return html`
           <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter})}"
-                @submit="${this.handleSubmit}">
-                
+                @submit="${this.handleSubmit}">                
             <input type="search" class="autocomplete-input"
                    required
-                   @focusin="${() => { this.inputHasFocus = true; }}"
+                   @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                    @keydown="${this.handleKeydown}"
                    @keyup="${this.valueChanged}"
