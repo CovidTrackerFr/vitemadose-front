@@ -55,7 +55,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
     private _communesDisponibles: Commune[]|undefined = undefined;
 
     @internalProperty() communesAffichees: Commune[]|undefined = undefined;
-    @internalProperty() departementsAffiches: Departement[] = [];;
+    @internalProperty() departementsAffiches: Departement[] = [];
     @internalProperty() filter: string = "";
 
     private filterMatchingAutocomplete: string|undefined = undefined;
@@ -337,7 +337,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
             return html`<li 
                         class="autocomplete-result"
                         role="option"
-                        aria-selected="${index === 0 && this.departementsAffiches.length > 0 }"
+                        aria-selected="${index === 0}"
                         @click="${() => this.departementSelectionne(dpt)}"
                         ><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
         }))}
