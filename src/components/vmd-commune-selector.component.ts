@@ -337,7 +337,6 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
             return html`<li 
                         class="autocomplete-result"
                         role="option"
-                        aria-index="${index}"
                         aria-selected="${index === 0 && this.departementsAffiches.length > 0 }"
                         @click="${() => this.departementSelectionne(dpt)}"
                         ><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
