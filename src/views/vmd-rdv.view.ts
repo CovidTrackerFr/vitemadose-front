@@ -18,7 +18,7 @@ import {
     TRIS_CENTRE,
     CodeTypeVaccin,
     FILTRE_TYPE_VACCIN,
-    TYPES_VACCIN,
+    TYPES_VACCIN, TypeVaccin
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
@@ -58,6 +58,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
+    
+    @property({type: String}) typeVaccin: 'tous' | 'arnm' | 'adenovirus' = 'tous';
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
     protected lieuBackgroundRefreshIntervalId: number|undefined = undefined;
@@ -425,28 +427,21 @@ export abstract class AbstractVmdRdvView extends LitElement {
         if(typeVaccin === 'tous') {
             return true;
         } else {
-            if(vaccine_type && vaccine_type.length)
-            {
-                if(vaccine_type.indexOf(',')!==-1)
-                {
-                    const arrayVaccinne = vaccine_type.split(',');
-                    arrayVaccinne.forEach(function(item){
-                        if(TYPES_VACCIN[item.trim()]==typeVaccin)
-                        {
-                            return true;
-                        }
-                    });
-                }else if(TYPES_VACCIN[vaccine_type.trim()]==typeVaccin)
-                {
-                    return true;
-                }
-				// all vaccines at this center are not corresponding to the filtered type
-                return false;
-            }else{
-                // hidding vaccine center of vaccine type is unknown. see discussion : https://github.com/CovidTrackerFr/vitemadose-front/pull/143#issuecomment-831373020
+            if(!vaccine_type || !vaccine_type.length) {
                 return false;
             }
+            return vaccine_type.split(",")
+                .map((typeStr) => TYPES_VACCIN[typeStr.trim() as TypeVaccin])
+                .indexOf(typeVaccin) !== -1;
         }
+    }
+    
+    critereVaccinUpdated(typeVaccin: CodeTypeVaccin) {
+        this.typeVaccin = typeVaccin;
+
+        Analytics.INSTANCE.critereTypeVaccinMisAJour(typeVaccin);
+
+        this.refreshPageWhenValidParams();
     }
 
     abstract libelleLieuSelectionne(): TemplateResult;
@@ -459,7 +454,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     @property({type: String}) codePostalSelectionne: string | undefined = undefined;
 
     @property({type: String}) critèreDeTri: 'date' | 'distance' = 'distance';
-    @property({type: String}) typeVaccin: 'tous' | 'arnm' | 'adenovirus' = 'tous';
 
     preventRafraichissementLieux() {
         return !this.communeSelectionnee;
@@ -584,14 +578,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         this.refreshPageWhenValidParams();
     }
 
-    critereVaccinUpdated(typeVaccin: CodeTypeVaccin) {
-        this.typeVaccin = typeVaccin;
-
-        Analytics.INSTANCE.critereTypeVaccinMisAJour(typeVaccin);
-
-        this.refreshPageWhenValidParams();
-    }
-
     renderAdditionnalSearchCriteria(): TemplateResult {
         return html`
           <div class="rdvForm-fields row align-items-center">
@@ -612,8 +598,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
 @customElement('vmd-rdv-par-departement')
 export class VmdRdvParDepartementView extends AbstractVmdRdvView {
-
-    @property({type: String}) typeVaccin: 'tous' | 'arnm' | 'adenovirus' = 'tous';
 
     async onceStartupPromiseResolved() {
         if(this.codeDepartementSelectionne) {
@@ -650,13 +634,5 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
                 .sortBy(l => this.extraireFormuleDeTri(l, 'date'))
                 .build()
         };
-    }
-
-    critereVaccinUpdated(typeVaccin: CodeTypeVaccin) {
-        this.typeVaccin = typeVaccin;
-
-        Analytics.INSTANCE.critereTypeVaccinMisAJour(typeVaccin);
-
-        this.refreshPageWhenValidParams();
     }
 }

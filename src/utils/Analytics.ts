@@ -1,5 +1,5 @@
 import {
-    CodeDepartement, CodeTriCentre,
+    CodeDepartement, CodeTriCentre,CodeTypeVaccin,
     Commune,
     Lieu,
     LieuxAvecDistanceParDepartement, typeActionPour,
