@@ -27,7 +27,20 @@ export class VmdSearchComponent extends LitElement {
             }
         `
     ];
-
+    @property() public set value (searchRequest: SearchRequest | void) {
+      if (!searchRequest) {
+        this.currentSelection = undefined
+      } else if (SearchRequest.isByDepartement(searchRequest)) {
+        this.currentSelection = searchRequest.departement
+      } else {
+        this.currentSelection = searchRequest.commune
+      }
+      this.currentValue = searchRequest
+    }
+    public get value (): SearchRequest | void {
+      return this.currentValue
+    }
+    @internalProperty() private currentValue: SearchRequest | void = undefined
     @internalProperty() private currentSelection: Commune | Departement | void = undefined
 
     render() {

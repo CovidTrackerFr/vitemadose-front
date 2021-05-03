@@ -16,9 +16,16 @@ export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
 export type SearchRequest = SearchRequest.ByCommune | SearchRequest.ByDepartement
 export namespace SearchRequest {
   export type ByDepartement = { par: 'departement', departement: Departement }
-  export type ByCommune = { par: 'commune', commune: Commune }
+  export function ByDepartement (departement: Departement): ByDepartement {
+    return { par: 'departement', departement }
+  }
   export function isByDepartement (searchRequest: SearchRequest): searchRequest is ByDepartement {
     return searchRequest.par === 'departement'
+  }
+
+  export type ByCommune = { par: 'commune', commune: Commune }
+  export function ByCommune (commune: Commune): ByCommune {
+    return { par: 'commune', commune }
   }
   export function isByCommune (searchRequest: SearchRequest): searchRequest is ByCommune {
     return searchRequest.par === 'commune'
