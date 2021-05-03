@@ -15,20 +15,36 @@ export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
 
 export type SearchRequest = SearchRequest.ByCommune | SearchRequest.ByDepartement
 export namespace SearchRequest {
-  export type ByDepartement = { par: 'departement', departement: Departement }
-  export function ByDepartement (departement: Departement): ByDepartement {
-    return { par: 'departement', departement }
+  export type ByDepartement = {
+      type: SearchType,
+      par: 'departement',
+      departement: Departement
+  }
+  export function ByDepartement (departement: Departement, type: SearchType): ByDepartement {
+    return { type, par: 'departement', departement }
   }
   export function isByDepartement (searchRequest: SearchRequest): searchRequest is ByDepartement {
     return searchRequest.par === 'departement'
   }
 
-  export type ByCommune = { par: 'commune', commune: Commune }
-  export function ByCommune (commune: Commune): ByCommune {
-    return { par: 'commune', commune }
+  export type ByCommune = {
+    type: SearchType,
+    par: 'commune',
+    commune: Commune,
+    tri: CodeTriCentre
+  }
+  export function ByCommune (commune: Commune, tri: CodeTriCentre, type: SearchType): ByCommune {
+    return { type, par: 'commune', commune, tri }
   }
   export function isByCommune (searchRequest: SearchRequest): searchRequest is ByCommune {
     return searchRequest.par === 'commune'
+  }
+
+  export function isChronodoseType(searchRequest: SearchRequest|void) {
+    return !!searchRequest && searchRequest.type === 'chronodose';
+  }
+  export function isStandardType(searchRequest: SearchRequest|void) {
+    return !!searchRequest && searchRequest.type === 'standard';
   }
 }
 
@@ -196,8 +212,8 @@ export type Commune = {
     codePostal: string;
     nom: string;
     codeDepartement: string;
-    latitude: number|undefined;
-    longitude: number|undefined;
+    latitude: number;
+    longitude: number;
 };
 
 export type StatsByDate = {
@@ -229,8 +245,8 @@ export class State {
         code: "",
         codeDepartement: "",
         codePostal: "",
-        latitude: undefined,
-        longitude: undefined,
+        latitude: 0,
+        longitude: 0,
         nom: ""
     };
 
@@ -303,13 +319,13 @@ export class State {
             const communes = await fetch(`${basePath}autocomplete-cache/vmd_${autocomplete}.json`)
                 .then(resp => resp.json())
                 .then(communesResult => communesResult.communes.map((c: any) => {
+                    const [longitude, latitude] = c.g.split(',').map(Number)
                     const commune: Commune = {
                         code: c.c,
                         codePostal: c.z,
                         nom: c.n,
                         codeDepartement: c.d,
-                        longitude: c.g?Number(c.g.split(",")[0]):undefined,
-                        latitude: c.g?Number(c.g.split(",")[1]):undefined,
+                        latitude, longitude,
                     };
                     return commune;
                 }));

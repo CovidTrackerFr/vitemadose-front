@@ -1,6 +1,6 @@
 import {css, customElement, html, LitElement, internalProperty, property, unsafeCSS} from 'lit-element';
 import {Router} from "../routing/Router";
-import { SearchRequest } from '../state/State'
+import {SearchRequest, SearchType} from '../state/State'
 import {
     Commune,
     Departement,
@@ -30,10 +30,14 @@ export class VmdSearchComponent extends LitElement {
     @property() public set value (searchRequest: SearchRequest | void) {
       if (!searchRequest) {
         this.currentSelection = undefined
-      } else if (SearchRequest.isByDepartement(searchRequest)) {
-        this.currentSelection = searchRequest.departement
+        this.currentSearchType = undefined
       } else {
-        this.currentSelection = searchRequest.commune
+          this.currentSearchType = searchRequest.type
+          if (SearchRequest.isByDepartement(searchRequest)) {
+              this.currentSelection = searchRequest.departement
+          } else {
+              this.currentSelection = searchRequest.commune
+          }
       }
       this.currentValue = searchRequest
     }
@@ -42,6 +46,7 @@ export class VmdSearchComponent extends LitElement {
     }
     @internalProperty() private currentValue: SearchRequest | void = undefined
     @internalProperty() private currentSelection: Commune | Departement | void = undefined
+    @internalProperty() private currentSearchType: SearchType | void = undefined
 
     render() {
         return html`
@@ -58,20 +63,14 @@ export class VmdSearchComponent extends LitElement {
     private onCommuneSelected (commune: Commune) {
       this.currentSelection = commune
       this.dispatchEvent(new CustomEvent<SearchRequest.ByCommune>('on-search', {
-        detail: {
-          par: 'commune',
-          commune
-        }
+        detail: SearchRequest.ByCommune(commune, 'distance', this.currentSearchType || 'standard')
       }))
     }
 
     private onDepartementSelected (departement: Departement) {
       this.currentSelection = departement
       this.dispatchEvent(new CustomEvent<SearchRequest.ByDepartement>('on-search', {
-        detail: {
-          par: 'departement',
-          departement
-        }
+        detail: SearchRequest.ByDepartement(departement, this.currentSearchType || 'standard')
       }))
     }
 }
