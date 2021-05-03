@@ -5,6 +5,7 @@ import {
     internalProperty,
     LitElement,
     property,
+    query,
     unsafeCSS
 } from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
@@ -37,7 +38,10 @@ export class VmdCommuneSelectorComponent extends LitElement {
     @internalProperty() inputHasFocus: boolean = false;
     @property({type: Boolean, attribute: false}) inputModeFixedToText = true;
     @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'text';
-    @property({ type: String, attribute: false }) optionActiveIndex: number = 0;
+    @query(".autocomplete-input") $autoCompleteInput: HTMLInputElement | undefined;
+    @query(".autocomplete-results") $autoCompleteResults: HTMLUListElement | undefined;
+    @query(".autocomplete-result[aria-selected='true']") $autoCompleteSelectedResult: HTMLOptionElement | undefined;
+
 
     @property({type: Array, attribute: false}) autocompleteTriggers: Set<string>|undefined;
     @internalProperty() recuperationCommunesEnCours: boolean = false;
@@ -96,8 +100,6 @@ export class VmdCommuneSelectorComponent extends LitElement {
             return commune.codePostal.indexOf(fullTextSearchableQuery) === 0
                 || fullTextSearchableNomCommune.indexOf(fullTextSearchableQuery) !== -1;
         }).filter((_, index) => index < 50):undefined;
-        
-        this.setOptionActive(0);
     }
 
     constructor() {
@@ -153,7 +155,6 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     handleSubmit(event: KeyboardEvent) { }
     handleKeydown(event: KeyboardEvent) { }
-    setOptionActive(index : number){}
 
     communeSelected(commune: Commune) {
         this.filter = `${commune.codePostal} - ${commune.nom}`;
@@ -224,7 +225,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
             return html`<li 
                     class="autocomplete-result"
                     role="option"
-                    aria-selected="${this.optionActiveIndex === this.departementsAffiches.length+index}"
+                    aria-selected="${index === 0 && this.departementsAffiches.length === 0}"
                     @click="${() => this.communeSelected(commune)}"
                     ><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
         }));
@@ -284,59 +285,54 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
             super.valueChanged(event);
             this.filtrerDepartementsAffichees();
 
-            const container = this.renderRoot.querySelector(`.autocomplete-results`);
-            if (container) {
-                container.scrollTop = 0;
+            if (this.$autoCompleteResults) {
+                this.$autoCompleteResults.scrollTop = 0;
             }
         }
     }
 
     handleSubmit(event: Event) {
         event.preventDefault();
-        const optionSelected = this.renderRoot.querySelector(`.autocomplete-result:nth-child(${this.optionActiveIndex +1 })`);
-        
-        if(optionSelected)
-        {
-            (optionSelected as HTMLButtonElement)?.click();
-            (this.renderRoot.querySelector('.autocomplete-input') as HTMLInputElement)?.blur();
+        if(this.$autoCompleteSelectedResult) {
+            this.$autoCompleteSelectedResult.click();
+            this.$autoCompleteInput?.blur();
         }
     }
 
     handleKeydown(event: KeyboardEvent) {
         switch (event.key) {
             case 'ArrowUp':
-                event.preventDefault();
-                this.setOptionActive(this.optionActiveIndex - 1);
+                event.preventDefault();                
+                const prevOption  =this.$autoCompleteSelectedResult?.previousElementSibling;
+                if(this.$autoCompleteSelectedResult && prevOption){
+                    this.$autoCompleteSelectedResult.setAttribute('aria-selected','false');
+                    prevOption.setAttribute('aria-selected','true');
+                }
+                this.scrollToOption('up');
                 break;
             case 'ArrowDown':
                 event.preventDefault();
-                this.setOptionActive(this.optionActiveIndex + 1);
+                const nextOption  = this.$autoCompleteSelectedResult?.nextElementSibling;
+                if(this.$autoCompleteSelectedResult && nextOption){
+                    this.$autoCompleteSelectedResult.setAttribute('aria-selected','false');
+                    nextOption.setAttribute('aria-selected','true');
+                }
+                this.scrollToOption('down');
                 break;
             default:
                 break;
         }
     }
 
-    setOptionActive(index: number) {
-        const newOption = this.renderRoot.querySelector(`.autocomplete-result:nth-child(${index+1})`);
-        if (newOption) {
-            const direction = index < this.optionActiveIndex ? 'up':'down';
-            this.optionActiveIndex = index;
-            this.scrollToOption(direction);
-        }
-    }
-
     scrollToOption(direction: 'up' | 'down') {
-        const containerElement = this.renderRoot.querySelector(`.autocomplete-results`);
-        const containerPosition = containerElement?.getBoundingClientRect();
-        const optionPosition = this.renderRoot.querySelector(`.autocomplete-result:nth-child(${this.optionActiveIndex+1})`)
-                                ?.getBoundingClientRect();
+        const containerPosition = this.$autoCompleteResults?.getBoundingClientRect();
+        const optionPosition = this.$autoCompleteSelectedResult?.getBoundingClientRect();
 
-        if (containerElement && containerPosition && optionPosition) {
+        if (this.$autoCompleteResults && containerPosition && optionPosition) {
             if (direction === 'down' && optionPosition.bottom > containerPosition.bottom) {
-                containerElement.scrollTop += optionPosition.bottom - containerPosition.bottom;
+                this.$autoCompleteResults.scrollTop += optionPosition.bottom - containerPosition.bottom;
             } else if (direction === 'up' && optionPosition.top < containerPosition.top) {
-                containerElement.scrollTop -= containerPosition.top - optionPosition.top;
+                this.$autoCompleteResults.scrollTop -= containerPosition.top - optionPosition.top;
             }
         }
     }
@@ -352,8 +348,6 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
             return dpt.fullTextSearchableCodeDepartement.indexOf(fullTextSearchableQuery) === 0
                 || dpt.fullTextSearchableNom.indexOf(fullTextSearchableQuery) !== -1;
         });
-
-        this.setOptionActive(0);
     }
 
     renderListItems(): TemplateResult | DirectiveFn {
@@ -363,7 +357,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
                         class="autocomplete-result"
                         role="option"
                         aria-index="${index}"
-                        aria-selected="${this.optionActiveIndex === index}"
+                        aria-selected="${index === 0 && this.departementsAffiches.length > 0 }"
                         @click="${() => this.departementSelectionne(dpt)}"
                         ><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
         }))}
