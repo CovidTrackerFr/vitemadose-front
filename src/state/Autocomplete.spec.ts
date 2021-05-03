@@ -87,21 +87,17 @@ const communeDeaumont: Commune = {
 }
 
 describe("State.Autocomplete", () => {
-  const apiBaseUrl = "https://VMD.API"
-  const webBaseUrl = "https://MY.WEB.PATH"
+  const apiBaseUrl = "https://VMD.API/"
+  const webBaseUrl = "https://MY.WEB.PATH/"
+
 
   const FILES = {
-    [`${apiBaseUrl}/departements.json`]: [
-      départementAisne,
-      départementCalvados,
-      départementCôteDOr
-    ],
-    [`${webBaseUrl}/autocompletes.json`]: ['1','14', 'd', 'de', 'dea'],
-    [`${webBaseUrl}/autocomplete-cache/14.json`]: {
+    [`${webBaseUrl}autocompletes.json`]: ['1','14', 'd', 'de', 'dea'],
+    [`${webBaseUrl}autocomplete-cache/14.json`]: {
       query: '14',
       communes: [communeAcAblon, communeAcCanapville, communeAcDeauville]
     },
-    [`${webBaseUrl}/autocomplete-cache/dea.json`]: {
+    [`${webBaseUrl}autocomplete-cache/dea.json`]: {
       query: 'dea',
       communes: [communeAcDeaumont, communeAcDeauville]
     }
@@ -115,8 +111,14 @@ describe("State.Autocomplete", () => {
   })
 
   let autocomplete: Autocomplete
+  let getDepartementsDisponibles = jest.fn(() => Promise.resolve([] as Departement[]))
   beforeEach(() => {
-    autocomplete = new Autocomplete(webBaseUrl, apiBaseUrl)
+    getDepartementsDisponibles = jest.fn(() => Promise.resolve([
+        départementAisne,
+        départementCalvados,
+        départementCôteDOr
+    ]))
+    autocomplete = new Autocomplete(webBaseUrl, getDepartementsDisponibles)
   })
 
   it('instanciates', () => {
@@ -161,7 +163,7 @@ describe("State.Autocomplete", () => {
         // When
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${apiBaseUrl}/departements.json`]).toEqual(1)
+        expect(mocked(getDepartementsDisponibles)).toHaveBeenCalledTimes(1)
       })
       it('fetches departements only once', async () => {
         // When
@@ -169,7 +171,7 @@ describe("State.Autocomplete", () => {
         await autocomplete.suggest(prefix)
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${apiBaseUrl}/departements.json`]).toEqual(1)
+        expect(mocked(getDepartementsDisponibles)).toHaveBeenCalledTimes(1)
       })
       it('resolves a list with the matching departement', async () => {
         // Given
@@ -196,7 +198,7 @@ describe("State.Autocomplete", () => {
         // When
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${apiBaseUrl}/departements.json`]).toEqual(1)
+        expect(mocked(getDepartementsDisponibles)).toHaveBeenCalledTimes(1)
       })
       it('fetches departements only once', async () => {
         // When
@@ -204,7 +206,7 @@ describe("State.Autocomplete", () => {
         await autocomplete.suggest(prefix)
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${apiBaseUrl}/departements.json`]).toEqual(1)
+        expect(mocked(getDepartementsDisponibles)).toHaveBeenCalledTimes(1)
       })
       it('resolves a list with the matching departement', async () => {
         // Given
@@ -249,7 +251,7 @@ describe("State.Autocomplete", () => {
         // When
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}/autocompletes.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocompletes.json`]).toEqual(1)
       })
       it('fetches autocomplete triggers only once', async () => {
         // When
@@ -257,16 +259,16 @@ describe("State.Autocomplete", () => {
         await autocomplete.suggest(prefix)
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}/autocompletes.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocompletes.json`]).toEqual(1)
       })
       it('fetches the longest possible prefix matches', async () => {
         // When
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}/autocomplete-cache/14.json`]).toEqual(1)
-        expect(fetchCalls[`${webBaseUrl}/autocomplete-cache/1480.json`]).toBeUndefined()
-        expect(fetchCalls[`${webBaseUrl}/autocomplete-cache/148.json`]).toBeUndefined
-        expect(fetchCalls[`${webBaseUrl}/autocomplete-cache/1.json`]).toBeUndefined()
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/14.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/1480.json`]).toBeUndefined()
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/148.json`]).toBeUndefined
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/1.json`]).toBeUndefined()
       })
       it('fetches the longest possible prefix matches only once', async () => {
         // When
@@ -274,7 +276,7 @@ describe("State.Autocomplete", () => {
         await autocomplete.suggest(prefix)
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}/autocomplete-cache/14.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/14.json`]).toEqual(1)
       })
 
       it('resolves a list with the matching commune', async () => {
@@ -301,7 +303,7 @@ describe("State.Autocomplete", () => {
         // When
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}/autocompletes.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocompletes.json`]).toEqual(1)
       })
       it('fetches autocomplete triggers only once', async () => {
         // When
@@ -309,16 +311,16 @@ describe("State.Autocomplete", () => {
         await autocomplete.suggest(prefix)
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}/autocompletes.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocompletes.json`]).toEqual(1)
       })
       it('fetches the longest possible prefix matches', async () => {
         // When
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}/autocomplete-cache/dea.json`]).toEqual(1)
-        expect(fetchCalls[`${webBaseUrl}/autocomplete-cache/deauv.json`]).toBeUndefined()
-        expect(fetchCalls[`${webBaseUrl}/autocomplete-cache/deau.json`]).toBeUndefined
-        expect(fetchCalls[`${webBaseUrl}/autocomplete-cache/de.json`]).toBeUndefined()
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/dea.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/deauv.json`]).toBeUndefined()
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/deau.json`]).toBeUndefined
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/de.json`]).toBeUndefined()
       })
       it('fetches the longest possible prefix matches only once', async () => {
         // When
@@ -326,7 +328,7 @@ describe("State.Autocomplete", () => {
         await autocomplete.suggest(prefix)
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}/autocomplete-cache/dea.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/dea.json`]).toEqual(1)
       })
 
       it('resolves a list with the matching commune', async () => {

@@ -14,8 +14,6 @@
     "tdd": "jest --watchAll --notify",
     "test": "jest",
     "dev": "vite",
-    "test": "jest",
-    "tdd": "jest --watchAll --notify",
     "build": "tsc && vite build",
     "build-dev": "tsc && vite --base dev/ build"
   },
