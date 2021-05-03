@@ -19,14 +19,14 @@ export class Messaging {
     async subscribeTo(subscriptions: Subscription[]) {
         await navigator.serviceWorker.controller!.postMessage({
             type: 'SUBSCRIPTIONS_ADDED',
-            subscriptionTopics: subscriptions.map(s => `department_${s.departement.code_departement}_center_${s.lieu.gid}`)
+            subscriptionTopics: subscriptions.map(s => `department_${s.departement.code_departement}_center_${s.lieu.internal_id}`)
         });
     }
 
     async unsubscribeFrom(subscriptions: Subscription[]) {
         await navigator.serviceWorker.controller!.postMessage({
             type: 'SUBSCRIPTIONS_REMOVED',
-            subscriptionTopics: subscriptions.map(s => `department_${s.departement.code_departement}_center_${s.lieu.gid}`)
+            subscriptionTopics: subscriptions.map(s => `department_${s.departement.code_departement}_center_${s.lieu.internal_id}`)
         });
     }
 }
