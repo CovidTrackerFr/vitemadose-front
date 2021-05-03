@@ -17,6 +17,11 @@ export class Autocomplete {
     this.webBaseUrl = webBaseUrl.endsWith('/') ? webBaseUrl : `${webBaseUrl}/`
   }
 
+  async findCommune (codePostal: string, codeInsee: string): Promise<Commune|void> {
+    const communes = await this.getMatchingCommunes(this.normalize(codePostal))
+    return communes.find((commune) => commune.code === codeInsee)
+  }
+
   async suggest (prefix: string): Promise<Array<Departement|Commune>> {
     if (prefix.length < 2) {
       return []
