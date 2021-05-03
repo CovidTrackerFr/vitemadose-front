@@ -111,13 +111,20 @@ label,
         box-shadow: rgb(0 0 0 / 8%) 0px 1px 2px inset;
         span {
             white-space: nowrap;
-            padding: 6px;
+            padding: 6px 10px;
             border-radius: 5px;
             background-color: transparent;
             animation: fade-in 200ms ease-in;
             color: white;
             font-weight: bold;
         }
+    }
+    .spinner-border {
+      position: absolute;
+      left: calc(100% + .25em);
+      top: .75em;
+      width: 1.5em;
+      height: 1.5em;
     }
 
     @keyframes fade-in {
