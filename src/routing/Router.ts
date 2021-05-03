@@ -50,10 +50,11 @@ class Routing {
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`,
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`,
                 // Proper URL really used
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/vaccin-:typeVaccin`,
+                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
+                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/vaccin-:typeVaccin`
             ], analyticsViewName: 'search_results_by_department',
             viewContent: (params) => (subViewSlot) =>
-                html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}" typeVaccin="${params[`typeVaccin`]}">${subViewSlot}</vmd-rdv-par-departement>`,
+                html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv-par-departement>`,
             pageTitleProvider: (params) =>
                 State.current.chercheDepartementParCode(params[`codeDpt`])
                     .then(nomDpt => `Vaccination COVID-19 en ${nomDpt.nom_departement} ${params[`codeDpt`]}`)
@@ -67,6 +68,20 @@ class Routing {
                     codePostalSelectionne="${params[`codePostal`]}"
                     critèreDeTri="${params[`codeTriCentre`]}"
                     typeVaccin="${params[`typeVaccin`]}">
+                  ${subViewSlot}
+                </vmd-rdv-par-commune>`,
+            pageTitleProvider: (params) =>
+                State.current.chercheCommuneParCode(Router.basePath, params['codePostal'], params['codeCommune'])
+                    .then(commune => `Vaccination COVID-19 à ${commune.nom} ${commune.codePostal}`)
+        });
+        this.declareRoutes({
+            pathPattern: `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`,
+            analyticsViewName: 'search_results_by_city',
+            viewContent: (params) => (subViewSlot) =>
+                html`<vmd-rdv-par-commune
+                    codeCommuneSelectionne="${params[`codeCommune`]}"
+                    codePostalSelectionne="${params[`codePostal`]}"
+                    critèreDeTri="${params[`codeTriCentre`]}">
                   ${subViewSlot}
                 </vmd-rdv-par-commune>`,
             pageTitleProvider: (params) =>
