@@ -359,6 +359,41 @@ describe("State.Autocomplete", () => {
       })
     })
   })
+  describe('findCommune(codePostal, codeInsee)', () => {
+    describe('when there is no available resource', () => {
+      const codePostal = '50000'
+      const codeInsee = '50500'
+      it('resolves undefined', async () => {
+        // When
+        const actual = await autocomplete.findCommune(codePostal, codeInsee)
+        // Then
+        expect(actual).toBeUndefined()
+      })
+    })
+    describe('when there is no exact match', () => {
+      const codePostal = '14800'
+      const codeInsee = '14000'
+      it('resolves undefined', async () => {
+        // When
+        const actual = await autocomplete.findCommune(codePostal, codeInsee)
+        // Then
+        expect(actual).toBeUndefined()
+      })
+    })
+    describe('when there is an exact match', () => {
+      const codePostal = '14800'
+      const codeInsee = '14220'
+      it('resolves commune', async () => {
+        // When
+        const actual = await autocomplete.findCommune(codePostal, codeInsee)
+        // Then
+        expect(actual).toEqual(communeDeauville)
+        expect(fetchCalls[`${webBaseUrl}autocompletes.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/14.json`]).toEqual(1)
+      })
+    })
+  })
+
 })
 
 
