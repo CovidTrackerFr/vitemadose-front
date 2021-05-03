@@ -36,8 +36,6 @@ export class VmdCommuneSelectorComponent extends LitElement {
     @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
 
     @internalProperty() inputHasFocus: boolean = false;
-    @property({type: Boolean, attribute: false}) inputModeFixedToText = true;
-    @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'text';
     @query(".autocomplete-input") $autoCompleteInput: HTMLInputElement | undefined;
     @query(".autocomplete-results") $autoCompleteResults: HTMLUListElement | undefined;
     @query(".autocomplete-result[aria-selected='true']") $autoCompleteSelectedResult: HTMLOptionElement | undefined;
@@ -69,8 +67,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
             // first digit, and this would encourage search by department (whereas search by commune
             // is by far better)
             && this.filter.length >= 2
-            && ((this.inputMode === 'text' && !this.dropDownVide())
-                || this.inputMode === 'numeric');
+            && !this.dropDownVide();
     }
 
     get communeSelectionnee(): Commune | undefined {
@@ -186,7 +183,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     render() {
         return html`
-          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter || !this.inputModeFixedToText })}"
+          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter})}"
                 @submit="${this.handleSubmit}">
                 
             <input type="search" class="autocomplete-input"
@@ -201,21 +198,11 @@ export class VmdCommuneSelectorComponent extends LitElement {
             ${this.filter?html`
             <button type="button" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>X</span></button>
             `:html``}
-            ${this.inputModeFixedToText?html``:html`
-            <button type="button" class="autocomplete-button"><span>${this.inputMode==='numeric'?html`0-9`:html`A-Z`}</span></button>
-            `}
             ${this.recuperationCommunesEnCours?html`
               <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">
               </div>
             `:html``}
-            ${this.showDropdown?html`
-              <ul class="autocomplete-results">
-                ${(this.inputMode==='numeric' && this.aucuneCommuneAffichee())?html`
-                <li class="autocomplete-result switch-to-text" @click="${() => { this.inputMode='text'; this.shadowRoot!.querySelector("input")!.focus(); }}"><em>Je ne connais pas le code postal</em></li>
-                `:html``}
-                ${this.renderListItems()}
-              </ul>
-              `:html``}
+            ${this.showDropdown?html`<ul class="autocomplete-results">${this.renderListItems()}</ul>`:html``}
           </form>
         `;
     }
@@ -233,16 +220,10 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-
-        if(this.inputModeFixedToText) {
-            this.inputMode = 'text';
-        }
-        // console.log("connected callback")
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        // console.log("disconnected callback")
     }
 
     fillCommune(commune: Commune | undefined, autoCompleteCodePostal: string) {
@@ -303,18 +284,18 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         switch (event.key) {
             case 'ArrowUp':
                 event.preventDefault();                
-                const prevOption  =this.$autoCompleteSelectedResult?.previousElementSibling;
-                if(this.$autoCompleteSelectedResult && prevOption){
-                    this.$autoCompleteSelectedResult.setAttribute('aria-selected','false');
+                const prevOption = this.$autoCompleteSelectedResult?.previousElementSibling;
+                if(prevOption){
+                    this.$autoCompleteSelectedResult?.setAttribute('aria-selected','false');
                     prevOption.setAttribute('aria-selected','true');
                 }
                 this.scrollToOption('up');
                 break;
             case 'ArrowDown':
                 event.preventDefault();
-                const nextOption  = this.$autoCompleteSelectedResult?.nextElementSibling;
-                if(this.$autoCompleteSelectedResult && nextOption){
-                    this.$autoCompleteSelectedResult.setAttribute('aria-selected','false');
+                const nextOption = this.$autoCompleteSelectedResult?.nextElementSibling;
+                if(nextOption){
+                    this.$autoCompleteSelectedResult?.setAttribute('aria-selected','false');
                     nextOption.setAttribute('aria-selected','true');
                 }
                 this.scrollToOption('down');
