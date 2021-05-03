@@ -1,0 +1,97 @@
+import { Memoize } from 'typescript-memoize'
+import { Strings } from "../utils/Strings"
+import { Departement, Commune } from './State'
+
+type NormalizedSearch = string & { __normalized_search: void }
+export interface CommuneAutocomplete {
+  z: string // code postal
+  c: string // code insee
+  d: string // code departement
+  g: string // "longitude,latitude"
+  n: string // nom
+}
+
+export class Autocomplete {
+  constructor (private webBaseUrl: string, private apiBaseUrl: string) {
+  }
+
+  async suggest (prefix: string): Promise<Array<Departement|Commune>> {
+    if (prefix.length < 2) {
+      return []
+    }
+    const term = this.normalize(prefix)
+    return [
+      ...(await this.getMatchingDepartements(term)),
+      ...(await this.getMatchingCommunes(term)),
+    ]
+  }
+
+  private async getMatchingDepartements(term: NormalizedSearch): Promise<Departement[]> {
+    const departements = await this.getDepartements()
+    return departements.filter((departement) => {
+      return departement.code_departement.startsWith(term)
+          || this.normalize(departement.nom_departement).includes(term)
+    })
+  }
+
+  private async getMatchingCommunes(term: NormalizedSearch): Promise<Commune[]> {
+    const prefixMatch = await this.getLongestPrefixMatch(term)
+    if (!prefixMatch) {
+      return []
+    }
+    const communesWithPrefix = await this.getAutocompleteOptions(prefixMatch)
+    return communesWithPrefix.filter((commune) => {
+      return commune.codePostal.includes(term)
+          || this.normalize(commune.nom).includes(term)
+    })
+  }
+
+  private mapAutocommpleteToCommune(option: CommuneAutocomplete): Commune {
+    const [ longitude, latitude ] =  option.g.split(',').map(Number)
+    return {
+      nom: option.n,
+      code: option.c,
+      codePostal: option.z,
+      codeDepartement: option.d,
+      latitude, longitude
+    }
+  }
+
+  private async getLongestPrefixMatch(term: NormalizedSearch): Promise<NormalizedSearch | undefined> {
+    const prefixes = await this.getAutocompletePrefixes()
+    let longestMatch = term
+    for (let size = term.length; size > 0; --size) {
+      const subPrefix = term.substring(0, size)
+      if (prefixes.has(subPrefix)) {
+        return subPrefix as NormalizedSearch
+      }
+    }
+    return undefined
+  }
+
+  @Memoize()
+  private async getDepartements (): Promise<Departement[]> {
+    const response = await window.fetch(`${this.apiBaseUrl}/departements.json`)
+    const departements = await response.json()
+    return departements as Departement[]
+  }
+
+  @Memoize()
+  private async getAutocompletePrefixes(): Promise<Set<string>> {
+    const response = await window.fetch(`${this.webBaseUrl}/autocompletes.json`)
+    const prefixes = (await response.json()) as string[]
+    return new Set<string>(prefixes)
+  }
+
+  @Memoize()
+  private async getAutocompleteOptions(name: NormalizedSearch): Promise<Commune[]> {
+    const response = await window.fetch(`${this.webBaseUrl}/autocomplete-cache/${name}.json`)
+    const { communes } = await response.json() as { communes: CommuneAutocomplete[] }
+    return communes.map(this.mapAutocommpleteToCommune)
+  }
+
+
+  private normalize (term: string): NormalizedSearch {
+    return Strings.toFullTextSearchableString(term) as NormalizedSearch
+  }
+}
