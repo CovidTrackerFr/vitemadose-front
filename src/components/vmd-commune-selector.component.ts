@@ -96,6 +96,8 @@ export class VmdCommuneSelectorComponent extends LitElement {
             return commune.codePostal.indexOf(fullTextSearchableQuery) === 0
                 || fullTextSearchableNomCommune.indexOf(fullTextSearchableQuery) !== -1;
         }).filter((_, index) => index < 50):undefined;
+        
+        this.setOptionActive(0);
     }
 
     constructor() {
@@ -187,6 +189,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
                 @submit="${this.handleSubmit}">
                 
             <input type="search" class="autocomplete-input"
+                   required
                    @focusin="${() => { this.inputHasFocus = true; }}"
                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                    @keydown="${this.handleKeydown}"
@@ -301,9 +304,6 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
 
     handleKeydown(event: KeyboardEvent) {
         switch (event.key) {
-            case 'Enter':
-                this.handleSubmit(event);
-                break;
             case 'ArrowUp':
                 event.preventDefault();
                 this.setOptionActive(this.optionActiveIndex - 1);
@@ -352,6 +352,8 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
             return dpt.fullTextSearchableCodeDepartement.indexOf(fullTextSearchableQuery) === 0
                 || dpt.fullTextSearchableNom.indexOf(fullTextSearchableQuery) !== -1;
         });
+
+        this.setOptionActive(0);
     }
 
     renderListItems(): TemplateResult | DirectiveFn {
