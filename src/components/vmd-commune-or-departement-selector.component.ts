@@ -14,6 +14,7 @@ import {repeat} from "lit-html/directives/repeat";
 import communeSelectorCss from "./vmd-commune-or-departement-selector.component.scss";
 import {TemplateResult} from "lit-html";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
+import {DirectiveFn} from "lit-html/lib/directive";
 
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
