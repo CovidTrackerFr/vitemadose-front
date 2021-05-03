@@ -261,7 +261,7 @@ export class State {
         if(this._lieuxParDepartement.has(codeDepartement) && !avoidCache) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
         } else {
-            const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
+            const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: avoidCache ? 'no-cache' : 'default' })
             const results = await resp.json()
             const lieuxParDepartement = {
                 lieuxDisponibles: results.centres_disponibles.map(transformLieu),
