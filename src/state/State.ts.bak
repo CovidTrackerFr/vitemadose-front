@@ -33,7 +33,6 @@ export type TypeVaccin = 'AstraZeneca'|'Pfizer-BioNTech'|'Moderna'|'Johnson'|'Ja
 export const TYPES_VACCIN: Record<TypeVaccin, CodeTypeVaccin> = {
     "AstraZeneca": 'adenovirus',
     "Pfizer-BioNTech": 'arnm',
-    "Pfizer": 'arnm',
     "Moderna": 'arnm',
     "Johnson": 'adenovirus',
     "Janssen": 'adenovirus',
