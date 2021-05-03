@@ -421,37 +421,31 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
     
-    protected filterTypeVaccin(vaccine_type: Array, typeVaccin: CodeTypeVaccin) {
+    protected filterTypeVaccin(vaccine_type: String, typeVaccin: CodeTypeVaccin) {
         if(typeVaccin === 'tous') {
             return true;
         } else {
-            let result = false;
-            
             if(vaccine_type && vaccine_type.length)
             {
                 if(vaccine_type.indexOf(',')!==-1)
                 {
-                    let arrayVaccinne = vaccine_type.split(',');
-                
+                    const arrayVaccinne = vaccine_type.split(',');
                     arrayVaccinne.forEach(function(item){
                         if(TYPES_VACCIN[item.trim()]==typeVaccin)
                         {
-                            result = true;
+                            return true;
                         }
                     });
-                }else{
-                    if(TYPES_VACCIN[vaccine_type.trim()]==typeVaccin)
-                    {
-                        result = true;
-                    }
+                }else if(TYPES_VACCIN[vaccine_type.trim()]==typeVaccin)
+                {
+                    return true;
                 }
-                return result;
+				// all vaccines at this center are not corresponding to the filtered type
+                return false;
             }else{
-                // Not hidding vaccine center of vaccine type is unknown
-                result = true;
+                // hidding vaccine center of vaccine type is unknown. see discussion : https://github.com/CovidTrackerFr/vitemadose-front/pull/143#issuecomment-831373020
+                return false;
             }
-
-         return result;
         }
     }
 
