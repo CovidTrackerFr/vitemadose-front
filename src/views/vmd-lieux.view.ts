@@ -1,11 +1,11 @@
 import {css, customElement, html, LitElement, unsafeCSS} from 'lit-element';
-import globalCss from "../styles/global.scss";
 import {Icon, map, marker, tileLayer} from 'leaflet'
 import leafletCss from 'leaflet/dist/leaflet.css';
 import leafletMarkerCss from 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 // @ts-ignore
 import {MarkerClusterGroup}  from 'leaflet.markercluster'
 import {Router} from "../routing/Router";
+import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 // Code imported (and refactored a little bit)
 // from https://github.com/rozierguillaume/covidtracker-tools/blob/main/src/ViteMaDose/carteCentres.html
@@ -27,7 +27,7 @@ export class VmdLieuxView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`${unsafeCSS(leafletCss)}`,
         css`${unsafeCSS(leafletMarkerCss)}`,
         css`

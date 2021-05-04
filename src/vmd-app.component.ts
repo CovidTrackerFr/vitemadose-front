@@ -1,14 +1,14 @@
 import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
 import {Router, SlottedTemplateResultFactory} from "./routing/Router";
-import globalCss from './styles/global.scss'
 import smoothscroll from 'smoothscroll-polyfill';
+import {CSS_Global} from "./styles/ConstructibleStyleSheets";
 
 @customElement('vmd-app')
 export class VmdAppComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`
             .appLogo {}
             .appLogo._phone {

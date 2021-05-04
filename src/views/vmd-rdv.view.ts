@@ -1,7 +1,6 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
 import {styleMap} from "lit-html/directives/style-map";
-import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
 import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
@@ -30,6 +29,7 @@ import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
 import {setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
+import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -37,7 +37,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`${unsafeCSS(rdvViewCss)}`,
         css`
         `
