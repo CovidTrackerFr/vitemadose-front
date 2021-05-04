@@ -5,6 +5,7 @@ import {
     internalProperty,
     LitElement,
     property,
+    query,
     unsafeCSS
 } from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
@@ -34,8 +35,10 @@ export class VmdCommuneSelectorComponent extends LitElement {
     @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
 
     @internalProperty() inputHasFocus: boolean = false;
-    @property({type: Boolean, attribute: false}) inputModeFixedToText = true;
-    @property({type: String, attribute: false}) inputMode: 'numeric'|'text' = 'numeric';
+    @query(".autocomplete-input") $autoCompleteInput: HTMLInputElement | undefined;
+    @query(".autocomplete-results") $autoCompleteResults: HTMLUListElement | undefined;
+    @query(".autocomplete-result[aria-selected='true']") $autoCompleteSelectedResult: HTMLOptionElement | undefined;
+
 
     @property({type: Array, attribute: false}) autocompleteTriggers: Set<string>|undefined;
     @internalProperty() recuperationCommunesEnCours: boolean = false;
@@ -51,6 +54,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
     private _communesDisponibles: Commune[]|undefined = undefined;
 
     @internalProperty() communesAffichees: Commune[]|undefined = undefined;
+    @internalProperty() departementsAffiches: Departement[] = [];
     @internalProperty() filter: string = "";
 
     private filterMatchingAutocomplete: string|undefined = undefined;
@@ -62,8 +66,7 @@ export class VmdCommuneSelectorComponent extends LitElement {
             // first digit, and this would encourage search by department (whereas search by commune
             // is by far better)
             && this.filter.length >= 2
-            && ((this.inputMode === 'text' && !this.dropDownVide())
-                || this.inputMode === 'numeric');
+            && !this.dropDownVide();
     }
 
     get communeSelectionnee(): Commune | undefined {
@@ -146,6 +149,9 @@ export class VmdCommuneSelectorComponent extends LitElement {
         }
     }
 
+    handleSubmit(event: KeyboardEvent) { }
+    handleKeydown(event: KeyboardEvent) { }
+
     communeSelected(commune: Commune) {
         this.filter = `${commune.codePostal} - ${commune.nom}`;
         this.communesDisponibles = [];
@@ -176,53 +182,46 @@ export class VmdCommuneSelectorComponent extends LitElement {
 
     render() {
         return html`
-          <div class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter || !this.inputModeFixedToText })}">
-            <input type="text" class="autocomplete-input"
+          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter})}"
+                @submit="${this.handleSubmit}">                
+            <input type="search" class="autocomplete-input"
+                   required
                    @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
-                   @keyup="${this.valueChanged}" .value="${this.filter}"
-                   inputmode="${this.inputMode}" placeholder="${this.inputModeFixedToText?'Commune, Code postal, Département...':this.inputMode==='numeric'?'Saisissez un code postal':'Saisissez un nom de commune'}" 
+                   @keydown="${this.handleKeydown}"
+                   @keyup="${this.valueChanged}"
+                   .value="${this.filter}"
+                   placeholder="Commune, Code postal, Département..." 
             />
             ${this.filter?html`
-            <button class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>X</span></button>
+            <button type="button" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>X</span></button>
             `:html``}
-            ${this.inputModeFixedToText?html``:html`
-            <button class="autocomplete-button"><span>${this.inputMode==='numeric'?html`0-9`:html`A-Z`}</span></button>
-            `}
             ${this.recuperationCommunesEnCours?html`
               <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">
               </div>
             `:html``}
-            ${this.showDropdown?html`
-              <ul class="autocomplete-results">
-                ${(this.inputMode==='numeric' && this.aucuneCommuneAffichee())?html`
-                <li class="autocomplete-result switch-to-text" @click="${() => { this.inputMode='text'; this.shadowRoot!.querySelector("input")!.focus(); }}"><em>Je ne connais pas le code postal</em></li>
-                `:html``}
-                ${this.renderListItems()}
-              </ul>
-              `:html``}
-          </div>
+            ${this.showDropdown?html`<ul class="autocomplete-results">${this.renderListItems()}</ul>`:html``}
+          </form>
         `;
     }
 
     renderListItems(): TemplateResult|DirectiveFn {
         return repeat(this.communesAffichees || [], (c) => `comm_${c.codePostal}__${c.nom}`, ((commune, index) => {
-            return html`<li class="autocomplete-result" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
+            return html`<li 
+                    class="autocomplete-result"
+                    role="option"
+                    aria-selected="${index === 0 && this.departementsAffiches.length === 0}"
+                    @click="${() => this.communeSelected(commune)}"
+                    ><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
         }));
     }
 
     connectedCallback() {
         super.connectedCallback();
-
-        if(this.inputModeFixedToText) {
-            this.inputMode = 'text';
-        }
-        // console.log("connected callback")
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        // console.log("disconnected callback")
     }
 
     fillCommune(commune: Commune | undefined, autoCompleteCodePostal: string) {
@@ -247,8 +246,6 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
     }
     @internalProperty() departementsCherchables: DepartementRecherchable[] = [];
 
-    @property({type: Array, attribute: false}) departementsAffiches: Departement[] = [];
-
     departementSelectionne(dpt: Departement) {
         this.filter = `${dpt.code_departement} - ${dpt.nom_departement}`;
         this.communesDisponibles = [];
@@ -261,10 +258,62 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         }));
     }
 
-    valueChanged(event: Event) {
-        super.valueChanged(event);
+    valueChanged(event: KeyboardEvent) {
+        const keysToIgnore = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'];
+        if (!keysToIgnore.includes(event.key)) {
+            super.valueChanged(event);
+            this.filtrerDepartementsAffichees();
 
-        this.filtrerDepartementsAffichees();
+            if (this.$autoCompleteResults) {
+                this.$autoCompleteResults.scrollTop = 0;
+            }
+        }
+    }
+
+    handleSubmit(event: Event) {
+        event.preventDefault();
+        if(this.$autoCompleteSelectedResult) {
+            this.$autoCompleteSelectedResult.click();
+            this.$autoCompleteInput?.blur();
+        }
+    }
+
+    handleKeydown(event: KeyboardEvent) {
+        switch (event.key) {
+            case 'ArrowUp':
+                event.preventDefault();                
+                const prevOption = this.$autoCompleteSelectedResult?.previousElementSibling;
+                if(prevOption){
+                    this.$autoCompleteSelectedResult?.setAttribute('aria-selected','false');
+                    prevOption.setAttribute('aria-selected','true');
+                }
+                this.scrollToOption('up');
+                break;
+            case 'ArrowDown':
+                event.preventDefault();
+                const nextOption = this.$autoCompleteSelectedResult?.nextElementSibling;
+                if(nextOption){
+                    this.$autoCompleteSelectedResult?.setAttribute('aria-selected','false');
+                    nextOption.setAttribute('aria-selected','true');
+                }
+                this.scrollToOption('down');
+                break;
+            default:
+                break;
+        }
+    }
+
+    scrollToOption(direction: 'up' | 'down') {
+        const containerPosition = this.$autoCompleteResults?.getBoundingClientRect();
+        const optionPosition = this.$autoCompleteSelectedResult?.getBoundingClientRect();
+
+        if (this.$autoCompleteResults && containerPosition && optionPosition) {
+            if (direction === 'down' && optionPosition.bottom > containerPosition.bottom) {
+                this.$autoCompleteResults.scrollTop += optionPosition.bottom - containerPosition.bottom;
+            } else if (direction === 'up' && optionPosition.top < containerPosition.top) {
+                this.$autoCompleteResults.scrollTop -= containerPosition.top - optionPosition.top;
+            }
+        }
     }
 
     protected dropDownVide(): boolean {
@@ -280,13 +329,18 @@ export class VmdCommuneOrDepartmentSelectorComponent extends VmdCommuneSelectorC
         });
     }
 
-    renderListItems(): TemplateResult|DirectiveFn {
+    renderListItems(): TemplateResult | DirectiveFn {
         return html`
             ${repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, ((dpt, index) => {
-                return html`<li class="autocomplete-result" @click="${() => this.departementSelectionne(dpt)}"><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
-            }))}
-            ${super.renderListItems()}
-        `;
+            return html`<li 
+                        class="autocomplete-result"
+                        role="option"
+                        aria-selected="${index === 0}"
+                        @click="${() => this.departementSelectionne(dpt)}"
+                        ><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
+        }))}
+                ${super.renderListItems()}
+            `;
     }
 
     fillDepartement(departement: Departement | undefined) {
