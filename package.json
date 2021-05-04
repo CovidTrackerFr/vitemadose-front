@@ -20,12 +20,19 @@
     "not IE 11"
   ],
   "devDependencies": {
+    "@babel/preset-env": "^7.14.1",
+    "@open-wc/testing-helpers": "^1.8.12",
+    "@testing-library/dom": "^7.30.4",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/user-event": "^13.1.8",
     "@types/leaflet": "1.7.0",
     "@types/leaflet.markercluster": "1.4.4",
     "@types/page": "1.11.2",
     "@vitejs/plugin-legacy": "1.3.3",
     "autoprefixer": "10.2.5",
     "sass": "1.32.8",
+    "testing-library__dom": "^7.29.4-beta.1",
+    "ts-jest": "^26.5.5",
     "typescript": "4.2.3",
     "vite": "2.1.5"
   },
