@@ -1,7 +1,5 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {Router} from "../routing/Router";
-import globalCss from "../styles/global.scss";
-import homeViewCss from "./vmd-home.view.scss";
 import {
     Commune,
     Departement,
@@ -17,6 +15,7 @@ import {
     CommuneSelected,
     DepartementSelected
 } from "../components/vmd-commune-or-departement-selector.component";
+import {CSS_Global, CSS_Home} from "../styles/ConstructibleStyleSheets";
 import Chart from "chart.js";
 
 @customElement('vmd-home')
@@ -24,8 +23,8 @@ export class VmdHomeView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(homeViewCss)}`,
+        CSS_Global,
+        CSS_Home,
         css`
             :host {
                 display: block;

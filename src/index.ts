@@ -1,4 +1,3 @@
-import './styles/global.scss'
 import './vmd-app.component'
 import './components/vmd-appointment-card.component'
 import './components/vmd-appointment-metadata.component'

@@ -11,10 +11,9 @@ import {
 import {Router} from "../routing/Router";
 import {Dates} from "../utils/Dates";
 import appointmentCardCss from "./vmd-appointment-card.component.scss";
-import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
-import {styleMap} from "lit-html/directives/style-map";
+import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 type LieuCliqueContext = {lieu: Lieu};
 export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
@@ -24,7 +23,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`${unsafeCSS(appointmentCardCss)}`,
         css`
         `

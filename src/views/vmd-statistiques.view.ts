@@ -3,20 +3,18 @@ import '../components/graphs/vmd-stats-by-date-centres-graph.component'
 
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 
-import globalCss from "../styles/global.scss";
-import homeViewCss from "../views/vmd-home.view.scss";
-
 import {
     State,
     StatsByDate,
     StatsLieu,
 } from "../state/State";
+import {CSS_Global, CSS_Home} from "../styles/ConstructibleStyleSheets";
 
 @customElement('vmd-statistiques')
 export class VmdLieuxStatistiques extends LitElement {
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(homeViewCss)}`,
+        CSS_Global,
+        CSS_Home,
         css`
             :host {
                 display: block;
