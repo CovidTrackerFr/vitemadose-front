@@ -240,7 +240,7 @@ export class State {
         if(this._communesParAutocomplete.has(autocomplete)) {
             return this._communesParAutocomplete.get(autocomplete)!;
         } else {
-            const communes = await fetch(`${basePath}autocomplete-cache/${autocomplete}.json`)
+            const communes = await fetch(`${basePath}autocomplete-cache/vmd_${autocomplete}.json`)
                 .then(resp => resp.json())
                 .then(communesResult => communesResult.communes.map((c: any) => {
                     const commune: Commune = {
