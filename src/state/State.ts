@@ -14,11 +14,30 @@ export type CodeTriCentre = 'date' | 'distance';
 export type TriCentre = {
     codeTriCentre: CodeTriCentre;
     libelle: string;
+    title: string;
 };
 export const TRIS_CENTRE: Map<CodeTriCentre, TriCentre> = new Map([
-    ['distance', { codeTriCentre: 'distance', libelle: "Au plus proche" }],
-    ['date', { codeTriCentre: 'date', libelle: "Disponible au plus vite" }],
+    ['distance', { codeTriCentre: 'distance', libelle: "Au plus proche", title:"Les lieux de vaccination les plus proches" }],
+    ['date', { codeTriCentre: 'date', libelle: "Disponible au plus vite", title:"Les créneaux au plus vite" }],
 ]);
+
+export type CodeTypeVaccin = 'tous' | 'arnm' | 'adenovirus';
+export const FILTRE_TYPE_VACCIN: Map<CodeTypeVaccin, {codeTypeVaccin: CodeTypeVaccin, libelle: string, title: string}> = new Map([
+    ['tous', {codeTypeVaccin: 'tous', libelle: "Tous", title: "Tous les vaccins" }],
+    ['arnm', {codeTypeVaccin: 'arnm', libelle: "Pfizer-BioNTech/Moderna", title: "ARN messager" }],
+    ['adenovirus', {codeTypeVaccin: 'adenovirus', libelle:"AstraZeneca/Janssen", title: "à base d'adénovirus" }],
+]);
+
+
+export type TypeVaccin = 'AstraZeneca'|'Pfizer-BioNTech'|'Pfizer'|'Moderna'|'Johnson'|'Janssen';
+export const TYPES_VACCIN: Record<TypeVaccin, CodeTypeVaccin> = {
+    "AstraZeneca": 'adenovirus',
+    "Pfizer-BioNTech": 'arnm',
+    "Pfizer": 'arnm',
+    "Moderna": 'arnm',
+    "Johnson": 'adenovirus',
+    "Janssen": 'adenovirus',
+};
 
 const USE_RAW_GITHUB = false
 const VMD_BASE_URL = USE_RAW_GITHUB

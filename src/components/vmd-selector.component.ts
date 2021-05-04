@@ -7,6 +7,7 @@ export type ValueStrCustomEvent<T extends string> = CustomEvent<{value: T}>;
 export type Option = {
     code: string;
     libelle: string;
+    title: string;
 };
 
 @customElement('vmd-selector')

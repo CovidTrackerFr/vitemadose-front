@@ -9,6 +9,7 @@ export type ValueStrCustomEvent<T extends string> = CustomEvent<{value: T}>;
 export type Option = {
     code: string;
     libelle: string;
+    title: string;
 };
 
 @customElement('vmd-button-switch')
@@ -38,7 +39,8 @@ export class VmdButtonSwitchComponent extends LitElement {
               ${repeat(this.options, option => option.code, option => html`
                 <button type="button" 
                         class="option ${classMap({ 'active': option.code===this.codeSelectionne })}" 
-                        @click="${() => this.valeurSelectionnee(option.code)}">
+                        @click="${() => this.valeurSelectionnee(option.code)}"
+                        title="${option.title}">
                   ${option.libelle}
                 </button>
               `)}
