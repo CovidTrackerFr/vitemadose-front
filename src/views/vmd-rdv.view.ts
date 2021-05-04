@@ -130,7 +130,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
             return;
         }
 
-        if(this.communeSelectionnee.code !== commune.code || this.codeDepartementSelectionne !== commune.codeDepartement) {
+        if(`${this.communeSelectionnee.code}-${this.communeSelectionnee.codePostal}` !== `${commune.code}-${commune.codePostal}` || this.codeDepartementSelectionne !== commune.codeDepartement) {
             this.codeDepartementSelectionne = commune.codeDepartement;
             this.resetCommuneSelectionneeTo(commune);
 
