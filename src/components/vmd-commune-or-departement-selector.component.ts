@@ -320,7 +320,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
       return html`<li
         class="autocomplete-result"
         role="option"
-        aria-selected="${index === 0}"
+        aria-selected="${index === 0 && this.departementsAffiches.length === 0}"
         @click="${() => this.communeSelected(commune)}"
         >
           <span class="zipcode">${commune.codePostal}</span> - ${commune.nom}
