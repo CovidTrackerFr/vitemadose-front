@@ -299,71 +299,22 @@ export class State {
         }
     }
 
-    private _communeAutocompleteTriggers: string[]|undefined = undefined;
-    async communeAutocompleteTriggers(basePath: string): Promise<string[]> {
-        if(this._communeAutocompleteTriggers !== undefined) {
-            return Promise.resolve(this._communeAutocompleteTriggers)
-        } else {
-            const autocompletes = await fetch(`${basePath}autocompletes.json`).then(resp => resp.json());
-
-            this._communeAutocompleteTriggers = autocompletes;
-            return autocompletes;
-        }
-    }
-
-    private _communesParAutocomplete: CommunesParAutocomplete = new Map<string, Commune[]>();
-    async communesPourAutocomplete(basePath: string, autocomplete: string): Promise<Commune[]> {
-        if(this._communesParAutocomplete.has(autocomplete)) {
-            return this._communesParAutocomplete.get(autocomplete)!;
-        } else {
-            const communes = await fetch(`${basePath}autocomplete-cache/vmd_${autocomplete}.json`)
-                .then(resp => resp.json())
-                .then(communesResult => communesResult.communes.map((c: any) => {
-                    const [longitude, latitude] = c.g.split(',').map(Number)
-                    const commune: Commune = {
-                        code: c.c,
-                        codePostal: c.z,
-                        nom: c.n,
-                        codeDepartement: c.d,
-                        latitude, longitude,
-                    };
-                    return commune;
-                }));
-
-            this._communesParAutocomplete.set(autocomplete, communes);
-            return communes;
-        }
-    }
-
     async chercheCommuneParCode(basePath: string, codePostal: string, codeCommune: string): Promise<Commune> {
-        let triggers = await this.communeAutocompleteTriggers(basePath);
-        let trigger = triggers.find(trigger => codePostal.startsWith(trigger));
-        if (trigger) {
-            let communes = await this.communesPourAutocomplete(basePath, trigger);
-            return communes.find(commune => commune.code === codeCommune) || State.COMMUNE_VIDE;
-        } else {
-            return Promise.resolve(State.COMMUNE_VIDE);
-        }
+        const commune = await this.autocomplete.findCommune(codePostal, codeCommune)
+        return commune || State.COMMUNE_VIDE
     }
 
-    private _statsLieu: StatsLieu|undefined = undefined;
+    @Memoize()
     async statsLieux(): Promise<StatsLieu> {
-        if(this._statsLieu !== undefined) {
-            return Promise.resolve(this._statsLieu);
-        } else {
-            const resp = await fetch(`${VMD_BASE_URL}/stats.json`)
-            const statsParDepartements: Record<CodeDepartement|'tout_departement', StatLieu> = await resp.json()
-            const { tout_departement: global, ...parDepartements } = statsParDepartements
-
-            const statsLieu = {
-                parDepartements,
-                global: {
-                    ...global,
-                    proportion: Math.round(global.disponibles * 10000 / global.total)/100
-                }
-            };
-            this._statsLieu = statsLieu;
-            return statsLieu;
-        }
+      const resp = await fetch(`${VMD_BASE_URL}/stats.json`)
+      const statsParDepartements: Record<CodeDepartement|'tout_departement', StatLieu> = await resp.json()
+      const { tout_departement: global, ...parDepartements } = statsParDepartements
+      return {
+          parDepartements,
+          global: {
+              ...global,
+              proportion: Math.round(global.disponibles * 10000 / global.total)/100
+          }
+      };
     }
 }
