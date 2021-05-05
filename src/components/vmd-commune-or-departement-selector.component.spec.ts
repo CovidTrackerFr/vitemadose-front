@@ -123,6 +123,27 @@ describe('<vmd-commune-or-departement-selector />', () => {
       expect(suggestions[1]).toHaveTextContent('14800 - Deauville')
     })
 
+    describe('when pressing {enter}', () => {
+      it('selects the first suggestion', async () => {
+        // Given
+        const input = screen.getByPlaceholderText(placeholder)
+        // When
+        await userEvent.type(input, 'Cal{enter}', { delay: 20 })
+        // Then
+        expect(onDepartementSelected).toHaveBeenCalledTimes(1)
+      })
+      describe('after pressing arrow down once', () => {
+        it('selects the second suggestion', async () => {
+          // Given
+          const input = screen.getByPlaceholderText(placeholder)
+          // When
+          await userEvent.type(input, 'Cal{arrowdown}{enter}', { delay: 20 })
+          // Then
+          expect(onCommuneSelected).toHaveBeenCalledTimes(1)
+        })
+      })
+    })
+
     describe('when a suggestion is clicked', () => {
       describe('and is a département', () => {
         beforeEach(async () => {
