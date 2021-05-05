@@ -62,16 +62,6 @@
             display: block;
         }
 
-        @media screen and (min-width: 576px) {
-            .logo._desktop {
-                display: block;
-            }
-
-            .logo._phone {
-                display: none;
-            }
-        }
-
         .row {
             display: flex;
             justify-content: space-between;
@@ -93,13 +83,33 @@
         }
 
         .illu404 {
-            max-width: 50vw;
+            max-width: 70vw;
             margin: auto;
             display: block;
         }
 
+        .content {
+            padding: 0 16px;
+        }
+
         h1 {
             color: var(--vmd-primary);
+        }
+
+        @media screen and (min-width: 576px) {
+            .logo._desktop {
+                display: block;
+            }
+
+            .logo._phone {
+                display: none;
+            }
+
+            .illu404 {
+                max-width: 50vw;
+                margin: auto;
+                display: block;
+            }
         }
     </style>
 </head>
@@ -491,17 +501,18 @@
         </svg>
     </div>
 
-    <h1>
-        Erreur 404 : La page que vous cherchez semble ne pas exister...
-    </h1>
+    <div class="content">
+        <h1>
+            Erreur 404 : La page que vous cherchez semble ne pas exister...
+        </h1>
 
-    <h3>Mais pas de panique, nous sommes là pour vous guider. <br> Vous pouvez : </h3>
-    <ul>
-        <li style="margin-bottom: 12px;">Trouver un créneau de vaccination contre la Covid-19 sur  <a href="https://vitemadose.covidtracker.fr/" style="font-weight:bold;">Vite Ma Dose !</a></li>
-        <li style="margin-bottom: 12px;">M'informer sur le virus du Covid sur <a href="https://www.covidtracker.fr" style="font-weight:bold;">Covidtracker.fr</a></li>
-        <li style="margin-bottom: 12px;"><a href="https://lydia-app.com/collect/covidtracker/fr" style="font-weight:bold;">Offrir un café à la team</a> pour soutenir leur formidable travail !</li>
-    </ul>
-
+        <h3>Mais pas de panique, nous sommes là pour vous guider. <br> Vous pouvez : </h3>
+        <ul>
+            <li style="margin-bottom: 12px;">Trouver un créneau de vaccination contre la Covid-19 sur  <a href="https://vitemadose.covidtracker.fr/" style="font-weight:bold;">Vite Ma Dose !</a></li>
+            <li style="margin-bottom: 12px;">M'informer sur le virus du Covid sur <a href="https://www.covidtracker.fr" style="font-weight:bold;">Covidtracker.fr</a></li>
+            <li style="margin-bottom: 12px;"><a href="https://lydia-app.com/collect/covidtracker/fr" style="font-weight:bold;">Offrir un café à la team</a> pour soutenir leur formidable travail !</li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>
