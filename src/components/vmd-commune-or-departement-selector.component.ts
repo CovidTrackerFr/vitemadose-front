@@ -239,10 +239,12 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
             if(!filterMatchedAnAutocomplete) {
                 this.communesDisponibles = [];
             }
+        }
 
-            if (this.$autoCompleteResults) {
-                this.$autoCompleteResults.scrollTop = 0;
-            }
+        this.filtrerDepartementsAffichees();
+
+        if (this.$autoCompleteResults) {
+            this.$autoCompleteResults.scrollTop = 0;
         }
     }
 
