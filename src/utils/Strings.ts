@@ -12,6 +12,7 @@ export class Strings {
         return (value && value>1)?pluralForm:'';
     }
 
+    // FIXME move to dedicated component
     static toNormalizedPhoneNumber(phoneNumber: string|undefined) {
         if(phoneNumber === undefined) {
             return undefined;
@@ -36,22 +37,8 @@ export class Strings {
         return normalizedPhoneNumber;
     }
 
+    // FIXME move to router
     public static toReadableURLPathValue(value: string) {
-        return value.toLowerCase()
-            .replace(/[-\s']/gi, "_")
-            .replace(/[èéëêêéè]/gi, "e")
-            .replace(/[áàâäãåâà]/gi, "a")
-            .replace(/[çç]/gi, "c")
-            .replace(/[íìîï]/gi, "i")
-            .replace(/[ñ]/gi, "n")
-            .replace(/[óòôöõô]/gi, "o")
-            .replace(/[úùûüûù]/gi, "u")
-            .replace(/[œ]/gi, "oe");
-    }
-
-    public static toFullTextSearchableString(value: string) {
-        // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
-        // function here, than the one used in communes-import.js tooling
         return value.toLowerCase()
             .replace(/[-\s']/gi, "_")
             .replace(/[èéëêêéè]/gi, "e")
