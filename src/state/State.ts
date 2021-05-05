@@ -26,9 +26,10 @@ const VMD_BASE_URL = USE_RAW_GITHUB
   : "https://vitemadose.gitlab.io/vitemadose"
 
 
+export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma";
 export type Plateforme = {
     // Should be the same than PLATEFORMES' key
-    code: string;
+    code: TypePlateforme;
     logo: string;
     nom: string;
     // Should we do promotion of this plateform ? for example on home screen ?
@@ -38,7 +39,7 @@ export type Plateforme = {
     // Used for specific styling on logos, see for example _searchAppointment.scss
     styleCode: string;
 };
-export const PLATEFORMES: Record<string, Plateforme> = {
+export const PLATEFORMES: Record<TypePlateforme, Plateforme> = {
     'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',            styleCode: '_doctolib'},
     'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/',              styleCode: '_maiia'},
     'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/',            styleCode: '_ordoclic'},
@@ -69,6 +70,7 @@ export const TYPES_LIEUX: {[k in TypeLieu]: string} = {
     "general-practitioner": 'Médecin généraliste',
 };
 export type BusinessHours = Record<WeekDay,string>;
+export type VaccineType = string;
 export type Lieu = {
     appointment_count: number;
     departement: CodeDepartement;
@@ -76,7 +78,7 @@ export type Lieu = {
     nom: string;
     url: string;
     appointment_by_phone_only: boolean;
-    plateforme: string;
+    plateforme: TypePlateforme;
     prochain_rdv: ISODateString|null;
     metadata: {
         address: string;
@@ -84,7 +86,7 @@ export type Lieu = {
         business_hours: BusinessHours|undefined
     },
     type: TypeLieu;
-    vaccine_type: string
+    vaccine_type: VaccineType
 };
 function transformLieu(rawLieu: any): Lieu {
     return {
