@@ -303,17 +303,35 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         });
     }
 
-    renderListItems(): TemplateResult|DirectiveFn {
-        const suggestionsCommunes = repeat(this.communesAffichees || [], (c) => `comm_${c.codePostal}__${c.nom}`, ((commune, index) => {
-            return html`<li class="autocomplete-result" role="option" aria-selected="${index === 0}" @click="${() => this.communeSelected(commune)}"><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</li>`
-        }));
-        const suggestionsDépartements = repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, ((dpt, index) => {
-            return html`<li class="autocomplete-result" role="option" aria-selected="${index === 0}" @click="${() => this.departementSelectionne(dpt)}"><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</li>`
-        }))
+    renderListItems(): TemplateResult {
+        const suggestionsCommunes = repeat(this.communesAffichees || [], (c) => `comm_${c.codePostal}__${c.nom}`, this.renderCommuneItem)
+        const suggestionsDépartements = repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, this.renderDepartementItem)
         return html`
             ${suggestionsDépartements}
             ${suggestionsCommunes}
         `;
+    }
+
+    private renderCommuneItem (commune: Commune, index: number) {
+      return html`<li
+        class="autocomplete-result"
+        role="option"
+        aria-selected="${index === 0}"
+        @click="${() => this.communeSelected(commune)}"
+        >
+          <span class="zipcode">${commune.codePostal}</span> - ${commune.nom}
+      </li>`
+    }
+
+    private renderDepartementItem (dpt: Departement, index: number) {
+      return html`<li
+        class="autocomplete-result"
+        role="option"
+        aria-selected="${index === 0}"
+        @click="${() => this.departementSelectionne(dpt)}"
+        >
+          <span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}
+        </li>`
     }
 
     fillDepartement(departement: Departement) {
