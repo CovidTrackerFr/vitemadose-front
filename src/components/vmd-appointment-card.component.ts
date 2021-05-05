@@ -17,12 +17,13 @@ import {
     TYPES_LIEUX
 } from "../state/State";
 import {Router} from "../routing/Router";
-import {Dates} from "../utils/Dates";
 import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 import tippy from "tippy.js";
+import { format as formatDate, parseISO } from "date-fns"
+import { fr } from 'date-fns/locale'
 
 type LieuCliqueContext = {lieu: Lieu};
 export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
@@ -69,6 +70,8 @@ export class VmdAppointmentCardComponent extends LitElement {
               distance = this.lieu.distance.toFixed(1)
             }
 
+            // FIXME créer un type `SearchResultItem` ou un truc du genre, pour avoir une meilleure vue des cas possibles
+            // Qu'un if-pit de 72 lignes de long et 190 colonnes de large xD
             let cardConfig: {
                 highlighted: boolean
                 cardLink:(content: TemplateResult) => TemplateResult,
@@ -104,7 +107,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                     cardLink: (content) =>
                         html`<a href="#" @click="${(e: Event) => { specificCardConfig.onclick(); e.preventDefault(); } }">${content}</a>`,
                     actions: html`
-                      <a href="#" @click="${(e: Event) => e.preventDefault()}" 
+                      <a href="#" @click="${(e: Event) => e.preventDefault()}"
                          class="btn btn-lg ${classMap({ 'btn-primary': specificCardConfig.typeBouton==='btn-primary', 'btn-info': specificCardConfig.typeBouton==='btn-info' })}">
                         ${specificCardConfig.libelleBouton}
                       </a>
@@ -156,7 +159,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
             return cardConfig.cardLink(html`
             <div class="card rounded-3 mb-5  ${classMap({
-              highlighted: cardConfig.highlighted, clickable: cardConfig.estCliquable, 
+              highlighted: cardConfig.highlighted, clickable: cardConfig.estCliquable,
               'bg-disabled': cardConfig.disabledBG,
               'search-standard': this.theme==='standard',
               'search-chronodose': this.theme==='chronodose'
@@ -170,7 +173,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                     <div class="row align-items-center ">
                         <div class="col">
                             <h5 class="card-title">
-                              ${this.lieu.prochain_rdv?Dates.isoToFRDatetime(this.lieu.prochain_rdv):cardConfig.libelleDateAbsente}
+                              ${this.cardTitle(cardConfig)}
                               <small class="distance">${distance ? `- ${distance} km` : ''}</small>
                             </h5>
                             <div class="row">
@@ -216,13 +219,14 @@ export class VmdAppointmentCardComponent extends LitElement {
         })
     }
 
-    connectedCallback() {
-        super.connectedCallback();
-        // console.log("connected callback")
+    private cardTitle(cardConfig: any): string {
+      if (this.lieu.prochain_rdv) {
+        return this.toProperCase(formatDate(parseISO(this.lieu.prochain_rdv), "EEEE d MMMM 'à' HH:mm", { locale: fr }))
+      } else {
+        return cardConfig.libelleDateAbsente
+      }
     }
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        // console.log("disconnected callback")
+    private toProperCase(date: string): string {
+      return date.replace(/(^|\s)([a-z])(\w)/g, (_, leader, letter, loser) => [leader, letter.toUpperCase(), loser].join(''))
     }
 }

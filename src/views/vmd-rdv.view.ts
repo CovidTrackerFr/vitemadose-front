@@ -18,7 +18,8 @@ import {
     State,
     TRIS_CENTRE
 } from "../state/State";
-import {Dates} from "../utils/Dates";
+import { formatDistanceToNow, parseISO } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import {Strings} from "../utils/Strings";
 import {
     ValueStrCustomEvent,
@@ -137,7 +138,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                       html`
                       <p class="fs-6 text-black-50">
                         Dernière mise à jour : il y a
-                        ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}
+                        ${ formatDistanceToNow(parseISO(this.lieuxParDepartementAffiches!.derniereMiseAJour), { locale: fr }) }
                         ${this.miseAJourDisponible?html`
                           <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; this.launchCheckingUpdates() }}">Rafraîchir</button>
                         `:html``}
