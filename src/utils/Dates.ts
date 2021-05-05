@@ -1,6 +1,7 @@
 import {Strings} from "./Strings";
 
-export type ISODateString = string;
+export type DateString = string; // "2021-05-30
+export type ISODateString = string; // "2021-05-30T00:10:55:0200, see ISO 8601 format
 
 const FR_WEEK_DAYS: Record<number,string> = {
     0: 'Dimanche', 1: 'Lundi', 2: 'Mardi', 3: 'Mercredi',

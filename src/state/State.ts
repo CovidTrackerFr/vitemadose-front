@@ -1,4 +1,4 @@
-import {ISODateString, WeekDay} from "../utils/Dates";
+import {DateString, ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 
 export type CodeTrancheAge = 'plus75ans';
@@ -71,6 +71,16 @@ export const TYPES_LIEUX: {[k in TypeLieu]: string} = {
 };
 export type BusinessHours = Record<WeekDay,string>;
 export type VaccineType = string;
+export type AppointmentPerVaccine = {
+    vaccine_type: VaccineType;
+    appointments: number;
+};
+export type AppointmentSchedule = {
+    name: string;
+    from: DateString; // Should be better to have ISODateString here
+    to: DateString; // Should be better to have ISODateString here
+    appointments_per_vaccine: AppointmentPerVaccine[];
+};
 export type Lieu = {
     appointment_count: number;
     departement: CodeDepartement;
@@ -78,6 +88,7 @@ export type Lieu = {
     nom: string;
     url: string;
     appointment_by_phone_only: boolean;
+    appointment_schedules: AppointmentSchedule[]|undefined;
     plateforme: TypePlateforme;
     prochain_rdv: ISODateString|null;
     metadata: {
