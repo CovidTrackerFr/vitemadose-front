@@ -72,9 +72,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
             .reduce((total, lieu) => total+lieu.appointment_count, 0);
     }
 
+    protected beforeNewSearchFromLocation (search: SearchRequest): SearchRequest {
+      return search
+    }
+
     async onSearchSelected (event: CustomEvent<SearchRequest>) {
       const search = event.detail
-      this.goToNewSearch(search)
+      this.goToNewSearch(this.beforeNewSearchFromLocation(search))
     }
 
     protected async goToNewSearch (search: SearchRequest) {
@@ -114,7 +118,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                     <vmd-search
                           .value="${this.currentSearch}"
-                          @on-search="${this.onSearchSelected.bind(this)}"
+                          @on-search="${this.onSearchSelected}"
                         />
                 </div>
                 ${this.renderAdditionnalSearchCriteria()}
@@ -448,6 +452,15 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
           }
           this.goToNewSearch(nextSearch)
         }
+    }
+    protected beforeNewSearchFromLocation (search: SearchRequest): SearchRequest {
+      if (SearchRequest.isByCommune(search) && this.currentSearch) {
+        return {
+          ...search,
+          tri: this.currentSearch.tri
+        }
+      }
+      return search
     }
 
     // FIXME move me to vmd-search
