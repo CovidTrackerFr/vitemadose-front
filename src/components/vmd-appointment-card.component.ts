@@ -15,6 +15,8 @@ import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 
+const DEBUG = true;
+
 type LieuCliqueContext = {lieu: Lieu};
 export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
 
@@ -86,9 +88,6 @@ export class VmdAppointmentCardComponent extends LitElement {
                 const dayPlus2Appointments = ((this.lieu.appointment_schedules?.length?this.lieu.appointment_schedules:[]).find(s => s.name === '2_days')?.appointments_per_vaccine || [])
                     .reduce((appointments, s) => appointments + s.appointments, 0);
                 cardConfig = {
-                    // For debug purposes:
-                    // highlighted: (Math.round(this.lieu.appointment_count || 0)%2)===0,
-                    // highlightedAppointments: 42,
                     highlighted: PLATEFORMES[this.lieu.plateforme].highlightEnabled && dayPlus2Appointments>0,
                     highlightedAppointments: dayPlus2Appointments,
                     estCliquable: true,
@@ -118,6 +117,15 @@ export class VmdAppointmentCardComponent extends LitElement {
                       </div>
                     `
                 };
+
+                if(!specificCardConfig.disabledBG && DEBUG) {
+                    cardConfig = {...cardConfig,
+                        // For debug purposes:
+                        highlighted: (Math.round(this.lieu.appointment_count || 0)%2)===0,
+                        highlightedAppointments: 42,
+                    };
+                }
+
             } else if(typeLieu === 'actif-via-tel') {
                 cardConfig = {
                     highlighted: false,
