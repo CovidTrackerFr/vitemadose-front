@@ -304,8 +304,8 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
     }
 
     renderListItems(): TemplateResult {
-        const suggestionsCommunes = repeat(this.communesAffichees || [], (c) => `comm_${c.codePostal}__${c.nom}`, this.renderCommuneItem)
-        const suggestionsDépartements = repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, this.renderDepartementItem)
+        const suggestionsCommunes = repeat(this.communesAffichees || [], (c) => `comm_${c.codePostal}__${c.nom}`, this.renderCommuneItem.bind(this))
+        const suggestionsDépartements = repeat(this.departementsAffiches || [], (d) => `dept_${d.code_departement}__${d.nom_departement}`, this.renderDepartementItem.bind(this))
         return html`
             ${suggestionsDépartements}
             ${suggestionsCommunes}
