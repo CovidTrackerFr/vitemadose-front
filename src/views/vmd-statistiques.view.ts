@@ -26,10 +26,15 @@ export class VmdLieuxStatistiques extends LitElement {
     @property({type: Array, attribute: false}) statsByDates: StatsByDate|undefined = undefined;
 
     render() {
-        
         return html`
                 <br>
-                <h2 class="h1"> Statistiques</h2>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md">
+                      <h2 class="h1"> Statistiques</h2>
+                    </div>
+                  </div>
+                </div>
 
                 <div class="container-xxl">
                   <div class="row gx-5">
