@@ -14,7 +14,6 @@ import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
-import {styleMap} from "lit-html/directives/style-map";
 
 type LieuCliqueContext = {lieu: Lieu};
 export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
@@ -57,7 +56,12 @@ export class VmdAppointmentCardComponent extends LitElement {
               distance = this.lieu.distance.toFixed(1)
             }
 
-            let cardConfig: {cardLink:(content: TemplateResult) => TemplateResult, estCliquable: boolean, disabledBG: boolean, actions: TemplateResult|undefined, libelleDateAbsente: string };
+            let cardConfig: {
+                highlighted: boolean, highlightedAppointments: number|undefined,
+                cardLink:(content: TemplateResult) => TemplateResult,
+                estCliquable: boolean, disabledBG: boolean,
+                actions: TemplateResult|undefined, libelleDateAbsente: string
+            };
             let typeLieu = typeActionPour(this.lieu);
             if(typeLieu === 'actif-via-plateforme' || typeLieu === 'inactif-via-plateforme') {
                 let specificCardConfig: { disabledBG: boolean, libelleDateAbsente: string, libelleBouton: string, typeBouton: 'btn-info'|'btn-primary', onclick: ()=>void };
@@ -78,7 +82,15 @@ export class VmdAppointmentCardComponent extends LitElement {
                         onclick: () => this.prendreRdv()
                     };
                 }
+
+                const dayPlus2Appointments = ((this.lieu.appointment_schedules?.length?this.lieu.appointment_schedules:[]).find(s => s.name === '2_days')?.appointments_per_vaccine || [])
+                    .reduce((appointments, s) => appointments + s.appointments, 0);
                 cardConfig = {
+                    // For debug purposes:
+                    // highlighted: (Math.round(this.lieu.appointment_count || 0)%2)===0,
+                    // highlightedAppointments: 42,
+                    highlighted: PLATEFORMES[this.lieu.plateforme].highlightEnabled && dayPlus2Appointments>0,
+                    highlightedAppointments: dayPlus2Appointments,
                     estCliquable: true,
                     disabledBG: specificCardConfig.disabledBG,
                     libelleDateAbsente: specificCardConfig.libelleDateAbsente,
@@ -108,6 +120,8 @@ export class VmdAppointmentCardComponent extends LitElement {
                 };
             } else if(typeLieu === 'actif-via-tel') {
                 cardConfig = {
+                    highlighted: false,
+                    highlightedAppointments: undefined,
                     estCliquable: true,
                     disabledBG: false,
                     libelleDateAbsente: 'Réservation tél uniquement',
@@ -123,6 +137,8 @@ export class VmdAppointmentCardComponent extends LitElement {
                 };
             } else if(typeLieu === 'inactif') {
                 cardConfig = {
+                    highlighted: false,
+                    highlightedAppointments: undefined,
                     estCliquable: false,
                     disabledBG: true,
                     libelleDateAbsente: 'Aucun rendez-vous',
@@ -134,9 +150,12 @@ export class VmdAppointmentCardComponent extends LitElement {
             }
 
             return cardConfig.cardLink(html`
-            <div class="card rounded-3 mb-5 p-4 ${classMap({clickable: cardConfig.estCliquable, 'bg-disabled': cardConfig.disabledBG })}"
+            <div class="card rounded-3 mb-5 ${classMap({highlighted: cardConfig.highlighted, clickable: cardConfig.estCliquable, 'bg-disabled': cardConfig.disabledBG })}"
                  title="${cardConfig.estCliquable ? this.lieu.url : ''}">
-                <div class="card-body">
+                <div class="row align-items-center highlight-text">
+                  ${cardConfig.highlightedAppointments} Créneau${Strings.plural(cardConfig.highlightedAppointments, 'x')} disponible${Strings.plural(cardConfig.highlightedAppointments)} dans les 48h
+                </div>
+                <div class="card-body p-4">
                     <div class="row align-items-center ">
                         <div class="col">
                             <h5 class="card-title">

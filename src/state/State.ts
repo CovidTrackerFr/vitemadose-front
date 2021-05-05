@@ -38,14 +38,15 @@ export type Plateforme = {
     website: string;
     // Used for specific styling on logos, see for example _searchAppointment.scss
     styleCode: string;
+    highlightEnabled: boolean;
 };
 export const PLATEFORMES: Record<TypePlateforme, Plateforme> = {
-    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',            styleCode: '_doctolib'},
-    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/',              styleCode: '_maiia'},
-    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/',            styleCode: '_ordoclic'},
-    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  website: 'https://www.keldoc.com/',             styleCode: '_keldoc'},
-    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, website: 'https://masante.pandalab.eu/welcome', styleCode: '_pandalab'},
-    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login',          styleCode: '_mapharma'},
+    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',            highlightEnabled: true,  styleCode: '_doctolib'},
+    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/',              highlightEnabled: false, styleCode: '_maiia'},
+    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/',            highlightEnabled: false, styleCode: '_ordoclic'},
+    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  website: 'https://www.keldoc.com/',             highlightEnabled: false, styleCode: '_keldoc'},
+    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, website: 'https://masante.pandalab.eu/welcome', highlightEnabled: false, styleCode: '_pandalab'},
+    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login',          highlightEnabled: false, styleCode: '_mapharma'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
