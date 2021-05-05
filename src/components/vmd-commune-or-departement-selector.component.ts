@@ -203,7 +203,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         // is still at the 'start' of current filter
         // This is intended to detect start of filter string modifications which would invalidate
         // the current autocompleteFilter
-        if(this.filterMatchingAutocomplete && this.filter.includes(this.filterMatchingAutocomplete)) {
+        if(this.filterMatchingAutocomplete && !this.filter.startsWith(this.filterMatchingAutocomplete)) {
             this.filterMatchingAutocomplete = undefined;
         }
 
