@@ -122,7 +122,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                     cardConfig = {...cardConfig,
                         // For debug purposes:
                         highlighted: (Math.round(this.lieu.appointment_count || 0)%2)===0,
-                        highlightedAppointments: 42,
+                        highlightedAppointments: Math.round(Math.random()*this.lieu.appointment_count),
                     };
                 }
 
@@ -161,7 +161,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             <div class="card rounded-3 mb-5 ${classMap({highlighted: cardConfig.highlighted, clickable: cardConfig.estCliquable, 'bg-disabled': cardConfig.disabledBG })}"
                  title="${cardConfig.estCliquable ? this.lieu.url : ''}">
                 <div class="row align-items-center highlight-text">
-                  ${cardConfig.highlightedAppointments} Créneau${Strings.plural(cardConfig.highlightedAppointments, 'x')} disponible${Strings.plural(cardConfig.highlightedAppointments)} dans les 48h
+                  ${cardConfig.highlightedAppointments} Créneau${Strings.plural(cardConfig.highlightedAppointments, 'x')} disponible${Strings.plural(cardConfig.highlightedAppointments)} demain
                 </div>
                 <div class="card-body p-4">
                     <div class="row align-items-center ">
