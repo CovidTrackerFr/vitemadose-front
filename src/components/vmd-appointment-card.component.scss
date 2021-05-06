@@ -34,22 +34,17 @@
   overflow: hidden;
 
   .highlight-text {
-    display: block;
+    display: none;
     text-align: center;
     font-weight: bold;
-    background-color: tint-color($primary, 80%);
-
+    background-color: tint-color($primary, 80%);    
     color: $primary;
     margin: 0px;
     padding: 5px;
   }
 
-  &.highlighted {
-  }
-  &:not(.highlighted) {
-    .highlight-text {
-      display: none;
-    }
+  &.highlighted .highlight-text {
+      display: block;     
   }
 
   .distance {
