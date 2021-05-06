@@ -203,7 +203,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         // is still at the 'start' of current filter
         // This is intended to detect start of filter string modifications which would invalidate
         // the current autocompleteFilter
-        if(this.filterMatchingAutocomplete && this.filter.includes(this.filterMatchingAutocomplete)) {
+        if(this.filterMatchingAutocomplete && !this.filter.startsWith(this.filterMatchingAutocomplete)) {
             this.filterMatchingAutocomplete = undefined;
         }
 
@@ -239,10 +239,12 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
             if(!filterMatchedAnAutocomplete) {
                 this.communesDisponibles = [];
             }
+        }
 
-            if (this.$autoCompleteResults) {
-                this.$autoCompleteResults.scrollTop = 0;
-            }
+        this.filtrerDepartementsAffichees();
+
+        if (this.$autoCompleteResults) {
+            this.$autoCompleteResults.scrollTop = 0;
         }
     }
 
@@ -318,7 +320,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
       return html`<li
         class="autocomplete-result"
         role="option"
-        aria-selected="${index === 0}"
+        aria-selected="${index === 0 && this.departementsAffiches.length === 0}"
         @click="${() => this.communeSelected(commune)}"
         >
           <span class="zipcode">${commune.codePostal}</span> - ${commune.nom}
