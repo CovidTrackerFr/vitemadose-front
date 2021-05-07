@@ -1,5 +1,4 @@
-import {LitElement, html, customElement, property, css} from 'lit-element';
-import {classMap} from "lit-html/directives/class-map";
+import {LitElement, html, customElement, css} from 'lit-element';
 
 @customElement('vmd-apropos')
 export class VmdAproposComponent extends LitElement {

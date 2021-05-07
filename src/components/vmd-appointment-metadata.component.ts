@@ -1,4 +1,4 @@
-import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
+import {LitElement, html, customElement, property, css } from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 

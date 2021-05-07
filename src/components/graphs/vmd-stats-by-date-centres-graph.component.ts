@@ -7,7 +7,6 @@ import Chart from "chart.js";
 export class VmdStatsByDateCentresGraphComponent extends VmdGraphBaseComponent<StatsByDate> {
 
     rebuildGraph(canvas: HTMLCanvasElement, data: StatsByDate): Promise<Chart> {
-        let N = data.dates.length
         return Promise.resolve(
             new Chart(canvas, {
                 type: 'bar',
@@ -28,14 +27,14 @@ export class VmdStatsByDateCentresGraphComponent extends VmdGraphBaseComponent<S
                             backgroundColor: 'grey',
                             data: data.total_centres,
                         },
-                        
+
                     ]
                 },
                 options: {
                     scales:{
                         xAxes: [{
                             stacked: true,
-                            
+
                             ticks:{
                                 source: 'auto'
                             },
