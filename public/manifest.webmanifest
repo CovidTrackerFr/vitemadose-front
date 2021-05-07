@@ -25,5 +25,15 @@
       "type": "image/png",
       "sizes": "2704x1476"
     }
-  ]
+  ],
+  "prefer_related_applications": true,
+  "related_applications": [{
+    "platform": "play",
+    "url": "https://play.google.com/store/apps/details?id=com.cvtracker.vmd2",
+    "id": "com.cvtracker.vmd2"
+  }, {
+    "platform": "itunes",
+    "url": "https://apps.apple.com/fr/app/vite-ma-dose/id1563630754",
+    "id": "ZL9396WK65.app.vitemadose"
+  }]
 }
