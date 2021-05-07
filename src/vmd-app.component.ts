@@ -1,4 +1,4 @@
-import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
+import {LitElement, html, customElement, property, css } from 'lit-element';
 import {Router, SlottedTemplateResultFactory} from "./routing/Router";
 import smoothscroll from 'smoothscroll-polyfill';
 import {CSS_Global} from "./styles/ConstructibleStyleSheets";
@@ -24,7 +24,7 @@ export class VmdAppComponent extends LitElement {
 
         smoothscroll.polyfill();
 
-        Router.installRoutes((viewTemplateResult, path) => {
+        Router.installRoutes((viewTemplateResult) => {
             this.viewTemplateResult = viewTemplateResult;
         })
     }

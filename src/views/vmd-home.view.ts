@@ -1,4 +1,4 @@
-import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
+import {css, customElement, html, LitElement, property } from 'lit-element';
 import {Router} from "../routing/Router";
 import {
     Commune,
@@ -8,7 +8,6 @@ import {
     PLATEFORMES,
     State,
     StatsLieu,
-    StatsByDate
 } from "../state/State";
 import {
     AutocompleteTriggered,
@@ -16,7 +15,6 @@ import {
     DepartementSelected
 } from "../components/vmd-commune-or-departement-selector.component";
 import {CSS_Global, CSS_Home} from "../styles/ConstructibleStyleSheets";
-import Chart from "chart.js";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {

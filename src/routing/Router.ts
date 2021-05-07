@@ -26,7 +26,6 @@ class Routing {
 
     private _viewChangeCallbacks: ViewChangedCallback[] = [];
 
-    private currentTemplateResultCreator: SlottedTemplateResultFactory|undefined = undefined;
     private currentPath: string|undefined = undefined;
 
     public get basePath() {
@@ -41,7 +40,7 @@ class Routing {
 
         this.declareRoutes({
             pathPattern: `/`, analyticsViewName: 'home',
-            viewContent: async (params) => {
+            viewContent: async () => {
                 await import('../views/vmd-home.view')
                 return (subViewSlot) =>
                     html`<vmd-home>${subViewSlot}</vmd-home>`
@@ -83,7 +82,7 @@ class Routing {
         });
         this.declareRoutes({
             pathPattern: `/centres`, analyticsViewName: 'centres',
-            viewContent: async (params) => {
+            viewContent: async () => {
                 await import('../views/vmd-lieux.view')
                 return (subViewSlot) =>
                     html`<vmd-lieux>${subViewSlot}</vmd-lieux>`
@@ -91,7 +90,7 @@ class Routing {
         });
         this.declareRoutes({
             pathPattern: `/statistiques`, analyticsViewName: 'statistiques',
-            viewContent: async (params) => {
+            viewContent: async () => {
                 await import('../views/vmd-statistiques.view')
                 return (subViewSlot) =>
                     html`<vmd-statistiques>${subViewSlot}</vmd-statistiques>`
@@ -99,7 +98,7 @@ class Routing {
         });
         this.declareRoutes({
             pathPattern: `/apropos`, analyticsViewName: 'a_propos',
-            viewContent: async (params) => {
+            viewContent: async () => {
                 await import('../views/vmd-apropos.view')
                 return (subViewSlot) =>
                     html`<vmd-apropos>${subViewSlot}</vmd-apropos>`
@@ -134,7 +133,6 @@ class Routing {
                 this.currentPath === '/' && window.scroll({ top: 0, behavior: 'smooth' })
 
                 this.currentPath = path;
-                this.currentTemplateResultCreator = slottedViewTemplateFactory;
 
                 document.title = title;
 

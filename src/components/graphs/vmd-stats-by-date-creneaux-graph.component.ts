@@ -12,7 +12,6 @@ export class VmdStatsByDateCreneauxGraphComponent extends VmdGraphBaseComponent<
 
         var total_appointments = data.total_appointments
 
-        let N = data.dates.length
         return Promise.resolve(
             new Chart(canvas, {
                 type: 'bar',

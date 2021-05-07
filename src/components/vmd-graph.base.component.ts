@@ -1,5 +1,4 @@
-import {LitElement, html, customElement, property, css, query, PropertyValues} from 'lit-element';
-import {classMap} from "lit-html/directives/class-map";
+import {LitElement, html, property, css, query, PropertyValues} from 'lit-element';
 
 export abstract class VmdGraphBaseComponent<T> extends LitElement {
 

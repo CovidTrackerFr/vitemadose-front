@@ -13,7 +13,7 @@ import {
     libelleUrlPathDuDepartement,
     Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
     LieuxParDepartement,
-    State, TriCentre,
+    State,
     TRIS_CENTRE
 } from "../state/State";
 import {Dates} from "../utils/Dates";
@@ -250,9 +250,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         `;
     }
 
-    onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void> {
-        return Promise.resolve();
-    }
+    abstract onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void>
 
     async onceStartupPromiseResolved() {
         // to be overriden
@@ -291,10 +289,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return false;
     }
 
-    codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[] {
-        // overridable
-        return [];
-    }
+    abstract codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[]
 
     async refreshLieux() {
         if(this.codeDepartementSelectionne && !this.preventRafraichissementLieux()) {
@@ -514,7 +509,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             {longitude:this.communeSelectionnee!.longitude, latitude: this.communeSelectionnee!.latitude}:undefined;
         const distanceAvec = origin?
             (lieu: Lieu) => (lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity)
-            :(lieu: Lieu) => undefined;
+            :() => undefined;
 
         const { lieuxDisponibles, lieuxIndisponibles } = {
             lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles:[],
@@ -571,6 +566,12 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
                 await this.departementSelected(departementSelectionne, false);
             }
         }
+    }
+
+    async onCommuneAutocompleteLoaded () {
+    }
+    codeDepartementAdditionnels () {
+      return []
     }
 
     libelleLieuSelectionne(): TemplateResult {

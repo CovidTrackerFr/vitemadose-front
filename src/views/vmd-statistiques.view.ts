@@ -1,7 +1,7 @@
 import '../components/graphs/vmd-stats-by-date-creneaux-graph.component'
 import '../components/graphs/vmd-stats-by-date-centres-graph.component'
 
-import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
+import {css, customElement, html, LitElement, property } from 'lit-element';
 
 import {
     State,

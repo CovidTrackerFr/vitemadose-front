@@ -298,17 +298,13 @@ export class State {
         } else {
             const resp = await fetch(`${VMD_BASE_URL}/stats.json`)
             const statsParDepartements: Record<CodeDepartement|'tout_departement', StatLieu> = await resp.json()
+            const { tout_departement: global, ...parDepartements } = statsParDepartements
 
             const statsLieu = {
-                parDepartements: Object.entries(statsParDepartements)
-                    .filter(([dpt, stats]: [CodeDepartement|"tout_departement", StatLieu]) => dpt !== 'tout_departement')
-                    .reduce((statsParDept, [dpt, stats]: [CodeDepartement, StatLieu]) => {
-                        statsParDepartements[dpt] = stats;
-                        return statsParDepartements;
-                    }, {} as StatsLieuParDepartement),
+                parDepartements,
                 global: {
-                    ...statsParDepartements['tout_departement'],
-                    proportion: Math.round(statsParDepartements['tout_departement'].disponibles * 10000 / statsParDepartements['tout_departement'].total)/100
+                    ...global,
+                    proportion: Math.round(global.disponibles * 10000 / global.total)/100
                 }
             };
             this._statsLieu = statsLieu;
