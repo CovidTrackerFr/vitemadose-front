@@ -82,6 +82,11 @@ class Routing {
             viewContent: (params) => (subViewSlot) =>
                 html`<vmd-apropos>${subViewSlot}</vmd-apropos>`
         });
+        this.declareRoutes({
+            pathPattern: `/chronodose`, analyticsViewName: 'chronodose',
+            viewContent: (params) => (subViewSlot) =>
+                html`<vmd-chronodose>${subViewSlot}</vmd-chronodose>`
+        });
 
         page(`*`, (context) => this._notFoundRoute(context));
         page();
