@@ -61,6 +61,5 @@ export class VmdLieuxView extends LitElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        // console.log("disconnected callback")
     }
 }
