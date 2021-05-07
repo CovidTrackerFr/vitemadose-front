@@ -1,0 +1,265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<vmd-appointment-card> matches snapshot 1`] = `
+ShadowRoot {
+  Symbol(SameObject caches): Object {
+    "children": HTMLCollection [
+      <a
+        href="#"
+      >
+        <!---->
+        
+            
+        <div
+          class="card rounded-3 mb-5 p-4 clickable"
+          title="https://chez.hugette.fr"
+        >
+          
+                
+          <div
+            class="card-body"
+          >
+            
+                    
+            <div
+              class="row align-items-center "
+            >
+              
+                        
+              <div
+                class="col"
+              >
+                
+                            
+                <h5
+                  class="card-title"
+                >
+                  
+                              
+                  
+            Jeudi 12 Août
+            à 02:00
+        
+                  
+                              
+                  <small
+                    class="distance"
+                  >
+                    <!---->
+                    
+                    <!---->
+                  </small>
+                  
+                            
+                </h5>
+                
+                            
+                <div
+                  class="row"
+                >
+                  
+                              
+                  <vmd-appointment-metadata
+                    class="mb-2"
+                    icon="vmdicon-geo-alt-fill"
+                    widthtype="full-width"
+                  >
+                    
+                                
+                    <div
+                      slot="content"
+                    >
+                      
+                                  
+                      <span
+                        class="fw-bold text-dark"
+                      >
+                        <!---->
+                        Chez Huguette
+                        <!---->
+                      </span>
+                      
+                                  
+                      <br />
+                      
+                                  
+                      <em>
+                        <!---->
+                        123 rue Bidon
+                        <!---->
+                      </em>
+                      
+                                
+                    </div>
+                    
+                              
+                  </vmd-appointment-metadata>
+                  
+                              
+                  <vmd-appointment-metadata
+                    class="mb-2"
+                    icon="vmdicon-telephone-fill"
+                    widthtype="fit-to-content"
+                  >
+                    
+                                
+                    <span
+                      slot="content"
+                    >
+                      
+                                    
+                      <a
+                        href="tel:undefined"
+                      >
+                        
+                                        
+                        
+                                    
+                      </a>
+                      
+                                
+                    </span>
+                    
+                              
+                  </vmd-appointment-metadata>
+                  
+                              
+                  <vmd-appointment-metadata
+                    class="mb-2"
+                    icon="vmdicon-commerical-building"
+                    widthtype="fit-to-content"
+                  >
+                    
+                                
+                    <span
+                      slot="content"
+                    >
+                      <!---->
+                      Pharmacie
+                      <!---->
+                    </span>
+                    
+                              
+                  </vmd-appointment-metadata>
+                  
+                              
+                  <vmd-appointment-metadata
+                    class="mb-2"
+                    icon="vmdicon-syringe"
+                    widthtype="fit-to-content"
+                  >
+                    
+                                
+                    <span
+                      slot="content"
+                    >
+                      <!---->
+                      ARNm
+                      <!---->
+                    </span>
+                    
+                              
+                  </vmd-appointment-metadata>
+                  
+                            
+                </div>
+                
+                        
+              </div>
+              
+
+                        
+              
+                        
+              <div
+                class="col-24 col-md-auto text-center mt-4 mt-md-0"
+              >
+                
+                          
+                
+                      
+                <a
+                  class="btn btn-lg btn-primary"
+                  href="#"
+                >
+                  
+                        
+                  Prendre rendez-vous
+                  
+                      
+                </a>
+                
+                      
+                <div
+                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                >
+                  
+                        
+                  <div
+                    class="col-auto"
+                  >
+                    
+                          
+                    8
+                     créneau
+                    x
+                    
+                        
+                  </div>
+                  
+                        
+                  
+                        |
+                        
+                  <div
+                    class="col-auto"
+                  >
+                    
+                            
+                    
+                            
+                    <img
+                      alt="Créneau de vaccination Doctolib"
+                      class="rdvPlatformLogo _doctolib"
+                      src="/assets/images/png/logo_doctolib.png"
+                    />
+                    
+                            
+                    
+                        
+                  </div>
+                  
+                        
+                  
+                      
+                </div>
+                
+                    
+                
+                        
+              </div>
+              
+                        
+              
+                    
+            </div>
+            
+                
+          </div>
+          
+            
+        </div>
+        
+            
+        <!---->
+      </a>,
+      <style />,
+      <style />,
+      <style>
+        
+        
+      </style>,
+    ],
+  },
+}
+`;

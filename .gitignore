@@ -10,3 +10,4 @@ types
 !/mobile/www/.dirkeep
 .idea
 *~
+/coverage
