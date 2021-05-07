@@ -175,13 +175,15 @@ export type LieuxAvecDistanceParDepartement = {
     codeDepartements: CodeDepartement[];
     derniereMiseAJour: ISODateString;
 };
+
+// TODO use actual type guards for this
 export function typeActionPour(lieuAffichable: LieuAffichableAvecDistance): 'actif-via-plateforme'|'inactif-via-plateforme'|'actif-via-tel'|'inactif' {
     const phoneOnly = lieuAffichable.appointment_by_phone_only && lieuAffichable.metadata.phone_number;
-    if(phoneOnly) { // Phone only may have url, but we should ignore it !
+    if (phoneOnly) { // Phone only may have url, but we should ignore it !
         return 'actif-via-tel';
-    } else if(lieuAffichable && lieuAffichable.appointment_count !== 0){
+    } else if (lieuAffichable.appointment_count > 0) {
         return 'actif-via-plateforme';
-    } else if(lieuAffichable && lieuAffichable.appointment_count === 0){
+    } else if (lieuAffichable.appointment_count === 0) {
         return 'inactif-via-plateforme';
     } else {
         return 'inactif';
