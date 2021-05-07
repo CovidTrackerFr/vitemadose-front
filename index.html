@@ -52,6 +52,18 @@
             <h1 slot="main-title">
                 Votre vaccination contre la Covid <span class="text-secondary">facilement</span> et <span class="text-primary">rapidement</span>
             </h1>
+            <noscript id="noscript">
+                <div id="outdated-browser-banner">
+                    <div>
+                        <div id="outdated-browser-banner_icon">⚠</div>
+                        <div>
+                            Vous utilisez un navigateur internet obsolète. <br>
+                            <a href="https://browsehappy.com">Veuillez mettre à jour votre navigateur pour améliorer votre expérience 
+                                et votre sécurité en cliquant ici.</a>
+                        </div>
+                    </div>
+                </div>
+            </noscript>
             <div slot="about" style="margin-top: 40px; margin-left: 10px">
                 <div class="spacer mt-5 mb-5"></div>
 
@@ -162,5 +174,14 @@
             </div>
         </vmd-app>
     </div>
+    <script>
+        if (navigator.userAgent.indexOf("MSIE") !== -1 ||       // IE < 11
+            navigator.userAgent.indexOf("Trident/") !== -1 ||   // IE 11
+            !("reversed" in document.createElement("ol")) ||    // Edge before chromium
+            !("noModule" in HTMLScriptElement.prototype)) {
+            document.getElementById("noscript").outerHTML = document.getElementById("noscript").textContent;
+        }
+    </script>
+     <link rel="stylesheet" href="./src/styles/outdated-browser.css">
 </body>
 </html>
