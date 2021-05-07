@@ -135,7 +135,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
     render() {
         return html`
-          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter})}"
+          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}"
                 @submit="${this.handleSubmit}">
             <input type="search" class="autocomplete-input"
                    required
