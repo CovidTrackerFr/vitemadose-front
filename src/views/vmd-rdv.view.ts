@@ -190,7 +190,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         </vmd-commune-or-departement-selector>
                     </div>
                 </div>
-                <div class="rdvForm-fields row align-items-center">
+                ${this.renderAdditionnalSearchCriteria()}
+                <div class="rdvForm-fields row align-items-center typev">
                     <label class="col-sm-24 col-md-auto mb-md-3">
                      Je recherche un vaccin de type :
                     </label>
@@ -202,7 +203,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         </vmd-button-switch>
                     </div>
                 </div>
-                ${this.renderAdditionnalSearchCriteria()}
             </div>
 
             <div class="spacer mt-5 mb-5"></div>

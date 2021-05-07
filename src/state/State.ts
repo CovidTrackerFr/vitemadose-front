@@ -24,8 +24,8 @@ export const TRIS_CENTRE: Map<CodeTriCentre, TriCentre> = new Map([
 export type CodeTypeVaccin = 'tous' | 'arnm' | 'adenovirus';
 export const FILTRE_TYPE_VACCIN: Map<CodeTypeVaccin, {codeTypeVaccin: CodeTypeVaccin, libelle: string, title: string}> = new Map([
     ['tous', {codeTypeVaccin: 'tous', libelle: "Tous", title: "Tous les vaccins" }],
-    ['arnm', {codeTypeVaccin: 'arnm', libelle: "Pfizer-BioNTech/Moderna", title: "ARN messager" }],
-    ['adenovirus', {codeTypeVaccin: 'adenovirus', libelle:"AstraZeneca/Janssen", title: "à base d'adénovirus" }],
+    ['arnm', {codeTypeVaccin: 'arnm', libelle: "Pfizer/BioNTech ou Moderna", title: "ARN messager" }],
+    ['adenovirus', {codeTypeVaccin: 'adenovirus', libelle:"AstraZeneca ou Janssen", title: "à base d'adénovirus" }],
 ]);
 
 
