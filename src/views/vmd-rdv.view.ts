@@ -21,7 +21,7 @@ import {
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
     Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
-    LieuxParDepartement,
+    LieuxParDepartement, SearchType,
     State, TriCentre,
     TRIS_CENTRE
 } from "../state/State";
@@ -64,7 +64,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
 
-    @internalProperty() searchType: "standard"|"chronodose" = "standard";
+    @internalProperty() searchType: SearchType = "standard";
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
     protected lieuBackgroundRefreshIntervalId: number|undefined = undefined;
@@ -177,10 +177,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return html`
             <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'bg-std': this.searchType==='standard', 'bg-chronodose': this.searchType==='chronodose'})}">
               <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
-                <li class="col bg-std text-std tab ${classMap({selected: this.searchType==='standard'})}" @click="${() => this.searchType='standard'}">
+                <li class="col bg-std text-std tab ${classMap({selected: this.searchType==='standard'})}" @click="${() => this.updateSearchTypeTo('standard')}">
                   Tous les créneaux
                 </li>
-                <li class="col bg-chronodose text-chronodose tab ${classMap({selected: this.searchType==='chronodose'})}" @click="${() => this.searchType='chronodose'}">
+                <li class="col bg-chronodose text-chronodose tab ${classMap({selected: this.searchType==='chronodose'})}" @click="${() => this.updateSearchTypeTo('chronodose')}">
                   Chronodoses uniquement
                 </li>
               </ul>
@@ -426,8 +426,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
 
+    protected updateSearchTypeTo(searchType: SearchType) {
+        this.searchType = searchType;
+    }
+
     abstract libelleLieuSelectionne(): TemplateResult;
     abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement;
+
 }
 
 @customElement('vmd-rdv-par-commune')
@@ -577,6 +582,14 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         `;
         } else {
             return html``;
+        }
+    }
+
+    protected updateSearchTypeTo(searchType: SearchType) {
+        super.updateSearchTypeTo(searchType);
+        if(this.searchType === 'chronodose') {
+            // This is pointless to sort by time in chronodrive search
+            this.critèreDeTri = 'distance';
         }
     }
 }

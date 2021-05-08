@@ -178,6 +178,8 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
     return Strings.toReadableURLPathValue(commune.nom);
 }
 
+export type SearchType = "standard"|"chronodose";
+
 export class State {
     public static current = new State();
 
