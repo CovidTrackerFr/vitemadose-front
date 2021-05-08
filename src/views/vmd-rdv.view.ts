@@ -257,6 +257,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         return html`<vmd-appointment-card
                             style="--list-index: ${index}"
                             .lieu="${lieu}"
+                            theme="${this.searchType}"
+                            .highlightable="${this.searchType === 'chronodose'}"
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
                         />`;
