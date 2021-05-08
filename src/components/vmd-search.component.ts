@@ -1,17 +1,11 @@
-import {css, customElement, html, LitElement, internalProperty, property, unsafeCSS} from 'lit-element';
-import {Router} from "../routing/Router";
+import {css, customElement, html, LitElement, internalProperty, property } from 'lit-element';
 import {SearchRequest, SearchType} from '../state/State'
 import {
     Commune,
     Departement,
-    libelleUrlPathDeCommune,
-    libelleUrlPathDuDepartement,
-    PLATEFORMES,
     State,
-    StatsLieu,
 } from "../state/State";
 import {
-    AutocompleteTriggered,
     CommuneSelected,
     DepartementSelected
 } from "../components/vmd-commune-or-departement-selector.component";

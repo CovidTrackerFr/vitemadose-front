@@ -299,7 +299,7 @@ export class State {
         }
     }
 
-    async chercheCommuneParCode(basePath: string, codePostal: string, codeCommune: string): Promise<Commune> {
+    async chercheCommuneParCode(codePostal: string, codeCommune: string): Promise<Commune> {
         const commune = await this.autocomplete.findCommune(codePostal, codeCommune)
         return commune || State.COMMUNE_VIDE
     }

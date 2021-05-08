@@ -65,7 +65,6 @@ export class Autocomplete {
 
   private async getLongestPrefixMatch(term: NormalizedSearch): Promise<NormalizedSearch | undefined> {
     const prefixes = await this.getAutocompletePrefixes()
-    let longestMatch = term
     for (let size = term.length; size > 0; --size) {
       const subPrefix = term.substring(0, size)
       if (prefixes.has(subPrefix)) {
