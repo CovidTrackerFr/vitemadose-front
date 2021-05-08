@@ -1,3 +1,5 @@
+import 'tippy.js/dist/tippy.css';
+
 import './vmd-app.component'
 import './components/vmd-appointment-card.component'
 import './components/vmd-appointment-metadata.component'

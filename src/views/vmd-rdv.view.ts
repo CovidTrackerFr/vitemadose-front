@@ -4,7 +4,7 @@ import {
     html,
     internalProperty,
     LitElement,
-    property,
+    property, PropertyValues, query,
     unsafeCSS
 } from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
@@ -39,6 +39,7 @@ import {setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
+import tippy from 'tippy.js';
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -65,6 +66,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
 
     @internalProperty() searchType: SearchType = "standard";
+
+    @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
     protected lieuBackgroundRefreshIntervalId: number|undefined = undefined;
@@ -181,7 +184,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   Tous les créneaux
                 </li>
                 <li class="col bg-chronodose text-chronodose tab ${classMap({selected: this.searchType==='chronodose'})}" @click="${() => this.updateSearchTypeTo('chronodose')}">
-                  Chronodoses uniquement
+                  <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité">Chronodoses<i class="bi vmdicon-help-circled"></i> uniquement</span>
                 </li>
               </ul>
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
@@ -270,6 +273,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
             `}
         `;
     }
+
+    updated(changedProperties: PropertyValues) {
+        super.updated(changedProperties);
+        tippy(this.$chronodoseLabel, {
+            content: (el) => el.getAttribute('title')!
+        })
+    }
+
 
     abstract onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void>
 
