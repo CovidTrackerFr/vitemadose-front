@@ -186,6 +186,7 @@ export class VmdHomeView extends LitElement {
                                     <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.creneaux.toLocaleString():""}</div>
                                     <p>Créneaux de vaccination disponibles</p>
                                 </a>
+                              <em style="font-size: 1.3rem">Ce nombre ne correspond pas au nombre de doses disponibles</em>
                             </div>
                         </div>
                     </div>
