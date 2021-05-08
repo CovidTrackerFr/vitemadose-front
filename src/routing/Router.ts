@@ -82,11 +82,9 @@ class Routing {
         });
         this.declareRoutes({
             pathPattern: `/centres`, analyticsViewName: 'centres',
-            viewContent: async () => {
-                await import('../views/vmd-lieux.view')
-                return (subViewSlot) =>
+            viewContent: () =>
+                (subViewSlot) =>
                     html`<vmd-lieux>${subViewSlot}</vmd-lieux>`
-            }
         });
         this.declareRoutes({
             pathPattern: `/statistiques`, analyticsViewName: 'statistiques',
