@@ -12,19 +12,12 @@ import {classMap} from "lit-html/directives/class-map";
 import {Commune, Departement} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
 import communeSelectorCss from "./vmd-commune-or-departement-selector.component.scss";
-import {TemplateResult} from "lit-html";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
-import {DirectiveFn} from "lit-html/lib/directive";
 
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
 export type DepartementSelected = { departement: Departement };
 export type ValueStrCustomEvent<T extends string> = CustomEvent<{value: T}>;
-
-type DepartementRecherchable = Departement & {
-    fullTextSearchableNom: string;
-    fullTextSearchableCodeDepartement: string;
-};
 
 const SVG_CLOSE_ICON = html`<svg width="25" height="25" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" fill="black"><path d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm0 10.293l5.293-5.293.707.707-5.293 5.293 5.293 5.293-.707.707-5.293-5.293-5.293 5.293-.707-.707 5.293-5.293-5.293-5.293.707-.707 5.293 5.293z"/></svg>`
 
@@ -92,7 +85,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         `;
     }
 
-    renderListItems(): TemplateResult|DirectiveFn {
+    renderListItems() {
         return repeat(this.suggestions, this.keyForSuggestion.bind(this), (suggestion, index) => {
           if (this.suggestionIsDepartement(suggestion)) {
             return this.renderDepartementItem(suggestion, index)

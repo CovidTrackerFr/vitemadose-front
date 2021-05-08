@@ -87,9 +87,7 @@ const communeDeaumont: Commune = {
 }
 
 describe("State.Autocomplete", () => {
-  const apiBaseUrl = "https://VMD.API/"
   const webBaseUrl = "https://MY.WEB.PATH/"
-
 
   const FILES = {
     [`${webBaseUrl}autocompletes.json`]: ['1','14', 'd', 'de', 'dea'],
