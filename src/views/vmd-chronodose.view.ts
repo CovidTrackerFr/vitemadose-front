@@ -1,9 +1,5 @@
 import {css, customElement, html, LitElement, unsafeCSS} from 'lit-element';
 import globalCss from "../styles/global.scss";
-import leafletCss from 'leaflet/dist/leaflet.css';
-import leafletMarkerCss from 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-// @ts-ignore
-import {MarkerClusterGroup}  from 'leaflet.markercluster'
 
 @customElement('vmd-chronodose')
 export class VmdChronodoseView extends LitElement {
@@ -11,8 +7,6 @@ export class VmdChronodoseView extends LitElement {
     //language=css
     static styles = [
         css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(leafletCss)}`,
-        css`${unsafeCSS(leafletMarkerCss)}`,
         css`
             :host {
                 display: block;
