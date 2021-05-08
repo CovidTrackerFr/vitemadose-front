@@ -78,15 +78,15 @@ select[required]:invalid {
     border-top-right-radius: 1.2rem;
     padding: 1.2rem 1.5rem;
     font-weight: bold;
-    border: 0px solid lightgrey;
+    border: 1px solid transparent;
     list-style: none;
     cursor: pointer;
 
     &.selected {
-        border-width: 1px;
-        border-bottom-width: 0px;
+        border-color: lightgrey;
+        border-bottom-color: transparent;
     }
     &:not(.selected) {
-        border-bottom-width: 1px;
+        border-bottom-color: lightgrey;
     }
 }
