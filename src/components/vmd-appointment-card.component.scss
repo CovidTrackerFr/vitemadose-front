@@ -1,6 +1,7 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/mixins/breakpoints";
 @import "../styles/bootstrap-variables";
+@import "../styles/global-variables";
 
 .rdvPlatformLogo {
   max-width: 8rem;
@@ -37,8 +38,6 @@
     display: none;
     text-align: center;
     font-weight: bold;
-    background-color: tint-color($primary, 80%);    
-    color: $primary;
     margin: 0px;
     padding: 5px;
   }
@@ -87,11 +86,23 @@ a:hover, a:focus {
   color: $link-color;
 }
 
-.btn-primary.disabled {
-  background-color: tint-color($primary, 20%);
+.search-chronodose {
+  .highlight-text {
+    background-color: tint-color($chronodoseColor, 80%);
+    color: $chronodoseColor;
+  }
+  .btn-tel {
+    background-color: tint-color($chronodoseColor, 80%);
+    color: $chronodoseColor;
+  }
 }
-
-.btn-tel {
-  background-color: tint-color($primary, 80%);
-  color: $primary;
+.search-standard {
+  .highlight-text {
+    background-color: tint-color($stdColor, 80%);
+    color: $stdColor;
+  }
+  .btn-tel {
+    background-color: tint-color($stdColor, 80%);
+    color: $stdColor;
+  }
 }

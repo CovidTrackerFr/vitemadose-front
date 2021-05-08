@@ -5,6 +5,7 @@
 @import "bootstrap-additional";
 
 @import "./fontello-icons";
+@import "./global-variables";
 
 //$base-color: #ffbf16;
 
@@ -37,4 +38,36 @@ h1 {
 
 select[required]:invalid {
     color: $gray-600;
+}
+
+.search-chronodose {
+    .btn-primary {
+        background-color: $chronodoseColor;
+        border-color: $chronodoseColor;
+    }
+    .btn-primary.disabled {
+        background-color: tint-color($chronodoseColor, 20%);
+    }
+}
+.search-standard {
+    .btn-primary {
+        background-color: $stdColor;
+        border-color: $stdColor;
+    }
+    .btn-primary.disabled {
+        background-color: tint-color($stdColor, 20%);
+    }
+}
+
+.bg-chronodose {
+    background-color: $lightChronodoseColor;
+}
+.bg-std {
+    background-color: $lightStdColor;
+}
+.text-chronodose {
+    color: $chronodoseColor;
+}
+.text-std {
+    color: $stdColor;
 }

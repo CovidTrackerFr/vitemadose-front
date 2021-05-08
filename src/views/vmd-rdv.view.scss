@@ -1,6 +1,7 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/mixins/breakpoints";
 @import "../styles/bootstrap-variables";
+@import "../styles/global-variables";
 
 .rdvForm {
     &-fields {
@@ -121,3 +122,11 @@ vmd-appointment-card {
     }
 }
 
+.criteria-container {
+    &.search-standard {
+        background-color: $lightStdColor;
+    }
+    &.search-chronodose {
+        background-color: $lightChronodoseColor;
+    }
+}
