@@ -26,7 +26,6 @@ class Routing {
 
     private _viewChangeCallbacks: ViewChangedCallback[] = [];
 
-    private currentTemplateResultCreator: SlottedTemplateResultFactory|undefined = undefined;
     private currentPath: string|undefined = undefined;
 
     public get basePath() {
@@ -41,8 +40,11 @@ class Routing {
 
         this.declareRoutes({
             pathPattern: `/`, analyticsViewName: 'home',
-            viewContent: (params) => (subViewSlot) =>
-                html`<vmd-home>${subViewSlot}</vmd-home>`
+            viewContent: async () => {
+                await import('../views/vmd-home.view')
+                return (subViewSlot) =>
+                    html`<vmd-home>${subViewSlot}</vmd-home>`
+            }
         });
         this.declareRoutes({
             pathPattern: [
@@ -52,8 +54,11 @@ class Routing {
                 // Proper URL really used
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`
             ], analyticsViewName: 'search_results_by_department',
-            viewContent: (params) => (subViewSlot) =>
-                html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv-par-departement>`,
+            viewContent: async (params) => {
+                await import('../views/vmd-rdv.view')
+                return (subViewSlot) =>
+                    html`<vmd-rdv-par-departement codeDepartementSelectionne="${params[`codeDpt`]}">${subViewSlot}</vmd-rdv-par-departement>`
+            },
             pageTitleProvider: (params) =>
                 State.current.chercheDepartementParCode(params[`codeDpt`])
                     .then(nomDpt => `Vaccination COVID-19 en ${nomDpt.nom_departement} ${params[`codeDpt`]}`)
@@ -61,31 +66,51 @@ class Routing {
         this.declareRoutes({
             pathPattern: `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`,
             analyticsViewName: 'search_results_by_city',
-            viewContent: (params) => (subViewSlot) =>
-                html`<vmd-rdv-par-commune
+            viewContent: async (params) => {
+                await import('../views/vmd-rdv.view')
+                return (subViewSlot) =>
+                    html`<vmd-rdv-par-commune
                     codeCommuneSelectionne="${params[`codeCommune`]}"
                     codePostalSelectionne="${params[`codePostal`]}"
                     critèreDeTri="${params[`codeTriCentre`]}">
                   ${subViewSlot}
-                </vmd-rdv-par-commune>`,
+                </vmd-rdv-par-commune>`
+            },
             pageTitleProvider: (params) =>
                 State.current.chercheCommuneParCode(Router.basePath, params['codePostal'], params['codeCommune'])
                     .then(commune => `Vaccination COVID-19 à ${commune.nom} ${commune.codePostal}`)
         });
         this.declareRoutes({
             pathPattern: `/centres`, analyticsViewName: 'centres',
-            viewContent: (params) => (subViewSlot) =>
-                html`<vmd-lieux>${subViewSlot}</vmd-lieux>`
+            viewContent: async () => {
+                await import('../views/vmd-lieux.view')
+                return (subViewSlot) =>
+                    html`<vmd-lieux>${subViewSlot}</vmd-lieux>`
+            }
+        });
+        this.declareRoutes({
+            pathPattern: `/statistiques`, analyticsViewName: 'statistiques',
+            viewContent: async () => {
+                await import('../views/vmd-statistiques.view')
+                return (subViewSlot) =>
+                    html`<vmd-statistiques>${subViewSlot}</vmd-statistiques>`
+            }
         });
         this.declareRoutes({
             pathPattern: `/apropos`, analyticsViewName: 'a_propos',
-            viewContent: (params) => (subViewSlot) =>
-                html`<vmd-apropos>${subViewSlot}</vmd-apropos>`
+            viewContent: async () => {
+                await import('../views/vmd-apropos.view')
+                return (subViewSlot) =>
+                    html`<vmd-apropos>${subViewSlot}</vmd-apropos>`
+            }
         });
         this.declareRoutes({
             pathPattern: `/chronodose`, analyticsViewName: 'chronodose',
-            viewContent: (params) => (subViewSlot) =>
-                html`<vmd-chronodose>${subViewSlot}</vmd-chronodose>`
+            viewContent: async () => {
+                await import('../views/vmd-chronodose.view')
+                return (subViewSlot) =>
+                    html`<vmd-chronodose>${subViewSlot}</vmd-chronodose>`
+            }
         });
 
         page(`*`, (context) => this._notFoundRoute(context));
@@ -113,8 +138,9 @@ class Routing {
                     Promise.resolve(slottedViewComponentFactoryResult)),
                 titlePromise(context.params).catch(() => Routing.DEFAULT_TITLE)
             ]).then(([slottedViewTemplateFactory, title]) => {
+                this.currentPath === '/' && window.scroll({ top: 0, behavior: 'smooth' })
+
                 this.currentPath = path;
-                this.currentTemplateResultCreator = slottedViewTemplateFactory;
 
                 document.title = title;
 

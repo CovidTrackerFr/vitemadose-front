@@ -1,11 +1,11 @@
 import {css, customElement, html, LitElement, unsafeCSS} from 'lit-element';
-import globalCss from "../styles/global.scss";
 import {Icon, map, marker, tileLayer} from 'leaflet'
 import leafletCss from 'leaflet/dist/leaflet.css';
 import leafletMarkerCss from 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 // @ts-ignore
 import {MarkerClusterGroup}  from 'leaflet.markercluster'
 import {Router} from "../routing/Router";
+import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 // Code imported (and refactored a little bit)
 // from https://github.com/rozierguillaume/covidtracker-tools/blob/main/src/ViteMaDose/carteCentres.html
@@ -27,7 +27,7 @@ export class VmdLieuxView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`${unsafeCSS(leafletCss)}`,
         css`${unsafeCSS(leafletMarkerCss)}`,
         css`
@@ -41,7 +41,7 @@ export class VmdLieuxView extends LitElement {
     render() {
         return html`
           <h2 class="h1"> Carte des centres de vaccination contre la Covid-19</h2>
-          
+
           <slot name="about-lieux"></slot>
 
           <div id="mapid" style="height: 80vh; width: 90vw; max-width: 100%; max-height: 600px; margin-bottom: 40px"></div>
@@ -58,14 +58,14 @@ export class VmdLieuxView extends LitElement {
         const mymap = map(this.shadowRoot!.querySelector("#mapid") as HTMLElement).setView([46.505, 3], 6);
         const url="https://www.data.gouv.fr/fr/datasets/r/5cb21a85-b0b0-4a65-a249-806a040ec372"
 
-        let request = fetch(url)
+        fetch(url)
             .then(response => response.arrayBuffer())
             .then(buffer => {
                 const decoder = new TextDecoder();
                 const csv = decoder.decode(buffer);
                 const data_array = VmdLieuxView.CSVToArray(csv, ";");
 
-                const lieux: Lieu[] = data_array.slice(1, data_array.length-1).map((value: string[], idx) => ({
+                const lieux: Lieu[] = data_array.slice(1, data_array.length-1).map((value: string[]) => ({
                     longitude: Number(value[10]),
                     latitude: Number(value[11]),
                     nom: value[1],
@@ -179,7 +179,7 @@ export class VmdLieuxView extends LitElement {
     }
 
     private static creer_pins(lieux: Lieu[]){
-        const markers = lieux.reduce((markers: MarkerClusterGroup, lieu, idx)=>{
+        const markers = lieux.reduce((markers: MarkerClusterGroup, lieu) => {
             let reservation_str = ""
             if (typeof lieu.reservation != 'undefined'){
                 if (lieu.reservation.indexOf("http") === 0){
@@ -203,7 +203,7 @@ export class VmdLieuxView extends LitElement {
             var newMarker = marker([lieu.longitude, lieu.latitude], {
                 icon: new Icon.Default({imagePath: `${Router.basePath}assets/images/png/`})
             }).bindPopup(string_popup) //.addTo(this.mymap);
-            newMarker.on('click', function(e: any) {
+            newMarker.on('click', function() {
                 // @ts-ignore
                 this.openPopup();
             });

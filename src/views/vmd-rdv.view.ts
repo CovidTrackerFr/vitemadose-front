@@ -1,7 +1,6 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
 import {styleMap} from "lit-html/directives/style-map";
-import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
 import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
@@ -14,23 +13,23 @@ import {
     libelleUrlPathDuDepartement,
     Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
     LieuxParDepartement,
-    State, TriCentre,
+    State,
     TRIS_CENTRE
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import {
+    ValueStrCustomEvent,
     AutocompleteTriggered,
-    CommuneSelected, DepartementSelected, VmdCommuneOrDepartmentSelectorComponent,
-    VmdCommuneSelectorComponent
-} from "../components/vmd-commune-selector.component";
+    CommuneSelected, DepartementSelected, VmdCommuneOrDepartmentSelectorComponent
+} from "../components/vmd-commune-or-departement-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
-import {ValueStrCustomEvent} from "../components/vmd-selector.component";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
 import {setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
+import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -38,7 +37,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`${unsafeCSS(rdvViewCss)}`,
         css`
         `
@@ -228,29 +227,30 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           </span>
                         </h2>
                         <div class="px-3 mb-5">
-                          <em>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19 
-                            sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement 
-                            les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination. 
+                          <em>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
+                            sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement
+                            les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
                             Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</em>
                         </div>
                     `}
-                  
+
                     ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
-                        return html`<vmd-appointment-card 
-                            style="--list-index: ${index}" 
-                            .lieu="${lieu}" 
+                        return html`<vmd-appointment-card
+                            style="--list-index: ${index}"
+                            .lieu="${lieu}"
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
                         />`;
                     })}
                 </div>
+                <div class="eligibility-criteria fade-in-then-fade-out">
+                    <p>Les critères d'éligibilité sont vérifiés lors de la prise de rendez-vous</p>
+                </div>
             `}
         `;
     }
 
-    onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void> {
-        return Promise.resolve();
-    }
+    abstract onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void>
 
     async onceStartupPromiseResolved() {
         // to be overriden
@@ -289,10 +289,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return false;
     }
 
-    codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[] {
-        // overridable
-        return [];
-    }
+    abstract codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[]
 
     async refreshLieux() {
         if(this.codeDepartementSelectionne && !this.preventRafraichissementLieux()) {
@@ -490,7 +487,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     }
 
     private fillCommuneInSelector(communeSelectionnee: Commune, autoCompleteCodePostal: string) {
-        const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneSelectorComponent)
+        const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneOrDepartmentSelectorComponent)
         component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
     }
 
@@ -512,7 +509,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             {longitude:this.communeSelectionnee!.longitude, latitude: this.communeSelectionnee!.latitude}:undefined;
         const distanceAvec = origin?
             (lieu: Lieu) => (lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity)
-            :(lieu: Lieu) => undefined;
+            :() => undefined;
 
         const { lieuxDisponibles, lieuxIndisponibles } = {
             lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles:[],
@@ -569,6 +566,12 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
                 await this.departementSelected(departementSelectionne, false);
             }
         }
+    }
+
+    async onCommuneAutocompleteLoaded () {
+    }
+    codeDepartementAdditionnels () {
+      return []
     }
 
     libelleLieuSelectionne(): TemplateResult {

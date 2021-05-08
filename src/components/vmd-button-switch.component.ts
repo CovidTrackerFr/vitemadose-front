@@ -1,8 +1,8 @@
 import {css, customElement, html, LitElement, property, unsafeCSS} from "lit-element";
-import globalCss from "../styles/global.scss";
 import buttonSwitchCss from "./vmd-button-switch.component.scss";
 import {repeat} from "lit-html/directives/repeat";
 import {classMap} from "lit-html/directives/class-map";
+import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 export type ValueStrCustomEvent<T extends string> = CustomEvent<{value: T}>;
 
@@ -16,7 +16,7 @@ export class VmdButtonSwitchComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`${unsafeCSS(buttonSwitchCss)}`,
         css`
             :host {
@@ -36,8 +36,9 @@ export class VmdButtonSwitchComponent extends LitElement {
         return html`
           <div class="btn-group" role="group">
               ${repeat(this.options, option => option.code, option => html`
-                <button type="button" 
-                        class="option ${classMap({ 'active': option.code===this.codeSelectionne })}" 
+                <button type="button"
+                        aria-pressed="${this.codeSelectionne === option.code}"
+                        class="option ${classMap({ 'active': option.code===this.codeSelectionne })}"
                         @click="${() => this.valeurSelectionnee(option.code)}">
                   ${option.libelle}
                 </button>
@@ -47,8 +48,11 @@ export class VmdButtonSwitchComponent extends LitElement {
     }
 
     valeurSelectionnee(codeSelectionne: string) {
+        if (this.codeSelectionne === codeSelectionne) {
+          return
+        }
         this.codeSelectionne = codeSelectionne;
-        this.dispatchEvent(new CustomEvent<{value: string|undefined}>('changed'!, {
+        this.dispatchEvent(new CustomEvent<{value: string|undefined}>('changed', {
             detail: {
                 value: (this.codeSelectionne === "")?undefined:codeSelectionne
             }

@@ -5,13 +5,16 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png?v=oLnE8zppbY">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png?v=oLnE8zppbY">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png?v=oLnE8zppbY">
-    <link rel="manifest" href="/assets/images/favicon/site.webmanifest?v=oLnE8zppbY">
     <link rel="mask-icon" href="/assets/images/favicon/safari-pinned-tab.svg?v=oLnE8zppbY" color="#5561d9">
     <link rel="shortcut icon" href="/assets/images/favicon/favicon.ico?v=oLnE8zppbY">
+    <link rel="manifest" href="/manifest.webmanifest">
     <meta name="apple-mobile-web-app-title" content="Vite Ma Dose">
     <meta name="application-name" content="Vite Ma Dose">
     <meta name="msapplication-TileColor" content="#585b79">
@@ -49,6 +52,18 @@
             <h1 slot="main-title">
                 Votre vaccination contre la Covid <span class="text-secondary">facilement</span> et <span class="text-primary">rapidement</span>
             </h1>
+            <noscript id="noscript">
+                <div id="outdated-browser-banner">
+                    <div>
+                        <div id="outdated-browser-banner_icon">⚠</div>
+                        <div>
+                            Vous utilisez un navigateur internet obsolète. <br>
+                            <a href="https://browsehappy.com">Veuillez mettre à jour votre navigateur pour améliorer votre expérience 
+                                et votre sécurité en cliquant ici.</a>
+                        </div>
+                    </div>
+                </div>
+            </noscript>
             <div slot="about" style="margin-top: 40px; margin-left: 10px">
                 <div class="spacer mt-5 mb-5"></div>
 
@@ -82,19 +97,21 @@
                 <h2 id="en-savoir-plus" class="text-primary pt-5 mb-5 fst-normal">
                     En savoir plus sur la vaccination contre la Covid-19
                 </h2>
-                <h2 class="h5">Qui peut se faire vacciner contre la Covid-19&nbsp;?</h2>
+
+                <h2 class="h5">Qui peut se faire vacciner contre la Covid-19&nbsp;?*</h2>
                 <p>
                     De nombreuses personnes sont éligibles à la vaccination contre la Covid-19. On peut être éligible à la vaccination selon son âge, sa santé, ou sa profession. Voici la liste des personnes qui peuvent dès à présent être vaccinées&nbsp;:
                 </p>
                 <ul>
-                    <li>personnes de 55 ans et plus quel que soit leur lieu de vie et leur état de santé (avec ou sans comorbidités)&nbsp;;</li>
-                    <li>personnes de 50 à 55 ans inclus souffrant d’une pathologie à très haut risque de forme grave de Covid-19 ou d'une ou plusieurs comorbidités&nbsp;;</li>
+                    <li>personnes de 50 ans et plus quel que soit leur lieu de vie et leur état de santé (avec ou sans comorbidités)&nbsp;;</li>
                     <li>personnes de 18 à 49 ans inclus souffrant d’une pathologie à très haut risque de forme grave de Covid-19&nbsp;;</li>
                     <li>personnes majeures en situation de handicap, hébergées en maison d’accueil spécialisée ou foyer d’accueil médicalisé&nbsp;;</li>
                     <li>adultes vivant dans le même foyer qu’une personne sévèrement immunodéprimée, enfant ou adulte (transplantés d’organes solides, transplantés récents de moelle osseuse récents, patients dialysés, patients atteints de maladies auto-immunes sous traitement immunosuppresseur fort de type anti-CD20 ou anti-métabolites).</li>
                     <li>femmes enceintes à partir du 2e trimestre de grossesse.</li>
                 </ul>
                 <p>Les professionnels de santé et du secteur médico-social sont également éligibles à la vaccination contre la Covid-19.</p>
+                <p class="fw-light fst-italic">Mis à jour le 10/05/2021</p>
+                <p class="text-secondary fw-light fst-italic">* Ces informations sont susceptibles d'évoluer en fonction de la situation sanitaire. Tous les détails sont disponibles sur le site <a class="link-primary" href="https://solidarites-sante.gouv.fr/grands-dossiers/vaccin-covid-19/">https://solidarite-sante.gouv.fr</a>.</p>
 
                 <hr>
 
@@ -109,7 +126,6 @@
                     On peut aussi prendre rendez-vous directement via les plateformes Doctolib, Keldoc, Maiia, Ordoclic ou MaPharma, ainsi que chez son médecin généraliste ou en pharmacie.
                 </p>
 
-
                 <hr>
 
                 <h2 class="h5">Pourquoi se faire vacciner&nbsp;?</h2>
@@ -118,7 +134,7 @@
                 <hr>
 
                 <h2 class="h5">Quels sont les différents types de vaccins contre le coronavirus&nbsp;?</h2>
-                <p>Il existe plusieurs types de vaccins contre le coronavirus. En France, les vaccins Moderna, Pfizer-BioNTech et AstraZeneca sont autorisés et utilisés. Le vaccin Janssen / Johnson & Johnson sera très bientôt utilisé.</p>
+                <p>Il existe plusieurs types de vaccins contre le coronavirus. En France, les vaccins Moderna, Pfizer-BioNTech, AstraZeneca et Janssen / Johnson & Johnson sont autorisés et utilisés.</p>
 
                 <hr>
 
@@ -164,5 +180,14 @@
             </div>
         </vmd-app>
     </div>
+    <script>
+        if (navigator.userAgent.indexOf("MSIE") !== -1 ||       // IE < 11
+            navigator.userAgent.indexOf("Trident/") !== -1 ||   // IE 11
+            !("reversed" in document.createElement("ol")) ||    // Edge before chromium
+            !("noModule" in HTMLScriptElement.prototype)) {
+            document.getElementById("noscript").outerHTML = document.getElementById("noscript").textContent;
+        }
+    </script>
+     <link rel="stylesheet" href="./src/styles/outdated-browser.css">
 </body>
 </html>

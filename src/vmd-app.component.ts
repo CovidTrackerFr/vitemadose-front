@@ -1,14 +1,15 @@
-import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
+import {LitElement, html, customElement, property, css } from 'lit-element';
 import {Router, SlottedTemplateResultFactory} from "./routing/Router";
-import globalCss from './styles/global.scss'
-import {TemplateResult} from "lit-html";
+import smoothscroll from 'smoothscroll-polyfill';
+import {CSS_Global} from "./styles/ConstructibleStyleSheets";
+import {ServiceWorkers} from "./utils/ServiceWorkers";
 
 @customElement('vmd-app')
 export class VmdAppComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`
             .appLogo {}
             .appLogo._phone {
@@ -22,9 +23,13 @@ export class VmdAppComponent extends LitElement {
     constructor() {
         super();
 
-        Router.installRoutes((viewTemplateResult, path) => {
+        smoothscroll.polyfill();
+
+        Router.installRoutes((viewTemplateResult) => {
             this.viewTemplateResult = viewTemplateResult;
         })
+
+        ServiceWorkers.INSTANCE.startup();
     }
 
     render() {
@@ -47,13 +52,13 @@ export class VmdAppComponent extends LitElement {
                     </div>
                 </div>
             </div>
-            
+
             ${this.viewTemplateResult?this.viewTemplateResult(html`
               <slot name="main-title" slot="main-title"></slot>
               <slot name="about" slot="about"></slot>
               <slot name="about-lieux" slot="about-lieux"></slot>
             `):html``}
-            
+
             <footer class="row justify-content-between">
                 <div class="col-auto">
                     Vite Ma Dose&nbsp;! par CovidTracker -

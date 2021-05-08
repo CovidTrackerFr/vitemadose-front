@@ -1,0 +1,39 @@
+{
+  "short_name": "ViteMaDose",
+  "name": "ViteMaDose : Trouver un vaccin facilement et rapidement",
+  "icons": [
+    {
+      "src": "/assets/images/favicon/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/assets/images/favicon/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#5561d9",
+  "display": "minimal-ui",
+  "theme_color": "#5561d9",
+  "shortcuts": [],
+  "description": "Trouver un vaccin facilement et rapidement",
+  "screenshots": [
+    {
+      "src": "/assets/images/social/vitemadose.png",
+      "type": "image/png",
+      "sizes": "2704x1476"
+    }
+  ],
+  "prefer_related_applications": true,
+  "related_applications": [{
+    "platform": "play",
+    "url": "https://play.google.com/store/apps/details?id=com.cvtracker.vmd2",
+    "id": "com.cvtracker.vmd2"
+  }, {
+    "platform": "itunes",
+    "url": "https://apps.apple.com/fr/app/vite-ma-dose/id1563630754",
+    "id": "ZL9396WK65.app.vitemadose"
+  }]
+}

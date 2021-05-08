@@ -1,0 +1,31 @@
+#outdated-browser-banner {
+    font-family: sans-serif;
+    padding: 2em 0;
+    line-height: 1.5em;
+    border-radius: 1em;
+    background-color: #fce5e6;
+    color: black;
+    background: -webkit-linear-gradient(45deg, #fce5e6, #e6e7f9);
+    background: linear-gradient(45deg, #fce5e6, #e6e7f9);
+}
+
+#outdated-browser-banner>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 1em;
+    max-width: 100%;
+    width: 1024px;
+}
+
+#outdated-browser-banner_icon{
+    font-size: 2em;
+    margin-right: .25em;
+}
+
+#outdated-browser-banner a {
+    color:black;
+    text-decoration: underline;
+} 

@@ -10,6 +10,17 @@ on:
       - "*"
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.12"
+      - run: npm ci
+      - run: npm test -- --ci
+
   deploy-dev:
     # This workflow is only of value to the CovidTrackerFr/vitemadose-front repository and
     # would always fail in forks, so we limit this job to CovidTrackerFr/vitemadose-front

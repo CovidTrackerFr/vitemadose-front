@@ -66,7 +66,7 @@ function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
             // Converting commune info in a most compacted way : keeping only useful fields, 1-char keys, latng compaction
             const compactedCommunes = matchingCommunes.map(toCompactedCommune)
 
-            fs.writeFileSync(`../public/autocomplete-cache/${query}.json`, JSON.stringify({query, communes: compactedCommunes }), 'utf8');
+            fs.writeFileSync(`../public/autocomplete-cache/vmd_${query}.json`, JSON.stringify({query, communes: compactedCommunes }), 'utf8');
             console.info(`Autocomplete cache for query [${query}] completed !`)
 
             return [{ query, matchingCommunesByKey }];
@@ -96,7 +96,7 @@ function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
 
                 // Converting commune info in a most compacted way : keeping only useful fields, 1-char keys, latng compaction
                 const compactedCommunesNonGereesParLesSousNoeuds = communesMatchantExactement.map(toCompactedCommune)
-                fs.writeFileSync(`../public/autocomplete-cache/${query}.json`, JSON.stringify({query, communes: compactedCommunesNonGereesParLesSousNoeuds /*, subsequentAutoCompletes: true */ }), 'utf8');
+                fs.writeFileSync(`../public/autocomplete-cache/vmd_${query}.json`, JSON.stringify({query, communes: compactedCommunesNonGereesParLesSousNoeuds /*, subsequentAutoCompletes: true */ }), 'utf8');
                 console.info(`Intermediate autocomplete cache for query [${query}] completed with ${compactedCommunesNonGereesParLesSousNoeuds.length} communes !`)
 
                 subQueries.splice(0, 0, {query, matchingCommunesByKey: filteredMatchingCommunesByKey });
