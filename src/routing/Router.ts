@@ -85,7 +85,7 @@ class Routing {
                 </vmd-rdv-par-commune>`
             },
             pageTitleProvider: (params) =>
-                State.current.chercheCommuneParCode(Router.basePath, params['codePostal'], params['codeCommune'])
+                State.current.chercheCommuneParCode(params['codePostal'], params['codeCommune'])
                     .then(commune => `Vaccination COVID-19 à ${commune.nom} ${commune.codePostal}`)
         });
         this.declareRoutes({

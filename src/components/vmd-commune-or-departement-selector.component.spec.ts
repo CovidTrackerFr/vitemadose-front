@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { html } from 'lit-html'
-import { waitFor, screen, fireEvent } from "testing-library__dom";
+import { screen } from "testing-library__dom";
 import userEvent from "@testing-library/user-event"
 import { fixture } from "@open-wc/testing-helpers";
 import './vmd-commune-or-departement-selector.component'
