@@ -1,4 +1,12 @@
-import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
+import {
+    css,
+    customElement,
+    html,
+    internalProperty,
+    LitElement,
+    property,
+    unsafeCSS
+} from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
 import {styleMap} from "lit-html/directives/style-map";
 import globalCss from "../styles/global.scss";
@@ -30,6 +38,7 @@ import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
 import {setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
+import {classMap} from "lit-html/directives/class-map";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -54,6 +63,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
+
+    @internalProperty() searchType: "standard"|"chronodose" = "standard";
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
     protected lieuBackgroundRefreshIntervalId: number|undefined = undefined;
@@ -164,8 +175,16 @@ export abstract class AbstractVmdRdvView extends LitElement {
             :[];
 
         return html`
-            <div class="p-5 text-dark bg-light rounded-3">
-                <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
+            <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'bg-std': this.searchType==='standard', 'bg-chronodose': this.searchType==='chronodose'})}">
+              <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
+                <li class="col bg-std text-std tab ${classMap({selected: this.searchType==='standard'})}" @click="${() => this.searchType='standard'}">
+                  Tous les créneaux
+                </li>
+                <li class="col bg-chronodose text-chronodose tab ${classMap({selected: this.searchType==='chronodose'})}" @click="${() => this.searchType='chronodose'}">
+                  Chronodoses uniquement
+                </li>
+              </ul>
+              <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                     <label class="col-sm-24 col-md-auto">
                       Localisation :
                     </label>
@@ -541,7 +560,8 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     }
 
     renderAdditionnalSearchCriteria(): TemplateResult {
-        return html`
+        if(this.searchType === 'standard') {
+            return html`
           <div class="rdvForm-fields row align-items-center">
             <label class="col-sm-24 col-md-auto mb-md-3">
               Je recherche une dose de vaccin :
@@ -555,6 +575,9 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             </div>
           </div>
         `;
+        } else {
+            return html``;
+        }
     }
 }
 

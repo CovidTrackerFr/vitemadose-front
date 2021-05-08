@@ -71,3 +71,22 @@ select[required]:invalid {
 .text-std {
     color: $stdColor;
 }
+
+.tab {
+    text-align: center;
+    border-top-left-radius: 1.2rem;
+    border-top-right-radius: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    font-weight: bold;
+    border: 0px solid lightgrey;
+    list-style: none;
+    cursor: pointer;
+
+    &.selected {
+        border-width: 1px;
+        border-bottom-width: 0px;
+    }
+    &:not(.selected) {
+        border-bottom-width: 1px;
+    }
+}
