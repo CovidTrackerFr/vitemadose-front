@@ -1,29 +1,12 @@
 import {css, customElement, html, LitElement, unsafeCSS} from 'lit-element';
 import globalCss from "../styles/global.scss";
-import {Icon, map, marker, tileLayer} from 'leaflet'
 import leafletCss from 'leaflet/dist/leaflet.css';
 import leafletMarkerCss from 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 // @ts-ignore
 import {MarkerClusterGroup}  from 'leaflet.markercluster'
-import {Router} from "../routing/Router";
-
-// Code imported (and refactored a little bit)
-// from https://github.com/rozierguillaume/covidtracker-tools/blob/main/src/ViteMaDose/carteCentres.html
-
-type Lieu = {
-    nom: string;
-    longitude: number;
-    latitude: number;
-    reservation: string;
-    date_ouverture: string;
-    rdv_tel: string;
-    modalites: string;
-    adresse: string;
-    maj: string;
-};
 
 @customElement('vmd-chronodose')
-export class VmdLieuxView extends LitElement {
+export class VmdChronodoseView extends LitElement {
 
     //language=css
     static styles = [
@@ -51,15 +34,5 @@ export class VmdLieuxView extends LitElement {
             </div>
           </div>
         `;
-    }
-
-    connectedCallback() {
-        super.connectedCallback();
-    }
-
-    
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
     }
 }
