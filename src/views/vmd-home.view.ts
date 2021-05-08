@@ -1,7 +1,5 @@
-import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
+import {css, customElement, html, LitElement, property } from 'lit-element';
 import {Router} from "../routing/Router";
-import globalCss from "../styles/global.scss";
-import homeViewCss from "./vmd-home.view.scss";
 import {
     Commune,
     Departement,
@@ -16,14 +14,15 @@ import {
     CommuneSelected,
     DepartementSelected
 } from "../components/vmd-commune-or-departement-selector.component";
+import {CSS_Global, CSS_Home} from "../styles/ConstructibleStyleSheets";
 
 @customElement('vmd-home')
 export class VmdHomeView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
-        css`${unsafeCSS(homeViewCss)}`,
+        CSS_Global,
+        CSS_Home,
         css`
             :host {
                 display: block;
@@ -169,21 +168,25 @@ export class VmdHomeView extends LitElement {
                         <div class="row gx-5">
                             <div class="col-24 col-md text-center">
                                 <i class="bi vmdicon-commerical-building fs-6 text-primary"></i>
-                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.disponibles.toLocaleString():""}</div>
-                                <p>Lieux de vaccination ayant des disponibilités</p>
+                                <a href="${Router.basePath}statistiques" >
+                                    <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.disponibles.toLocaleString():""}</div>
+                                    <p>Lieux de vaccination ayant des disponibilités</p>
+                                </a>
                             </div>
                             <div class="col-24 col-md text-center">
                                 <i class="bi vmdicon-geo-alt-fill fs-6 text-primary"></i>
-                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.total.toLocaleString():""}</div>
-                                <p>Lieux de vaccination supportés</p>
+                                <a href="${Router.basePath}statistiques" >
+                                    <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.total.toLocaleString():""}</div>
+                                    <p>Lieux de vaccination supportés</p>
+                                </a>
                             </div>
                             <div class="col-24 col-md text-center">
                                 <i class="bi vmdicon-check-circle-fill fs-6 text-primary"></i>
-                                <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.creneaux.toLocaleString():""}</div>
-                                <p>
-                                  Créneaux de vaccination disponibles dans les prochaines semaines
-                                </p>
-                                <em style="font-size: 1.3rem">Ce nombre ne correspond pas au nombre de doses disponibles</em>
+                                <a href="${Router.basePath}statistiques" >
+                                    <div class="h4 mt-4">${this.statsLieu?this.statsLieu.global.creneaux.toLocaleString():""}</div>
+                                    <p>Créneaux de vaccination disponibles</p>
+                                </a>
+                              <em style="font-size: 1.3rem">Ce nombre ne correspond pas au nombre de doses disponibles</em>
                             </div>
                         </div>
                     </div>

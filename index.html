@@ -12,9 +12,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png?v=oLnE8zppbY">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png?v=oLnE8zppbY">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png?v=oLnE8zppbY">
-    <link rel="manifest" href="/assets/images/favicon/site.webmanifest?v=oLnE8zppbY">
     <link rel="mask-icon" href="/assets/images/favicon/safari-pinned-tab.svg?v=oLnE8zppbY" color="#5561d9">
     <link rel="shortcut icon" href="/assets/images/favicon/favicon.ico?v=oLnE8zppbY">
+    <link rel="manifest" href="/manifest.webmanifest">
     <meta name="apple-mobile-web-app-title" content="Vite Ma Dose">
     <meta name="application-name" content="Vite Ma Dose">
     <meta name="msapplication-TileColor" content="#585b79">
@@ -22,10 +22,10 @@
     <meta name="theme-color" content="#ffffff">
 
     <!-- Primary Meta Tags -->
-    <title>Vite Ma Dose : trouvez un créneau de vaccination COVID-19</title>
-    <meta name="title" content="Vite Ma Dose de Vaccin, le moteur de recherche d’un créneau de vaccination contre la Covid-19 dans un centre de vaccination en France.">
-    <meta name="description" content="Le site qui répertorie la majorité des centres de vaccination Covid-19 en France et vous permet de trouver un créneau de vaccination Pfizer-BioNTech, Moderna, AstraZeneca ou Janssen dans un centre de vaccination proche de chez vous.">
-    <meta name="keywords" content="Vaccination covid-19, Centres de Vaccination Covid19 en France, Covid-19, covid, covid-19, coronavirus, Moderna, Pfizer, AstraZeneca, Janssen, vaccin, vaccination, campagne vaccinale, comorbidités">
+    <title>Vite Ma Dose : trouvez un créneau de vaccination COVID-19 ou une chronodose</title>
+    <meta name="title" content="Vite Ma Dose de Vaccin, le moteur de recherche d’un créneau de vaccination contre la Covid-19 ou une chronodose dans un centre de vaccination en France.">
+    <meta name="description" content="Le site qui répertorie la majorité des centres de vaccination Covid-19 en France et vous permet de trouver un créneau de vaccination ou une chronodose Pfizer-BioNTech, Moderna, AstraZeneca ou Janssen dans un centre de vaccination proche de chez vous.">
+    <meta name="keywords" content="Vaccination covid-19, Centres de Vaccination Covid19 en France, Covid-19, covid, covid-19, chronodose, coronavirus, Moderna, Pfizer, AstraZeneca, Janssen, vaccin, vaccination, campagne vaccinale, comorbidités">
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vitemadose.covidtracker.fr/">
@@ -52,6 +52,18 @@
             <h1 slot="main-title">
                 Votre vaccination contre la Covid <span class="text-secondary">facilement</span> et <span class="text-primary">rapidement</span>
             </h1>
+            <noscript id="noscript">
+                <div id="outdated-browser-banner">
+                    <div>
+                        <div id="outdated-browser-banner_icon">⚠</div>
+                        <div>
+                            Vous utilisez un navigateur internet obsolète. <br>
+                            <a href="https://browsehappy.com">Veuillez mettre à jour votre navigateur pour améliorer votre expérience 
+                                et votre sécurité en cliquant ici.</a>
+                        </div>
+                    </div>
+                </div>
+            </noscript>
             <div slot="about" style="margin-top: 40px; margin-left: 10px">
                 <div class="spacer mt-5 mb-5"></div>
 
@@ -72,6 +84,11 @@
                 <hr>
                 <h2 class="h5">Comment fonctionne Vite Ma Dose&nbsp;?</h2>
                 Les algorithmes de Vite Ma Dose analysent les différentes plateformes de réservation de rendez-vous de vaccination afin de détecter les créneaux disponibles. Vite Ma Dose permet donc d’agréger ces rendez-vous de vaccination disponibles vous permettant de trouver une dose de vaccin contre le coronavirus plus rapidement.
+                
+                <hr>
+                <h2 class="h5">Qu'est-ce que Chronodose&nbsp;?</h2>
+                Chronodose est une fonctionnalité permettant de trouver une dose de vaccin Covid19 en 24h pour tous les plus 18 ans, sans condition d'élibilité. Cette fonctionnalité sera déployée sur Vite Ma Dose d'ici au mercredi 12 mai, disponible sur le <u><a href="https://vitemadose.covidtracker.fr">site internet</a></u>, et les applications mobiles (<u><a href="http://apple.co/3dFMGy3">iOS</a></u> et <u><a href="https://play.google.com/store/apps/details?id=com.cvtracker.vmd2">Android</a></u>).<br>
+                Grâce à Chronodose, chaque personne de plus de 18 ans souhaitant se faire vacciner contre la Covid19 pourra chercher un rendez-vous en moins de 24h facilement et rapidement. Un système de notification sera aussi implémenté permettant d'alerter les utilisateurs des disponibilités de créneaux de vaccination Chronodose.
 
                 <hr>
                 <h2 class="h5">Vite Ma Dose est-il à but lucratif&nbsp;?</h2>
@@ -80,19 +97,21 @@
                 <h2 id="en-savoir-plus" class="text-primary pt-5 mb-5 fst-normal">
                     En savoir plus sur la vaccination contre la Covid-19
                 </h2>
-                <h2 class="h5">Qui peut se faire vacciner contre la Covid-19&nbsp;?</h2>
+
+                <h2 class="h5">Qui peut se faire vacciner contre la Covid-19&nbsp;?*</h2>
                 <p>
                     De nombreuses personnes sont éligibles à la vaccination contre la Covid-19. On peut être éligible à la vaccination selon son âge, sa santé, ou sa profession. Voici la liste des personnes qui peuvent dès à présent être vaccinées&nbsp;:
                 </p>
                 <ul>
-                    <li>personnes de 55 ans et plus quel que soit leur lieu de vie et leur état de santé (avec ou sans comorbidités)&nbsp;;</li>
-                    <li>personnes de 50 à 55 ans inclus souffrant d’une pathologie à très haut risque de forme grave de Covid-19 ou d'une ou plusieurs comorbidités&nbsp;;</li>
+                    <li>personnes de 50 ans et plus quel que soit leur lieu de vie et leur état de santé (avec ou sans comorbidités)&nbsp;;</li>
                     <li>personnes de 18 à 49 ans inclus souffrant d’une pathologie à très haut risque de forme grave de Covid-19&nbsp;;</li>
                     <li>personnes majeures en situation de handicap, hébergées en maison d’accueil spécialisée ou foyer d’accueil médicalisé&nbsp;;</li>
                     <li>adultes vivant dans le même foyer qu’une personne sévèrement immunodéprimée, enfant ou adulte (transplantés d’organes solides, transplantés récents de moelle osseuse récents, patients dialysés, patients atteints de maladies auto-immunes sous traitement immunosuppresseur fort de type anti-CD20 ou anti-métabolites).</li>
                     <li>femmes enceintes à partir du 2e trimestre de grossesse.</li>
                 </ul>
                 <p>Les professionnels de santé et du secteur médico-social sont également éligibles à la vaccination contre la Covid-19.</p>
+                <p class="fw-light fst-italic">Mis à jour le 10/05/2021</p>
+                <p class="text-secondary fw-light fst-italic">* Ces informations sont susceptibles d'évoluer en fonction de la situation sanitaire. Tous les détails sont disponibles sur le site <a class="link-primary" href="https://solidarites-sante.gouv.fr/grands-dossiers/vaccin-covid-19/">https://solidarite-sante.gouv.fr</a>.</p>
 
                 <hr>
 
@@ -106,7 +125,6 @@
                     On peut se faire vacciner contre le coronavirus en réservant un rendez-vous grâce à Vite Ma Dose.
                     On peut aussi prendre rendez-vous directement via les plateformes Doctolib, Keldoc, Maiia, Ordoclic ou MaPharma, ainsi que chez son médecin généraliste ou en pharmacie.
                 </p>
-
 
                 <hr>
 
@@ -162,5 +180,14 @@
             </div>
         </vmd-app>
     </div>
+    <script>
+        if (navigator.userAgent.indexOf("MSIE") !== -1 ||       // IE < 11
+            navigator.userAgent.indexOf("Trident/") !== -1 ||   // IE 11
+            !("reversed" in document.createElement("ol")) ||    // Edge before chromium
+            !("noModule" in HTMLScriptElement.prototype)) {
+            document.getElementById("noscript").outerHTML = document.getElementById("noscript").textContent;
+        }
+    </script>
+     <link rel="stylesheet" href="./src/styles/outdated-browser.css">
 </body>
 </html>

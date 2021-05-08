@@ -172,6 +172,14 @@ export type Commune = {
     latitude: number|undefined;
     longitude: number|undefined;
 };
+
+export type StatsByDate = {
+    dates: ISODateString[],
+    total_centres_disponibles: number[],
+    total_centres: number[],
+    total_appointments: number[]
+}
+
 // Permet de convertir un nom de departement en un chemin d'url correct (remplacement des caractères
 // non valides comme les accents ou les espaces)
 export const libelleUrlPathDeCommune = (commune: Commune) => {
@@ -239,6 +247,19 @@ export class State {
         return deps.find(dep => dep.code_departement === code) || State.DEPARTEMENT_VIDE;
     }
 
+    private _statsByDate: StatsByDate|undefined = undefined;
+    async statsByDate(): Promise<StatsByDate> {
+        if(this._statsByDate !== undefined) {
+            return Promise.resolve(this._statsByDate);
+        } else {
+            const resp = await fetch(`${VMD_BASE_URL}/stats_by_date.json`)
+            const statsByDate: StatsByDate = await resp.json()
+
+            this._statsByDate = statsByDate;
+            return statsByDate;
+        }
+    }
+
     private _communeAutocompleteTriggers: string[]|undefined = undefined;
     async communeAutocompleteTriggers(basePath: string): Promise<string[]> {
         if(this._communeAutocompleteTriggers !== undefined) {
@@ -293,17 +314,13 @@ export class State {
         } else {
             const resp = await fetch(`${VMD_BASE_URL}/stats.json`)
             const statsParDepartements: Record<CodeDepartement|'tout_departement', StatLieu> = await resp.json()
+            const { tout_departement: global, ...parDepartements } = statsParDepartements
 
             const statsLieu = {
-                parDepartements: Object.entries(statsParDepartements)
-                    .filter(([dpt, stats]: [CodeDepartement|"tout_departement", StatLieu]) => dpt !== 'tout_departement')
-                    .reduce((statsParDept, [dpt, stats]: [CodeDepartement, StatLieu]) => {
-                        statsParDepartements[dpt] = stats;
-                        return statsParDepartements;
-                    }, {} as StatsLieuParDepartement),
+                parDepartements,
                 global: {
-                    ...statsParDepartements['tout_departement'],
-                    proportion: Math.round(statsParDepartements['tout_departement'].disponibles * 10000 / statsParDepartements['tout_departement'].total)/100
+                    ...global,
+                    proportion: Math.round(global.disponibles * 10000 / global.total)/100
                 }
             };
             this._statsLieu = statsLieu;

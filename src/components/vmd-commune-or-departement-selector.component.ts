@@ -12,10 +12,9 @@ import {classMap} from "lit-html/directives/class-map";
 import {Commune, Departement} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
 import communeSelectorCss from "./vmd-commune-or-departement-selector.component.scss";
-import globalCss from "../styles/global.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
-import {DirectiveFn} from "lit-html/lib/directive";
+import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
@@ -34,7 +33,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`${unsafeCSS(communeSelectorCss)}`,
         css`
         `
@@ -135,7 +134,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
     render() {
         return html`
-          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter})}"
+          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}"
                 @submit="${this.handleSubmit}">
             <input type="search" class="autocomplete-input"
                    required

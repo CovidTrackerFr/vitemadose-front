@@ -9,7 +9,6 @@ import {
 } from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
 import {styleMap} from "lit-html/directives/style-map";
-import globalCss from "../styles/global.scss";
 import {Router} from "../routing/Router";
 import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
@@ -22,7 +21,7 @@ import {
     libelleUrlPathDuDepartement,
     Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
     LieuxParDepartement, SearchType,
-    State, TriCentre,
+    State,
     TRIS_CENTRE
 } from "../state/State";
 import {Dates} from "../utils/Dates";
@@ -39,6 +38,7 @@ import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.componen
 import {setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
+import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
@@ -46,7 +46,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`${unsafeCSS(rdvViewCss)}`,
         css`
         `
@@ -271,9 +271,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         `;
     }
 
-    onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void> {
-        return Promise.resolve();
-    }
+    abstract onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void>
 
     async onceStartupPromiseResolved() {
         // to be overriden
@@ -312,10 +310,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return false;
     }
 
-    codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[] {
-        // overridable
-        return [];
-    }
+    abstract codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[]
 
     async refreshLieux() {
         if(this.codeDepartementSelectionne && !this.preventRafraichissementLieux()) {
@@ -540,7 +535,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             {longitude:this.communeSelectionnee!.longitude, latitude: this.communeSelectionnee!.latitude}:undefined;
         const distanceAvec = origin?
             (lieu: Lieu) => (lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity)
-            :(lieu: Lieu) => undefined;
+            :() => undefined;
 
         const { lieuxDisponibles, lieuxIndisponibles } = {
             lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles:[],
@@ -609,6 +604,12 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
                 await this.departementSelected(departementSelectionne, false);
             }
         }
+    }
+
+    async onCommuneAutocompleteLoaded () {
+    }
+    codeDepartementAdditionnels () {
+      return []
     }
 
     libelleLieuSelectionne(): TemplateResult {
