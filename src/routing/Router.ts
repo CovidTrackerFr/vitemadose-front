@@ -104,6 +104,14 @@ class Routing {
                     html`<vmd-apropos>${subViewSlot}</vmd-apropos>`
             }
         });
+        this.declareRoutes({
+            pathPattern: `/chronodose`, analyticsViewName: 'chronodose',
+            viewContent: async () => {
+                await import('../views/vmd-chronodose.view')
+                return (subViewSlot) =>
+                    html`<vmd-chronodose>${subViewSlot}</vmd-chronodose>`
+            }
+        });
 
         page(`*`, (context) => this._notFoundRoute(context));
         page();
