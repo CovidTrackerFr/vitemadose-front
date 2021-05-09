@@ -1,4 +1,12 @@
-import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-element';
+import {
+    css,
+    customElement,
+    html,
+    LitElement,
+    property,
+    PropertyValues, query,
+    unsafeCSS
+} from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
 import {
     Lieu,
@@ -14,6 +22,7 @@ import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
+import tippy from "tippy.js";
 
 type LieuCliqueContext = {lieu: Lieu};
 export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
@@ -32,6 +41,8 @@ export class VmdAppointmentCardComponent extends LitElement {
     @property({type: Object, attribute: false}) lieu!: LieuAffichableAvecDistance;
     @property({type: String}) theme!: string;
     @property() highlightable!: boolean;
+
+    @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
     constructor() {
         super();
@@ -153,7 +164,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                  title="${cardConfig.estCliquable ? this.lieu.url : ''}">
                 ${cardConfig.highlighted?html`
                 <div class="row align-items-center highlight-text">
-                  <i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses disponibles<i class="bi vmdicon-lightning-charge-fill"></i>
+                  <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses disponibles<i class="bi vmdicon-lightning-charge-fill"></i></span>
                 </div>`:html``}
                 <div class="card-body p-4">
                     <div class="row align-items-center ">
@@ -196,6 +207,13 @@ export class VmdAppointmentCardComponent extends LitElement {
                 </div>
             </div>
             `);
+    }
+
+    updated(changedProperties: PropertyValues) {
+        super.updated(changedProperties);
+        tippy(this.$chronodoseLabel, {
+            content: (el) => el.getAttribute('title')!
+        })
     }
 
     connectedCallback() {
