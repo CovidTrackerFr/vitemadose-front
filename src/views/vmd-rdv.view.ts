@@ -2,7 +2,6 @@ import {
     css,
     customElement,
     html,
-    internalProperty,
     LitElement,
     property, PropertyValues, query,
     unsafeCSS
@@ -54,6 +53,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     ];
 
     @property({type: String}) codeDepartementSelectionne: CodeDepartement | undefined = undefined;
+    @property({type: String}) searchType: SearchType = "standard";
 
     @property({type: Array, attribute: false}) communesAutocomplete: Set<string>|undefined = undefined;
     @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
@@ -64,8 +64,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
-
-    @internalProperty() searchType: SearchType = "standard";
 
     @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
@@ -138,7 +136,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 libelleUrlPathDuDepartement(departement!),
                 commune.code,
                 commune.codePostal,
-                libelleUrlPathDeCommune(commune)
+                libelleUrlPathDeCommune(commune),
+                this.searchType
             );
             return;
         }
@@ -157,7 +156,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     async departementSelected(departement: Departement, triggerNavigation: boolean): Promise<void> {
         if(this.communeSelectionnee) {
-            Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement));
+            Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement), this.searchType);
             return;
         }
 
@@ -382,7 +381,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
 
         if (this.codeDepartementSelectionne) {
-            Router.navigateToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!));
+            Router.navigateToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!), this.searchType);
         }
     }
 
@@ -471,7 +470,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     _onRefreshPageWhenValidParams() {
         // To be overriden
         if(this.departementSelectionne && this.communeSelectionnee && this.codePostalSelectionne) {
-            Router.navigateToRendezVousAvecCommune(this.critèreDeTri, this.departementSelectionne.code_departement, libelleUrlPathDuDepartement(this.departementSelectionne), this.communeSelectionnee.code, this.communeSelectionnee.codePostal, libelleUrlPathDeCommune(this.communeSelectionnee));
+            Router.navigateToRendezVousAvecCommune(this.critèreDeTri, this.departementSelectionne.code_departement, libelleUrlPathDuDepartement(this.departementSelectionne), this.communeSelectionnee.code, this.communeSelectionnee.codePostal, libelleUrlPathDeCommune(this.communeSelectionnee), this.searchType);
             return 'return';
         }
 
