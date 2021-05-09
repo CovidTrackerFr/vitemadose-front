@@ -134,17 +134,23 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
     render() {
         return html`
-          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}"
+          <form class="row align-items-center autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}"
                 @submit="${this.handleSubmit}">
-            <input type="search" class="autocomplete-input"
-                   required
-                   @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
-                   @focusout="${this.hideDropdownWhenInputHasNotFocus}"
-                   @keydown="${this.handleKeydown}"
-                   @keyup="${this.valueChanged}"
-                   .value="${this.filter}"
-                   placeholder="Commune, Code postal, Département..."
-            />
+            <label for="searchAppointment-searchbar" class="col-sm-24 col-md-auto mb-md-1 label-for-search">
+                Localisation :
+            </label>
+            <div class="col">
+                <input type="search" class="autocomplete-input"
+                    required
+                    @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
+                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
+                    @keydown="${this.handleKeydown}"
+                    @keyup="${this.valueChanged}"
+                    .value="${this.filter}"
+                    placeholder="Commune, Code postal, Département..."
+                    id="searchAppointment-searchbar"
+                />
+            </div>
             ${this.filter?html`
             <button type="button" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>${SVG_CLOSE_ICON}</span></button>
             `:html``}
