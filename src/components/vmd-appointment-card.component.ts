@@ -2,7 +2,7 @@ import {css, customElement, html, LitElement, property, unsafeCSS} from 'lit-ele
 import {classMap} from "lit-html/directives/class-map";
 import {
     Lieu,
-    LieuAffichableAvecDistance,
+    LieuAvecDistance,
     Plateforme,
     PLATEFORMES,
     typeActionPour,
@@ -29,7 +29,7 @@ export class VmdAppointmentCardComponent extends LitElement {
         `
     ];
 
-    @property({type: Object, attribute: false}) lieu!: LieuAffichableAvecDistance;
+    @property({type: Object, attribute: false}) lieu!: LieuAvecDistance;
 
     constructor() {
         super();
@@ -84,7 +84,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                     cardLink: (content) =>
                         html`<a href="#" @click="${(e: Event) => { specificCardConfig.onclick(); e.preventDefault(); } }">${content}</a>`,
                     actions: html`
-                      <a href="#" @click="${(e: Event) => e.preventDefault()}" 
+                      <a href="#" @click="${(e: Event) => e.preventDefault()}"
                          class="btn btn-lg ${classMap({ 'btn-primary': specificCardConfig.typeBouton==='btn-primary', 'btn-info': specificCardConfig.typeBouton==='btn-info' })}">
                         ${specificCardConfig.libelleBouton}
                       </a>

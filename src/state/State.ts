@@ -115,12 +115,19 @@ export type LieuxParDepartement = {
 export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
 
 export type LieuAffichableAvecDistance = Lieu & { disponible: boolean, distance: number|undefined };
+export type LieuAvecDistance = Lieu & { distance?: number }
 export type LieuxAvecDistanceParDepartement = {
     lieuxAffichables: LieuAffichableAvecDistance[];
     codeDepartements: CodeDepartement[];
     derniereMiseAJour: ISODateString;
 };
-export function typeActionPour(lieuAffichable: LieuAffichableAvecDistance): 'actif-via-plateforme'|'inactif-via-plateforme'|'actif-via-tel'|'inactif' {
+export type ResultatsDeRecherche = {
+    lieuxDisponibles: LieuAvecDistance[];
+    lieuxIndisponibles: LieuAvecDistance[];
+    codeDepartements: CodeDepartement[];
+    derniereMiseAJour: ISODateString;
+};
+export function typeActionPour(lieuAffichable: LieuAvecDistance): 'actif-via-plateforme'|'inactif-via-plateforme'|'actif-via-tel'|'inactif' {
     const phoneOnly = lieuAffichable.appointment_by_phone_only && lieuAffichable.metadata.phone_number;
     if(phoneOnly) { // Phone only may have url, but we should ignore it !
         return 'actif-via-tel';

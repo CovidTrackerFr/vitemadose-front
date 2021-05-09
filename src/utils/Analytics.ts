@@ -2,7 +2,8 @@ import {
     CodeDepartement, CodeTriCentre,
     Commune,
     Lieu,
-    LieuxAvecDistanceParDepartement, typeActionPour,
+    typeActionPour,
+    ResultatsDeRecherche,
 } from "../state/State";
 
 
@@ -56,18 +57,20 @@ export class Analytics {
         });
     }
 
-    rechercheLieuEffectuee(codeDepartement: CodeDepartement, commune: Commune|undefined, resultats: LieuxAvecDistanceParDepartement|undefined) {
+    rechercheLieuEffectuee(codeDepartement: CodeDepartement, commune?: Commune, resultats?: ResultatsDeRecherche) {
         window.dataLayer.push({
             'event': commune?'search_by_commune':'search_by_departement',
             'search_departement': codeDepartement,
             'search_commune' : commune?`${commune.codePostal} - ${commune.nom} (${commune.code})`:undefined,
             // kept for legacy reasons
-            'search_nb_doses' : resultats?resultats.lieuxAffichables.reduce((totalDoses, lieu) => totalDoses+lieu.appointment_count, 0):undefined,
-            'search_nb_appointments' : resultats?resultats.lieuxAffichables.reduce((totalDoses, lieu) => totalDoses+lieu.appointment_count, 0):undefined,
-            'search_nb_lieu_vaccination' : resultats?resultats.lieuxAffichables
-                .filter(l => typeActionPour(l) === 'actif-via-plateforme' || typeActionPour(l) === 'actif-via-tel')
-                .length:undefined,
-            'search_nb_lieu_vaccination_inactive' : resultats?resultats.lieuxAffichables
+            'search_nb_doses' : resultats ? resultats.lieuxDisponibles.reduce((totalDoses, lieu) => totalDoses+lieu.appointment_count, 0):undefined,
+            'search_nb_appointments' : resultats ? resultats.lieuxDisponibles.reduce((totalDoses, lieu) => totalDoses+lieu.appointment_count, 0):undefined,
+            'search_nb_lieu_vaccination' : resultats
+                ? [...resultats.lieuxDisponibles, ...resultats.lieuxIndisponibles]
+                    .filter(l => typeActionPour(l) === 'actif-via-plateforme' || typeActionPour(l) === 'actif-via-tel')
+                    .length
+                : undefined,
+            'search_nb_lieu_vaccination_inactive' : resultats ? resultats.lieuxIndisponibles
                 .filter(l => typeActionPour(l) === 'inactif')
                 .length:undefined,
             'search_filter_type': (this as any).critèreDeTri || 'date'
