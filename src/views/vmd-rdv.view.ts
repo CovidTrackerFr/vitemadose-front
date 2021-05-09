@@ -33,6 +33,8 @@ import {setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
+import '../components/elastic-height.component.ts'
+
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
 export abstract class AbstractVmdRdvView extends LitElement {
@@ -271,7 +273,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
         )
       }
       return html`
-        ${list}
+        <vmd-elastic-height .hint="${this.showLieuxIndisponibles}">
+          ${list}
+          <br>
+        </vmd-elastic-height>
+        <div class="spacer"></div>
         <div class="row">
           <div class="col-24 text-center">
             <a
@@ -282,7 +288,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
             </a>
           </div>
         </div>
-        <div class="spacer"></div>
       `
     }
 
