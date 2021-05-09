@@ -80,7 +80,8 @@ export type AppointmentSchedule = {
     name: string;
     from: DateString; // Should be better to have ISODateString here
     to: DateString; // Should be better to have ISODateString here
-    appointments_per_vaccine: AppointmentPerVaccine[];
+    // appointments_per_vaccine: AppointmentPerVaccine[];
+    total: number;
 };
 export type Lieu = {
     appointment_count: number;

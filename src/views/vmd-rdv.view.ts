@@ -173,8 +173,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     render() {
         const lieuxDisponibles = (this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxAffichables)?
-            this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => l.disponible)
-            :[];
+            this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => {
+                if(this.searchType === 'chronodose') {
+                    return l.appointment_count > 0;
+                } else /* if(this.searchType === 'standard') */ {
+                    return l.disponible;
+                }
+            }):[];
 
         return html`
             <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'bg-std': this.searchType==='standard', 'bg-chronodose': this.searchType==='chronodose'})}">
@@ -345,6 +350,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 } as LieuxParDepartement);
 
                 this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement);
+                if(this.searchType === 'chronodose') {
+                    this.lieuxParDepartementAffiches.lieuxAffichables = this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => {
+                        return !l.appointment_by_phone_only
+                    })
+                }
 
                 Analytics.INSTANCE.rechercheLieuEffectuee(
                     this.codeDepartementSelectionne,
@@ -436,6 +446,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     protected updateSearchTypeTo(searchType: SearchType) {
         this.searchType = searchType;
+    }
+
+    protected transformLieuEnFonctionDuTypeDeRecherche(lieu: LieuAffichableAvecDistance) {
+        if(this.searchType === 'chronodose') {
+            return {...lieu, appointment_count: ((!lieu.appointment_schedules?.length)?[]:lieu.appointment_schedules)?.find(s => s.name === 'chronodose')?.total || 0 };
+        } else /* if(this.searchType === 'standard') */ {
+            return lieu;
+        }
     }
 
     abstract libelleLieuSelectionne(): TemplateResult;
@@ -558,6 +576,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
                 .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
                 .map(l => ({...l, distance: distanceAvec(l) }))
+                .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
                 .sortBy(l => this.extraireFormuleDeTri(l, this.critèreDeTri))
                 .build()
@@ -599,6 +618,8 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             // This is pointless to sort by time in chronodrive search
             this.critèreDeTri = 'distance';
         }
+
+        this.refreshPageWhenValidParams();
     }
 }
 
@@ -642,6 +663,7 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
             lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
                 .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
                 .map(l => ({...l, distance: undefined }))
+                .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .sortBy(l => this.extraireFormuleDeTri(l, 'date'))
                 .build()
         };
