@@ -212,7 +212,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
                 <div class="spacer mt-5 mb-5"></div>
                 <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
-                    ${!lieuxDisponibles.length ? html`
+                    ${lieuxDisponibles.length ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
