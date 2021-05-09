@@ -1,9 +1,13 @@
-import {LitElement, html, property, css, query, PropertyValues} from 'lit-element';
+import {LitElement, html, property, css, query, PropertyValues, unsafeCSS} from 'lit-element';
+import graphResponsiveCss from "./vmd-graph.base.component.scss";
+import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 export abstract class VmdGraphBaseComponent<T> extends LitElement {
 
     //language=css
     static styles = [
+        CSS_Global,
+        css`${unsafeCSS(graphResponsiveCss)}`,
         css`
         `
     ];
@@ -21,7 +25,9 @@ export abstract class VmdGraphBaseComponent<T> extends LitElement {
 
     render() {
         return html`
-          <canvas id="graph" width="${this.width}" height="${this.height}"></canvas>
+            <div class="chart-container-responsive">
+                <canvas id="graph" width="${this.width}" height="${this.height}"></canvas>
+            </div>
         `;
     }
 
