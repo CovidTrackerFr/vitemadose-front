@@ -212,7 +212,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
                 <div class="spacer mt-5 mb-5"></div>
                 <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
-                    ${lieuxDisponibles.length ? html`
+                    ${!lieuxDisponibles.length ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
@@ -222,15 +222,19 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     ` : html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                           <i class="bi vmdicon-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
-                          <span class="col col-sm-auto">
-                            Aucun créneau de vaccination trouvé
-                          </span>
+                          Aucun créneau de vaccination trouvé
                         </h2>
-                        <div class="px-3 mb-5">
-                          <em>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
-                            sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement
+                        <div class="mb-5 container-content">
+                          <p>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
+                            sur les plateformes de réservation. </p>
+                          <p>Nous vous recommandons toutefois de vérifier manuellement
                             les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
-                            Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</em>
+                            Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</p>
+                          <p>Pour recevoir une notification quand de nouveaux créneaux seront disponibles, 
+                            nous vous invitons à utiliser les applications mobiles “Vite Ma Dose !” pour
+                            <u><a href="https://play.google.com/store/apps/details?id=com.cvtracker.vmd2" target="_blank" rel="noopener">Android</a></u>
+                            et <u><a href="http://apple.co/3dFMGy3" target="_blank" rel="noopener">iPhone</a></u>.
+                          </p>                            
                         </div>
                     `}
 
