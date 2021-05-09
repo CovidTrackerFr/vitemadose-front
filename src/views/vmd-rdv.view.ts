@@ -220,7 +220,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </div>
               </div>
             `:html`
-                <h3 class="fw-normal text-center h4" style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
+                <h3 class="fw-normal text-center h4 ${classMap({ 'search-chronodose': this.searchType==='chronodose', 'search-standard': this.searchType==='standard' })}"
+                    style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
                   ${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}
                   ${this.libelleLieuSelectionne()}
                   <br/>
