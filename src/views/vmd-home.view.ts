@@ -5,7 +5,7 @@ import {
     Departement,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
-    PLATEFORMES,
+    PLATEFORMES, SearchType,
     State,
     StatsLieu,
 } from "../state/State";
@@ -40,8 +40,9 @@ export class VmdHomeView extends LitElement {
     private departementSelectione: Departement|undefined = undefined;
 
     rechercherRdv() {
+        const searchType: SearchType = window.location.hostname === 'chronodrive.fr' ? 'chronodose':'standard';
         if(this.departementSelectione) {
-            Router.navigateToRendezVousAvecDepartement(this.departementSelectione.code_departement, libelleUrlPathDuDepartement(this.departementSelectione), 'standard');
+            Router.navigateToRendezVousAvecDepartement(this.departementSelectione.code_departement, libelleUrlPathDuDepartement(this.departementSelectione), searchType);
             return;
         }
 
@@ -57,7 +58,7 @@ export class VmdHomeView extends LitElement {
             libelleUrlPathDuDepartement(departement),
             this.communeSelectionee!.code, this.communeSelectionee!.codePostal,
             libelleUrlPathDeCommune(this.communeSelectionee!),
-            'standard'
+            searchType
         )
     }
 
