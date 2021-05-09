@@ -136,7 +136,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         return html`
           <form class="row align-items-center autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}"
                 @submit="${this.handleSubmit}">
-            <label for="searchAppointment-searchbar" class="col-sm-24 col-md-auto mb-md-1 label-for-search">
+            <label for="searchAppointment-searchbar" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3">
                 Localisation :
             </label>
             <div class="col">
