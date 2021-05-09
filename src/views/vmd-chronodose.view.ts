@@ -1,12 +1,12 @@
-import {css, customElement, html, LitElement, unsafeCSS} from 'lit-element';
-import globalCss from "../styles/global.scss";
+import {css, customElement, html, LitElement} from 'lit-element';
+import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 @customElement('vmd-chronodose')
 export class VmdChronodoseView extends LitElement {
 
     //language=css
     static styles = [
-        css`${unsafeCSS(globalCss)}`,
+        CSS_Global,
         css`
             :host {
                 display: block;
