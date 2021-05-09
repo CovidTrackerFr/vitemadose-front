@@ -188,7 +188,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   Tous les créneaux
                 </li>
                 <li class="col bg-chronodose text-chronodose tab ${classMap({selected: this.searchType==='chronodose'})}" @click="${() => this.updateSearchTypeTo('chronodose')}">
-                  <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité">Chronodoses<i class="bi vmdicon-help-circled"></i> uniquement</span>
+                  <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses uniquement</span>
                 </li>
               </ul>
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">

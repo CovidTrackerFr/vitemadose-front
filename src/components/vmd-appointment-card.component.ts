@@ -153,7 +153,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                  title="${cardConfig.estCliquable ? this.lieu.url : ''}">
                 ${cardConfig.highlighted?html`
                 <div class="row align-items-center highlight-text">
-                  Chronodoses disponibles
+                  <i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses disponibles<i class="bi vmdicon-lightning-charge-fill"></i>
                 </div>`:html``}
                 <div class="card-body p-4">
                     <div class="row align-items-center ">

@@ -111,10 +111,18 @@
       ]
     },
     {
-      "uid": "17ebadd1e3f274ff0205601eef7b9cc4",
-      "css": "help-circled",
-      "code": 59399,
-      "src": "fontawesome"
+      "uid": "92fcff25e1691cf173d20cc9fd2d385c",
+      "css": "lightning-charge-fill",
+      "code": 59400,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M703.2 4.3A31.3 31.3 0 0 1 717.4 40.5L604.8 406.3H812.5A31.3 31.3 0 0 1 835.3 458.9L335.3 990.2A31.3 31.3 0 0 1 282.6 959.6L395.2 593.8H187.5A31.3 31.3 0 0 1 164.8 541.1L664.8 9.8A31.3 31.3 0 0 1 703.2 4.2Z",
+        "width": 1000
+      },
+      "search": [
+        "lightning-charge-fill"
+      ]
     }
   ]
 }
