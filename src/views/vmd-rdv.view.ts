@@ -447,6 +447,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     protected updateSearchTypeTo(searchType: SearchType) {
         this.searchType = searchType;
+
+        this.refreshPageWhenValidParams();
     }
 
     protected transformLieuEnFonctionDuTypeDeRecherche(lieu: LieuAffichableAvecDistance) {
@@ -614,13 +616,12 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     }
 
     protected updateSearchTypeTo(searchType: SearchType) {
-        super.updateSearchTypeTo(searchType);
-        if(this.searchType === 'chronodose') {
+        if(searchType === 'chronodose') {
             // This is pointless to sort by time in chronodrive search
             this.critèreDeTri = 'distance';
         }
 
-        this.refreshPageWhenValidParams();
+        super.updateSearchTypeTo(searchType);
     }
 }
 
