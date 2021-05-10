@@ -257,14 +257,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           </span>
                         </h2>
                         <div class="px-3 mb-5">
-                          <em>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
-                            sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement
-                            les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
-                            Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</em>
-                            ${this.searchType === 'chronodose' ? html`
-                                <em>Si vous êtes déjà éligible, vous pouvez <a class="text-decoration-underline" href="" @click="${() => this.updateSearchTypeTo('standard')}">consulter les créneaux classiques</a>.</em>
-                            `:``}
-                            
+                            <p class="fst-italic">Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
+                                sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement
+                                les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
+                                Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.
+                                ${this.searchType === 'chronodose' ? html`
+                                    Si vous êtes déjà éligible, vous pouvez <a class="text-decoration-underline" href="${this.getStandardResultsLink()}"">consulter les créneaux classiques</a>.
+                                `:``}
+                            </p>
                         </div>
                     `}
 
@@ -401,6 +401,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
         if (this.codeDepartementSelectionne) {
             Router.navigateToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!), this.searchType);
         }
+    }
+
+    private getStandardResultsLink() {
+        if (this.codeDepartementSelectionne) {
+            return Router.getLinkToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!), 'standard');
+        }
+        return ;
     }
 
     private prendreRdv(lieu: Lieu) {
