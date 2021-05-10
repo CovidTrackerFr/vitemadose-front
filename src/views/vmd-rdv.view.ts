@@ -192,22 +192,17 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </li>
               </ul>
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
-                    <label class="col-sm-24 col-md-auto">
-                      Localisation :
-                    </label>
-                    <div class="col">
-                        <vmd-commune-or-departement-selector class="mb-3"
-                              @autocomplete-triggered="${(event: CustomEvent<AutocompleteTriggered>) => this.communeAutocompleteTriggered(event.detail.value)}"
-                              @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune, true)}"
-                              @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement, true)}"
-                              codeCommuneSelectionne="${this.getCodeCommuneSelectionne()}"
-                              .departementsDisponibles="${this.departementsDisponibles}"
-                              .autocompleteTriggers="${this.communesAutocomplete}"
-                              .communesDisponibles="${this.communesDisponibles}"
-                              .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
-                        >
-                        </vmd-commune-or-departement-selector>
-                    </div>
+                    <vmd-commune-or-departement-selector class="mb-3"
+                            @autocomplete-triggered="${(event: CustomEvent<AutocompleteTriggered>) => this.communeAutocompleteTriggered(event.detail.value)}"
+                            @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune, true)}"
+                            @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement, true)}"
+                            codeCommuneSelectionne="${this.getCodeCommuneSelectionne()}"
+                            .departementsDisponibles="${this.departementsDisponibles}"
+                            .autocompleteTriggers="${this.communesAutocomplete}"
+                            .communesDisponibles="${this.communesDisponibles}"
+                            .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
+                    >
+                    </vmd-commune-or-departement-selector>
                 </div>
                 ${this.renderAdditionnalSearchCriteria()}
             </div>
@@ -252,19 +247,23 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     ` : html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                           <i class="bi vmdicon-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
-                          <span class="col col-sm-auto">
-                            Aucun créneau ${this.searchType==='chronodose' ? 'chronodose' : 'de vaccination'} trouvé
-                          </span>
+                          Aucun créneau ${this.searchType==='chronodose' ? 'chronodose' : 'de vaccination'} trouvé
                         </h2>
-                        <div class="px-3 mb-5">
-                            <p class="fst-italic">Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
-                                sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement
-                                les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
-                                Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.
-                                ${this.searchType === 'chronodose' ? html`
+                        <div class="mb-5 container-content">
+                          <p class="fst-italic">Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
+                            sur les plateformes de réservation. </p>
+                          <p class="fst-italic">Nous vous recommandons toutefois de vérifier manuellement
+                            les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
+                            Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.
+                            ${this.searchType === 'chronodose' ? html`
                                     Si vous êtes déjà éligible, vous pouvez <a class="text-decoration-underline" href="${this.getStandardResultsLink()}"">consulter les créneaux classiques</a>.
                                 `:``}
-                            </p>
+                          </p>
+                          <p class="fst-italic">Pour recevoir une notification quand de nouveaux créneaux seront disponibles, 
+                            nous vous invitons à utiliser les applications mobiles “Vite Ma Dose !” pour
+                            <u><a href="https://play.google.com/store/apps/details?id=com.cvtracker.vmd2" target="_blank" rel="noopener">Android</a></u>
+                            et <u><a href="http://apple.co/3dFMGy3" target="_blank" rel="noopener">iPhone</a></u>.
+                          </p>                            
                         </div>
                     `}
 

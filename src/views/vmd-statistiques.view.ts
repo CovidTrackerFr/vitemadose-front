@@ -42,7 +42,7 @@ export class VmdLieuxStatistiques extends LitElement {
 
                       <div class="p-5 text-dark bg-light homeCard-container mt-5">
                         <h3 class="h2"> Créneaux disponibles</h3>
-                        <p>Nombre de créneaux de vaccination disponibles à la réservation pour les prochaines heures ou procains jours. <i><small>Ce chiffre ne correspond pas au nombre de doses.</small></i></p>
+                        <p>Nombre de créneaux de vaccination disponibles à la réservation pour les prochaines heures ou prochains jours. <i><small>Ce chiffre ne correspond pas au nombre de doses.</small></i></p>
                         <vmd-stats-by-date-creneaux-graph class="img-fluid"  width="400" height="150" .data="${this.statsByDates}"></vmd-stats-by-date-creneaux-graph>
                       </div>
                     </div>

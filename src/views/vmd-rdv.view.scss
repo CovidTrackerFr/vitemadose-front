@@ -72,3 +72,12 @@ vmd-appointment-card {
         background-color: $lightChronodoseColor;
     }
 }
+
+.container-content {
+    max-width: 80vw;
+    margin: 0 auto;
+    @media (min-width: 1200px) {
+        max-width: 65vw;
+    }
+}
+
