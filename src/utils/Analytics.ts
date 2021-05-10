@@ -39,7 +39,7 @@ export class Analytics {
             'rdv_name': lieu.nom,
             'rdv_location_type' : lieu.type,
             'rdv_vaccine' : lieu.vaccine_type,
-            'rdv_filter_type' : triCentre
+            'rdv_sort_type' : triCentre
         });
     }
 
@@ -52,7 +52,7 @@ export class Analytics {
             'rdv_name': lieu.nom,
             'rdv_location_type' : lieu.type,
             'rdv_vaccine' : lieu.vaccine_type,
-            'rdv_filter_type' : triCentre
+            'rdv_sort_type' : triCentre
         });
     }
 
@@ -70,7 +70,7 @@ export class Analytics {
             'search_nb_lieu_vaccination_inactive' : resultats?resultats.lieuxAffichables
                 .filter(l => typeActionPour(l) === 'inactif')
                 .length:undefined,
-            'search_filter_type': triCentre
+            'search_sort_type': triCentre
         });
     }
 
