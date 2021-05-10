@@ -366,6 +366,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
                 Analytics.INSTANCE.rechercheLieuEffectuee(
                     this.codeDepartementSelectionne,
+                    this.currentCritereTri(),
                     this.communeSelectionnee,
                     this.lieuxParDepartementAffiches);
             } finally {
@@ -412,14 +413,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     private prendreRdv(lieu: Lieu) {
         if(lieu.url) {
-            Analytics.INSTANCE.clickSurRdv(lieu);
+            Analytics.INSTANCE.clickSurRdv(lieu, this.currentCritereTri());
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
 
     private verifierRdv(lieu: Lieu) {
         if(lieu.url) {
-            Analytics.INSTANCE.clickSurVerifRdv(lieu);
+            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentCritereTri());
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
@@ -473,6 +474,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
 
+    abstract currentCritereTri(): CodeTriCentre;
     abstract libelleLieuSelectionne(): TemplateResult;
     abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement;
 
@@ -483,7 +485,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
     @property({type: String}) codePostalSelectionne: string | undefined = undefined;
 
-    @property({type: String}) critèreDeTri: 'date' | 'distance' = 'distance'
+    @property({type: String}) critèreDeTri: CodeTriCentre = 'distance'
 
     preventRafraichissementLieux() {
         return !this.communeSelectionnee;
@@ -637,6 +639,10 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
         super.updateSearchTypeTo(searchType);
     }
+
+    currentCritereTri(): CodeTriCentre {
+        return this.critèreDeTri;
+    }
 }
 
 @customElement('vmd-rdv-par-departement')
@@ -683,5 +689,9 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
                 .sortBy(l => this.extraireFormuleDeTri(l, 'date'))
                 .build()
         };
+    }
+
+    currentCritereTri(): CodeTriCentre {
+        return 'date';
     }
 }

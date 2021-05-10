@@ -30,7 +30,7 @@ export class Analytics {
         });
     }
 
-    clickSurRdv(lieu: Lieu) {
+    clickSurRdv(lieu: Lieu, triCentre: CodeTriCentre) {
         window.dataLayer.push({
             'event': 'rdv_click',
             'rdv_departement' : lieu.departement,
@@ -39,11 +39,11 @@ export class Analytics {
             'rdv_name': lieu.nom,
             'rdv_location_type' : lieu.type,
             'rdv_vaccine' : lieu.vaccine_type,
-            'rdv_filter_type' : undefined
+            'rdv_filter_type' : triCentre
         });
     }
 
-    clickSurVerifRdv(lieu: Lieu) {
+    clickSurVerifRdv(lieu: Lieu, triCentre: CodeTriCentre) {
         window.dataLayer.push({
             'event': 'rdv_verify',
             'rdv_departement' : lieu.departement,
@@ -52,11 +52,11 @@ export class Analytics {
             'rdv_name': lieu.nom,
             'rdv_location_type' : lieu.type,
             'rdv_vaccine' : lieu.vaccine_type,
-            'rdv_filter_type' : undefined
+            'rdv_filter_type' : triCentre
         });
     }
 
-    rechercheLieuEffectuee(codeDepartement: CodeDepartement, commune: Commune|undefined, resultats: LieuxAvecDistanceParDepartement|undefined) {
+    rechercheLieuEffectuee(codeDepartement: CodeDepartement, triCentre: CodeTriCentre, commune: Commune|undefined, resultats: LieuxAvecDistanceParDepartement|undefined) {
         window.dataLayer.push({
             'event': commune?'search_by_commune':'search_by_departement',
             'search_departement': codeDepartement,
@@ -70,7 +70,7 @@ export class Analytics {
             'search_nb_lieu_vaccination_inactive' : resultats?resultats.lieuxAffichables
                 .filter(l => typeActionPour(l) === 'inactif')
                 .length:undefined,
-            'search_filter_type': (this as any).critèreDeTri || 'date'
+            'search_filter_type': triCentre
         });
     }
 
