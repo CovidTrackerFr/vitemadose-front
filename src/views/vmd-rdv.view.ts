@@ -42,6 +42,13 @@ import tippy from 'tippy.js';
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 
+function fonctionaliteChronodosesActive() {
+    const now = new Date();
+    const localISODate = `${now.getFullYear()}-${Strings.padLeft(now.getMonth()+1, 2, '0')}-${Strings.padLeft(now.getDate(), 2, '0')}`;
+    return localISODate >= "2021-05-12";
+}
+
+
 export abstract class AbstractVmdRdvView extends LitElement {
 
     //language=css
@@ -182,7 +189,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
             }):[];
 
         return html`
-            <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'bg-std': this.searchType==='standard', 'bg-chronodose': this.searchType==='chronodose'})}">
+            <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'pt-5': !fonctionaliteChronodosesActive(),'bg-std': this.searchType==='standard', 'bg-chronodose': this.searchType==='chronodose'})}">
+              ${fonctionaliteChronodosesActive()?html`
               <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
                 <li class="col bg-std text-std tab ${classMap({selected: this.searchType==='standard'})}" @click="${() => this.updateSearchTypeTo('standard')}">
                   Tous les créneaux
@@ -191,6 +199,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses uniquement</span>
                 </li>
               </ul>
+              `:html``}
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                     <vmd-commune-or-departement-selector class="mb-3"
                             @autocomplete-triggered="${(event: CustomEvent<AutocompleteTriggered>) => this.communeAutocompleteTriggered(event.detail.value)}"
