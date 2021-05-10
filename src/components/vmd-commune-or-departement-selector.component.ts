@@ -134,25 +134,31 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
     render() {
         return html`
-          <form class="autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}"
+          <form class="row align-items-center"
                 @submit="${this.handleSubmit}">
-            <input type="search" class="autocomplete-input"
-                   required
-                   @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
-                   @focusout="${this.hideDropdownWhenInputHasNotFocus}"
-                   @keydown="${this.handleKeydown}"
-                   @keyup="${this.valueChanged}"
-                   .value="${this.filter}"
-                   placeholder="Commune, Code postal, Département..."
-            />
-            ${this.filter?html`
-            <button type="button" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>${SVG_CLOSE_ICON}</span></button>
-            `:html``}
-            ${this.recuperationCommunesEnCours?html`
-              <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">
-              </div>
-            `:html``}
-            ${this.showDropdown?html`<ul class="autocomplete-results">${this.renderListItems()}</ul>`:html``}
+            <label for="searchAppointment-searchbar" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
+                Localisation :
+            </label>
+            <div class="px-0 col autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}">
+                <input type="search" class="autocomplete-input"
+                    required
+                    @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
+                    @focusout="${this.hideDropdownWhenInputHasNotFocus}"
+                    @keydown="${this.handleKeydown}"
+                    @keyup="${this.valueChanged}"
+                    .value="${this.filter}"
+                    placeholder="Commune, Code postal, Département..."
+                    id="searchAppointment-searchbar"
+                />
+                ${this.filter?html`
+                <button type="button" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>${SVG_CLOSE_ICON}</span></button>
+                `:html``}
+                ${this.recuperationCommunesEnCours?html`
+                <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">
+                </div>
+                `:html``}
+                ${this.showDropdown?html`<ul class="autocomplete-results">${this.renderListItems()}</ul>`:html``}
+            </div>
           </form>
         `;
     }
