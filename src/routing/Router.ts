@@ -182,8 +182,9 @@ class Routing {
     }
 
     private _notFoundRoute(context: PageJS.Context) {
-        console.error(`Route not found : ${context.path} ! Redirecting to home...`);
-        this.navigateToHome();
+        let notFoundUrl: string = window.location.protocol + '//' + window.location.host + '/404.html';
+        console.error(`Route not found : ${context.path} ! Redirecting to ${notFoundUrl}`);
+        window.location.href = notFoundUrl;
     }
 
     public navigateToRendezVousAvecDepartement(codeDepartement: string, pathLibelleDepartement: string, searchType: SearchType) {
