@@ -35,7 +35,6 @@ export class Analytics {
             'event': 'rdv_click',
             'rdv_departement' : lieu.departement,
             'rdv_commune' : commune?`${commune.codePostal} - ${commune.nom} (${commune.code})`:undefined,
-            'rdv_platorm' : lieu.plateforme,
             'rdv_platform' : lieu.plateforme,
             'rdv_name': lieu.nom,
             'rdv_location_type' : lieu.type,
@@ -50,7 +49,6 @@ export class Analytics {
             'event': 'rdv_verify',
             'rdv_departement' : lieu.departement,
             'rdv_commune' : commune?`${commune.codePostal} - ${commune.nom} (${commune.code})`:undefined,
-            'rdv_platorm' : lieu.plateforme,
             'rdv_platform' : lieu.plateforme,
             'rdv_name': lieu.nom,
             'rdv_location_type' : lieu.type,
@@ -65,8 +63,6 @@ export class Analytics {
             'event': commune?'search_by_commune':'search_by_departement',
             'search_departement': codeDepartement,
             'search_commune' : commune?`${commune.codePostal} - ${commune.nom} (${commune.code})`:undefined,
-            // kept for legacy reasons
-            'search_nb_doses' : resultats?resultats.lieuxAffichables.reduce((totalDoses, lieu) => totalDoses+lieu.appointment_count, 0):undefined,
             'search_nb_appointments' : resultats?resultats.lieuxAffichables.reduce((totalDoses, lieu) => totalDoses+lieu.appointment_count, 0):undefined,
             'search_nb_lieu_vaccination' : resultats?resultats.lieuxAffichables
                 .filter(l => typeActionPour(l) === 'actif-via-plateforme' || typeActionPour(l) === 'actif-via-tel')
