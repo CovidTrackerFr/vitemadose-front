@@ -367,6 +367,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 Analytics.INSTANCE.rechercheLieuEffectuee(
                     this.codeDepartementSelectionne,
                     this.currentCritereTri(),
+                    this.searchType,
                     this.communeSelectionnee,
                     this.lieuxParDepartementAffiches);
             } finally {
@@ -413,14 +414,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     private prendreRdv(lieu: Lieu) {
         if(lieu.url) {
-            Analytics.INSTANCE.clickSurRdv(lieu, this.currentCritereTri());
+            Analytics.INSTANCE.clickSurRdv(lieu, this.currentCritereTri(), this.searchType);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
 
     private verifierRdv(lieu: Lieu) {
         if(lieu.url) {
-            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentCritereTri());
+            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentCritereTri(), this.searchType);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
