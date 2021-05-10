@@ -1,8 +1,8 @@
 import {
     CodeDepartement, CodeTriCentre,
-    Commune,
+    Commune, isLieuActif,
     Lieu,
-    LieuxAvecDistanceParDepartement, SearchType, typeActionPour,
+    LieuxAvecDistanceParDepartement, SearchType,
 } from "../state/State";
 
 
@@ -65,10 +65,10 @@ export class Analytics {
             'search_commune' : commune?`${commune.codePostal} - ${commune.nom} (${commune.code})`:undefined,
             'search_nb_appointments' : resultats?resultats.lieuxAffichables.reduce((totalDoses, lieu) => totalDoses+lieu.appointment_count, 0):undefined,
             'search_nb_lieu_vaccination' : resultats?resultats.lieuxAffichables
-                .filter(l => typeActionPour(l) === 'actif-via-plateforme' || typeActionPour(l) === 'actif-via-tel')
+                .filter(isLieuActif)
                 .length:undefined,
             'search_nb_lieu_vaccination_inactive' : resultats?resultats.lieuxAffichables
-                .filter(l => typeActionPour(l) === 'inactif')
+                .filter(l => !isLieuActif(l))
                 .length:undefined,
             'search_sort_type': triCentre,
             'search_filter_type' : [`kind:${searchType}`].join("|")

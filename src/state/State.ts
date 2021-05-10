@@ -147,6 +147,9 @@ export function typeActionPour(lieuAffichable: LieuAffichableAvecDistance): 'act
         return 'inactif';
     }
 }
+export function isLieuActif(lieuAffichable: LieuAffichableAvecDistance) {
+    return ['actif-via-tel', 'actif-via-plateforme'].includes(typeActionPour(lieuAffichable));
+}
 
 function convertDepartementForSort(codeDepartement: CodeDepartement) {
     switch(codeDepartement) {
