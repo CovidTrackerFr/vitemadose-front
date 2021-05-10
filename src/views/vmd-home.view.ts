@@ -85,22 +85,17 @@ export class VmdHomeView extends LitElement {
                 </div>
 
                 <div class="searchAppointment-form">
-                    <div class="searchAppointmentForm-fields row align-items-center">
-                        <label class="col-sm-24 col-md-auto mb-md-1">
-                            Localisation :
-                        </label>
-                        <div class="col">
-                            <vmd-commune-or-departement-selector class="mb-3"
-                                  @autocomplete-triggered="${this.communeAutocompleteTriggered}"
-                                  @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune)}"
-                                  @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement)}"
-                                  .departementsDisponibles="${this.departementsDisponibles}"
-                                  .autocompleteTriggers="${this.communesAutocomplete}"
-                                  .communesDisponibles="${this.communesDisponibles}"
-                                  .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
-                            >
-                            </vmd-commune-or-departement-selector>
-                        </div>
+                    <div class="searchAppointmentForm-fields">
+                        <vmd-commune-or-departement-selector class="mb-3"
+                                @autocomplete-triggered="${this.communeAutocompleteTriggered}"
+                                @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune)}"
+                                @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement)}"
+                                .departementsDisponibles="${this.departementsDisponibles}"
+                                .autocompleteTriggers="${this.communesAutocomplete}"
+                                .communesDisponibles="${this.communesDisponibles}"
+                                .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
+                        >
+                        </vmd-commune-or-departement-selector>
                     </div>
                 </div>
             </div>

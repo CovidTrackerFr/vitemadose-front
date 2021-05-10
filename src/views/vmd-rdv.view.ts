@@ -166,22 +166,17 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return html`
             <div class="p-5 text-dark bg-light rounded-3">
                 <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
-                    <label class="col-sm-24 col-md-auto">
-                      Localisation :
-                    </label>
-                    <div class="col">
-                        <vmd-commune-or-departement-selector class="mb-3"
-                              @autocomplete-triggered="${(event: CustomEvent<AutocompleteTriggered>) => this.communeAutocompleteTriggered(event.detail.value)}"
-                              @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune, true)}"
-                              @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement, true)}"
-                              codeCommuneSelectionne="${this.getCodeCommuneSelectionne()}"
-                              .departementsDisponibles="${this.departementsDisponibles}"
-                              .autocompleteTriggers="${this.communesAutocomplete}"
-                              .communesDisponibles="${this.communesDisponibles}"
-                              .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
-                        >
-                        </vmd-commune-or-departement-selector>
-                    </div>
+                    <vmd-commune-or-departement-selector class="mb-3"
+                            @autocomplete-triggered="${(event: CustomEvent<AutocompleteTriggered>) => this.communeAutocompleteTriggered(event.detail.value)}"
+                            @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune, true)}"
+                            @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement, true)}"
+                            codeCommuneSelectionne="${this.getCodeCommuneSelectionne()}"
+                            .departementsDisponibles="${this.departementsDisponibles}"
+                            .autocompleteTriggers="${this.communesAutocomplete}"
+                            .communesDisponibles="${this.communesDisponibles}"
+                            .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
+                    >
+                    </vmd-commune-or-departement-selector>
                 </div>
                 ${this.renderAdditionnalSearchCriteria()}
             </div>
