@@ -1,5 +1,6 @@
 import {css, customElement, html, LitElement} from 'lit-element';
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
+import "../components/vmd-flammable.component"
 
 @customElement('vmd-chronodose')
 export class VmdChronodoseView extends LitElement {
@@ -22,9 +23,11 @@ export class VmdChronodoseView extends LitElement {
           Grâce à Chronodose, chaque personne de plus de 18 ans souhaitant se faire vacciner contre la Covid19 pourra chercher un rendez-vous en moins de 24h facilement et rapidement. Un système de notification sera aussi implémenté permettant d'alerter les utilisateurs des disponibilités de créneaux de vaccination Chronodose.
           <div class="homeCard-actions">
             <div class="row justify-content-center justify-content-lg-start mt-5">
-                <a href="https://vitemadose.covidtracker.fr/" target="_blank" class="col-auto btn btn-primary btn-lg">
-                    Accéder à Vite Ma Dose&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
-                </a>
+                <vmd-flammable class="col-auto">
+                  <a href="https://vitemadose.covidtracker.fr/" target="_blank" class="col-auto btn btn-primary btn-lg">
+                      Accéder à Vite Ma Dose&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
+                  </a>
+                </vmd-flammable>
             </div>
           </div>
         `;

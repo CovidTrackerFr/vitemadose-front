@@ -13,6 +13,7 @@ import {Commune, Departement} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
 import communeSelectorCss from "./vmd-commune-or-departement-selector.component.scss";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
+import "./vmd-flammable.component"
 
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
@@ -61,6 +62,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
             <label for="searchAppointment-searchbar" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
                 Localisation :
             </label>
+            <vmd-flammable class="px-0 col">
             <div class="px-0 col autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}">
                 <input type="search" class="autocomplete-input"
                     autocomplete="off"
@@ -83,6 +85,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
                 `:html``}
                 ${this.showDropdown?html`<ul role="listbox" class="autocomplete-results">${this.renderListItems()}</ul>`:html``}
             </div>
+            </vmd-flammable>
           </form>
         `;
     }

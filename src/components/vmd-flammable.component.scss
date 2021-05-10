@@ -1,0 +1,80 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+$fireColor: rgb(255,80,0);
+$fireColorT: rgba(255,80,0,0);
+$dur: 1s;
+$blur: 0.02em;
+$fireRad: 3em;
+$parts: 500;
+$partSize: 5em;
+
+:host {
+  --fire-color: rgb(255, 80, 0);
+  --fire-color-t: rgba(255, 80, 0, 0);
+
+  > .wrapper {
+    z-index: 1;
+  }
+  > .flammable {
+    z-index: 0
+  }
+}
+
+.flammable {
+  position: absolute;
+  height: 100%;
+  width: calc(100% + 6em);
+  top: 0;
+  left: -3em;
+  --width: calc(100%);
+
+	font-size: inherit;
+	filter: blur($blur);
+  --amplitude: 20em;
+  --max-opacity: 1;
+}
+
+
+.particle {
+	animation: rise $dur ease-in infinite;
+	background-image: radial-gradient(var(--fire-color) 20%,var(--fire-color-t) 70%);
+	border-radius: 50%;
+	mix-blend-mode: screen;
+	opacity: 0;
+	position: absolute;
+	bottom: calc(#{$partSize} / -2);
+	width: $partSize;
+	height: $partSize;
+	// spread particles out in time and x-position to get desired effect
+	@for $p from 1 through $parts {
+		&:nth-of-type(#{$p}) {
+      --position: #{($p - 1)/ $parts};
+      --position-centered: calc((var(--position)*2) - 1);
+      --random: #{random(100) / 100};
+      --pull-to-center: calc(var(--position-centered) * var(--width) * -1);
+      //--deviation: calc(((#{(random(200)-100)/100 }) * 3em) + var(--pull-to-center));
+      --deviation: var(--pull-to-center);
+			animation-delay: $dur * random();
+			left: calc((100% - #{$partSize}) * #{($p - 1)/$parts});
+		}
+	}
+}
+@keyframes rise {
+	from {
+		opacity: 0;
+		transform: translate3d(0,0,0) scale(1, 1);
+	}
+	25% {
+		opacity: var(--max-opacity);
+	}
+  90% {
+    opacity: 0;
+  }
+	to {
+		opacity: 0;
+		transform: translate3d(var(--deviation),calc(-1*var(--amplitude)),0) scale(0, 1.5);
+	}
+}
