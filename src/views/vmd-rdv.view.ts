@@ -223,7 +223,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 <h3 class="fw-normal text-center h4 ${classMap({ 'search-chronodose': this.searchType==='chronodose', 'search-standard': this.searchType==='standard' })}"
                     style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
                     ${this.searchType==='chronodose'
-                        ? `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} chronodose${Strings.plural(this.totalCreneaux, 's')} trouvé${Strings.plural(this.totalCreneaux)}`
+                        ? `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} chronodose${Strings.plural(this.totalCreneaux)} trouvé${Strings.plural(this.totalCreneaux)}`
                         : `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}`
                     }
                   ${this.libelleLieuSelectionne()}
