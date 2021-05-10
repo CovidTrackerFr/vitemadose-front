@@ -88,7 +88,12 @@ class Routing {
                     .then(commune => `Vaccination COVID-19 à ${commune.nom} ${commune.codePostal}`)
         });
         this.declareRoutes({
-            pathPattern: `/centres`,
+            pathPattern: [
+                // Legacy URLs with tranche age inside ... used only for old URLs referenced by Google
+                '/centres',
+                // Proper URL really used
+                '/lieux'
+            ],
             analyticsViewName: () => 'centres',
             viewContent: async () => {
                 await import('../views/vmd-lieux.view');
