@@ -222,7 +222,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
             `:html`
                 <h3 class="fw-normal text-center h4 ${classMap({ 'search-chronodose': this.searchType==='chronodose', 'search-standard': this.searchType==='standard' })}"
                     style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
-                  ${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}
+                    ${this.searchType==='chronodose'
+                        ? `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} chronodose${Strings.plural(this.totalCreneaux)} trouvé${Strings.plural(this.totalCreneaux)}`
+                        : `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}`
+                    }
                   ${this.libelleLieuSelectionne()}
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ?
@@ -243,21 +246,25 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${lieuxDisponibles.length} Lieu${Strings.plural(lieuxDisponibles.length, 'x')} de vaccination avec des disponibilités
+                                ${lieuxDisponibles.length} Lieu${Strings.plural(lieuxDisponibles.length, 'x')} de vaccination avec des ${this.searchType==='chronodose' ? 'chronodoses' : 'disponibilités'}
                             </span>
                         </h2>
                     ` : html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                           <i class="bi vmdicon-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
                           <span class="col col-sm-auto">
-                            Aucun créneau de vaccination trouvé
+                            Aucun créneau ${this.searchType==='chronodose' ? 'chronodose' : 'de vaccination'} trouvé
                           </span>
                         </h2>
                         <div class="px-3 mb-5">
-                          <em>Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
-                            sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement
-                            les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
-                            Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.</em>
+                            <p class="fst-italic">Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
+                                sur les plateformes de réservation. Nous vous recommandons toutefois de vérifier manuellement
+                                les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
+                                Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.
+                                ${this.searchType === 'chronodose' ? html`
+                                    Si vous êtes déjà éligible, vous pouvez <a class="text-decoration-underline" href="${this.getStandardResultsLink()}"">consulter les créneaux classiques</a>.
+                                `:``}
+                            </p>
                         </div>
                     `}
 
@@ -394,6 +401,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
         if (this.codeDepartementSelectionne) {
             Router.navigateToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!), this.searchType);
         }
+    }
+
+    private getStandardResultsLink() {
+        if (this.codeDepartementSelectionne) {
+            return Router.getLinkToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!), 'standard');
+        }
+        return ;
     }
 
     private prendreRdv(lieu: Lieu) {

@@ -173,7 +173,11 @@ class Routing {
     }
 
     public navigateToRendezVousAvecDepartement(codeDepartement: string, pathLibelleDepartement: string, searchType: SearchType) {
-        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/recherche-${searchType==='chronodose'?'chronodoses':'standard'}`);
+        page(this.getLinkToRendezVousAvecDepartement(codeDepartement, pathLibelleDepartement, searchType));
+    }
+
+    public getLinkToRendezVousAvecDepartement(codeDepartement: string, pathLibelleDepartement: string, searchType: SearchType) {
+        return `${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/recherche-${searchType==='chronodose'?'chronodoses':'standard'}`;
     }
 
     public navigateToRendezVousAvecCommune(codeTriCentre: CodeTriCentre, codeDepartement: string, pathLibelleDepartement: string, codeCommune: string, codePostal: string, pathLibelleCommune: string, searchType: SearchType) {
