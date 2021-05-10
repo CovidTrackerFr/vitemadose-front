@@ -414,14 +414,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     private prendreRdv(lieu: Lieu) {
         if(lieu.url) {
-            Analytics.INSTANCE.clickSurRdv(lieu, this.currentCritereTri(), this.searchType);
+            Analytics.INSTANCE.clickSurRdv(lieu, this.currentCritereTri(), this.searchType, this.communeSelectionnee);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
 
     private verifierRdv(lieu: Lieu) {
         if(lieu.url) {
-            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentCritereTri(), this.searchType);
+            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentCritereTri(), this.searchType, this.communeSelectionnee);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }

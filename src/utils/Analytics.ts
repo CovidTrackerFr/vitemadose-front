@@ -30,10 +30,11 @@ export class Analytics {
         });
     }
 
-    clickSurRdv(lieu: Lieu, triCentre: CodeTriCentre, searchType: SearchType) {
+    clickSurRdv(lieu: Lieu, triCentre: CodeTriCentre, searchType: SearchType, commune: Commune|undefined) {
         window.dataLayer.push({
             'event': 'rdv_click',
             'rdv_departement' : lieu.departement,
+            'rdv_commune' : commune?`${commune.codePostal} - ${commune.nom} (${commune.code})`:undefined,
             'rdv_platorm' : lieu.plateforme,
             'rdv_platform' : lieu.plateforme,
             'rdv_name': lieu.nom,
@@ -44,10 +45,11 @@ export class Analytics {
         });
     }
 
-    clickSurVerifRdv(lieu: Lieu, triCentre: CodeTriCentre, searchType: SearchType) {
+    clickSurVerifRdv(lieu: Lieu, triCentre: CodeTriCentre, searchType: SearchType, commune: Commune|undefined) {
         window.dataLayer.push({
             'event': 'rdv_verify',
             'rdv_departement' : lieu.departement,
+            'rdv_commune' : commune?`${commune.codePostal} - ${commune.nom} (${commune.code})`:undefined,
             'rdv_platorm' : lieu.plateforme,
             'rdv_platform' : lieu.plateforme,
             'rdv_name': lieu.nom,
