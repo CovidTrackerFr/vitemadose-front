@@ -12,7 +12,7 @@ export type TitleProvider = (pathParams: Record<string, string>) => Promise<stri
 
 type RouteDeclaration = {
     pathPattern: string|string[];
-    analyticsViewName: string;
+    analyticsViewName: (pathParams: Record<string, string>) => string;
     viewContent: (pathParams: Record<string, string>) => Promise<SlottedTemplateResultFactory>|SlottedTemplateResultFactory;
     pageTitleProvider?: TitleProvider;
 };
@@ -39,7 +39,7 @@ class Routing {
         page.redirect(`${this.basePath}index.html`, `/`);
 
         this.declareRoutes({
-            pathPattern: `/`, analyticsViewName: 'home',
+            pathPattern: `/`, analyticsViewName: () => 'home',
             viewContent: async () => {
                 await import('../views/vmd-home.view')
                 return (subViewSlot) =>
@@ -54,7 +54,7 @@ class Routing {
                 // Proper URL really used
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/recherche-:typeRecherche`
-            ], analyticsViewName: 'search_results_by_department',
+            ], analyticsViewName: (pathParams) => `search_results_by_department${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
             viewContent: async (params) => {
                 await import('../views/vmd-rdv.view')
                 return (subViewSlot) =>
@@ -72,7 +72,7 @@ class Routing {
             pathPattern: [
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`,
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/recherche-:typeRecherche/en-triant-par-:codeTriCentre`,
-            ], analyticsViewName: 'search_results_by_city',
+            ], analyticsViewName: (pathParams) => `search_results_by_city${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
             viewContent: async (params) => {
                 await import('../views/vmd-rdv.view')
                 return (subViewSlot) =>
@@ -89,7 +89,7 @@ class Routing {
                     .then(commune => `Vaccination COVID-19 à ${commune.nom} ${commune.codePostal}`)
         });
         this.declareRoutes({
-            pathPattern: `/centres`, analyticsViewName: 'centres',
+            pathPattern: `/centres`, analyticsViewName: () => 'centres',
             viewContent: async () => {
                 await import('../views/vmd-lieux.view')
                 return (subViewSlot) =>
@@ -97,7 +97,7 @@ class Routing {
             }
         });
         this.declareRoutes({
-            pathPattern: `/statistiques`, analyticsViewName: 'statistiques',
+            pathPattern: `/statistiques`, analyticsViewName: () => 'statistiques',
             viewContent: async () => {
                 await import('../views/vmd-statistiques.view')
                 return (subViewSlot) =>
@@ -105,7 +105,7 @@ class Routing {
             }
         });
         this.declareRoutes({
-            pathPattern: `/apropos`, analyticsViewName: 'a_propos',
+            pathPattern: `/apropos`, analyticsViewName: () => 'a_propos',
             viewContent: async () => {
                 await import('../views/vmd-apropos.view')
                 return (subViewSlot) =>
@@ -113,7 +113,7 @@ class Routing {
             }
         });
         this.declareRoutes({
-            pathPattern: `/chronodose`, analyticsViewName: 'chronodose',
+            pathPattern: `/chronodose`, analyticsViewName: () => 'chronodose',
             viewContent: async () => {
                 await import('../views/vmd-chronodose.view')
                 return (subViewSlot) =>
@@ -134,7 +134,7 @@ class Routing {
         });
     }
 
-    private _declareRoute(path: string, pageName: string, viewComponentCreator: (pathParams: Record<string, string>) => Promise<SlottedTemplateResultFactory>|SlottedTemplateResultFactory,
+    private _declareRoute(path: string, pageNameSupplier: (pathParams: Record<string,string>) => string, viewComponentCreator: (pathParams: Record<string, string>) => Promise<SlottedTemplateResultFactory>|SlottedTemplateResultFactory,
                          titlePromise = Routing.DEFAULT_TITLE_PROMISE) {
         page(`${this.basePath}${path.substring(path[0]==='/'?1:0)}`, (context) => {
             const slottedViewComponentFactoryResult = viewComponentCreator(context.params);
@@ -154,7 +154,7 @@ class Routing {
 
                 this._viewChangeCallbacks.forEach(callback => callback(slottedViewTemplateFactory, path));
 
-                Analytics.INSTANCE.navigationSurNouvellePage(pageName);
+                Analytics.INSTANCE.navigationSurNouvellePage(pageNameSupplier(context.params));
             })
         });
     }
