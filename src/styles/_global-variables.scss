@@ -1,0 +1,8 @@
+@import 'bootstrap/scss/functions';
+@import "bootstrap-variables";
+
+
+$stdColor: $primary;
+$lightStdColor: tint-color($stdColor, 85%);
+$chronodoseColor: $secondary;
+$lightChronodoseColor: tint-color($chronodoseColor, 85%);

@@ -1,6 +1,7 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/mixins/breakpoints";
 @import "../styles/bootstrap-variables";
+@import "../styles/global-variables";
 
 .rdvForm {
     &-fields {
@@ -16,64 +17,6 @@
             }
         }
     }
-}
-.resultats {
-    .tri {
-        display: flex;
-        padding: 0;
-        margin: 0 0 3em 0;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-
-        .radio-input {
-            margin-left: 1em;
-            &:first-child {
-                margin-left: 0;
-            }
-        }
-
-        label {
-            cursor: pointer;
-        }
-        input[disabled] + label {
-            text-decoration: line-through;
-            opacity: 80%;
-        }
-
-        .radio-input {
-            input[type=radio] {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-            label {
-                border-bottom: 1px solid transparent;
-                padding: 0 1em .3em;
-            }
-            input:checked + label {
-                border-color: $primary;
-            }
-        }
-    }
-
-    .tri {
-        position: relative;
-        .blocked-geo, .geo-indispo {
-            transition: opacity 500ms;
-            opacity: 0;
-            font-size: 80%;
-            color: $info;
-            position: absolute;
-            top: calc(100% + .5em);
-            width: 100%;
-            text-align: center;
-        }
-        .blocked-geo.displayed, .geo-indispo.displayed {
-            opacity: 1;
-        }
-    }
-
 }
 
 .eligibility-criteria {
@@ -118,6 +61,15 @@ vmd-appointment-card {
             opacity: 1;
             filter: saturate(100%);
         }
+    }
+}
+
+.criteria-container {
+    &.search-standard {
+        background-color: $lightStdColor;
+    }
+    &.search-chronodose {
+        background-color: $lightChronodoseColor;
     }
 }
 
