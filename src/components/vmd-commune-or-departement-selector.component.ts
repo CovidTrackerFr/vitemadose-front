@@ -141,6 +141,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
             </label>
             <div class="px-0 col autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}">
                 <input type="search" class="autocomplete-input"
+                    autocomplete="off"
                     required
                     @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
                     @focusout="${this.hideDropdownWhenInputHasNotFocus}"
