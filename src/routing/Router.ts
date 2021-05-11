@@ -131,7 +131,7 @@ class Routing {
             }
         });
 
-        page(`*`, (context) => this._notFoundRoute(context));
+        page(`*`, (context) => Routing._notFoundRoute(context));
         page();
 
         return callbackCleaner;
@@ -181,7 +181,7 @@ class Routing {
         }
     }
 
-    private _notFoundRoute(context: PageJS.Context) {
+    private static _notFoundRoute(context: PageJS.Context) {
         let notFoundUrl: string = window.location.protocol + '//' + window.location.host + '/404.html';
         console.error(`Route not found : ${context.path} ! Redirecting to ${notFoundUrl}`);
         window.location.href = notFoundUrl;
