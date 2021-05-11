@@ -242,6 +242,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
               : currentSearch.commune.codeDepartement
             try {
                 this.searchInProgress = true;
+                await delay(1) // give some time (a tick) to render the loader before doing all the heavy lifting
                 const [lieuxDepartement, ...lieuxDepartementsLimitrophes] = await Promise.all([
                     State.current.lieuxPour(codeDepartement),
                     ...this.codeDepartementAdditionnels(codeDepartement).map(dept => State.current.lieuxPour(dept))
@@ -423,16 +424,34 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
 
         const { lieuxDisponibles, lieuxIndisponibles } = lieuxParDepartement
+        const lieuxAffichablesMap = new Map<string, LieuAffichableAvecDistance>()
+        for (const lieu of lieuxDisponibles) {
+          const disponible = true
+          const distance = distanceAvec(lieu)
+          if (!distance || distance < MAX_DISTANCE_CENTRE_IN_KM) {
+            const lieuAvecDistance = { ...lieu, distance, disponible }
+            const sortKey = this.extraireFormuleDeTri(lieuAvecDistance, search.tri)
+            lieuxAffichablesMap.set(sortKey, lieuAvecDistance)
+          }
+        }
+        for (const lieu of lieuxIndisponibles) {
+          const disponible = false
+          const distance = distanceAvec(lieu)
+          if (!distance || distance < MAX_DISTANCE_CENTRE_IN_KM) {
+            const lieuAvecDistance = { ...lieu, distance, disponible }
+            const sortKey = this.extraireFormuleDeTri(lieuAvecDistance, search.tri)
+            lieuxAffichablesMap.set(sortKey, lieuAvecDistance)
+          }
+        }
+
+        const lieuxAffichables = [...lieuxAffichablesMap.keys()]
+          .sort()
+          .slice(0, MAX_CENTER_RESULTS_COUNT)
+          .map((key: string) => lieuxAffichablesMap.get(key)!)
+
         return {
             ...lieuxParDepartement,
-            lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
-                .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
-                .map(l => ({...l, distance: distanceAvec(l) }))
-                .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
-                .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
-                .sortBy(l => this.extraireFormuleDeTri(l, search.tri))
-                .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
-                .build()
+            lieuxAffichables
         };
     }
 
