@@ -12,20 +12,20 @@
         <priority>1</priority>
     </url>
 
-    <!-- Chronodose -->
-
-    <url>
-        <loc>https://vitemadose.covidtracker.fr/chronodose</loc>
-        <changefreq>daily</changefreq>
-        <priority>1</priority>
-    </url>
-
     <!-- Statistiques -->
 
     <url>
         <loc>https://vitemadose.covidtracker.fr/statistiques</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
+    </url>
+
+    <!-- Chronodose -->
+
+    <url>
+        <loc>https://vitemadose.covidtracker.fr/chronodose</loc>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
     </url>
 
     <!-- Lieux -->
