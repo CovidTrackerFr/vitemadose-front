@@ -64,6 +64,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
             <div class="px-0 col autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}">
                 <input type="search" class="autocomplete-input"
                     required
+                    autocomplete="off"
                     @focusin="${this.onFocusIn}"
                     @focusout="${this.onInputBlur}"
                     @keydown="${this.handleKeydown}"
