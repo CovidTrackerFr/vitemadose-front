@@ -135,15 +135,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ?
                       html`
-                      <span class="fs-6 text-black-50">
+                      <p class="fs-6 text-black-50">
                         Dernière mise à jour : il y a
                         ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}
                         ${this.miseAJourDisponible?html`
                           <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; }}">Rafraîchir</button>
                         `:html``}
-                      </span>`
-                      : html``}
-                </h3>
+                      </p>
+                      <p class="alert alert-warning fs-6">
+                          <i class="bi vmdicon-attention-fill"></i>
+                          Les plateformes sont très sollicitées, les données affichées par Vite Ma Dose peuvent avoir jusqu'à 30 minutes de retard pour Doctolib.
+                      </p>
+                        `
+                        : html``}
+                  </h3>
 
                 <div class="spacer mt-5 mb-5"></div>
                 <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
