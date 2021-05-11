@@ -151,7 +151,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
                     id="searchAppointment-searchbar"
                 />
                 ${this.filter?html`
-                <button type="button" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>${SVG_CLOSE_ICON}</span></button>
+                <button type="button"aria-label="Effacer la recherche" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>${SVG_CLOSE_ICON}</span></button>
                 `:html``}
                 ${this.recuperationCommunesEnCours?html`
                 <div class="spinner-border text-primary" style="height: 25px; width: 25px" role="status">

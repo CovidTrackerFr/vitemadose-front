@@ -169,10 +169,10 @@ export class VmdAppointmentCardComponent extends LitElement {
                 <div class="card-body p-4">
                     <div class="row align-items-center ">
                         <div class="col">
-                            <h5 class="card-title">
+                            <div class="card-title h5">
                               ${this.lieu.prochain_rdv?Dates.isoToFRDatetime(this.lieu.prochain_rdv):cardConfig.libelleDateAbsente}
                               <small class="distance">${distance ? `- ${distance} km` : ''}</small>
-                            </h5>
+                            </div>
                             <div class="row">
                               <vmd-appointment-metadata class="mb-2" widthType="full-width" icon="vmdicon-geo-alt-fill">
                                 <div slot="content">
