@@ -20,14 +20,6 @@
         <priority>1</priority>
     </url>
 
-    <!-- Recherche -->
-
-    <url>
-        <loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt</loc>
-        <changefreq>daily</changefreq>
-        <priority>1</priority>
-    </url>
-
     <!-- Statistiques -->
 
     <url>
