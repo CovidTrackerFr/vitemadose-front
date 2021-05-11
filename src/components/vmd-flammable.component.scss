@@ -33,8 +33,11 @@ $partSize: 5em;
 
 	font-size: inherit;
 	filter: blur($blur);
-  --amplitude: 20em;
-  --max-opacity: 1;
+  --intensity: 1.0;
+  --min-amplitude: 2em;
+  --max-amplitude: 25em;
+  --amplitude: calc(var(--min-amplitude) + var(--intensity) * (var(--max-amplitude) - var(--min-amplitude)));
+  --max-opacity: calc(0.2 + 0.8 * var(--intensity));
 }
 
 
@@ -45,22 +48,20 @@ $partSize: 5em;
 	mix-blend-mode: screen;
 	opacity: 0;
 	position: absolute;
-	bottom: calc(#{$partSize} / -2);
+	bottom: calc(0px - var(--intensity) * #{$partSize / 2});
 	width: $partSize;
 	height: $partSize;
 	// spread particles out in time and x-position to get desired effect
-	@for $p from 1 through $parts {
-		&:nth-of-type(#{$p}) {
-      --position: #{($p - 1)/ $parts};
-      --position-centered: calc((var(--position)*2) - 1);
-      --random: #{random(100) / 100};
-      --pull-to-center: calc(var(--position-centered) * var(--width) * -1);
-      //--deviation: calc(((#{(random(200)-100)/100 }) * 3em) + var(--pull-to-center));
-      --deviation: var(--pull-to-center);
-			animation-delay: $dur * random();
-			left: calc((100% - #{$partSize}) * #{($p - 1)/$parts});
-		}
-	}
+  --delay-seed: 0; // should be overriden
+  --x-seed: 0; // should be overridden
+  --deviation-seed: 0; // should be overridden
+
+  --position-centered: calc((var(--x-seed) * 2) - 1);
+  --pull-to-center: calc(var(--position-centered) * var(--width) * -1);
+  --deviation: calc((((var(--deviation-seed) * 2) - 1) * 3em) + var(--pull-to-center));
+  animation-delay: calc(#{$dur} * var(--delay-seed));
+  //left: calc((100% - #{$partSize}) * #{($p - 1)/$parts});
+  left: calc((100% - #{$partSize}) * var(--x-seed));
 }
 @keyframes rise {
 	from {

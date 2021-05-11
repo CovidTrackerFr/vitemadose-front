@@ -62,7 +62,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
             <label for="searchAppointment-searchbar" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
                 Localisation :
             </label>
-            <vmd-flammable class="px-0 col">
+            <vmd-flammable class="px-0 col" .intensity="${this.intensity}">
             <div class="px-0 col autocomplete ${classMap({'_open': this.showDropdown, '_withButton': this.filter !== ''})}">
                 <input type="search" class="autocomplete-input"
                     autocomplete="off"
@@ -107,6 +107,14 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
       if (this._currentValue && input) {
         input.select()
       }
+    }
+
+    get intensity () {
+      if (!this.filter) {
+        return 0;
+      }
+      let intensity = 0.18 * this.filter.length
+      return Math.min(1, intensity)
     }
 
     get recupérationEnCours () {
