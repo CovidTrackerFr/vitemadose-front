@@ -592,30 +592,17 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles:[],
         };
 
-        const lieuxAvecDistanceParDepartement = {
+        return {
             ...lieuxParDepartement,
             lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
                 .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
                 .map(l => ({...l, distance: distanceAvec(l) }))
                 .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
+                .sortBy(l => this.extraireFormuleDeTri(l, this.critèreDeTri))
+                .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
                 .build()
         };
-
-        // Increasing distance filter when we have too much results, in order to avoid the nasty Safari bug
-        // Note that for 75001, we have a very high centers density :
-        // >17km (400 centers), 17km (399), 13km (373), 10km (300), 7.5km (255), 5.6km (177), 4.2km (113)
-        let maxDistance = MAX_DISTANCE_CENTRE_IN_KM;
-        while(lieuxAvecDistanceParDepartement.lieuxAffichables.length > MAX_CENTER_RESULTS_COUNT) {
-            maxDistance *= 0.75;
-            lieuxAvecDistanceParDepartement.lieuxAffichables = lieuxAvecDistanceParDepartement.lieuxAffichables.filter(l => !l.distance || l.distance < maxDistance);
-        }
-
-        lieuxAvecDistanceParDepartement.lieuxAffichables = ArrayBuilder.from(lieuxAvecDistanceParDepartement.lieuxAffichables)
-            .sortBy(l => this.extraireFormuleDeTri(l, this.critèreDeTri))
-            .build();
-
-        return lieuxAvecDistanceParDepartement;
     }
 
     critereTriUpdated(triCentre: CodeTriCentre) {
