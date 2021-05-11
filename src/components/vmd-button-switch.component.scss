@@ -1,6 +1,7 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/mixins/breakpoints";
 @import "../styles/bootstrap-variables";
+@import "../styles/global-variables";
 
 .option {
     @include media-breakpoint-up(md) {
@@ -23,7 +24,6 @@
     &.active {
         background-color: white;
         box-shadow: 0px 4px 8px $gray-300;
-        color: $primary;
         padding: 1.2rem 1.5rem 1.2rem;
         border-radius: 12px;
     }
@@ -37,4 +37,11 @@
         margin-top: 6px;
         margin-bottom: 6px;
     }
+}
+
+.search-chronodose .option.active {
+    color: $chronodoseColor;
+}
+.search-standard .option.active {
+    color: $stdColor;
 }

@@ -5,6 +5,7 @@
 @import "bootstrap-additional";
 
 @import "./fontello-icons";
+@import "./global-variables";
 
 //$base-color: #ffbf16;
 
@@ -37,4 +38,55 @@ h1 {
 
 select[required]:invalid {
     color: $gray-600;
+}
+
+.search-chronodose {
+    .btn-primary {
+        background-color: $chronodoseColor;
+        border-color: $chronodoseColor;
+    }
+    .btn-primary.disabled {
+        background-color: tint-color($chronodoseColor, 20%);
+    }
+}
+.search-standard {
+    .btn-primary {
+        background-color: $stdColor;
+        border-color: $stdColor;
+    }
+    .btn-primary.disabled {
+        background-color: tint-color($stdColor, 20%);
+    }
+}
+
+.bg-chronodose {
+    background-color: $lightChronodoseColor;
+}
+.bg-std {
+    background-color: $lightStdColor;
+}
+.text-chronodose {
+    color: $chronodoseColor;
+}
+.text-std {
+    color: $stdColor;
+}
+
+.tab {
+    text-align: center;
+    border-top-left-radius: 1.2rem;
+    border-top-right-radius: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    font-weight: bold;
+    border: 1px solid transparent;
+    list-style: none;
+    cursor: pointer;
+
+    &.selected {
+        border-color: lightgrey;
+        border-bottom-color: transparent;
+    }
+    &:not(.selected) {
+        border-bottom-color: lightgrey;
+    }
 }
