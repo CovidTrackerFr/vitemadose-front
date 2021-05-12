@@ -1,6 +1,6 @@
-var fetch = require('node-fetch');
-var fs = require('fs');
-var leven = require('leven');
+import fetch from 'node-fetch';
+import fs from 'fs';
+import leven from 'leven';
 
 const INDEXED_CHARS = `abcdefghijklmnopqrstuvwxyz01234567890_`.split('');
 // const INDEXED_CHARS = `abc'`.split(''); // For testing purposes
