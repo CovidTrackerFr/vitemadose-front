@@ -146,7 +146,9 @@ class Routing {
                     Promise.resolve(slottedViewComponentFactoryResult)),
                 titlePromise(context.params).catch(() => Routing.DEFAULT_TITLE)
             ]).then(([slottedViewTemplateFactory, title]) => {
-                this.currentPath === '/' && window.matchMedia("(max-width: 700px)").matches && window.scroll({ top: 0, behavior: 'smooth' })
+                if(this.currentPath === '/' && window.matchMedia("(max-width: 700px)").matches) { 
+                    window.scroll({ top: 0, behavior: 'smooth' });
+                }
 
                 this.currentPath = path;
 

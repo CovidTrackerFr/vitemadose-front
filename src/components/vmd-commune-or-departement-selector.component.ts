@@ -143,7 +143,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
                 <input type="search" class="autocomplete-input"
                     autocomplete="off"
                     required
-                    @focusin="${() => { this.inputHasFocus = true; window.matchMedia("(max-width: 700px)").matches && window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
+                    @focusin="${this.handleFocusin}"
                     @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                     @keydown="${this.handleKeydown}"
                     @keyup="${this.valueChanged}"
@@ -251,6 +251,13 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
         if (this.$autoCompleteResults) {
             this.$autoCompleteResults.scrollTop = 0;
+        }
+    }
+
+    handleFocusin() {
+        this.inputHasFocus = true;
+        if(window.matchMedia("(max-width: 700px)").matches) {
+            window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' });
         }
     }
 
