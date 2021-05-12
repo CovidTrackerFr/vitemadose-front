@@ -31,6 +31,8 @@ export class VmdStatsByDateCentresGraphComponent extends VmdGraphBaseComponent<S
                     ]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales:{
                         xAxes: [{
                             stacked: true,

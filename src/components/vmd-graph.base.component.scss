@@ -1,0 +1,17 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "../styles/bootstrap-variables";
+
+.chart-container-responsive {
+    position: relative; 
+    height: 220px;
+
+    canvas#graph {
+        width: 100% !important;
+    }
+
+    @include media-breakpoint-up(md) {
+        height: 200px;
+        width:100%;
+    }
+}
