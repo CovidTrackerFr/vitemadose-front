@@ -143,7 +143,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
                 <input type="search" class="autocomplete-input"
                     autocomplete="off"
                     required
-                    @focusin="${() => { this.inputHasFocus = true; window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
+                    @focusin="${() => { this.inputHasFocus = true; window.matchMedia("(max-width: 700px)").matches && window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' }); }}"
                     @focusout="${this.hideDropdownWhenInputHasNotFocus}"
                     @keydown="${this.handleKeydown}"
                     @keyup="${this.valueChanged}"
