@@ -3,6 +3,8 @@ import { TemplateResult } from "lit-html";
 import {html} from "lit-element";
 import {CodeTriCentre, SearchType, State} from "../state/State";
 import {Analytics} from "../utils/Analytics";
+// @ts-ignore
+import {rechercheDepartementDescriptor, rechercheCommuneDescriptor} from './dynamic-urls.mjs';
 
 export type SlottedTemplateResultFactory = (subViewSlot: TemplateResult) => TemplateResult;
 
@@ -50,7 +52,7 @@ class Routing {
         this.declareRoutes({
             pathPattern: [
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/recherche-:typeRecherche`
+                rechercheDepartementDescriptor.routerUrl
             ],
             analyticsViewName: (pathParams) => `search_results_by_department${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
             viewContent: async (params) => {
@@ -69,7 +71,7 @@ class Routing {
         this.declareRoutes({
             pathPattern: [
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`,
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/recherche-:typeRecherche/en-triant-par-:codeTriCentre`,
+                rechercheCommuneDescriptor.routerUrl
             ],
             analyticsViewName: (pathParams) => `search_results_by_city${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
             viewContent: async (params) => {

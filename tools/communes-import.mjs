@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import fs from 'fs';
 import leven from 'leven';
+import {toFullTextSearchableString} from '../src/utils/string-utils.mjs'
 
 const INDEXED_CHARS = `abcdefghijklmnopqrstuvwxyz01234567890_`.split('');
 // const INDEXED_CHARS = `abc'`.split(''); // For testing purposes
@@ -11,22 +12,6 @@ const MAX_AUTOCOMPLETE_TRIGGER_LENGTH = 7;
 
 function keyOf(commune) {
     return `${commune.code}__${commune.nom}`;
-}
-
-function toFullTextSearchableString(value) {
-    // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
-    // function here, than the one used defined in Strings.toFullTextSearchableString()
-    // ALSO, note that INDEXED_CHARS would have every possible translated values defined below
-    return value.toLowerCase()
-        .replace(/[-\s']/gi, "_")
-        .replace(/[èéëêêéè]/gi, "e")
-        .replace(/[áàâäãåâà]/gi, "a")
-        .replace(/[çç]/gi, "c")
-        .replace(/[íìîï]/gi, "i")
-        .replace(/[ñ]/gi, "n")
-        .replace(/[óòôöõô]/gi, "o")
-        .replace(/[úùûüûù]/gi, "u")
-        .replace(/[œ]/gi, "oe");
 }
 
 function search(communes, query) {
@@ -115,6 +100,10 @@ Promise.all([
     const communes = rawCommunes.map(rawCommune => rawCommune.codesPostaux.map(cp => ({
             ...rawCommune,
             codePostal: cp,
+            // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
+            // function here, than the one used defined in Strings.toFullTextSearchableString()
+            // Hence its extraction into a reusable/shareable mjs file
+            // ALSO, note that INDEXED_CHARS would have every possible translated values defined below
             fullTextSearchableNom: toFullTextSearchableString(rawCommune.nom)
         }))).flat();
 
