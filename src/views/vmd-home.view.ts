@@ -40,7 +40,7 @@ export class VmdHomeView extends LitElement {
     private departementSelectione: Departement|undefined = undefined;
 
     rechercherRdv() {
-        const searchType: SearchType = window.location.hostname === 'chronodrive.fr' ? 'chronodose':'standard';
+        const searchType: SearchType = window.location.hostname === 'chronodose.fr' ? 'chronodose':'standard';
         if(this.departementSelectione) {
             Router.navigateToRendezVousAvecDepartement(this.departementSelectione.code_departement, libelleUrlPathDuDepartement(this.departementSelectione), searchType);
             return;
