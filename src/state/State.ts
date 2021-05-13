@@ -13,8 +13,19 @@ export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
 ]);
 
 
-export type SearchRequest = SearchRequest.ByCommune | SearchRequest.ByDepartement
+export type SearchRequest = SearchRequest.ByCommune | SearchRequest.ByDepartement | SearchRequest.ByRegion
 export namespace SearchRequest {
+  export type ByRegion = {
+      type: SearchType,
+      par: 'region',
+      region: Region,
+  }
+  export function ByRegion (region: Region, type: SearchType): ByRegion {
+    return { type, par: 'region', region }
+  }
+  export function isByRegion (searchRequest: SearchRequest): searchRequest is ByRegion {
+    return searchRequest.par === 'region'
+  }
   export type ByDepartement = {
       type: SearchType,
       par: 'departement',
@@ -89,11 +100,23 @@ export const PLATEFORMES: Record<TypePlateforme, Plateforme> = {
     // in index.html page, referencing the list of supported plateforms
 };
 
+export type CodeRegion = string;
+export type Region = {
+    code_region: CodeRegion;
+    nom_region: string;
+}
+
+// Permet de convertir un nom de region en un chemin d'url correct (remplacement des caractères
+// non valides comme les accents ou les espaces)
+export const libelleUrlPathDeRegion = (region: Region) => {
+    return Strings.toReadableURLPathValue(region.nom_region);
+}
+
 export type CodeDepartement = string;
 export type Departement = {
     code_departement: CodeDepartement;
     nom_departement: string;
-    code_region: number;
+    code_region: CodeRegion;
     nom_region: string;
 };
 
@@ -234,9 +257,14 @@ export type SearchType = "standard"|"chronodose";
 export class State {
     public static current = new State();
 
+    private static REGION_VIDE: Region = {
+        code_region: '0',
+        nom_region: "",
+    }
+
     private static DEPARTEMENT_VIDE: Departement = {
         code_departement: "",
-        code_region: 0,
+        code_region: '0',
         nom_departement: "",
         nom_region: ""
     };
@@ -253,7 +281,7 @@ export class State {
     readonly autocomplete: Autocomplete
 
     private constructor() {
-      this.autocomplete = new Autocomplete(import.meta.env.BASE_URL, () => this.departementsDisponibles())
+      this.autocomplete = new Autocomplete(import.meta.env.BASE_URL, () => this.regionsDisponibles(), () => this.departementsDisponibles())
     }
 
     private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
@@ -277,13 +305,41 @@ export class State {
     @Memoize()
     async departementsDisponibles(): Promise<Departement[]> {
         const resp = await fetch(`${VMD_BASE_URL}/departements.json`)
-        const departements: Departement[] = await resp.json()
+        // The region codes on the server are numbers, when we want to store them as strings.
+        const departements: Departement[] = (await resp.json()).map((d: any) => {
+            return {...d, 'code_region': d['code_region'].toString()}
+        })
         return departements.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)))
     }
 
     async chercheDepartementParCode(code: string): Promise<Departement> {
         let deps = await this.departementsDisponibles();
         return deps.find(dep => dep.code_departement === code) || State.DEPARTEMENT_VIDE;
+    }
+
+    // [TODO] This works, but ideally it would be a separate file which needs no separate processing
+    @Memoize()
+    async regionsDisponibles(): Promise<Region[]> {
+        const departements: Departement[] = await this.departementsDisponibles()
+        const resp: Region[] = []
+        const dejaVu = new Set()
+        for (const departement of departements) {
+            if (dejaVu.has(departement['code_region'])) {
+                continue
+            }
+            dejaVu.add(departement['code_region'])
+            resp.push({
+                'code_region': departement['code_region'],
+                'nom_region': departement['nom_region'],
+            })
+        }
+        return resp.sort(({code_region: code1}, {code_region: code2}) => Number.parseInt(code2) - Number.parseInt(code1))
+    }
+
+    async chercheRegionParCode(code: string | number): Promise<Region> {
+        let regions = await this.regionsDisponibles()
+        let codeStr: string = (typeof code === 'string') ? code : code.toString()
+        return regions.find(region => region.code_region === codeStr) || State.REGION_VIDE
     }
 
     private _statsByDate: StatsByDate|undefined = undefined;

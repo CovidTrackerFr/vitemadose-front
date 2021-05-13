@@ -9,7 +9,7 @@ input {
     padding-right: 2.25rem;
     width: 100%;
 }
-input, 
+input,
 label,
 .autocomplete {
     font-weight: $input-font-weight;
@@ -32,6 +32,18 @@ label,
         51290 - Saint-Remy-en-Bouzemont-Saint-Genest-et-Isson
          */
         max-width: 50vw;
+    }
+
+    .autocomplete-result {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-right: 0.5em;
+
+        .lieu-type {
+            font-style: italic;
+            color: $gray-600;
+        }
     }
 
     .autocomplete-results {
@@ -157,11 +169,11 @@ label,
     &-result {
         &:hover, &[aria-selected="true"] {
             background-color: $input-btn-focus-color;
-        } 
+        }
         &[aria-selected="true"] {
             box-shadow: $primary 6px 0 0 inset;
         }
-        
+
         padding-top: $form-select-padding-y-lg;
         padding-bottom: $form-select-padding-y-lg;
         padding-left: $form-select-padding-x-lg;

@@ -1,6 +1,7 @@
 import {
     CodeDepartement, CodeTriCentre,
     Commune, isLieuActif,
+    Region,
     Lieu,
     LieuxAvecDistanceParDepartement, SearchType,
 } from "../state/State";
@@ -58,11 +59,12 @@ export class Analytics {
         });
     }
 
-    rechercheLieuEffectuee(codeDepartement: CodeDepartement, triCentre: CodeTriCentre, searchType: SearchType, commune: Commune|undefined, resultats: LieuxAvecDistanceParDepartement|undefined) {
+    rechercheLieuEffectuee(codeDepartement: CodeDepartement, triCentre: CodeTriCentre, searchType: SearchType, commune: Commune|undefined, region: Region|undefined, resultats: LieuxAvecDistanceParDepartement|undefined) {
         window.dataLayer.push({
             'event': commune?'search_by_commune':'search_by_departement',
             'search_departement': codeDepartement,
             'search_commune' : commune?`${commune.codePostal} - ${commune.nom} (${commune.code})`:undefined,
+            'search_region': region?`${region.code_region} - ${region.nom_region}`:undefined,
             'search_nb_appointments' : resultats?resultats.lieuxAffichables.reduce((totalDoses, lieu) => totalDoses+lieu.appointment_count, 0):undefined,
             'search_nb_lieu_vaccination' : resultats?resultats.lieuxAffichables
                 .filter(isLieuActif)

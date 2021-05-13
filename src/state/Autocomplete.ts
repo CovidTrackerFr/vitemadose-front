@@ -1,5 +1,5 @@
 import { Memoize } from 'typescript-memoize'
-import { Departement, Commune } from './State'
+import { Region, Departement, Commune } from './State'
 
 type NormalizedSearch = string & { __normalized_search: void }
 export interface CommuneAutocomplete {
@@ -12,7 +12,7 @@ export interface CommuneAutocomplete {
 
 export class Autocomplete {
   private webBaseUrl: string
-  constructor (webBaseUrl: string, private getDepartementsDisponibles: () => Promise<Departement[]>) {
+  constructor (webBaseUrl: string, private getRegionsDisponibles: () => Promise<Region[]>, private getDepartementsDisponibles: () => Promise<Departement[]>) {
     this.webBaseUrl = webBaseUrl.endsWith('/') ? webBaseUrl : `${webBaseUrl}/`
   }
 
@@ -21,15 +21,21 @@ export class Autocomplete {
     return communes.find((commune) => commune.code === codeInsee)
   }
 
-  async suggest (prefix: string): Promise<Array<Departement|Commune>> {
+  async suggest (prefix: string): Promise<Array<Region|Departement|Commune>> {
     if (prefix.length < 2) {
       return []
     }
     const term = this.normalize(prefix)
     return [
+      ...(await this.getMatchingRegions(term)),
       ...(await this.getMatchingDepartements(term)),
       ...(await this.getMatchingCommunes(term)),
     ]
+  }
+
+  private async getMatchingRegions(term: NormalizedSearch): Promise<Region[]> {
+    const regions = await this.getRegions()
+    return regions.filter((region) => this.normalize(region.nom_region).includes(term))
   }
 
   private async getMatchingDepartements(term: NormalizedSearch): Promise<Departement[]> {
@@ -72,6 +78,11 @@ export class Autocomplete {
       }
     }
     return undefined
+  }
+
+  @Memoize()
+  private async getRegions(): Promise<Region[]> {
+    return this.getRegionsDisponibles()
   }
 
   @Memoize()

@@ -8,21 +8,24 @@ import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
 import {
     SearchRequest,
+    CodeRegion,
     CodeDepartement,
     CodeTriCentre,
     Commune,
+    Region,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
+    libelleUrlPathDeRegion,
     Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
     LieuxParDepartement, SearchType,
     State,
     TRIS_CENTRE
 } from "../state/State";
-import {Dates} from "../utils/Dates";
+import {Dates, ISODateString} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import {
     ValueStrCustomEvent,
-} from "../components/vmd-commune-or-departement-selector.component";
+} from "../components/vmd-lieu-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
@@ -77,7 +80,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     protected async goToNewSearch (search: SearchRequest) {
-      if (SearchRequest.isByDepartement(search)) {
+      if (SearchRequest.isByRegion(search)) {
+        Router.navigateToRendezVousAvecRegion(search.region.code_region, libelleUrlPathDeRegion(search.region), search.type);
+      } else if (SearchRequest.isByDepartement(search)) {
         Router.navigateToRendezVousAvecDepartement(search.departement.code_departement, libelleUrlPathDuDepartement(search.departement), search.type);
       } else {
         const departements = await State.current.departementsDisponibles()
@@ -215,12 +220,24 @@ export abstract class AbstractVmdRdvView extends LitElement {
         this.lieuBackgroundRefreshIntervalId = setDebouncedInterval(async () => {
             const currentSearch = this.currentSearch
             if(currentSearch) {
-                const codeDepartement = SearchRequest.isByDepartement(currentSearch)
-                  ? currentSearch.departement.code_departement
-                  : currentSearch.commune.codeDepartement
+                let lieuxAJourPourDepartement: LieuxParDepartement | undefined
+                if (SearchRequest.isByDepartement(currentSearch) || SearchRequest.isByCommune(currentSearch)) {
+                  const codeDepartement = SearchRequest.isByDepartement(currentSearch)
+                    ? currentSearch.departement.code_departement
+                    : currentSearch.commune.codeDepartement
+                    lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement, true)
+                } else {
+                  let tousLesLieux = await Promise.all(
+                    (await State.current.departementsDisponibles())
+                      .filter(dept => dept.code_region === currentSearch.region.code_region)
+                      .map(dept => State.current.lieuxPour(dept.code_departement))
+                  );
+                  if (tousLesLieux.length > 0) {
+                    lieuxAJourPourDepartement = tousLesLieux.sort((l1, l2) => (new Date(l2.derniereMiseAJour).getTime()) - (new Date(l1.derniereMiseAJour).getTime()))[0]
+                  }
+                }
                 const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
-                const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement, true)
-                this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
+                this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement?.derniereMiseAJour);
 
                 // Used only to refresh derniereMiseAJour's displayed relative time
                 await this.requestUpdate();
@@ -242,16 +259,26 @@ export abstract class AbstractVmdRdvView extends LitElement {
         const currentSearch = this.currentSearch
         if(currentSearch) {
             // FIXME move all of this to testable file
-            const codeDepartement = SearchRequest.isByDepartement(currentSearch)
-              ? currentSearch.departement.code_departement
-              : currentSearch.commune.codeDepartement
             try {
+                let analyticsDepartement = ''
+                let analyticsRegion: Region | undefined = undefined
+                let searchDepartements = []
+                if (SearchRequest.isByDepartement(currentSearch) || SearchRequest.isByCommune(currentSearch)) {
+                  analyticsDepartement = SearchRequest.isByDepartement(currentSearch)
+                    ? currentSearch.departement.code_departement
+                    : currentSearch.commune.codeDepartement
+                  searchDepartements = [analyticsDepartement, ...this.codeDepartementAdditionnels(analyticsDepartement)]
+                } else {
+                  analyticsRegion = currentSearch.region
+                  searchDepartements = (await State.current.departementsDisponibles())
+                    .filter(d => d.code_region === currentSearch.region.code_region)
+                    .map(d => d.code_departement)
+                }
                 this.searchInProgress = true;
                 await delay(1) // give some time (one tick) to render loader before doing the heavy lifting
-                const [lieuxDepartement, ...lieuxDepartementsLimitrophes] = await Promise.all([
-                    State.current.lieuxPour(codeDepartement),
-                    ...this.codeDepartementAdditionnels(codeDepartement).map(dept => State.current.lieuxPour(dept))
-                ]);
+                const [lieuxDepartement, ...lieuxDepartementsLimitrophes] = await Promise.all(
+                    searchDepartements.map(dept => State.current.lieuxPour(dept))
+                );
 
                 const lieuxParDepartement = [lieuxDepartement].concat(lieuxDepartementsLimitrophes).reduce((mergedLieuxParDepartement, lieuxParDepartement) => ({
                     codeDepartements: mergedLieuxParDepartement.codeDepartements.concat(lieuxParDepartement.codeDepartements),
@@ -274,10 +301,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
-                    codeDepartement,
+                    analyticsDepartement,
                     this.currentCritereTri(),
                     currentSearch.type,
                     commune,
+                    analyticsRegion,
                     this.lieuxParDepartementAffiches);
             } finally {
                 this.searchInProgress = false;
@@ -544,6 +572,73 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
     }
 
     // FIXME move me to testable file
+    afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement {
+        const { lieuxDisponibles, lieuxIndisponibles } = lieuxParDepartement
+
+        return {
+            ...lieuxParDepartement,
+            lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
+                .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
+                .map(l => ({...l, distance: undefined }))
+                .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
+                .sortBy(l => this.extraireFormuleDeTri(l, 'date'))
+                .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
+                .build()
+        };
+    }
+
+    currentCritereTri(): CodeTriCentre {
+        return 'date';
+    }
+}
+
+
+@customElement('vmd-rdv-par-region')
+export class VmdRdvParRegionView extends AbstractVmdRdvView {
+    @property({type: String})
+    set searchType (type: SearchType) {
+      this._searchType = type
+      this.updateCurrentSearch()
+    }
+    @property({type: String})
+    set codeRegionSelectionne (code: CodeRegion) {
+      this._codeRegion = code
+      this.updateCurrentSearch()
+    }
+    @internalProperty() private _searchType: SearchType | void = undefined
+    @internalProperty() private _codeRegion: CodeRegion | void = undefined
+    @internalProperty() protected currentSearch: SearchRequest.ByRegion | void = undefined
+
+    private async updateCurrentSearch() {
+        const code = this._codeRegion
+        if (code && this._searchType) {
+          const regions = await State.current.regionsDisponibles()
+          const regionSelectionne = regions.find(r => r.code_region === code)
+          if (regionSelectionne) {
+            this.currentSearch = SearchRequest.ByRegion(regionSelectionne, this._searchType)
+            this.refreshLieux()
+          }
+        }
+    }
+
+    codeDepartementAdditionnels () {
+        return []
+    }
+
+    libelleLieuSelectionne(): TemplateResult {
+        let nom = '???'
+        if (this.currentSearch) {
+          const region = this.currentSearch.region
+          // Omit the region code, since it'd likely just confuse the user
+          nom = `${region.nom_region}`
+        }
+        return html`
+          pour
+          <span class="fw-bold">${nom}</span>
+        `
+    }
+
+    // FIXME move me to testable file, also rename, since this can have locations from more than one dept.
     afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement {
         const { lieuxDisponibles, lieuxIndisponibles } = lieuxParDepartement
 

@@ -1,6 +1,7 @@
 import {css, customElement, html, LitElement, property } from 'lit-element';
 import {Router} from "../routing/Router";
 import {
+    libelleUrlPathDeRegion,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
     PLATEFORMES, SearchType,
@@ -29,7 +30,10 @@ export class VmdHomeView extends LitElement {
 
     private async onSearch (event: CustomEvent<SearchRequest>) {
       const searchType: SearchType = window.location.hostname === 'chronodrive.fr' ? 'chronodose':'standard';
-      if (SearchRequest.isByDepartement(event.detail)) {
+      if (SearchRequest.isByRegion(event.detail)) {
+        const region = event.detail.region
+        Router.navigateToRendezVousAvecRegion(region.code_region, libelleUrlPathDeRegion(region), searchType)
+      } else if (SearchRequest.isByDepartement(event.detail)) {
         const departement = event.detail.departement
         Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement), searchType)
       } else {

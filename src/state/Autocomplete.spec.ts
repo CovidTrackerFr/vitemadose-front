@@ -1,24 +1,41 @@
 import { Autocomplete, CommuneAutocomplete } from "./Autocomplete"
 import { mocked } from 'ts-jest/utils'
-import { Commune, Departement } from './State'
+import { Commune, Departement, Region } from './State'
+
+const régionIleDeFrance: Region = {
+  code_region: '11',
+  nom_region: 'Île-de-France',
+}
+
+const régionNouvelleAquitaine: Region = {
+  code_region: '75',
+  nom_region: 'Nouvelle-Aquitaine',
+}
+
+const départementParis: Departement = {
+  code_departement: '75',
+  nom_departement: 'Paris',
+  code_region: '11',
+  nom_region: 'Île-de-France'
+}
 
 const départementCalvados: Departement = {
   code_departement: '14',
   nom_departement: 'Calvados',
-  code_region: 28,
+  code_region: '28',
   nom_region: 'Normandie'
 }
 
 const départementAisne: Departement = {
   code_departement: "02",
   nom_departement: "Aisne",
-  code_region: 32,
+  code_region: '32',
   nom_region: "Hauts-de-France"
 }
 
 const départementCôteDOr: Departement = {
   code_departement: "21",
-  code_region: 27,
+  code_region: '27',
   nom_departement: "Côte-d'Or",
   nom_region: "Bourgogne-Franche-Comté"
 }
@@ -109,14 +126,21 @@ describe("State.Autocomplete", () => {
   })
 
   let autocomplete: Autocomplete
+  let getRegionsDisponibles = jest.fn(() => Promise.resolve([] as Region[]))
+
   let getDepartementsDisponibles = jest.fn(() => Promise.resolve([] as Departement[]))
   beforeEach(() => {
+    getRegionsDisponibles = jest.fn(() => Promise.resolve([
+      régionIleDeFrance,
+      régionNouvelleAquitaine,
+    ]))
     getDepartementsDisponibles = jest.fn(() => Promise.resolve([
         départementAisne,
         départementCalvados,
-        départementCôteDOr
+        départementCôteDOr,
+        départementParis,
     ]))
-    autocomplete = new Autocomplete(webBaseUrl, getDepartementsDisponibles)
+    autocomplete = new Autocomplete(webBaseUrl, getRegionsDisponibles, getDepartementsDisponibles)
   })
 
   it('instanciates', () => {
@@ -186,6 +210,79 @@ describe("State.Autocomplete", () => {
         const actual = await autocomplete.suggest(prefix)
         // Then
         expect(actual).not.toIncludeAnyMembers(expected)
+      })
+    })
+
+    describe('with a departement code which is also a region code', () => {
+        const prefix = '75'
+        it('fetches the matching departement', async () => {
+          // Given
+          const expected = [départementParis]
+          // When
+          const actual = await autocomplete.suggest(prefix)
+          // Then
+          expect(actual).toIncludeAllMembers(expected)
+        })
+        it('does not fetch the matching region', async () => {
+          // Given
+          const expected = [régionNouvelleAquitaine]
+          // When
+          const actual = await autocomplete.suggest(prefix)
+          // Then
+          expect(actual).not.toIncludeAllMembers(expected)
+        })
+    })
+
+    describe('with a name prefix which has a matching region', () => {
+      const prefix = 'Nouv'
+      it('fetches all regions', async () => {
+        // When
+        await autocomplete.suggest(prefix)
+        // Then
+        expect(mocked(getRegionsDisponibles)).toHaveBeenCalledTimes(1)
+      })
+      it('fetches regions only once', async () => {
+        // When
+        await autocomplete.suggest(prefix)
+        await autocomplete.suggest(prefix)
+        await autocomplete.suggest(prefix)
+        // Then
+        expect(mocked(getRegionsDisponibles)).toHaveBeenCalledTimes(1)
+      })
+      it('resolves a list with the matching region', async () => {
+        // Given
+        const expected = [régionNouvelleAquitaine]
+        // When
+        const actual = await autocomplete.suggest(prefix)
+        // Then
+        expect(actual).toIncludeAllMembers(expected)
+      })
+      it('resolves a list excluding unmatched region', async () => {
+        // Given
+        const expected = [régionIleDeFrance]
+        // When
+        const actual = await autocomplete.suggest(prefix)
+        // Then
+        expect(actual).not.toIncludeAnyMembers(expected)
+      })
+      describe('containing special characters', () => {
+        const prefix = 'Ile'
+        it('resolves a list with the matching region', async () => {
+          // Given
+          const expected = [régionIleDeFrance]
+          // When
+          const actual = await autocomplete.suggest(prefix)
+          // Then
+          expect(actual).toIncludeAllMembers(expected)
+        })
+        it('resolves a list excluding unmatched region', async () => {
+          // Given
+          const expected = [régionNouvelleAquitaine]
+          // When
+          const actual = await autocomplete.suggest(prefix)
+          // Then
+          expect(actual).not.toIncludeAnyMembers(expected)
+        })
       })
     })
 

@@ -9,20 +9,21 @@ import {
     unsafeCSS
 } from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
-import {Commune, Departement} from "../state/State";
+import {Region, Commune, Departement} from "../state/State";
 import {repeat} from "lit-html/directives/repeat";
-import communeSelectorCss from "./vmd-commune-or-departement-selector.component.scss";
+import communeSelectorCss from "./vmd-lieu-selector.component.scss";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 export type AutocompleteTriggered = { value: string };
 export type CommuneSelected = { commune: Commune };
 export type DepartementSelected = { departement: Departement };
+export type RegionSelected = { region: Region };
 export type ValueStrCustomEvent<T extends string> = CustomEvent<{value: T}>;
 
 const SVG_CLOSE_ICON = html`<svg width="25" height="25" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" fill="black"><path d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm0 10.293l5.293-5.293.707.707-5.293 5.293 5.293 5.293-.707.707-5.293-5.293-5.293 5.293-.707-.707 5.293-5.293-5.293-5.293.707-.707 5.293 5.293z"/></svg>`
 
-@customElement('vmd-commune-or-departement-selector')
-export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
+@customElement('vmd-lieu-selector')
+export class VmdLieuSelectorComponent extends LitElement {
 
     //language=css
     static styles = [
@@ -38,13 +39,15 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
       this._currentValue = v
       if (v === undefined) {
         this.filter = ''
+      } else if (this.suggestionIsRegion(v)) {
+        this.fillRegion(v)
       } else if (this.suggestionIsDepartement(v)) {
         this.fillDepartement(v)
       } else {
         this.fillCommune(v)
       }
     }
-    @internalProperty() private _currentValue: Commune | Departement | void = undefined
+    @internalProperty() private _currentValue: Commune | Departement | Region | void = undefined
     @internalProperty() inputHasFocus: boolean = false;
     @query(".autocomplete-input") $autoCompleteInput: HTMLInputElement | undefined;
     @query(".autocomplete-results") $autoCompleteResults: HTMLUListElement | undefined;
@@ -71,7 +74,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
                     @keydown="${this.handleKeydown}"
                     @keyup="${this.valueChanged}"
                     .value="${this.filter}"
-                    placeholder="Commune, Code postal, Département..."
+                    placeholder="Commune, Code postal, Département, Région..."
                     id="searchAppointment-searchbar"
                 />
                 ${this.filter?html`
@@ -89,7 +92,9 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
     renderListItems() {
         return repeat(this.suggestions, this.keyForSuggestion.bind(this), (suggestion, index) => {
-          if (this.suggestionIsDepartement(suggestion)) {
+          if (this.suggestionIsRegion(suggestion)) {
+            return this.renderRegionItem(suggestion, index)
+          } else if (this.suggestionIsDepartement(suggestion)) {
             return this.renderDepartementItem(suggestion, index)
           } else {
             return this.renderCommuneItem(suggestion, index)
@@ -142,6 +147,16 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
       this.suggestions = suggestions
       this.currentTaskMarker = undefined
     }
+
+    private regionSelected(reg: Region) {
+      this.suggestions = []
+      this.filter = `${reg.nom_region}`;
+      this.dispatchEvent(new CustomEvent<RegionSelected>('on-region-selected', {
+          detail: {
+              region: reg
+          }
+      }));
+  }
 
     private departementSelected(dpt: Departement) {
         this.suggestions = []
@@ -208,6 +223,10 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         }));
     }
 
+    private fillRegion(region: Region) {
+        this.filter = `${region.nom_region}`
+    }
+
     private fillDepartement(departement: Departement) {
         this.filter = `${departement.code_departement} - ${departement.nom_departement}`
     }
@@ -223,7 +242,8 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         aria-selected="${index === 0}"
         @click="${() => this.communeSelected(commune)}"
         >
-          <span class="zipcode">${commune.codePostal}</span> - ${commune.nom}
+          <span><span class="zipcode">${commune.codePostal}</span> - ${commune.nom}</span>
+          <span class="lieu-type">(Commune)</span>
       </li>`
     }
 
@@ -234,16 +254,34 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         aria-selected="${index === 0}"
         @click="${() => this.departementSelected(dpt)}"
         >
-          <span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}
+          <span><span class="codeDepartement">${dpt.code_departement}</span> - ${dpt.nom_departement}</span>
+          <span class="lieu-type">(Département)</span>
         </li>`
     }
 
-    private suggestionIsDepartement (suggestion: Departement|Commune): suggestion is Departement {
+    private renderRegionItem (reg: Region, index: number) {
+      return html`<li
+        class="autocomplete-result"
+        role="option"
+        aria-selected="${index === 0}"
+        @click="${() => this.regionSelected(reg)}"
+        >
+          <span>${reg.nom_region}</span><span class="lieu-type">(Région)</span>
+        </li>`
+    }
+
+    private suggestionIsRegion (suggestion: Region|Departement|Commune): suggestion is Region {
+      return suggestion.hasOwnProperty('code_region') && !suggestion.hasOwnProperty('code_departement')
+    }
+
+    private suggestionIsDepartement (suggestion: Region|Departement|Commune): suggestion is Departement {
       return suggestion.hasOwnProperty('code_departement')
     }
 
-    private keyForSuggestion(suggestion: Commune|Departement): string {
-      if (this.suggestionIsDepartement(suggestion)) {
+    private keyForSuggestion(suggestion: Region|Commune|Departement): string {
+      if (this.suggestionIsRegion(suggestion)) {
+        return `reg_${suggestion.code_region}`
+      } else if (this.suggestionIsDepartement(suggestion)) {
         return `dep_${suggestion.code_departement}`
       } else {
         return `com_${suggestion.codePostal}_${suggestion.nom}`

@@ -48,6 +48,24 @@ class Routing {
         });
         this.declareRoutes({
             pathPattern: [
+                '/centres-vaccination-covid-region:codeRegion-:nomRegion',
+                '/centres-vaccination-covid-region:codeRegion-:nomRegion/recherche-:typeRecherche',
+            ], analyticsViewName: (pathParams) => `search_results_by_region${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
+            viewContent: async (params) => {
+                await import('../views/vmd-rdv.view')
+                return (subViewSlot) =>
+                    html`<vmd-rdv-par-region
+                        searchType="${(params['typeRecherche'] && params['typeRecherche']==='chronodoses')?'chronodose':'standard'}"
+                        codeRegionSelectionne="${params[`codeRegion`]}">
+                      ${subViewSlot}
+                    </vmd-rdv-par-region>`
+            },
+            pageTitleProvider: (params) =>
+                State.current.chercheRegionParCode(params[`codeRegion`])
+                    .then(nomReg => `Vaccination COVID-19 en ${nomReg.nom_region}`)
+        })
+        this.declareRoutes({
+            pathPattern: [
                 // Legacy URLs with tranche age inside ... used only for old URLs referenced by Google
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`,
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`,
@@ -169,6 +187,14 @@ class Routing {
     private _notFoundRoute(context: PageJS.Context) {
         console.error(`Route not found : ${context.path} ! Redirecting to home...`);
         this.navigateToHome();
+    }
+
+    public navigateToRendezVousAvecRegion(codeRegion: string, pathLibelleRegion: string, searchType: SearchType) {
+        page(this.getLinkToRendezVousAvecRegion(codeRegion, pathLibelleRegion, searchType))
+    }
+
+    public getLinkToRendezVousAvecRegion(codeRegion: string, pathLibelleRegion: string, searchType: SearchType) {
+        return `${this.basePath}centres-vaccination-covid-region${codeRegion}-${pathLibelleRegion}/recherche-${searchType==='chronodose'?'chronodoses':'standard'}`;
     }
 
     public navigateToRendezVousAvecDepartement(codeDepartement: string, pathLibelleDepartement: string, searchType: SearchType) {
