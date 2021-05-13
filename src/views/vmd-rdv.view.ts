@@ -56,9 +56,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
-    private cartesAffichees: LieuAffichableAvecDistance[] | undefined = undefined;
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
     protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
+
+    private cartesAffichees: LieuAffichableAvecDistance[] | undefined = undefined;
+    private infiniteScrollListener: EventListener | undefined = undefined;
 
     get totalCreneaux() {
         if (!this.lieuxParDepartementAffiches) {
@@ -184,10 +186,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         </div>
                     `}
 
-                    ${repeat(this.cartesAffichees || [],
-                            (c => `${c.departement}||${c.nom}||${c.plateforme}}`),
-                            (lieu, index) => {
-                        return html`<vmd-appointment-card
+                        ${repeat(this.cartesAffichees || [],
+                                (c => `${c.departement}||${c.nom}||${c.plateforme}}`),
+                                (lieu, index) => {
+                                    return html`<vmd-appointment-card
                             style="--list-index: ${index}"
                             .lieu="${lieu}"
                             theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
@@ -209,7 +211,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         super.updated(changedProperties);
         tippy(this.$chronodoseLabel, {
             content: (el) => el.getAttribute('title')!
-        })
+        });
     }
 
 
@@ -230,13 +232,33 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 await this.requestUpdate();
             }
         }, this.DELAI_VERIFICATION_MISE_A_JOUR);
+        this.registerInfiniteScroll()
     }
+
+    private registerInfiniteScroll() {
+        if (!this.infiniteScrollListener) {
+            const html = document.querySelector('html');
+            if (html) {
+                this.infiniteScrollListener = () => {
+                    const height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                    if (html && html.scrollTop + height >= html.scrollHeight) {
+                        this.ajouterCartesPaginees()
+                    }
+                }
+                window.addEventListener('scroll', this.infiniteScrollListener, false);
+            }
+        }
+    }
+
     disconnectedCallback() {
         super.disconnectedCallback();
 
         if(this.lieuBackgroundRefreshIntervalId) {
             clearInterval(this.lieuBackgroundRefreshIntervalId);
             this.lieuBackgroundRefreshIntervalId = undefined;
+        }
+        if (this.infiniteScrollListener) {
+            removeEventListener('scroll', this.infiniteScrollListener, false);
         }
     }
 
@@ -293,14 +315,17 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
 
-    ajouterCartesPaginees() {
+    private async ajouterCartesPaginees() {
         if (this.lieuxParDepartementAffiches?.lieuxAffichables && this.cartesAffichees &&
             this.cartesAffichees.length < this.lieuxParDepartementAffiches?.lieuxAffichables.length) {
 
-            const startIndex = this.cartesAffichees.length === 0 ? 0 : this.cartesAffichees.length - 1
+            const startIndex = this.cartesAffichees.length
             let cartesAAjouter = this.lieuxParDepartementAffiches.lieuxAffichables
-                .splice(startIndex, startIndex + PAGINATION_SIZE);
+                .slice(startIndex, startIndex + PAGINATION_SIZE);
+
             this.cartesAffichees = this.cartesAffichees.concat(cartesAAjouter);
+
+            await this.requestUpdate();
         }
     }
     private getStandardResultsLink() {
