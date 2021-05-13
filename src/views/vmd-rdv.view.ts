@@ -36,6 +36,7 @@ import tippy from 'tippy.js';
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 // aimed at fixing nasty Safari rendering bug
 const MAX_CENTER_RESULTS_COUNT = 180;
+const PAGINATION_SIZE = 20;
 
 export abstract class AbstractVmdRdvView extends LitElement {
     DELAI_VERIFICATION_MISE_A_JOUR = 45000
@@ -55,6 +56,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
+    private cartesAffichees: LieuAffichableAvecDistance[] | undefined = undefined;
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
     protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
 
@@ -182,7 +184,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         </div>
                     `}
 
-                    ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
+                    ${repeat(this.cartesAffichees || [],
+                            (c => `${c.departement}||${c.nom}||${c.plateforme}}`),
+                            (lieu, index) => {
                         return html`<vmd-appointment-card
                             style="--list-index: ${index}"
                             .lieu="${lieu}"
@@ -271,6 +275,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         return !l.appointment_by_phone_only
                     })
                 }
+                this.cartesAffichees = this.lieuxParDepartementAffiches.lieuxAffichables.slice(0, PAGINATION_SIZE);
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
@@ -284,9 +289,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
             }
         } else {
             this.lieuxParDepartementAffiches = undefined;
+            this.cartesAffichees = undefined;
         }
     }
 
+    ajouterCartesPaginees() {
+        if (this.lieuxParDepartementAffiches?.lieuxAffichables && this.cartesAffichees &&
+            this.cartesAffichees.length < this.lieuxParDepartementAffiches?.lieuxAffichables.length) {
+
+            const startIndex = this.cartesAffichees.length === 0 ? 0 : this.cartesAffichees.length - 1
+            let cartesAAjouter = this.lieuxParDepartementAffiches.lieuxAffichables
+                .splice(startIndex, startIndex + PAGINATION_SIZE);
+            this.cartesAffichees = this.cartesAffichees.concat(cartesAAjouter);
+        }
+    }
     private getStandardResultsLink() {
         if (this.currentSearch && SearchRequest.isByDepartement(this.currentSearch)) {
             return Router.getLinkToRendezVousAvecDepartement(this.currentSearch.departement.code_departement, libelleUrlPathDuDepartement(this.currentSearch.departement!), 'standard');
