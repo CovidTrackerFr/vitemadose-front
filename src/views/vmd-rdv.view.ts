@@ -139,7 +139,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         Dernière mise à jour : il y a
                         ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}
                         ${this.miseAJourDisponible?html`
-                          <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; }}">Rafraîchir</button>
+                          <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; this.launchCheckingUpdates() }}">Rafraîchir</button>
                         `:html``}
                       </p>
                       <p class="alert alert-warning fs-6">
@@ -212,11 +212,16 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     async connectedCallback() {
         super.connectedCallback();
+        this.launchCheckingUpdates();
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
 
+        this.stopCheckingUpdates();
+    }
+
+    stopCheckingUpdates() {
         if(this.lieuBackgroundRefreshIntervalId) {
             clearInterval(this.lieuBackgroundRefreshIntervalId);
             this.lieuBackgroundRefreshIntervalId = undefined;
@@ -224,28 +229,26 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     launchCheckingUpdates() {
-        console.log("lancement boucle");
-        clearInterval(this.lieuBackgroundRefreshIntervalId);
-        this.lieuBackgroundRefreshIntervalId = setDebouncedInterval(async () => {
-            console.log("checking");
-            const currentSearch = this.currentSearch
-            if(currentSearch) {
-                const codeDepartement = SearchRequest.isByDepartement(currentSearch)
-                    ? currentSearch.departement.code_departement
-                    : currentSearch.commune.codeDepartement
-                const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
-                const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement, true)
-                this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
+        if(this.lieuBackgroundRefreshIntervalId === undefined) {
+            this.lieuBackgroundRefreshIntervalId = setDebouncedInterval(async () => {
+                const currentSearch = this.currentSearch
+                if (currentSearch) {
+                    const codeDepartement = SearchRequest.isByDepartement(currentSearch)
+                        ? currentSearch.departement.code_departement
+                        : currentSearch.commune.codeDepartement
+                    const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
+                    const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement, true)
+                    this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
 
-                // we stop the update check if there has been one
-                if(this.miseAJourDisponible) {
-                    clearInterval(this.lieuBackgroundRefreshIntervalId);
+                    // we stop the update check if there has been one
+                    if (this.miseAJourDisponible) {
+                        this.stopCheckingUpdates();
+                    }
+                    // Used only to refresh derniereMiseAJour's displayed relative time
+                    await this.requestUpdate();
                 }
-                // Used only to refresh derniereMiseAJour's displayed relative time
-                await this.requestUpdate();
-            }
-        }, this.DELAI_VERIFICATION_MISE_A_JOUR);
-
+            }, this.DELAI_VERIFICATION_MISE_A_JOUR);
+        }
     }
 
     abstract codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[]
@@ -293,7 +296,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     this.lieuxParDepartementAffiches);
             } finally {
                 this.searchInProgress = false;
-                this.launchCheckingUpdates();
             }
         } else {
             this.lieuxParDepartementAffiches = undefined;
