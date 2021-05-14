@@ -323,7 +323,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
             let cartesAAjouter = this.lieuxParDepartementAffiches.lieuxAffichables
                 .slice(startIndex, startIndex + PAGINATION_SIZE);
 
-            this.cartesAffichees = this.cartesAffichees.concat(cartesAAjouter);
+            this.cartesAffichees.push(...cartesAAjouter);
 
             await this.requestUpdate();
         }
