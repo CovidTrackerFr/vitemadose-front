@@ -1,5 +1,4 @@
-import {LitElement, html, customElement, property, css } from 'lit-element';
-import {classMap} from "lit-html/directives/class-map";
+import {LitElement, html, customElement, property } from 'lit-element';
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
 export type MetadataWidthType = 'full-width'|'fit-to-content'|'3col-equally-distributed'
@@ -16,18 +15,11 @@ export class VmdAppointmentMetadataComponent extends LitElement {
     //language=css
     static styles = [
         CSS_Global,
-        css`
-        `
     ];
 
-    @property({type: Boolean, attribute: false}) displayed: boolean = true;
-    @property({type: String}) widthType: MetadataWidthType|undefined = undefined;
-    @property({type: String}) icon: string|undefined = undefined;
-    @property({type: Boolean, attribute: false}) centerIconVertically: boolean = true;
-
-    constructor() {
-        super();
-    }
+    @property({type: String}) widthType!: MetadataWidthType;
+    @property({type: String}) icon!: string;
+    @property({type: String}) label!: string;
 
     render() {
         if(!this.widthType) {
@@ -36,10 +28,10 @@ export class VmdAppointmentMetadataComponent extends LitElement {
         }
 
         return html`
-            <div class="row ${classMap({'align-items-center':!!this.centerIconVertically})}">
-                <i class="bi ${this.icon} col-auto"></i>
+            <div class="row">
+                <i class="bi ${this.icon} col-auto" role="img" aria-label="${this.label}"></i>
                 <p class="card-text col text-black-50">
-                  <slot name="content"></slot>
+                  <slot></slot>
                 </p>
             </div>
         `;
@@ -52,14 +44,5 @@ export class VmdAppointmentMetadataComponent extends LitElement {
         if(this.widthType && METADATA_WIDTH_CLASSES[this.widthType]) {
             this.classList.add(METADATA_WIDTH_CLASSES[this.widthType])
         }
-
-        if(!this.displayed) {
-            this.style.display = 'none';
-        }
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        // console.log("disconnected callback")
     }
 }

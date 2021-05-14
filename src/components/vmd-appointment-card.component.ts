@@ -174,27 +174,31 @@ export class VmdAppointmentCardComponent extends LitElement {
                               <small class="distance">${distance ? `- ${distance} km` : ''}</small>
                             </h5>
                             <div class="row">
-                              <vmd-appointment-metadata class="mb-2" widthType="full-width" icon="vmdicon-geo-alt-fill">
-                                <div slot="content">
+                              <vmd-appointment-metadata class="mb-2" widthType="full-width" icon="vmdicon-geo-alt-fill" label="Adresse">
+                                <div>
                                   <span class="fw-bold text-dark">${this.lieu.nom}</span>
                                   <br/>
                                   <em>${this.lieu.metadata.address}</em>
                                 </div>
                               </vmd-appointment-metadata>
-                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-telephone-fill" .displayed="${!!this.lieu.metadata.phone_number}">
-                                <span slot="content">
-                                    <a href="tel:${this.lieu.metadata.phone_number}"
-                                       @click="${(e: Event) => { e.stopImmediatePropagation(); }}">
-                                        ${Strings.toNormalizedPhoneNumber(this.lieu.metadata.phone_number)}
-                                    </a>
-                                </span>
+                              ${!!this.lieu.metadata.phone_number ? html`
+                                <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-telephone-fill" label="Téléphone">
+                                  <span>
+                                      <a href="tel:${this.lieu.metadata.phone_number}"
+                                        @click="${(e: Event) => { e.stopImmediatePropagation(); }}">
+                                          ${Strings.toNormalizedPhoneNumber(this.lieu.metadata.phone_number)}
+                                      </a>
+                                  </span>
+                                </vmd-appointment-metadata>
+                              ` : ''} 
+                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-commerical-building" label="Lieux">
+                                <span>${TYPES_LIEUX[this.lieu.type]}</span>
                               </vmd-appointment-metadata>
-                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-commerical-building">
-                                <span slot="content">${TYPES_LIEUX[this.lieu.type]}</span>
-                              </vmd-appointment-metadata>
-                              <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-syringe" .displayed="${!!this.lieu.vaccine_type}">
-                                <span slot="content">${this.lieu.vaccine_type}</span>
-                              </vmd-appointment-metadata>
+                              ${!!this.lieu.vaccine_type ? html`
+                                <vmd-appointment-metadata class="mb-2" widthType="fit-to-content" icon="vmdicon-syringe" label="Vaccin administré">
+                                  <span>${this.lieu.vaccine_type}</span>
+                                </vmd-appointment-metadata>
+                              ` : ''}
                             </div>
                         </div>
 
