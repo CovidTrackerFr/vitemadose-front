@@ -52,14 +52,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
+    @property({type: Array, attribute: false}) cartesAffichees: LieuAffichableAvecDistance[] | undefined = undefined;
+
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
     @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
-
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
-    protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
 
-    private cartesAffichees: LieuAffichableAvecDistance[] | undefined = undefined;
+    protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
     private infiniteScrollListener: EventListener | undefined = undefined;
 
     get totalCreneaux() {
@@ -315,7 +315,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
 
-    private async ajouterCartesPaginees() {
+    private ajouterCartesPaginees() {
         if (this.lieuxParDepartementAffiches?.lieuxAffichables && this.cartesAffichees &&
             this.cartesAffichees.length < this.lieuxParDepartementAffiches?.lieuxAffichables.length) {
 
@@ -323,9 +323,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
             let cartesAAjouter = this.lieuxParDepartementAffiches.lieuxAffichables
                 .slice(startIndex, startIndex + PAGINATION_SIZE);
 
-            this.cartesAffichees.push(...cartesAAjouter);
-
-            await this.requestUpdate();
+            this.cartesAffichees = this.cartesAffichees.concat(cartesAAjouter);
         }
     }
     private getStandardResultsLink() {
