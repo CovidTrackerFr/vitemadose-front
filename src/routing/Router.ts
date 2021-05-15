@@ -48,10 +48,6 @@ class Routing {
         });
         this.declareRoutes({
             pathPattern: [
-                // Legacy URLs with tranche age inside ... used only for old URLs referenced by Google
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`,
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`,
-                // Proper URL really used
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/recherche-:typeRecherche`
             ], analyticsViewName: (pathParams) => `search_results_by_department${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
