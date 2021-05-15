@@ -50,7 +50,7 @@ vmd-appointment-card {
     opacity: 1;
     animation: fade-in ease-in 200ms;
     animation-fill-mode: backwards;
-    animation-delay: calc((var(--list-index) * 60ms) + 50ms);
+    animation-delay: calc(50ms);
 
     @keyframes fade-in {
         from {
