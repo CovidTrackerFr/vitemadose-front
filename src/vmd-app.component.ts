@@ -3,6 +3,7 @@ import {Router, SlottedTemplateResultFactory} from "./routing/Router";
 import smoothscroll from 'smoothscroll-polyfill';
 import {CSS_Global} from "./styles/ConstructibleStyleSheets";
 import {ServiceWorkers} from "./utils/ServiceWorkers";
+import {Config} from "./utils/Config";
 
 @customElement('vmd-app')
 export class VmdAppComponent extends LitElement {
@@ -22,6 +23,7 @@ export class VmdAppComponent extends LitElement {
 
     constructor() {
         super();
+        Config.init();
 
         smoothscroll.polyfill();
 

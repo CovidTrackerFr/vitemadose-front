@@ -32,8 +32,8 @@ import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 import tippy from 'tippy.js';
+import {Config} from "../utils/Config";
 
-const MAX_DISTANCE_CENTRE_IN_KM = 100;
 // aimed at fixing nasty Safari rendering bug
 const MAX_CENTER_RESULTS_COUNT = 180;
 
@@ -450,7 +450,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
                 .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
                 .map(l => ({...l, distance: distanceAvec(l) }))
                 .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
-                .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
+                .filter(l => !l.distance || l.distance < Config.centersListDistanceKm)
                 .sortBy(l => this.extraireFormuleDeTri(l, search.tri))
                 .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
                 .build()

@@ -2,6 +2,7 @@ import {DateString, ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
+import {Config} from "../utils/Config";
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -58,10 +59,6 @@ export const TRIS_CENTRE: Map<CodeTriCentre, TriCentre> = new Map([
     ['date', { codeTriCentre: 'date', libelle: "Disponible au plus vite" }],
 ]);
 
-const USE_RAW_GITHUB = false
-const VMD_BASE_URL = USE_RAW_GITHUB
-  ? "https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output"
-  : "https://vitemadose.gitlab.io/vitemadose"
 
 
 export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma";
@@ -261,7 +258,7 @@ export class State {
         if(this._lieuxParDepartement.has(codeDepartement) && !avoidCache) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
         } else {
-            const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: avoidCache ? 'no-cache' : 'default' })
+            const resp = await fetch(Config.baseUrl + Config.departmentPath.replace('{code}', codeDepartement), { cache: avoidCache ? 'no-cache' : 'default' })
             const results = await resp.json()
             const lieuxParDepartement = {
                 lieuxDisponibles: results.centres_disponibles.map(transformLieu),
@@ -276,7 +273,7 @@ export class State {
 
     @Memoize()
     async departementsDisponibles(): Promise<Departement[]> {
-        const resp = await fetch(`${VMD_BASE_URL}/departements.json`)
+        const resp = await fetch(Config.baseUrl + Config.departmentsPath)
         const departements: Departement[] = await resp.json()
         return departements.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)))
     }
@@ -291,7 +288,7 @@ export class State {
         if(this._statsByDate !== undefined) {
             return Promise.resolve(this._statsByDate);
         } else {
-            const resp = await fetch(`${VMD_BASE_URL}/stats_by_date.json`)
+            const resp = await fetch(`${Config.baseUrl + Config.statsByDatePath}`)
             const statsByDate: StatsByDate = await resp.json()
 
             this._statsByDate = statsByDate;
@@ -306,7 +303,7 @@ export class State {
 
     @Memoize()
     async statsLieux(): Promise<StatsLieu> {
-      const resp = await fetch(`${VMD_BASE_URL}/stats.json`)
+      const resp = await fetch(Config.baseUrl + Config.statsPath)
       const statsParDepartements: Record<CodeDepartement|'tout_departement', StatLieu> = await resp.json()
       const { tout_departement: global, ...parDepartements } = statsParDepartements
       return {
