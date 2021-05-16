@@ -1,6 +1,12 @@
-import { Autocomplete, CommuneAutocomplete } from "./Autocomplete"
+import { Autocomplete, OutreMerAutocomplete, CommuneAutocomplete } from "./Autocomplete"
 import { mocked } from 'ts-jest/utils'
 import { Commune, Departement } from './State'
+
+type CommuneOutreMer = {
+  code: string,
+  codePostal: string,
+  nom: string
+}
 
 const départementCalvados: Departement = {
   code_departement: '14',
@@ -21,6 +27,24 @@ const départementCôteDOr: Departement = {
   code_region: 27,
   nom_departement: "Côte-d'Or",
   nom_region: "Bourgogne-Franche-Comté"
+}
+
+const départementGuyane: Departement = {
+  code_departement: "973",
+  code_region: 3,
+  nom_departement: "Guyane",
+  nom_region: "Guyane"
+}
+
+const MiquelonLangladeAc: OutreMerAutocomplete = {
+  c: "97501",
+  n: "Miquelon-Langlade",
+  z: "97500"
+}
+const MiquelonLanglade: CommuneOutreMer = {
+  code: "97501",
+  codePostal: "97500",
+  nom: "Miquelon-Langlade",
 }
 
 const communeAcAblon: CommuneAutocomplete = {
@@ -90,14 +114,18 @@ describe("State.Autocomplete", () => {
   const webBaseUrl = "https://MY.WEB.PATH/"
 
   const FILES = {
-    [`${webBaseUrl}autocompletes.json`]: ['1','14', 'd', 'de', 'dea'],
-    [`${webBaseUrl}autocomplete-cache/14.json`]: {
+    [`${webBaseUrl}autocompletes.json`]: ['1', '9','14', 'd', 'de', 'dea'],
+    [`${webBaseUrl}autocomplete-cache/vmd_14.json`]: {
       query: '14',
       communes: [communeAcAblon, communeAcCanapville, communeAcDeauville]
     },
-    [`${webBaseUrl}autocomplete-cache/dea.json`]: {
+    [`${webBaseUrl}autocomplete-cache/vmd_dea.json`]: {
       query: 'dea',
       communes: [communeAcDeaumont, communeAcDeauville]
+    },
+    [`${webBaseUrl}autocomplete-cache/vmd_9.json`]: {
+      query: '9',
+      communes: [MiquelonLangladeAc]
     }
   }
 
@@ -114,7 +142,8 @@ describe("State.Autocomplete", () => {
     getDepartementsDisponibles = jest.fn(() => Promise.resolve([
         départementAisne,
         départementCalvados,
-        départementCôteDOr
+        départementCôteDOr,
+        départementGuyane
     ]))
     autocomplete = new Autocomplete(webBaseUrl, getDepartementsDisponibles)
   })
@@ -263,10 +292,10 @@ describe("State.Autocomplete", () => {
         // When
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/14.json`]).toEqual(1)
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/1480.json`]).toBeUndefined()
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/148.json`]).toBeUndefined
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/1.json`]).toBeUndefined()
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_14.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_1480.json`]).toBeUndefined()
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_148.json`]).toBeUndefined
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_1.json`]).toBeUndefined()
       })
       it('fetches the longest possible prefix matches only once', async () => {
         // When
@@ -274,7 +303,7 @@ describe("State.Autocomplete", () => {
         await autocomplete.suggest(prefix)
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/14.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_14.json`]).toEqual(1)
       })
 
       it('resolves a list with the matching commune', async () => {
@@ -315,10 +344,10 @@ describe("State.Autocomplete", () => {
         // When
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/dea.json`]).toEqual(1)
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/deauv.json`]).toBeUndefined()
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/deau.json`]).toBeUndefined
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/de.json`]).toBeUndefined()
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_dea.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_deauv.json`]).toBeUndefined()
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_deau.json`]).toBeUndefined
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_de.json`]).toBeUndefined()
       })
       it('fetches the longest possible prefix matches only once', async () => {
         // When
@@ -326,7 +355,7 @@ describe("State.Autocomplete", () => {
         await autocomplete.suggest(prefix)
         await autocomplete.suggest(prefix)
         // Then
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/dea.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_dea.json`]).toEqual(1)
       })
 
       it('resolves a list with the matching commune', async () => {
@@ -356,7 +385,23 @@ describe("State.Autocomplete", () => {
         expect(actual).toEqual([départementCalvados, communeAblon, communeCanapville, communeDeauville])
       })
     })
+    describe('with a prefix containing overseas collectivities', () => {
+      const prefix = '97'
+      it('ignores overseas collectivites in results', async () => {
+        // When
+        const actual = await autocomplete.suggest(prefix)
+        // Then
+        expect(actual).toEqual([départementGuyane])
+      })
+      it.skip('resolves with overseas collectivities without gps coordinates', async () => {
+        // When
+        const actual = await autocomplete.suggest(prefix)
+        // Then
+        expect(actual).toEqual([départementGuyane, MiquelonLanglade])
+      })
+    })
   })
+
   describe('findCommune(codePostal, codeInsee)', () => {
     describe('when there is no available resource', () => {
       const codePostal = '50000'
@@ -387,7 +432,16 @@ describe("State.Autocomplete", () => {
         // Then
         expect(actual).toEqual(communeDeauville)
         expect(fetchCalls[`${webBaseUrl}autocompletes.json`]).toEqual(1)
-        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/14.json`]).toEqual(1)
+        expect(fetchCalls[`${webBaseUrl}autocomplete-cache/vmd_14.json`]).toEqual(1)
+      })
+    })
+
+    describe('for an overseas collectivity', () => {
+      it('ignores it for now', async () => {
+        // When
+        const actual = await autocomplete.findCommune(MiquelonLanglade.codePostal, MiquelonLanglade.code)
+        // Then
+        expect(actual).toBeUndefined()
       })
     })
   })
