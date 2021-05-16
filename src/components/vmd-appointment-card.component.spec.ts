@@ -25,40 +25,77 @@ describe('<vmd-appointment-card>', () => {
     type: 'drugstore',
     vaccine_type: 'AstraZeneca'
   }
-  itMatches('a basic lieu', {
-    ...unLieuDeBase
+  let highlightable = false
+  describe('when not highlightable', () => {
+    beforeEach(() => { highlightable = false })
+    itMatches('a basic lieu', {
+      ...unLieuDeBase
+    })
+    itMatches('a lieu with short distance', {
+      ...unLieuDeBase,
+      distance: 5.3456
+    })
+    itMatches('a lieu with long distance', {
+      ...unLieuDeBase,
+      distance: 57.23456
+    })
+    itMatches('a lieu phone only', {
+      ...unLieuDeBase,
+      appointment_by_phone_only: true,
+      metadata: {
+        ...unLieuDeBase.metadata,
+        phone_number: "0123456789"
+      }
+    })
+    itMatches('a lieu without date', {
+      ...unLieuDeBase,
+      appointment_count: 1,
+      prochain_rdv: null,
+    })
+    itMatches('a lieu with unknown plateforme', {
+      ...unLieuDeBase,
+      plateforme: "CoucouClic" as unknown as TypePlateforme,
+    })
   })
-  itMatches('a lieu with short distance', {
-    ...unLieuDeBase,
-    distance: 5.3456
+
+  describe('when highlightable', () => {
+    beforeEach(() => { highlightable = true })
+    itMatches('a basic lieu', {
+      ...unLieuDeBase
+    })
+    itMatches('a lieu with short distance', {
+      ...unLieuDeBase,
+      distance: 5.3456
+    })
+    itMatches('a lieu with long distance', {
+      ...unLieuDeBase,
+      distance: 57.23456
+    })
+    itMatches('a lieu phone only', {
+      ...unLieuDeBase,
+      appointment_by_phone_only: true,
+      metadata: {
+        ...unLieuDeBase.metadata,
+        phone_number: "0123456789"
+      }
+    })
+    itMatches('a lieu without date', {
+      ...unLieuDeBase,
+      appointment_count: 1,
+      prochain_rdv: null,
+    })
+    itMatches('a lieu with unknown plateforme', {
+      ...unLieuDeBase,
+      plateforme: "CoucouClic" as unknown as TypePlateforme,
+    })
   })
-  itMatches('a lieu with long distance', {
-    ...unLieuDeBase,
-    distance: 57.23456
-  })
-  itMatches('a lieu phone only', {
-    ...unLieuDeBase,
-    appointment_by_phone_only: true,
-    metadata: {
-      ...unLieuDeBase.metadata,
-      phone_number: "0123456789"
-    }
-  })
-  itMatches('a lieu without date', {
-    ...unLieuDeBase,
-    appointment_count: 1,
-    prochain_rdv: null,
-  })
-  itMatches('a lieu with unknown plateforme', {
-    ...unLieuDeBase,
-    plateforme: "CoucouClic" as unknown as TypePlateforme,
-  })
+
 
   function itMatches(description: string, lieu: Lieu | LieuAffichableAvecDistance) {
     describe(description, () => {
       it('matches snapshot', async () => {
         // When
-        await fixture(html`<vmd-appointment-card data-testid="topic" .lieu="${lieu}" />`)
+        await fixture(html`<vmd-appointment-card data-testid="topic" .lieu="${lieu}" .highlightable="${highlightable}" />`)
         const actual = screen.getByTestId('topic').shadowRoot
         // Then
         expect(actual).toMatchSnapshot()
