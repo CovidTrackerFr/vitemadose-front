@@ -145,7 +145,7 @@ describe("State.Autocomplete", () => {
         départementCôteDOr,
         départementGuyane
     ]))
-    autocomplete = new Autocomplete(webBaseUrl, getDepartementsDisponibles)
+    autocomplete = new Autocomplete(webBaseUrl, getDepartementsDisponibles, { name_prefix: '' })
   })
 
   it('instanciates', () => {

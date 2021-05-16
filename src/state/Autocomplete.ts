@@ -2,6 +2,8 @@ import { Memoize } from 'typescript-memoize'
 import { Departement, Commune } from './State'
 
 type NormalizedSearch = string & { __normalized_search: void }
+type AutocompleteOptions = { name_file_prefix: string }
+
 export interface CommuneAutocomplete {
   n: string // nom
   z: string // code postal
@@ -17,9 +19,13 @@ export interface OutreMerAutocomplete {
 
 export class Autocomplete {
   private webBaseUrl: string
-
-  constructor (webBaseUrl: string, private getDepartementsDisponibles: () => Promise<Departement[]>) {
-    this.webBaseUrl = webBaseUrl.endsWith('/') ? webBaseUrl : `${webBaseUrl}/`
+  constructor (
+      webBaseUrl: string,
+      private getDepartementsDisponibles: () => Promise<Departement[]>,
+      options: AutocompleteOptions = { name_file_prefix: 'vmd_' }
+  ) {
+    this.webBaseUrl = webBaseUrl.endsWith('/') ? webBaseUrl : `${webBaseUrl}/`;
+    this.nameFilePrefix = options ? options.name_file_prefix : '';
   }
 
   async findCommune (codePostal: string, codeInsee: string): Promise<Commune | void> {
@@ -101,7 +107,7 @@ export class Autocomplete {
 
   @Memoize()
   private async getAutocompleteOptions(name: NormalizedSearch): Promise<Commune[]> {
-    const response = await window.fetch(`${this.webBaseUrl}autocomplete-cache/vmd_${name}.json`)
+    const response = await window.fetch(`${this.webBaseUrl}autocomplete-cache/${this.nameFilePrefix}${name}.json`)
     const { communes } = await response.json() as { communes: CommuneAutocomplete[] }
     return communes
       .map(this.mapAutocompleteToCommune)
