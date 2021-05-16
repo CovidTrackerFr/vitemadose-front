@@ -11,13 +11,15 @@ ShadowRoot {
         
             
         <div
-          class="card rounded-3 mb-5 p-4 clickable bg-disabled"
+          class="card rounded-3 mb-5 clickable bg-disabled"
           title="https://chez.hugette.fr"
         >
           
                 
+          
+                
           <div
-            class="card-body"
+            class="card-body p-4"
           >
             
                     
@@ -276,13 +278,15 @@ ShadowRoot {
         
             
         <div
-          class="card rounded-3 mb-5 p-4 clickable"
+          class="card rounded-3 mb-5 clickable"
           title="https://chez.hugette.fr"
         >
           
                 
+          
+                
           <div
-            class="card-body"
+            class="card-body p-4"
           >
             
                     
@@ -497,13 +501,15 @@ ShadowRoot {
         
             
         <div
-          class="card rounded-3 mb-5 p-4 clickable bg-disabled"
+          class="card rounded-3 mb-5 clickable bg-disabled"
           title="https://chez.hugette.fr"
         >
           
                 
+          
+                
           <div
-            class="card-body"
+            class="card-body p-4"
           >
             
                     
@@ -761,13 +767,15 @@ ShadowRoot {
         
             
         <div
-          class="card rounded-3 mb-5 p-4 clickable bg-disabled"
+          class="card rounded-3 mb-5 clickable bg-disabled"
           title="https://chez.hugette.fr"
         >
           
                 
+          
+                
           <div
-            class="card-body"
+            class="card-body p-4"
           >
             
                     
@@ -1025,13 +1033,15 @@ ShadowRoot {
         
             
         <div
-          class="card rounded-3 mb-5 p-4 clickable bg-disabled"
+          class="card rounded-3 mb-5 clickable bg-disabled"
           title="https://chez.hugette.fr"
         >
           
                 
+          
+                
           <div
-            class="card-body"
+            class="card-body p-4"
           >
             
                     
@@ -1285,13 +1295,15 @@ ShadowRoot {
         
             
         <div
-          class="card rounded-3 mb-5 p-4 clickable"
+          class="card rounded-3 mb-5 clickable"
           title="https://chez.hugette.fr"
         >
           
                 
+          
+                
           <div
-            class="card-body"
+            class="card-body p-4"
           >
             
                     

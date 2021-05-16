@@ -4,11 +4,12 @@ import { fixture } from "@open-wc/testing-helpers";
 import { screen } from "testing-library__dom";
 import './vmd-appointment-card.component'
 
-import { Lieu, LieuAffichableAvecDistance } from '../state/State'
+import { Lieu, LieuAffichableAvecDistance, TypePlateforme } from '../state/State'
 
 describe('<vmd-appointment-card>', () => {
   const unLieuDeBase: Lieu = {
     appointment_count: 0,
+    appointment_schedules: [],
     departement: '50',
     location: { latitude: 45, longitude: -0.5 },
     nom: "Chez Huguette",
@@ -50,7 +51,7 @@ describe('<vmd-appointment-card>', () => {
   })
   itMatches('a lieu with unknown plateforme', {
     ...unLieuDeBase,
-    plateforme: "CoucouClic",
+    plateforme: "CoucouClic" as unknown as TypePlateforme,
   })
 
   function itMatches(description: string, lieu: Lieu | LieuAffichableAvecDistance) {

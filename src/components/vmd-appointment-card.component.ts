@@ -214,9 +214,11 @@ export class VmdAppointmentCardComponent extends LitElement {
 
     updated(changedProperties: PropertyValues) {
         super.updated(changedProperties);
-        tippy(this.$chronodoseLabel, {
-            content: (el) => el.getAttribute('title')!
-        })
+        if (this.$chronodoseLabel) {
+          tippy(this.$chronodoseLabel, {
+              content: (el) => el.getAttribute('title')!
+          })
+        }
     }
 
     private cardTitle(cardConfig: any): string {
