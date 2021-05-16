@@ -221,12 +221,12 @@ export class VmdAppointmentCardComponent extends LitElement {
 
     private cardTitle(cardConfig: any): string {
       if (this.lieu.prochain_rdv) {
-        return this.toProperCase(formatDate(parseISO(this.lieu.prochain_rdv), "EEEE d MMMM 'à' HH:mm", { locale: fr }))
+        return this.toTitleCase(formatDate(parseISO(this.lieu.prochain_rdv), "EEEE d MMMM 'à' HH:mm", { locale: fr }))
       } else {
         return cardConfig.libelleDateAbsente
       }
     }
-    private toProperCase(date: string): string {
+    private toTitleCase(date: string): string {
       return date.replace(/(^|\s)([a-z])(\w)/g, (_, leader, letter, loser) => [leader, letter.toUpperCase(), loser].join(''))
     }
 }
