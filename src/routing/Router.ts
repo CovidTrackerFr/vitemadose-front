@@ -48,10 +48,6 @@ class Routing {
         });
         this.declareRoutes({
             pathPattern: [
-                // Legacy URLs with tranche age inside ... used only for old URLs referenced by Google
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/age-:trancheAge/`,
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/ville-:codeVille-:nomVille/age-:trancheAge/`,
-                // Proper URL really used
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/recherche-:typeRecherche`
             ], analyticsViewName: (pathParams) => `search_results_by_department${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
@@ -85,7 +81,7 @@ class Routing {
                 </vmd-rdv-par-commune>`
             },
             pageTitleProvider: (params) =>
-                State.current.chercheCommuneParCode(Router.basePath, params['codePostal'], params['codeCommune'])
+                State.current.chercheCommuneParCode(params['codePostal'], params['codeCommune'])
                     .then(commune => `Vaccination COVID-19 à ${commune.nom} ${commune.codePostal}`)
         });
         this.declareRoutes({
@@ -153,7 +149,6 @@ class Routing {
                 document.title = title;
 
                 this._viewChangeCallbacks.forEach(callback => callback(slottedViewTemplateFactory, path));
-
                 Analytics.INSTANCE.navigationSurNouvellePage(pageNameSupplier(context.params));
             })
         });

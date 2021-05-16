@@ -1,5 +1,7 @@
 import {DateString, ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
+import { Autocomplete } from './Autocomplete'
+import { Memoize } from 'typescript-memoize'
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -9,6 +11,42 @@ export type TrancheAge = {
 export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
     ['plus75ans', { codeTrancheAge: 'plus75ans', libelle: "Plus de 75 ans" }]
 ]);
+
+
+export type SearchRequest = SearchRequest.ByCommune | SearchRequest.ByDepartement
+export namespace SearchRequest {
+  export type ByDepartement = {
+      type: SearchType,
+      par: 'departement',
+      departement: Departement
+  }
+  export function ByDepartement (departement: Departement, type: SearchType): ByDepartement {
+    return { type, par: 'departement', departement }
+  }
+  export function isByDepartement (searchRequest: SearchRequest): searchRequest is ByDepartement {
+    return searchRequest.par === 'departement'
+  }
+
+  export type ByCommune = {
+    type: SearchType,
+    par: 'commune',
+    commune: Commune,
+    tri: CodeTriCentre
+  }
+  export function ByCommune (commune: Commune, tri: CodeTriCentre, type: SearchType): ByCommune {
+    return { type, par: 'commune', commune, tri }
+  }
+  export function isByCommune (searchRequest: SearchRequest): searchRequest is ByCommune {
+    return searchRequest.par === 'commune'
+  }
+
+  export function isChronodoseType(searchRequest: SearchRequest|void) {
+    return !!searchRequest && searchRequest.type === 'chronodose';
+  }
+  export function isStandardType(searchRequest: SearchRequest|void) {
+    return !!searchRequest && searchRequest.type === 'standard';
+  }
+}
 
 export type CodeTriCentre = 'date' | 'distance';
 export type TriCentre = {
@@ -58,6 +96,7 @@ export type Departement = {
     code_region: number;
     nom_region: string;
 };
+
 // Permet de convertir un nom de departement en un chemin d'url correct (remplacement des caractères
 // non valides comme les accents ou les espaces)
 export const libelleUrlPathDuDepartement = (departement: Departement) => {
@@ -173,8 +212,8 @@ export type Commune = {
     codePostal: string;
     nom: string;
     codeDepartement: string;
-    latitude: number|undefined;
-    longitude: number|undefined;
+    latitude: number;
+    longitude: number;
 };
 
 export type StatsByDate = {
@@ -206,12 +245,15 @@ export class State {
         code: "",
         codeDepartement: "",
         codePostal: "",
-        latitude: undefined,
-        longitude: undefined,
+        latitude: 0,
+        longitude: 0,
         nom: ""
     };
 
+    readonly autocomplete: Autocomplete
+
     private constructor() {
+      this.autocomplete = new Autocomplete(import.meta.env.BASE_URL, () => this.departementsDisponibles())
     }
 
     private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
@@ -219,7 +261,7 @@ export class State {
         if(this._lieuxParDepartement.has(codeDepartement) && !avoidCache) {
             return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
         } else {
-            const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`)
+            const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: avoidCache ? 'no-cache' : 'default' })
             const results = await resp.json()
             const lieuxParDepartement = {
                 lieuxDisponibles: results.centres_disponibles.map(transformLieu),
@@ -232,18 +274,11 @@ export class State {
         }
     }
 
-    private _departementsDiponibles: Departement[]|undefined = undefined;
+    @Memoize()
     async departementsDisponibles(): Promise<Departement[]> {
-        if(this._departementsDiponibles !== undefined) {
-            return Promise.resolve(this._departementsDiponibles);
-        } else {
-            const resp = await fetch(`${VMD_BASE_URL}/departements.json`)
-            const departements: Departement[] = await resp.json()
-
-            this._departementsDiponibles = departements;
-            this._departementsDiponibles.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)));
-            return departements;
-        }
+        const resp = await fetch(`${VMD_BASE_URL}/departements.json`)
+        const departements: Departement[] = await resp.json()
+        return departements.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)))
     }
 
     async chercheDepartementParCode(code: string): Promise<Departement> {
@@ -264,71 +299,22 @@ export class State {
         }
     }
 
-    private _communeAutocompleteTriggers: string[]|undefined = undefined;
-    async communeAutocompleteTriggers(basePath: string): Promise<string[]> {
-        if(this._communeAutocompleteTriggers !== undefined) {
-            return Promise.resolve(this._communeAutocompleteTriggers)
-        } else {
-            const autocompletes = await fetch(`${basePath}autocompletes.json`).then(resp => resp.json());
-
-            this._communeAutocompleteTriggers = autocompletes;
-            return autocompletes;
-        }
+    async chercheCommuneParCode(codePostal: string, codeCommune: string): Promise<Commune> {
+        const commune = await this.autocomplete.findCommune(codePostal, codeCommune)
+        return commune || State.COMMUNE_VIDE
     }
 
-    private _communesParAutocomplete: CommunesParAutocomplete = new Map<string, Commune[]>();
-    async communesPourAutocomplete(basePath: string, autocomplete: string): Promise<Commune[]> {
-        if(this._communesParAutocomplete.has(autocomplete)) {
-            return this._communesParAutocomplete.get(autocomplete)!;
-        } else {
-            const communes = await fetch(`${basePath}autocomplete-cache/vmd_${autocomplete}.json`)
-                .then(resp => resp.json())
-                .then(communesResult => communesResult.communes.map((c: any) => {
-                    const commune: Commune = {
-                        code: c.c,
-                        codePostal: c.z,
-                        nom: c.n,
-                        codeDepartement: c.d,
-                        longitude: c.g?Number(c.g.split(",")[0]):undefined,
-                        latitude: c.g?Number(c.g.split(",")[1]):undefined,
-                    };
-                    return commune;
-                }));
-
-            this._communesParAutocomplete.set(autocomplete, communes);
-            return communes;
-        }
-    }
-
-    async chercheCommuneParCode(basePath: string, codePostal: string, codeCommune: string): Promise<Commune> {
-        let triggers = await this.communeAutocompleteTriggers(basePath);
-        let trigger = triggers.find(trigger => codePostal.startsWith(trigger));
-        if (trigger) {
-            let communes = await this.communesPourAutocomplete(basePath, trigger);
-            return communes.find(commune => commune.code === codeCommune) || State.COMMUNE_VIDE;
-        } else {
-            return Promise.resolve(State.COMMUNE_VIDE);
-        }
-    }
-
-    private _statsLieu: StatsLieu|undefined = undefined;
+    @Memoize()
     async statsLieux(): Promise<StatsLieu> {
-        if(this._statsLieu !== undefined) {
-            return Promise.resolve(this._statsLieu);
-        } else {
-            const resp = await fetch(`${VMD_BASE_URL}/stats.json`)
-            const statsParDepartements: Record<CodeDepartement|'tout_departement', StatLieu> = await resp.json()
-            const { tout_departement: global, ...parDepartements } = statsParDepartements
-
-            const statsLieu = {
-                parDepartements,
-                global: {
-                    ...global,
-                    proportion: Math.round(global.disponibles * 10000 / global.total)/100
-                }
-            };
-            this._statsLieu = statsLieu;
-            return statsLieu;
-        }
+      const resp = await fetch(`${VMD_BASE_URL}/stats.json`)
+      const statsParDepartements: Record<CodeDepartement|'tout_departement', StatLieu> = await resp.json()
+      const { tout_departement: global, ...parDepartements } = statsParDepartements
+      return {
+          parDepartements,
+          global: {
+              ...global,
+              proportion: Math.round(global.disponibles * 10000 / global.total)/100
+          }
+      };
     }
 }

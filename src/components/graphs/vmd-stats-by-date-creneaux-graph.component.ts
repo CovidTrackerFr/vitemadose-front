@@ -27,6 +27,7 @@ export class VmdStatsByDateCreneauxGraphComponent extends VmdGraphBaseComponent<
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     scales:{
                         xAxes: [{
                             ticks:{
