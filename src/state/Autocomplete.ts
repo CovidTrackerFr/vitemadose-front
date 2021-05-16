@@ -88,7 +88,7 @@ export class Autocomplete {
 
   @Memoize()
   private async getAutocompleteOptions(name: NormalizedSearch): Promise<Commune[]> {
-    const response = await window.fetch(`${this.webBaseUrl}autocomplete-cache/${name}.json`)
+    const response = await window.fetch(`${this.webBaseUrl}autocomplete-cache/vmd_${name}.json`)
     const { communes } = await response.json() as { communes: CommuneAutocomplete[] }
     return communes.map(this.mapAutocommpleteToCommune)
   }
