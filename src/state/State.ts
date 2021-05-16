@@ -256,22 +256,16 @@ export class State {
       this.autocomplete = new Autocomplete(import.meta.env.BASE_URL, () => this.departementsDisponibles())
     }
 
-    private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
-    async lieuxPour(codeDepartement: CodeDepartement, avoidCache: boolean = false): Promise<LieuxParDepartement> {
-        if(this._lieuxParDepartement.has(codeDepartement) && !avoidCache) {
-            return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
-        } else {
-            const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: avoidCache ? 'no-cache' : 'default' })
-            const results = await resp.json()
-            const lieuxParDepartement = {
-                lieuxDisponibles: results.centres_disponibles.map(transformLieu),
-                lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
-                codeDepartements: [codeDepartement],
-                derniereMiseAJour: results.last_updated
-            };
-            this._lieuxParDepartement.set(codeDepartement, lieuxParDepartement);
-            return lieuxParDepartement;
-        }
+    async lieuxPour(codeDepartement: CodeDepartement): Promise<LieuxParDepartement> {
+        const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: 'no-cache' })
+        const results = await resp.json()
+        const lieuxParDepartement = {
+            lieuxDisponibles: results.centres_disponibles.map(transformLieu),
+            lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
+            codeDepartements: [codeDepartement],
+            derniereMiseAJour: results.last_updated
+        };
+        return lieuxParDepartement;
     }
 
     @Memoize()
