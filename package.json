@@ -48,6 +48,7 @@
   "dependencies": {
     "bootstrap": "5.0.0-beta3",
     "chart.js": "2.9.4",
+    "firebase": "8.8.0",
     "leaflet": "1.7.1",
     "leaflet.markercluster": "1.4.1",
     "lit-element": "2.4.0",
