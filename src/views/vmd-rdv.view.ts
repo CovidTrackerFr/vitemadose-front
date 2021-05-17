@@ -237,7 +237,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         ? currentSearch.departement.code_departement
                         : currentSearch.commune.codeDepartement
                     const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
-                    const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement, true)
+                    const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement)
                     this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
 
                     // we stop the update check if there has been one
