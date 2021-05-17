@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
-import fs from 'fs';
 import leven from 'leven';
-import {toFullTextSearchableString} from '../src/utils/string-utils.mjs'
-import {rechercheDepartementDescriptor, rechercheCommuneDescriptor} from '../src/routing/dynamic-urls.mjs';
+import {rechercheDepartementDescriptor, rechercheCommuneDescriptor} from '../src/routing/DynamicURLs';
+import {readFileSync, writeFileSync} from "fs";
+import {Strings} from "../src/utils/Strings";
 
 const INDEXED_CHARS = `abcdefghijklmnopqrstuvwxyz01234567890_`.split('');
 // const INDEXED_CHARS = `abc'`.split(''); // For testing purposes
@@ -52,7 +52,7 @@ function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
             // Converting commune info in a most compacted way : keeping only useful fields, 1-char keys, latng compaction
             const compactedCommunes = matchingCommunes.map(toCompactedCommune)
 
-            fs.writeFileSync(`../public/autocomplete-cache/vmd_${query}.json`, JSON.stringify({query, communes: compactedCommunes }), 'utf8');
+            writeFileSync(`../public/autocomplete-cache/vmd_${query}.json`, JSON.stringify({query, communes: compactedCommunes }), 'utf8');
             console.info(`Autocomplete cache for query [${query}] completed !`)
 
             return [{ query, matchingCommunesByKey }];
@@ -73,7 +73,7 @@ function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
             // That's why we're adding here specific keys for these communes
             // Note that we don't have a lot of communes in that case, only 10 commune names, representing 13 different
             // communes
-            filteredMatchingCommunesByKey = new Map([...filteredMatchingCommunesByKey].filter(([k, v]) => v.fullTextSearchableNom.length === query.length))
+            filteredMatchingCommunesByKey = new Map([...filteredMatchingCommunesByKey].filter(([k, v]: [string, any]) => v.fullTextSearchableNom.length === query.length))
             if(filteredMatchingCommunesByKey.size) {
                 const communesMatchantExactement = [...filteredMatchingCommunesByKey.values()];
                 [...filteredMatchingCommunesByKey.keys()].forEach(k => unreferencedCommuneKeys.delete(k));
@@ -82,7 +82,7 @@ function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
 
                 // Converting commune info in a most compacted way : keeping only useful fields, 1-char keys, latng compaction
                 const compactedCommunesNonGereesParLesSousNoeuds = communesMatchantExactement.map(toCompactedCommune)
-                fs.writeFileSync(`../public/autocomplete-cache/vmd_${query}.json`, JSON.stringify({query, communes: compactedCommunesNonGereesParLesSousNoeuds /*, subsequentAutoCompletes: true */ }), 'utf8');
+                writeFileSync(`../public/autocomplete-cache/vmd_${query}.json`, JSON.stringify({query, communes: compactedCommunesNonGereesParLesSousNoeuds /*, subsequentAutoCompletes: true */ }), 'utf8');
                 console.info(`Intermediate autocomplete cache for query [${query}] completed with ${compactedCommunesNonGereesParLesSousNoeuds.length} communes !`)
 
                 subQueries.splice(0, 0, {query, matchingCommunesByKey: filteredMatchingCommunesByKey });
@@ -117,7 +117,7 @@ Promise.all([
             // function here, than the one used defined in Strings.toFullTextSearchableString()
             // Hence its extraction into a reusable/shareable mjs file
             // ALSO, note that INDEXED_CHARS would have every possible translated values defined below
-            fullTextSearchableNom: toFullTextSearchableString(rawCommune.nom)
+            fullTextSearchableNom: Strings.toFullTextSearchableString(rawCommune.nom)
         }))).flat();
 
     const communeByKey = communes.reduce((map, commune) => {
@@ -131,7 +131,7 @@ Promise.all([
         return queries;
     }, []);
 
-    fs.writeFileSync("../public/autocompletes.json", JSON.stringify(generatedIndexes), 'utf8');
+    writeFileSync("../public/autocompletes.json", JSON.stringify(generatedIndexes), 'utf8');
 
     departements.forEach(department => {
         // language=xml
@@ -159,13 +159,13 @@ Promise.all([
         })}
 </urlset>`.trim();
 
-        fs.writeFileSync(`../public/sitemaps/sitemap-${department.code_departement}.xml`, content, 'utf8');
+        writeFileSync(`../public/sitemaps/sitemap-${department.code_departement}.xml`, content, 'utf8');
     });
 
     const siteMapIndexDynamicContent = [].concat(departements.map(department => {
         return sitemapIndexDynamicEntry(department.code_departement);
     })).join("\n  ");
-    const sitemapTemplate = fs.readFileSync('./sitemap_template.xml', 'utf8')
+    const sitemapTemplate = readFileSync('./sitemap_template.xml', 'utf8')
     const sitemapContent = sitemapTemplate.replace("<!-- DYNAMIC CONTENT -->", siteMapIndexDynamicContent);
-    fs.writeFileSync("../public/sitemap.xml", sitemapContent, 'utf8');
+    writeFileSync("../public/sitemap.xml", sitemapContent, 'utf8');
 });

@@ -111,6 +111,6 @@ export class Autocomplete {
 
 
   private normalize (term: string): NormalizedSearch {
-    return Strings.toFullTextSearchableString(term);
+    return Strings.toFullTextSearchableString(term) as NormalizedSearch;
   }
 }
