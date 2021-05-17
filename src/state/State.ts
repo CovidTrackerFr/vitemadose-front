@@ -128,6 +128,7 @@ export type Lieu = {
     location: Coordinates,
     nom: string;
     url: string;
+    internal_id: string;
     appointment_by_phone_only: boolean;
     appointment_schedules: AppointmentSchedule[]|undefined;
     plateforme: TypePlateforme;
