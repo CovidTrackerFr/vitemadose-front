@@ -2,6 +2,7 @@ import {DateString, ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
+import {Router} from "../routing/Router";
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -232,6 +233,35 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
 
 export type SearchType = "standard"|"chronodose";
 
+
+export type StatHistoriqueLieu = {
+    date: ISODateString;
+
+    prochain_rdv: ISODateString|null;
+    appointment_count: number|undefined;
+    chronodose_appointment_count: number|undefined;
+};
+
+export type HistoriqueLieu = {
+    lieu: {
+        internal_id: string;
+        departement: CodeDepartement;
+        location: Coordinates,
+        nom: string;
+        url: string;
+        appointment_by_phone_only: boolean;
+        plateforme: TypePlateforme;
+        metadata: {
+            address: string;
+            phone_number: string|undefined;
+            business_hours: BusinessHours|undefined
+        },
+        type: TypeLieu;
+        vaccine_type: VaccineType
+    },
+    stats: StatHistoriqueLieu[];
+};
+
 export class State {
 
     @Memoize()
@@ -316,5 +346,10 @@ export class State {
               proportion: Math.round(global.disponibles * 10000 / global.total)/100
           }
       };
+    }
+
+    async historiqueDuLieu(lieuInternalId: string): Promise<HistoriqueLieu> {
+        const historiqueLieu: HistoriqueLieu = await fetch(`${Router.basePath}tmp/lieux/${lieuInternalId}.json`).then(resp => resp.json());
+        return historiqueLieu;
     }
 }
