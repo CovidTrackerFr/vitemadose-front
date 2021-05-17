@@ -1,4 +1,12 @@
-import {css, customElement, html, LitElement, internalProperty, property, PropertyValues, query,
+import {
+    css,
+    customElement,
+    html,
+    internalProperty,
+    LitElement,
+    property,
+    PropertyValues,
+    query,
     unsafeCSS
 } from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
@@ -7,36 +15,37 @@ import {Router} from "../routing/Router";
 import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
 import {
-    SearchRequest,
     CodeDepartement,
     CodeTriCentre,
     Commune,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
-    Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
-    LieuxParDepartement, SearchType,
+    Lieu,
+    LieuAffichableAvecDistance,
+    LieuxAvecDistanceParDepartement,
+    LieuxParDepartement,
+    SearchRequest,
+    SearchType,
     State,
     TRIS_CENTRE
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
-import {
-    ValueStrCustomEvent,
-} from "../components/vmd-commune-or-departement-selector.component";
+import {ValueStrCustomEvent,} from "../components/vmd-commune-or-departement-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
-import {setDebouncedInterval, delay } from "../utils/Schedulers";
+import {delay, setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 import tippy from 'tippy.js';
+import {InfiniteScroll} from "../state/InfiniteScroll";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
 // aimed at fixing nasty Safari rendering bug
 const MAX_CENTER_RESULTS_COUNT = 180;
-const PAGINATION_SIZE = 20;
 
 export abstract class AbstractVmdRdvView extends LitElement {
     DELAI_VERIFICATION_MISE_A_JOUR = 45000
@@ -52,7 +61,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
-    @property({type: Array, attribute: false}) cartesAffichees: LieuAffichableAvecDistance[] | undefined = undefined;
+    @property({type: Array, attribute: false}) cartesAffichees: LieuAffichableAvecDistance[] = [];
 
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
@@ -61,6 +70,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
     private infiniteScrollListener: EventListener | undefined = undefined;
+    private infiniteScroll = new InfiniteScroll();
 
     get totalCreneaux() {
         if (!this.lieuxParDepartementAffiches) {
@@ -242,7 +252,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 this.infiniteScrollListener = () => {
                     const height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
                     if (html && html.scrollTop + height >= html.scrollHeight) {
-                        this.ajouterCartesPaginees()
+                        this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches,
+                            this.cartesAffichees);
                     }
                 }
                 window.addEventListener('scroll', this.infiniteScrollListener, false);
@@ -297,7 +308,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         return !l.appointment_by_phone_only
                     })
                 }
-                this.cartesAffichees = this.lieuxParDepartementAffiches.lieuxAffichables.slice(0, PAGINATION_SIZE);
+                this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, this.cartesAffichees);
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
@@ -311,21 +322,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
             }
         } else {
             this.lieuxParDepartementAffiches = undefined;
-            this.cartesAffichees = undefined;
+            this.cartesAffichees = [];
         }
     }
 
-    private ajouterCartesPaginees() {
-        if (this.lieuxParDepartementAffiches?.lieuxAffichables && this.cartesAffichees &&
-            this.cartesAffichees.length < this.lieuxParDepartementAffiches?.lieuxAffichables.length) {
-
-            const startIndex = this.cartesAffichees.length
-            let cartesAAjouter = this.lieuxParDepartementAffiches.lieuxAffichables
-                .slice(startIndex, startIndex + PAGINATION_SIZE);
-
-            this.cartesAffichees = this.cartesAffichees.concat(cartesAAjouter);
-        }
-    }
     private getStandardResultsLink() {
         if (this.currentSearch && SearchRequest.isByDepartement(this.currentSearch)) {
             return Router.getLinkToRendezVousAvecDepartement(this.currentSearch.departement.code_departement, libelleUrlPathDuDepartement(this.currentSearch.departement!), 'standard');
