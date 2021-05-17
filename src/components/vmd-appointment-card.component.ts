@@ -1,7 +1,7 @@
 import {
     css,
     customElement,
-    html,
+    html, internalProperty,
     LitElement,
     property,
     PropertyValues, query,
@@ -9,6 +9,7 @@ import {
 } from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
 import {
+    HistoriqueLieu,
     Lieu,
     LieuAffichableAvecDistance,
     Plateforme,
@@ -23,6 +24,9 @@ import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 import tippy from "tippy.js";
+
+import './graphs/vmd-location-stats-graph.component'
+
 
 type LieuCliqueContext = {lieu: Lieu};
 export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
@@ -41,6 +45,8 @@ export class VmdAppointmentCardComponent extends LitElement {
     @property({type: Object, attribute: false}) lieu!: LieuAffichableAvecDistance;
     @property({type: String}) theme!: string;
     @property() highlightable!: boolean;
+
+    @internalProperty() historiqueLieu!: HistoriqueLieu;
 
     @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
@@ -204,6 +210,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                         </div>
                         `:html``}
                     </div>
+                    <vmd-location-stats-graph class="img-fluid" color="${this.theme==='chronodose'?'#ed505b':'#5561d9'}" width="400" height="150" .data="${this.historiqueLieu}"></vmd-location-stats-graph>
                 </div>
             </div>
             `);
@@ -216,7 +223,11 @@ export class VmdAppointmentCardComponent extends LitElement {
         })
     }
 
-    connectedCallback() {
+    updateHistoriqueLieu(historiqueLieu: HistoriqueLieu) {
+        this.historiqueLieu = historiqueLieu;
+    }
+
+    async connectedCallback() {
         super.connectedCallback();
         // console.log("connected callback")
     }

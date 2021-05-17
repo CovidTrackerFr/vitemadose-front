@@ -26,7 +26,10 @@ import {
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
-import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
+import {
+    LieuCliqueCustomEvent,
+    VmdAppointmentCardComponent
+} from "../components/vmd-appointment-card.component";
 import {setDebouncedInterval, delay } from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
@@ -184,6 +187,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
                     ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
                         return html`<vmd-appointment-card
+                            lieuId="${lieu.internal_id}"
                             style="--list-index: ${index}"
                             .lieu="${lieu}"
                             theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
@@ -286,6 +290,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         return !l.appointment_by_phone_only
                     })
                 }
+                this.lieuxParDepartementAffiches.lieuxAffichables.forEach(lf => {
+                    if(lf.internal_id) {
+                        State.current.historiqueDuLieu(lf.internal_id).then((historiqueLieu) => {
+                            (this.shadowRoot!.querySelector(`vmd-appointment-card[lieuId='${lf.internal_id}']`) as VmdAppointmentCardComponent).updateHistoriqueLieu(historiqueLieu);
+                        });
+                    }
+                })
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
