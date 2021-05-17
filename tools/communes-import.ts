@@ -1,3 +1,4 @@
+/// <reference path="./types.d.ts" />
 import fetch from 'node-fetch';
 import leven from 'leven';
 import {rechercheDepartementDescriptor, rechercheCommuneDescriptor} from '../src/routing/DynamicURLs';
@@ -11,36 +12,40 @@ const INDEXED_CHARS = `abcdefghijklmnopqrstuvwxyz01234567890_`.split('');
 const MAX_NUMBER_OF_COMMUNES_PER_FILE = 800;
 const MAX_AUTOCOMPLETE_TRIGGER_LENGTH = 7;
 
-function keyOf(commune) {
+function keyOf(commune: Commune): string {
     return `${commune.code}__${commune.nom}`;
 }
 
-function search(communes, query) {
+function search(communes: Commune[], query: string): Commune[] {
     return communes.filter(c =>
         c.codePostal.indexOf(query) === 0 || c.fullTextSearchableNom.indexOf(query) !== -1
     );
 }
 
-function toCompactedCommune(c) {
+function toCompactedCommune(commune: Commune) {
     return {
-        c: c.code,
-        z: c.codePostal,
-        n: c.nom,
-        d: c.codeDepartement,
-        g: (c && c.centre && c.centre.coordinates)?c.centre.coordinates.join(","):undefined
+        c: commune.code,
+        z: commune.codePostal,
+        n: commune.nom,
+        d: commune.codeDepartement,
+        g: (commune && commune.centre && commune.centre.coordinates)?commune.centre.coordinates.join(","):undefined
     };
 }
 
-function communeComparatorFor(query) {
-    return (c1, c2) =>
+function communeComparatorFor(query: string) {
+    return (c1: Commune, c2: Commune) =>
            Math.min(leven(c1.fullTextSearchableNom, query), leven(c1.codePostal, query))
          - Math.min(leven(c2.fullTextSearchableNom, query), leven(c2.codePostal, query));
 }
 
-function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
+type MatchingCommunesSearchResult = {
+    query: string;
+    matchingCommunesByKey: Map<string, Commune>;
+};
+function generateFilesForQuery(query: string, communes: Commune[], unreferencedCommuneKeys: Set<string>): MatchingCommunesSearchResult[] {
     try {
         const matchingCommunes = search(communes, query);
-        const matchingCommunesByKey = new Map(matchingCommunes.map(c => [keyOf(c), c]));
+        const matchingCommunesByKey = new Map<string, Commune>(matchingCommunes.map(c => [keyOf(c), c]));
 
         if(matchingCommunes.length === 0) {
             return [];
@@ -60,7 +65,7 @@ function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
             const subQueries = INDEXED_CHARS.reduce((subQueries, q) => {
                 Array.prototype.push.apply(subQueries, generateFilesForQuery(query+q, matchingCommunes, unreferencedCommuneKeys));
                 return subQueries;
-            }, [])
+            }, [] as MatchingCommunesSearchResult[])
 
             let filteredMatchingCommunesByKey = new Map(matchingCommunesByKey);
             subQueries.forEach(r => {
@@ -92,25 +97,26 @@ function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
         }
     } catch(e) {
         console.error(e);
+        return [];
     }
 }
 
-function sitemapDynamicEntry(path) {
+function sitemapDynamicEntry(path: string): string {
     return `
     <url><loc>https://vitemadose.covidtracker.fr${path}</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     `.trim();
 }
-function sitemapIndexDynamicEntry(dpt) {
+function sitemapIndexDynamicEntry(codeDepartement: string): string {
     return `
-    <sitemap><loc>https://vitemadose.covidtracker.fr/sitemaps/sitemap-${dpt}.xml</loc></sitemap>
+    <sitemap><loc>https://vitemadose.covidtracker.fr/sitemaps/sitemap-${codeDepartement}.xml</loc></sitemap>
     `.trim();
 }
 
 Promise.all([
     fetch(`https://geo.api.gouv.fr/communes?boost=population&fields=code,nom,codeDepartement,centre,codesPostaux`).then(resp => resp.json()),
     fetch(`https://vitemadose.gitlab.io/vitemadose/departements.json`).then(resp => resp.json()),
-]).then(([rawCommunes, departements]) => {
-    const communes = rawCommunes.map(rawCommune => rawCommune.codesPostaux.map(cp => ({
+]).then(([rawCommunes, departements]: [RawCommune[], Departement[]]) => {
+    const communes: Commune[] = rawCommunes.map(rawCommune => rawCommune.codesPostaux.map(cp => ({
             ...rawCommune,
             codePostal: cp,
             // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
@@ -123,7 +129,7 @@ Promise.all([
     const communeByKey = communes.reduce((map, commune) => {
         map.set(keyOf(commune), commune);
         return map;
-    }, new Map());
+    }, new Map<string, Commune>());
 
     const unreferencedCommuneKeys = new Set(communeByKey.keys());
     const generatedIndexes = INDEXED_CHARS.reduce((queries, q) => {
@@ -162,7 +168,7 @@ Promise.all([
         writeFileSync(`../public/sitemaps/sitemap-${department.code_departement}.xml`, content, 'utf8');
     });
 
-    const siteMapIndexDynamicContent = [].concat(departements.map(department => {
+    const siteMapIndexDynamicContent = ([] as string[]).concat(departements.map((department: Departement) => {
         return sitemapIndexDynamicEntry(department.code_departement);
     })).join("\n  ");
     const sitemapTemplate = readFileSync('./sitemap_template.xml', 'utf8')
