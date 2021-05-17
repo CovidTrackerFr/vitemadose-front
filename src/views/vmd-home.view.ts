@@ -6,7 +6,7 @@ import {
     PLATEFORMES, SearchType,
     SearchRequest,
     State,
-    StatsLieu,
+    StatsLieu, Departement,
 } from "../state/State";
 import {CSS_Global, CSS_Home} from "../styles/ConstructibleStyleSheets";
 
@@ -35,7 +35,15 @@ export class VmdHomeView extends LitElement {
       } else {
         const commune = event.detail.commune
         const departements = await State.current.departementsDisponibles()
-        const departement = departements.find(({ code_departement }) => code_departement === commune.codeDepartement)
+        if(!departements.find(d => d.code_departement==='om')) {
+            departements.push({
+                code_departement: 'om',
+                nom_departement: "Collectivités d'Outremer",
+                code_region: -1,
+                nom_region: "Outremer"
+            });
+        }
+        let departement: Departement|undefined = departements.find(({ code_departement }) => code_departement === commune.codeDepartement)
 
         if(!departement) {
             console.error(`Can't find departement matching code ${commune.codeDepartement}`)
