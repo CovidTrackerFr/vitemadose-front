@@ -142,10 +142,10 @@ Promise.all([
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-    ${sitemapDynamicEntry(rechercheDepartementDescriptor.urlGenerator({
+    ${rechercheDepartementDescriptor.urlGenerator({
             codeDepartement: department.code_departement,
             nomDepartement: department.nom_departement
-    }))}
+    }).map(url => sitemapDynamicEntry(url)).join('\n    ')}
     ${communes.filter(c => c.codeDepartement === department.code_departement).map(c => {
             return `
     ${rechercheCommuneDescriptor.urlGenerator({
