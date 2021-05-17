@@ -18,7 +18,9 @@ export interface OutreMerAutocomplete {
 }
 
 export class Autocomplete {
-  private webBaseUrl: string
+  private webBaseUrl: string;
+  private nameFilePrefix: string;
+
   constructor (
       webBaseUrl: string,
       private getDepartementsDisponibles: () => Promise<Departement[]>,
