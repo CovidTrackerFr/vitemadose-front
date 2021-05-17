@@ -1,4 +1,3 @@
-import {DateString, ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
@@ -109,6 +108,8 @@ export const TYPES_LIEUX: {[k in TypeLieu]: string} = {
     "drugstore": 'Pharmacie',
     "general-practitioner": 'Médecin généraliste',
 };
+export type ISODateString = string
+export type WeekDay = "lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"
 export type BusinessHours = Record<WeekDay,string>;
 export type VaccineType = string;
 export type AppointmentPerVaccine = {
@@ -117,8 +118,8 @@ export type AppointmentPerVaccine = {
 };
 export type AppointmentSchedule = {
     name: string;
-    from: DateString; // Should be better to have ISODateString here
-    to: DateString; // Should be better to have ISODateString here
+    from: string; // Should be better to have ISODateString here
+    to: string; // Should be better to have ISODateString here
     // appointments_per_vaccine: AppointmentPerVaccine[];
     total: number;
 };
