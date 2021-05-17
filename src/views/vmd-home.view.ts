@@ -158,6 +158,8 @@ export class VmdHomeView extends LitElement {
                 </div>
             </div>
 
+            <div class="spacer mt-5 mb-5"></div>
+
             <slot name="about"></slot>
         `;
     }

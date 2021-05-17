@@ -8,6 +8,7 @@
     "emitDeclarationOnly": true,
     "outDir": "./types",
     "rootDir": "./src",
+    "allowJs": true,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

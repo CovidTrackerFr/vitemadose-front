@@ -1,6 +1,8 @@
-var fetch = require('node-fetch');
-var fs = require('fs');
-var leven = require('leven');
+import fetch from 'node-fetch';
+import fs from 'fs';
+import leven from 'leven';
+import {toFullTextSearchableString} from '../src/utils/string-utils.mjs'
+import {rechercheDepartementDescriptor, rechercheCommuneDescriptor} from '../src/routing/dynamic-urls.mjs';
 
 const INDEXED_CHARS = `abcdefghijklmnopqrstuvwxyz01234567890_`.split('');
 // const INDEXED_CHARS = `abc'`.split(''); // For testing purposes
@@ -11,22 +13,6 @@ const MAX_AUTOCOMPLETE_TRIGGER_LENGTH = 7;
 
 function keyOf(commune) {
     return `${commune.code}__${commune.nom}`;
-}
-
-function toFullTextSearchableString(value) {
-    // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
-    // function here, than the one used defined in Strings.toFullTextSearchableString()
-    // ALSO, note that INDEXED_CHARS would have every possible translated values defined below
-    return value.toLowerCase()
-        .replace(/[-\s']/gi, "_")
-        .replace(/[èéëêêéè]/gi, "e")
-        .replace(/[áàâäãåâà]/gi, "a")
-        .replace(/[çç]/gi, "c")
-        .replace(/[íìîï]/gi, "i")
-        .replace(/[ñ]/gi, "n")
-        .replace(/[óòôöõô]/gi, "o")
-        .replace(/[úùûüûù]/gi, "u")
-        .replace(/[œ]/gi, "oe");
 }
 
 function search(communes, query) {
@@ -109,12 +95,28 @@ function generateFilesForQuery(query, communes, unreferencedCommuneKeys) {
     }
 }
 
+function sitemapDynamicEntry(path) {
+    return `
+    <url><loc>https://vitemadose.covidtracker.fr${path}</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    `.trim();
+}
+function sitemapIndexDynamicEntry(dpt) {
+    return `
+    <sitemap><loc>https://vitemadose.covidtracker.fr/sitemaps/sitemap-${dpt}.xml</loc></sitemap>
+    `.trim();
+}
+
 Promise.all([
     fetch(`https://geo.api.gouv.fr/communes?boost=population&fields=code,nom,codeDepartement,centre,codesPostaux`).then(resp => resp.json()),
-]).then(([rawCommunes]) => {
+    fetch(`https://vitemadose.gitlab.io/vitemadose/departements.json`).then(resp => resp.json()),
+]).then(([rawCommunes, departements]) => {
     const communes = rawCommunes.map(rawCommune => rawCommune.codesPostaux.map(cp => ({
             ...rawCommune,
             codePostal: cp,
+            // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
+            // function here, than the one used defined in Strings.toFullTextSearchableString()
+            // Hence its extraction into a reusable/shareable mjs file
+            // ALSO, note that INDEXED_CHARS would have every possible translated values defined below
             fullTextSearchableNom: toFullTextSearchableString(rawCommune.nom)
         }))).flat();
 
@@ -124,11 +126,46 @@ Promise.all([
     }, new Map());
 
     const unreferencedCommuneKeys = new Set(communeByKey.keys());
-
     const generatedIndexes = INDEXED_CHARS.reduce((queries, q) => {
         Array.prototype.push.apply(queries, generateFilesForQuery(q, communes, unreferencedCommuneKeys).map(r => r.query));
         return queries;
     }, []);
 
     fs.writeFileSync("../public/autocompletes.json", JSON.stringify(generatedIndexes), 'utf8');
+
+    departements.forEach(department => {
+        // language=xml
+        let content = `
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+    ${sitemapDynamicEntry(rechercheDepartementDescriptor.urlGenerator({
+            codeDepartement: department.code_departement,
+            nomDepartement: department.nom_departement
+    }))}
+    ${communes.filter(c => c.codeDepartement === department.code_departement).map(c => {
+            return `
+    ${rechercheCommuneDescriptor.urlGenerator({
+                codeDepartement: c.codeDepartement,
+                nomDepartement: department.nom_departement,
+                codeCommune: c.code,
+                codePostal: c.codePostal,
+                nomCommune: c.nom,
+                tri: 'distance'
+            }).map(url => sitemapDynamicEntry(url)).join('\n    ')}`;
+        })}
+</urlset>`.trim();
+
+        fs.writeFileSync(`../public/sitemaps/sitemap-${department.code_departement}.xml`, content, 'utf8');
+    });
+
+    const siteMapIndexDynamicContent = [].concat(departements.map(department => {
+        return sitemapIndexDynamicEntry(department.code_departement);
+    })).join("\n  ");
+    const sitemapTemplate = fs.readFileSync('./sitemap_template.xml', 'utf8')
+    const sitemapContent = sitemapTemplate.replace("<!-- DYNAMIC CONTENT -->", siteMapIndexDynamicContent);
+    fs.writeFileSync("../public/sitemap.xml", sitemapContent, 'utf8');
 });

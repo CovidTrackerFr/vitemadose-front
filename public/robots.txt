@@ -4,3 +4,4 @@ Disallow:
 User-agent: *
 Allow: /
 
+Sitemap: https://vitemadose.covidtracker.fr/sitemap.xml
