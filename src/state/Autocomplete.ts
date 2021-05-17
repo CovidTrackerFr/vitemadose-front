@@ -113,7 +113,7 @@ export class Autocomplete {
     // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
     // function here, than the one used in communes-import.js tooling
     // FIXME use actual same code instead of warning, its in ../../tools/communes-import.js
-    return term.toLowerCase()
+    return term.toLowerCase().trim()
       .replace(/[-\s']/gi, "_")
       .replace(/[èéëêêéè]/gi, "e")
       .replace(/[áàâäãåâà]/gi, "a")
