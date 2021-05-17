@@ -1,5 +1,6 @@
 import { Memoize } from 'typescript-memoize'
 import { Departement, Commune } from './State'
+import {Strings} from "../utils/Strings";
 
 type NormalizedSearch = string & { __normalized_search: void }
 export interface CommuneAutocomplete {
@@ -95,18 +96,5 @@ export class Autocomplete {
 
 
   private normalize (term: string): NormalizedSearch {
-    // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
-    // function here, than the one used in communes-import.js tooling
-    // FIXME use actual same code instead of warning, its in ../../tools/communes-import.js
-    return term.toLowerCase()
-      .replace(/[-\s']/gi, "_")
-      .replace(/[èéëêêéè]/gi, "e")
-      .replace(/[áàâäãåâà]/gi, "a")
-      .replace(/[çç]/gi, "c")
-      .replace(/[íìîï]/gi, "i")
-      .replace(/[ñ]/gi, "n")
-      .replace(/[óòôöõô]/gi, "o")
-      .replace(/[úùûüûù]/gi, "u")
-      .replace(/[œ]/gi, "oe") as NormalizedSearch
-  }
+    return Strings.toFullTextSearchableString(term);
 }
