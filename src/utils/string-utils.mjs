@@ -15,7 +15,7 @@ export const toReadableURLPathValue = function(value) {
 export const toFullTextSearchableString = function(value) {
     // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
     // function here, than the one used in communes-import.mjs tooling
-    return value.toLowerCase()
+    return value.toLowerCase().trim()
         .replace(/[-\s']/gi, "_")
         .replace(/[èéëêêéè]/gi, "e")
         .replace(/[áàâäãåâà]/gi, "a")

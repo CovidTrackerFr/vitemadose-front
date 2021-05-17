@@ -64,7 +64,7 @@ const VMD_BASE_URL = USE_RAW_GITHUB
   : "https://vitemadose.gitlab.io/vitemadose"
 
 
-export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma";
+export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma"|"AvecMonDoc";
 export type Plateforme = {
     // Should be the same than PLATEFORMES' key
     code: TypePlateforme;
@@ -76,15 +76,15 @@ export type Plateforme = {
     website: string;
     // Used for specific styling on logos, see for example _searchAppointment.scss
     styleCode: string;
-    highlightEnabled: boolean;
 };
 export const PLATEFORMES: Record<TypePlateforme, Plateforme> = {
-    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',            highlightEnabled: true,  styleCode: '_doctolib'},
-    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/',              highlightEnabled: false, styleCode: '_maiia'},
-    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/',            highlightEnabled: false, styleCode: '_ordoclic'},
-    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  website: 'https://www.keldoc.com/',             highlightEnabled: false, styleCode: '_keldoc'},
-    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, website: 'https://masante.pandalab.eu/welcome', highlightEnabled: false, styleCode: '_pandalab'},
-    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login',          highlightEnabled: false, styleCode: '_mapharma'},
+    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',  styleCode: '_doctolib'},
+    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/', styleCode: '_maiia'},
+    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/', styleCode: '_ordoclic'},
+    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  website: 'https://www.keldoc.com/', styleCode: '_keldoc'},
+    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, website: 'https://masante.pandalab.eu/welcome', styleCode: '_pandalab'},
+    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login', styleCode: '_mapharma'},
+    'AvecMonDoc': { code: 'AvecMonDoc', logo: 'logo_avecmondoc.png', nom: 'AvecMonDoc', promoted: true,  website: 'https://www.avecmondoc.com/', styleCode: '_avecmondoc'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
@@ -207,14 +207,14 @@ export type StatsLieu = {
 }
 
 export type CommunesParAutocomplete = Map<string, Commune[]>;
-export type Commune = {
+export interface Commune {
     code: string;
     codePostal: string;
     nom: string;
     codeDepartement: string;
     latitude: number;
     longitude: number;
-};
+}
 
 export type StatsByDate = {
     dates: ISODateString[],
@@ -232,7 +232,11 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
 export type SearchType = "standard"|"chronodose";
 
 export class State {
-    public static current = new State();
+
+    @Memoize()
+    public static get current (): State {
+      return new State()
+    }
 
     private static DEPARTEMENT_VIDE: Departement = {
         code_departement: "",
@@ -253,25 +257,20 @@ export class State {
     readonly autocomplete: Autocomplete
 
     private constructor() {
-      this.autocomplete = new Autocomplete(import.meta.env.BASE_URL, () => this.departementsDisponibles())
+      const webBaseUrl = import.meta.env.BASE_URL
+      this.autocomplete = new Autocomplete(webBaseUrl, () => this.departementsDisponibles())
     }
 
-    private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
-    async lieuxPour(codeDepartement: CodeDepartement, avoidCache: boolean = false): Promise<LieuxParDepartement> {
-        if(this._lieuxParDepartement.has(codeDepartement) && !avoidCache) {
-            return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
-        } else {
-            const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: avoidCache ? 'no-cache' : 'default' })
-            const results = await resp.json()
-            const lieuxParDepartement = {
-                lieuxDisponibles: results.centres_disponibles.map(transformLieu),
-                lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
-                codeDepartements: [codeDepartement],
-                derniereMiseAJour: results.last_updated
-            };
-            this._lieuxParDepartement.set(codeDepartement, lieuxParDepartement);
-            return lieuxParDepartement;
-        }
+    async lieuxPour(codeDepartement: CodeDepartement): Promise<LieuxParDepartement> {
+        const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: 'no-cache' })
+        const results = await resp.json()
+        const lieuxParDepartement = {
+            lieuxDisponibles: results.centres_disponibles.map(transformLieu),
+            lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
+            codeDepartements: [codeDepartement],
+            derniereMiseAJour: results.last_updated
+        };
+        return lieuxParDepartement;
     }
 
     @Memoize()
