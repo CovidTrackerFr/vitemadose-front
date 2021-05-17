@@ -153,7 +153,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         Dernière mise à jour : il y a
                         ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}
                         ${this.miseAJourDisponible?html`
-                          <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; }}">Rafraîchir</button>
+                          <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; this.launchCheckingUpdates() }}">Rafraîchir</button>
                         `:html``}
                       </p>
                       <p class="alert alert-warning fs-6">
@@ -228,21 +228,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     async connectedCallback() {
         super.connectedCallback();
-        this.lieuBackgroundRefreshIntervalId = setDebouncedInterval(async () => {
-            const currentSearch = this.currentSearch
-            if(currentSearch) {
-                const codeDepartement = SearchRequest.isByDepartement(currentSearch)
-                  ? currentSearch.departement.code_departement
-                  : currentSearch.commune.codeDepartement
-                const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
-                const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement, true)
-                this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
-
-                // Used only to refresh derniereMiseAJour's displayed relative time
-                await this.requestUpdate();
-            }
-        }, this.DELAI_VERIFICATION_MISE_A_JOUR);
-        this.registerInfiniteScroll()
+        this.launchCheckingUpdates();
+        this.registerInfiniteScroll();
     }
 
     private registerInfiniteScroll() {
@@ -263,13 +250,43 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
+        this.stopCheckingUpdates();
+        this.stopListeningToScroll();
+    }
 
+    stopCheckingUpdates() {
         if(this.lieuBackgroundRefreshIntervalId) {
             clearInterval(this.lieuBackgroundRefreshIntervalId);
             this.lieuBackgroundRefreshIntervalId = undefined;
         }
+    }
+
+    private stopListeningToScroll() {
         if (this.infiniteScrollListener) {
             removeEventListener('scroll', this.infiniteScrollListener, false);
+        }
+    }
+
+    launchCheckingUpdates() {
+        if(this.lieuBackgroundRefreshIntervalId === undefined) {
+            this.lieuBackgroundRefreshIntervalId = setDebouncedInterval(async () => {
+                const currentSearch = this.currentSearch
+                if (currentSearch) {
+                    const codeDepartement = SearchRequest.isByDepartement(currentSearch)
+                        ? currentSearch.departement.code_departement
+                        : currentSearch.commune.codeDepartement
+                    const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
+                    const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement, true)
+                    this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
+
+                    // we stop the update check if there has been one
+                    if (this.miseAJourDisponible) {
+                        this.stopCheckingUpdates();
+                    }
+                    // Used only to refresh derniereMiseAJour's displayed relative time
+                    await this.requestUpdate();
+                }
+            }, this.DELAI_VERIFICATION_MISE_A_JOUR);
         }
     }
 

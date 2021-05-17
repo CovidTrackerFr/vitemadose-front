@@ -207,14 +207,14 @@ export type StatsLieu = {
 }
 
 export type CommunesParAutocomplete = Map<string, Commune[]>;
-export type Commune = {
+export interface Commune {
     code: string;
     codePostal: string;
     nom: string;
     codeDepartement: string;
     latitude: number;
     longitude: number;
-};
+}
 
 export type StatsByDate = {
     dates: ISODateString[],
@@ -232,7 +232,11 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
 export type SearchType = "standard"|"chronodose";
 
 export class State {
-    public static current = new State();
+
+    @Memoize()
+    public static get current (): State {
+      return new State()
+    }
 
     private static DEPARTEMENT_VIDE: Departement = {
         code_departement: "",
@@ -253,7 +257,8 @@ export class State {
     readonly autocomplete: Autocomplete
 
     private constructor() {
-      this.autocomplete = new Autocomplete(import.meta.env.BASE_URL, () => this.departementsDisponibles())
+      const webBaseUrl = import.meta.env.BASE_URL
+      this.autocomplete = new Autocomplete(webBaseUrl, () => this.departementsDisponibles())
     }
 
     private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();

@@ -28,7 +28,7 @@ export class VmdHomeView extends LitElement {
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
     private async onSearch (event: CustomEvent<SearchRequest>) {
-      const searchType: SearchType = window.location.hostname === 'chronodrive.fr' ? 'chronodose':'standard';
+      const searchType: SearchType = window.location.hostname === 'chronodose.fr' ? 'chronodose':'standard';
       if (SearchRequest.isByDepartement(event.detail)) {
         const departement = event.detail.departement
         Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement), searchType)
