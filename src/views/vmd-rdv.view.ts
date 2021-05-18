@@ -150,7 +150,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                       </p>
                       <p class="alert alert-warning fs-6">
                           <i class="bi vmdicon-attention-fill"></i>
-                          Les plateformes sont très sollicitées, les données affichées par Vite Ma Dose peuvent avoir jusqu'à 30 minutes de retard pour Doctolib.
+                          Les plateformes sont très sollicitées, les données affichées par Vite Ma Dose peuvent avoir jusqu'à 15 minutes de retard pour Doctolib.
                       </p>
                         `
                         : html``}
