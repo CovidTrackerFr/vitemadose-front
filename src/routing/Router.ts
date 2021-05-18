@@ -4,7 +4,7 @@ import {html} from "lit-element";
 import {CodeTriCentre, SearchType, State} from "../state/State";
 import {Analytics} from "../utils/Analytics";
 // @ts-ignore
-import {rechercheDepartementDescriptor, rechercheCommuneDescriptor} from './dynamic-urls.mjs';
+import {rechercheDepartementDescriptor, rechercheCommuneDescriptor} from './DynamicURLs';
 
 export type SlottedTemplateResultFactory = (subViewSlot: TemplateResult) => TemplateResult;
 

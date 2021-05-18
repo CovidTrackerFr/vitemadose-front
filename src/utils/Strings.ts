@@ -1,5 +1,3 @@
-// @ts-ignore
-import {toReadableURLPathValue, toFullTextSearchableString} from './string-utils';
 
 export class Strings {
     public static padLeft(value: number, size: number, filler: string) {
@@ -40,13 +38,31 @@ export class Strings {
 
     // FIXME move to router
     public static toReadableURLPathValue(value: string) {
-        return toReadableURLPathValue(value);
+        return value.toLowerCase()
+            .replace(/[-\s']/gi, "_")
+            .replace(/[èéëêêéè]/gi, "e")
+            .replace(/[áàâäãåâà]/gi, "a")
+            .replace(/[çç]/gi, "c")
+            .replace(/[íìîï]/gi, "i")
+            .replace(/[ñ]/gi, "n")
+            .replace(/[óòôöõô]/gi, "o")
+            .replace(/[úùûüûù]/gi, "u")
+            .replace(/[œ]/gi, "oe");
     }
 
     public static toFullTextSearchableString(value: string) {
         // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
-        // function here, than the one used in communes-import.mjs tooling
+        // function here, than the one used in communes-import.ts tooling
         // Hence its extraction into a reusable/shareable mjs file
-        return toFullTextSearchableString(value);
+        return value.toLowerCase().trim()
+            .replace(/[-\s']/gi, "_")
+            .replace(/[èéëêêéè]/gi, "e")
+            .replace(/[áàâäãåâà]/gi, "a")
+            .replace(/[çç]/gi, "c")
+            .replace(/[íìîï]/gi, "i")
+            .replace(/[ñ]/gi, "n")
+            .replace(/[óòôöõô]/gi, "o")
+            .replace(/[úùûüûù]/gi, "u")
+            .replace(/[œ]/gi, "oe");
     }
 }
