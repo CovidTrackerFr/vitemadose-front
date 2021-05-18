@@ -1,4 +1,3 @@
-import {DateString, ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
@@ -64,7 +63,7 @@ const VMD_BASE_URL = USE_RAW_GITHUB
   : "https://vitemadose.gitlab.io/vitemadose"
 
 
-export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma";
+export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma"|"AvecMonDoc";
 export type Plateforme = {
     // Should be the same than PLATEFORMES' key
     code: TypePlateforme;
@@ -76,15 +75,15 @@ export type Plateforme = {
     website: string;
     // Used for specific styling on logos, see for example _searchAppointment.scss
     styleCode: string;
-    highlightEnabled: boolean;
 };
 export const PLATEFORMES: Record<TypePlateforme, Plateforme> = {
-    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',            highlightEnabled: true,  styleCode: '_doctolib'},
-    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/',              highlightEnabled: false, styleCode: '_maiia'},
-    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/',            highlightEnabled: false, styleCode: '_ordoclic'},
-    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  website: 'https://www.keldoc.com/',             highlightEnabled: false, styleCode: '_keldoc'},
-    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, website: 'https://masante.pandalab.eu/welcome', highlightEnabled: false, styleCode: '_pandalab'},
-    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login',          highlightEnabled: false, styleCode: '_mapharma'},
+    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',  styleCode: '_doctolib'},
+    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/', styleCode: '_maiia'},
+    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/', styleCode: '_ordoclic'},
+    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  website: 'https://www.keldoc.com/', styleCode: '_keldoc'},
+    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, website: 'https://masante.pandalab.eu/welcome', styleCode: '_pandalab'},
+    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login', styleCode: '_mapharma'},
+    'AvecMonDoc': { code: 'AvecMonDoc', logo: 'logo_avecmondoc.png', nom: 'AvecMonDoc', promoted: true,  website: 'https://www.avecmondoc.com/', styleCode: '_avecmondoc'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
@@ -109,6 +108,8 @@ export const TYPES_LIEUX: {[k in TypeLieu]: string} = {
     "drugstore": 'Pharmacie',
     "general-practitioner": 'Médecin généraliste',
 };
+export type ISODateString = string
+export type WeekDay = "lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"
 export type BusinessHours = Record<WeekDay,string>;
 export type VaccineType = string;
 export type AppointmentPerVaccine = {
@@ -117,8 +118,8 @@ export type AppointmentPerVaccine = {
 };
 export type AppointmentSchedule = {
     name: string;
-    from: DateString; // Should be better to have ISODateString here
-    to: DateString; // Should be better to have ISODateString here
+    from: string; // Should be better to have ISODateString here
+    to: string; // Should be better to have ISODateString here
     // appointments_per_vaccine: AppointmentPerVaccine[];
     total: number;
 };
