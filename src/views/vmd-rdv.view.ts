@@ -50,6 +50,7 @@ const MAX_CENTER_RESULTS_COUNT = 180;
 export abstract class AbstractVmdRdvView extends LitElement {
     DELAI_VERIFICATION_MISE_A_JOUR = 45000
     DELAI_VERIFICATION_SCROLL = 1000;
+    SCROLL_OFFSET = 200;
 
     //language=css
     static styles = [
@@ -240,7 +241,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 this.infiniteScrollListener = () => {
                     setDebouncedInterval(() => {
                         const height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-                        if (html && html.scrollTop + height >= html.scrollHeight) {
+                        if (html && html.scrollTop + height + this.SCROLL_OFFSET >= html.scrollHeight) {
                             this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches,
                                 this.cartesAffichees);
                         }
