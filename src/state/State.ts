@@ -354,10 +354,19 @@ export class State {
         }
     }
 
-
-    async historiqueDuLieu(lieuInternalId: string): Promise<HistoriqueLieu> {
+    async historiqueDuLieu(lieuInternalId: string, mode: SearchType): Promise<HistoriqueLieu> {
         const historiqueLieu: HistoriqueLieu = await fetch(`${State.baseHistoryUrl()}/lieux/${lieuInternalId}.json`, { cache: 'no-cache' }).then(resp => resp.json());
-        return historiqueLieu;
+        if(mode === 'standard') {
+            return historiqueLieu;
+        } else if(mode === 'chronodose') {
+            const latestStatTimestamp = Date.parse(historiqueLieu.stats[historiqueLieu.stats.length-1]?.date);
+            return {
+                ...historiqueLieu,
+                stats: historiqueLieu.stats.filter(s => Date.parse(s.date) > latestStatTimestamp - 1000 * 60 * 60 * 36)
+            };
+        } else {
+            throw new Error(`Unsupported mode : ${mode}`);
+        }
     }
 
     private static baseHistoryUrl() {
