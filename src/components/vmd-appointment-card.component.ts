@@ -210,11 +210,13 @@ export class VmdAppointmentCardComponent extends LitElement {
                         </div>
                         `:html``}
                     </div>
+                    ${(this.historiqueLieu && this.historiqueLieu.stats.length)?html`
                     <vmd-location-stats-graph class="img-fluid" 
                           color="${this.theme==='chronodose'?'#ed505b':'#5561d9'}" 
                           width="400" height="150"
                           .data="${this.historiqueLieu}" 
                           .dataValueExtractor="${(s:StatHistoriqueLieu) => this.theme==='chronodose'?s.chronodose_appointment_count:s.appointment_count}"></vmd-location-stats-graph>
+                    `:html``}
                 </div>
             </div>
             `);

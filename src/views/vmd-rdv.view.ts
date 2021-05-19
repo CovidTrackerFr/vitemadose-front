@@ -16,7 +16,7 @@ import {
     Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
     LieuxParDepartement, SearchType,
     State,
-    TRIS_CENTRE
+    TRIS_CENTRE, appointmentSlotsFor
 } from "../state/State";
 import {Dates} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
@@ -291,7 +291,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     })
                 }
                 this.lieuxParDepartementAffiches.lieuxAffichables.forEach(lf => {
-                    if(lf.internal_id) {
+                    if(lf.internal_id && this.currentSearch && (appointmentSlotsFor(lf, this.currentSearch.type) || 0) > 0) {
                         State.current.historiqueDuLieu(lf.internal_id).then((historiqueLieu) => {
                             (this.shadowRoot!.querySelector(`vmd-appointment-card[lieuId='${lf.internal_id}']`) as VmdAppointmentCardComponent).updateHistoriqueLieu(historiqueLieu);
                         });

@@ -160,6 +160,9 @@ function transformLieu(rawLieu: any): Lieu {
         vaccine_type: rawLieu.vaccine_type?((rawLieu.vaccine_type.length===undefined?[rawLieu.vaccine_type]:rawLieu.vaccine_type)).join(", "):undefined
     };
 }
+export function appointmentSlotsFor(lieu: Lieu, type: SearchType) {
+    return type==='chronodose'?lieu.appointment_schedules?.find(asc => asc.name==='chronodose')?.total:lieu.appointment_count;
+}
 export type Coordinates = { latitude: number, longitude: number }
 
 export type LieuxParDepartement = {
