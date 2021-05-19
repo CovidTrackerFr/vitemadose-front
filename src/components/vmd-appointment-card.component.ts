@@ -13,7 +13,7 @@ import {
     Lieu,
     LieuAffichableAvecDistance,
     Plateforme,
-    PLATEFORMES,
+    PLATEFORMES, StatHistoriqueLieu,
     typeActionPour,
     TYPES_LIEUX
 } from "../state/State";
@@ -210,7 +210,11 @@ export class VmdAppointmentCardComponent extends LitElement {
                         </div>
                         `:html``}
                     </div>
-                    <vmd-location-stats-graph class="img-fluid" color="${this.theme==='chronodose'?'#ed505b':'#5561d9'}" width="400" height="150" .data="${this.historiqueLieu}"></vmd-location-stats-graph>
+                    <vmd-location-stats-graph class="img-fluid" 
+                          color="${this.theme==='chronodose'?'#ed505b':'#5561d9'}" 
+                          width="400" height="150"
+                          .data="${this.historiqueLieu}" 
+                          .dataValueExtractor="${(s:StatHistoriqueLieu) => this.theme==='chronodose'?s.chronodose_appointment_count:s.appointment_count}"></vmd-location-stats-graph>
                 </div>
             </div>
             `);

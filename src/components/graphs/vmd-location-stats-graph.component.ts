@@ -1,12 +1,13 @@
 import {customElement, property} from 'lit-element';
 import {VmdGraphBaseComponent} from "../vmd-graph.base.component";
 import Chart from "chart.js";
-import {HistoriqueLieu} from "../../state/State";
+import {HistoriqueLieu, StatHistoriqueLieu} from "../../state/State";
 
 @customElement('vmd-location-stats-graph')
 export class VmdLocationStatsGraphComponent extends VmdGraphBaseComponent<any> {
 
     @property() color!: string;
+    @property() dataValueExtractor!: (s: StatHistoriqueLieu) => number;
 
     rebuildGraph(canvas: HTMLCanvasElement, data: HistoriqueLieu): Promise<Chart> {
         return Promise.resolve(
@@ -20,7 +21,7 @@ export class VmdLocationStatsGraphComponent extends VmdGraphBaseComponent<any> {
                             backgroundColor: this.color,
                             // barPercentage: 1.0,
                             // borderWidth: 0,
-                            data: data.stats.map(s => s.chronodose_appointment_count),
+                            data: data.stats.map(s => this.dataValueExtractor(s)),
                         },
                     ]
                 },
