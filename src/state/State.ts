@@ -352,7 +352,10 @@ export class State {
     }
 
     async historiqueDuLieu(lieuInternalId: string): Promise<HistoriqueLieu> {
-        const historiqueLieu: HistoriqueLieu = await fetch(`${Router.basePath}tmp/lieux/${lieuInternalId}.json`).then(resp => resp.json());
+        const urlHistorique = `${Router.basePath}tmp/lieux/${lieuInternalId}.json`;
+        // const urlHistorique = `http://localhost:8001/lieux/${lieuInternalId}.json`;
+
+        const historiqueLieu: HistoriqueLieu = await fetch(urlHistorique, { cache: 'no-cache' }).then(resp => resp.json());
         return historiqueLieu;
     }
 }
