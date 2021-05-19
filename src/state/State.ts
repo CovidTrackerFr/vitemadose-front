@@ -245,23 +245,9 @@ export type StatHistoriqueLieu = {
     chronodose_appointment_count: number|undefined;
 };
 
+export type LieuSansStatsRdv = Omit<Lieu, "appointment_count"|"appointment_schedules"|"prochain_rdv">
 export type HistoriqueLieu = {
-    lieu: {
-        internal_id: string;
-        departement: CodeDepartement;
-        location: Coordinates,
-        nom: string;
-        url: string;
-        appointment_by_phone_only: boolean;
-        plateforme: TypePlateforme;
-        metadata: {
-            address: string;
-            phone_number: string|undefined;
-            business_hours: BusinessHours|undefined
-        },
-        type: TypeLieu;
-        vaccine_type: VaccineType
-    },
+    lieu: LieuSansStatsRdv,
     stats: StatHistoriqueLieu[];
 };
 
@@ -351,11 +337,31 @@ export class State {
       };
     }
 
-    async historiqueDuLieu(lieuInternalId: string): Promise<HistoriqueLieu> {
-        const urlHistorique = `${Router.basePath}tmp/lieux/${lieuInternalId}.json`;
-        // const urlHistorique = `http://localhost:8001/lieux/${lieuInternalId}.json`;
+    private _centresEligiblesChronodose: { expires: ISODateString, centresEligibles: Set<string> } = {
+        expires: new Date(0).toISOString(),
+        centresEligibles: new Set<string>()
+    };
+    async centresEligiblesChronodose(): Promise<Set<string>> {
+        if(Date.parse(this._centresEligiblesChronodose.expires) < Date.now()) {
+            const centresEligibles: Set<string> = new Set((await fetch(`${State.baseHistoryUrl()}/lieux-candidats-chronodose.json`, { cache: 'no-cache' }).then(resp => resp.json())).lieux);
+            this._centresEligiblesChronodose = {
+                expires: new Date(Date.now() + 1000 * 60 * 2).toISOString(),
+                centresEligibles
+            };
+            return centresEligibles;
+        } else {
+            return this._centresEligiblesChronodose.centresEligibles;
+        }
+    }
 
-        const historiqueLieu: HistoriqueLieu = await fetch(urlHistorique, { cache: 'no-cache' }).then(resp => resp.json());
+
+    async historiqueDuLieu(lieuInternalId: string): Promise<HistoriqueLieu> {
+        const historiqueLieu: HistoriqueLieu = await fetch(`${State.baseHistoryUrl()}/lieux/${lieuInternalId}.json`, { cache: 'no-cache' }).then(resp => resp.json());
         return historiqueLieu;
+    }
+
+    private static baseHistoryUrl() {
+        const LOCAL = false;
+        return LOCAL?'http://localhost:8001':`${Router.basePath}tmp`;
     }
 }

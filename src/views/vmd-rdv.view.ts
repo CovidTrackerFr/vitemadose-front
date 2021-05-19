@@ -267,9 +267,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
             try {
                 this.searchInProgress = true;
                 await delay(1) // give some time (one tick) to render loader before doing the heavy lifting
-                const [lieuxDepartement, ...lieuxDepartementsLimitrophes] = await Promise.all([
+                const [centresEligiblesChronodose, lieuxDepartement, lieuxDepartementsLimitrophes] = await Promise.all([
+                    SearchRequest.isChronodoseType(currentSearch)?State.current.centresEligiblesChronodose():Promise.resolve(new Set<string>()),
                     State.current.lieuxPour(codeDepartement),
-                    ...this.codeDepartementAdditionnels(codeDepartement).map(dept => State.current.lieuxPour(dept))
+                    Promise.all(this.codeDepartementAdditionnels(codeDepartement).map(dept => State.current.lieuxPour(dept))),
                 ]);
 
                 const lieuxParDepartement = [lieuxDepartement].concat(lieuxDepartementsLimitrophes).reduce((mergedLieuxParDepartement, lieuxParDepartement) => ({
@@ -287,7 +288,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement, currentSearch);
                 if(SearchRequest.isChronodoseType(this.currentSearch)) {
                     this.lieuxParDepartementAffiches.lieuxAffichables = this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => {
-                        return !l.appointment_by_phone_only
+                        return !l.appointment_by_phone_only && centresEligiblesChronodose.has(l.internal_id)
                     })
                 }
                 this.lieuxParDepartementAffiches.lieuxAffichables.forEach(lf => {
