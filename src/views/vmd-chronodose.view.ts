@@ -21,7 +21,7 @@ export class VmdChronodoseView extends LitElement {
 
             <div class="homeCard-actions">
                 <div class="row justify-content-center justify-content-lg-start mt-5">
-                    <a href="https://vitemadose.covidtracker.fr/" target="_blank" class="col-auto btn btn-primary btn-lg">
+                    <a href="https://vitemadose.covidtracker.fr/" target="_blank" rel="noreferrer" class="col-auto btn btn-primary btn-lg">
                         Accéder à Vite Ma Dose&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
                     </a>
                 </div>
