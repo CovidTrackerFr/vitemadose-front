@@ -2,7 +2,6 @@ import {DateString, ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
-import {Router} from "../routing/Router";
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -371,6 +370,6 @@ export class State {
 
     private static baseHistoryUrl() {
         const LOCAL = false;
-        return LOCAL?'http://localhost:8001':`${Router.basePath}tmp`;
+        return LOCAL?'http://localhost:8001':`https://raw.githubusercontent.com/fcamblor/vmd-histo/published/`;
     }
 }
