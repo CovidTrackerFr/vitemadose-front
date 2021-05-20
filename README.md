@@ -1,5 +1,11 @@
 ![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)
 
+# Contribuer
+
+Merci :) Ton aide est la bienvenue !
+
+Le guide de contribution se trouve dans le fichier [CONTRIBUTING.md](./CONTRIBUTING.md)
+
 # Requirements
 
 You need minimum `node@12` to be able to properly run `ViteJS`
