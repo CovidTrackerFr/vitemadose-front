@@ -52,7 +52,7 @@ Regulièrement, nous mettons en prod le code prêt qui se trouve sur la branche 
   - `git pull --merge origin dev`
   - `git push origin main`
 
-+ Publie la _relase note_ ! elle ajoutera le tag directement depuis github.
++ Publie la _relase note_ ! Le tag git sera ajouté directement depuis Github.
 
 ### Outils pour la rédaction de la release note
 
