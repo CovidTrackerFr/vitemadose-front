@@ -31,7 +31,7 @@ Rien de bien exceptionnel mais voici les quelques points importants :
 
 + Avant de commencer à coder, clone le dépôt, en particulier la branche `dev`
 + Crée une nouvelle branche à partir de cette branche `dev`
-+ Ajoute la nouvelle fonctionnalité, les tests et de petits commits réguliers sont très encouragés
++ Ajoute la nouvelle fonctionnalité ou corrige le bug. Les tests et les petits commits réguliers sont très encouragés.
 + Si tu cherches à résoudre une [issue](https://github.com/CovidTrackerFr/vitemadose-front/issues), pense à indiquer son numéro dans le message de commit
 + Pousse ta branche sur github
 + Ouvre une merge request qui cible la branche `dev`
