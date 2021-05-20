@@ -26,7 +26,7 @@ D'autres dépôt participent au fonctionnement de Vite Ma Dose :
 
 ## Proposer une implémentation de fonctionnalité
 
-Nous fonctionnons par [_Pull Requests._](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests)
+Nous fonctionnons par [_Pull Requests_](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
 Rien de bien exceptionnel mais voici les quelques points importants :
 
 + Avant de commencer à coder, clone le dépôt, en particulier la branche `dev`
