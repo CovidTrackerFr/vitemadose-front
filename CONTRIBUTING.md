@@ -16,7 +16,7 @@ Mais d'abord, quelques indications sur ce que contient ce dépôt :
 + Les ressources (images, logo, etc.) qui sont utilisées exclusivement par cette application
 + Le contenu SEO en relation avec _Vite Ma Dose._
 
-D'autres dépôt participent au fonctionnement de Vite Ma Dose :
+D'autres dépôts participent au fonctionnement de Vite Ma Dose :
 
 + [CovidTrackerFr/vitemadose](https://github.com/CovidTrackerFr/vitemadose) : Le scrapper qui récupère et agrège les données
 + [CovidTrackerFr/vitemadose-android](https://github.com/CovidTrackerFr/vitemadose-android) : L'application Android
