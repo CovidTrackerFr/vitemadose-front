@@ -140,7 +140,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ?
                       html`
-                      <p class="fs-6 text-black-50">
+                      <p class="fs-6 text-gray-600">
                         Dernière mise à jour : il y a
                         ${ formatDistanceToNow(parseISO(this.lieuxParDepartementAffiches!.derniereMiseAJour), { locale: fr }) }
                         ${this.miseAJourDisponible?html`

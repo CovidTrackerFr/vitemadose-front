@@ -46,7 +46,7 @@ export class VmdAppComponent extends LitElement {
                                 <a href="${Router.basePath}apropos">À propos</a>
                             </div>
                             <div class="col-auto border-start">
-                                <a href="https://covidtracker.fr/" target="_blank">CovidTracker&nbsp;<i class="bi vmdicon-arrow-up-right"></i></a>
+                                <a href="https://covidtracker.fr/" target="_blank" rel="noreferrer">CovidTracker&nbsp;<i class="bi vmdicon-arrow-up-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -68,13 +68,13 @@ export class VmdAppComponent extends LitElement {
                 <div class="col-auto">
                     <div class="row">
                         <div class="col-auto">
-                            <a href="https://covidtracker.fr/mentions-legales" target="_blank">Mentions légales</a>
+                            <a href="https://covidtracker.fr/mentions-legales" target="_blank" rel="noreferrer">Mentions légales</a>
                         </div>
                         <div class="col-auto">
-                            <a href="https://covidtracker.fr/contact" target="_blank">Contactez-nous</a>
+                            <a href="https://covidtracker.fr/contact" target="_blank" rel="noreferrer">Contactez-nous</a>
                         </div>
                         <div class="col-auto">
-                            <a href="https://twitter.com/vitemadose_off" target="_blank">Twitter</a>
+                            <a href="https://twitter.com/vitemadose_off" target="_blank" rel="noreferrer">Twitter</a>
                         </div>
                     </div>
                 </div>

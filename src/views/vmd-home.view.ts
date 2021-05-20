@@ -71,7 +71,7 @@ export class VmdHomeView extends LitElement {
             </div>
 
             <div class="platforms mt-5">
-                <h5 class="text-black-50 text-center mb-5">Trouvez vos rendez-vous avec</h5>
+                <h2 class="text-gray-600 text-center mb-5 h5">Trouvez vos rendez-vous avec</h2>
 
                 <div class="row justify-content-center align-items-center">
                   ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
@@ -100,7 +100,7 @@ export class VmdHomeView extends LitElement {
 
                             <div class="homeCard-actions">
                                 <div class="row justify-content-center justify-content-lg-start mt-5">
-                                    <a href="https://covidtracker.fr/vaccintracker/" target="_blank" class="col-auto btn btn-primary btn-lg">
+                                    <a href="https://covidtracker.fr/vaccintracker/" target="_blank" rel="noreferrer" class="col-auto btn btn-primary btn-lg">
                                         Accéder à VaccinTracker&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
                                     </a>
                                 </div>
