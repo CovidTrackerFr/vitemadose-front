@@ -6,7 +6,7 @@ Bonjour ! Bienvenue sur le dépôt de code de l'application web [_Vite Ma Dose_]
 
 C'est ici que se développent les prochaines fonctionnalités à ajouter au front et tu as peut-être
 envie de participer à l'aventure. Nous accueillons ta contribution avec plaisir et ce document
-est là pour t'aider ton code a être intégré le plus vite possible.
+est là pour faciliter ton intégration au sein du projet VMD.
 
 Mais d'abord, quelques indication sur ce que contient ce dépôt :
 
