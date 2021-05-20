@@ -75,7 +75,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             let cardConfig: {
                 highlighted: boolean
                 cardLink:(content: TemplateResult) => TemplateResult,
-                estCliquable: boolean, disabledBG: boolean,
+                disabledBG: boolean,
                 actions: TemplateResult|undefined, libelleDateAbsente: string
             };
             let typeLieu = typeActionPour(this.lieu);
@@ -101,16 +101,15 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                 cardConfig = {
                     highlighted: this.highlightable && !specificCardConfig.disabledBG,
-                    estCliquable: true,
                     disabledBG: specificCardConfig.disabledBG,
                     libelleDateAbsente: specificCardConfig.libelleDateAbsente,
                     cardLink: (content) =>
-                        html`<a href="#" @click="${(e: Event) => { specificCardConfig.onclick(); e.preventDefault(); } }">${content}</a>`,
+                        html`<div>${content}</div>`,
                     actions: html`
-                      <a href="#" @click="${(e: Event) => e.preventDefault()}"
+                      <button type="button" @click="${() => { specificCardConfig.onclick(); } }"
                          class="btn btn-lg ${classMap({ 'btn-primary': specificCardConfig.typeBouton==='btn-primary', 'btn-info': specificCardConfig.typeBouton==='btn-info' })}">
                         ${specificCardConfig.libelleBouton}
-                      </a>
+                      </button>
                       <div class="row align-items-center justify-content-center mt-3 text-black-50">
                         <div class="col-auto">
                           ${this.lieu.appointment_count.toLocaleString()} créneau${Strings.plural(this.lieu.appointment_count, "x")}
@@ -131,13 +130,12 @@ export class VmdAppointmentCardComponent extends LitElement {
             } else if(typeLieu === 'actif-via-tel') {
                 cardConfig = {
                     highlighted: false,
-                    estCliquable: true,
                     disabledBG: false,
                     libelleDateAbsente: 'Réservation tél uniquement',
                     cardLink: (content) => html`
-                          <a href="tel:${this.lieu.metadata.phone_number}">
+                          <div>
                             ${content}
-                          </a>`,
+                          </div>`,
                     actions: html`
                           <a href="tel:${this.lieu.metadata.phone_number}" class="btn btn-tel btn-lg">
                             Appeler le ${Strings.toNormalizedPhoneNumber(this.lieu.metadata.phone_number)}
@@ -147,7 +145,6 @@ export class VmdAppointmentCardComponent extends LitElement {
             } else if(typeLieu === 'inactif') {
                 cardConfig = {
                     highlighted: false,
-                    estCliquable: false,
                     disabledBG: true,
                     libelleDateAbsente: 'Aucun rendez-vous',
                     cardLink: (content) => content,
@@ -159,12 +156,11 @@ export class VmdAppointmentCardComponent extends LitElement {
 
             return cardConfig.cardLink(html`
             <div class="card rounded-3 mb-5  ${classMap({
-              highlighted: cardConfig.highlighted, clickable: cardConfig.estCliquable,
+              highlighted: cardConfig.highlighted,
               'bg-disabled': cardConfig.disabledBG,
               'search-standard': this.theme==='standard',
               'search-chronodose': this.theme==='chronodose'
-                })}"
-                 title="${cardConfig.estCliquable ? this.lieu.url : ''}">
+                })}">
                 ${cardConfig.highlighted?html`
                 <div class="row align-items-center highlight-text">
                   <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses disponibles<i class="bi vmdicon-lightning-charge-fill"></i></span>
