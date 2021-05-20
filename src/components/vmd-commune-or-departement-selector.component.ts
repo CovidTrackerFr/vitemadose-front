@@ -74,7 +74,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
                     id="searchAppointment-searchbar"
                 />
                 ${this.filter?html`
-                <button type="button"aria-label="Effacer la recherche" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>${SVG_CLOSE_ICON}</span></button>
+                <button type="button" aria-label="Effacer la recherche" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>${SVG_CLOSE_ICON}</span></button>
                 `:html``}
                 ${this.recupérationEnCours ? html`
                 <div class="spinner-border text-primary" role="status">
