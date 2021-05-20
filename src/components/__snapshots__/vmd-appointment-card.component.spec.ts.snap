@@ -33,15 +33,12 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
-                  
-            Jeudi 12 Août
-            à 02:00
-        
+                  Jeudi 12 Août à 00:00
                   
                               
                   <small
@@ -53,7 +50,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -74,7 +71,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -85,11 +82,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -134,6 +133,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -153,6 +153,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -193,12 +194,12 @@ ShadowRoot {
                 
                       
                 <div
-                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                  class="row align-items-center justify-content-center mt-3 text-gray-700"
                 >
                   
                         
                   <div
-                    class="col-auto"
+                    class="col-auto text-description"
                   >
                     
                           
@@ -300,15 +301,12 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
-                  
-            Jeudi 12 Août
-            à 02:00
-        
+                  Jeudi 12 Août à 00:00
                   
                               
                   <small
@@ -320,7 +318,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -341,7 +339,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -352,11 +350,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -402,6 +402,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -421,6 +422,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -523,15 +525,12 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
-                  
-            Jeudi 12 Août
-            à 02:00
-        
+                  Jeudi 12 Août à 00:00
                   
                               
                   <small
@@ -543,7 +542,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -564,7 +563,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -575,11 +574,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -624,6 +625,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -643,6 +645,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -683,12 +686,12 @@ ShadowRoot {
                 
                       
                 <div
-                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                  class="row align-items-center justify-content-center mt-3 text-gray-700"
                 >
                   
                         
                   <div
-                    class="col-auto"
+                    class="col-auto text-description"
                   >
                     
                           
@@ -789,15 +792,12 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
-                  
-            Jeudi 12 Août
-            à 02:00
-        
+                  Jeudi 12 Août à 00:00
                   
                               
                   <small
@@ -809,7 +809,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -830,7 +830,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -841,11 +841,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -890,6 +892,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -909,6 +912,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -949,12 +953,12 @@ ShadowRoot {
                 
                       
                 <div
-                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                  class="row align-items-center justify-content-center mt-3 text-gray-700"
                 >
                   
                         
                   <div
-                    class="col-auto"
+                    class="col-auto text-description"
                   >
                     
                           
@@ -1055,15 +1059,12 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
-                  
-            Jeudi 12 Août
-            à 02:00
-        
+                  Jeudi 12 Août à 00:00
                   
                               
                   <small
@@ -1075,7 +1076,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -1096,7 +1097,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -1107,11 +1108,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -1156,6 +1159,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -1175,6 +1179,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -1215,12 +1220,12 @@ ShadowRoot {
                 
                       
                 <div
-                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                  class="row align-items-center justify-content-center mt-3 text-gray-700"
                 >
                   
                         
                   <div
-                    class="col-auto"
+                    class="col-auto text-description"
                   >
                     
                           
@@ -1339,8 +1344,8 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
@@ -1356,7 +1361,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -1377,7 +1382,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -1388,11 +1393,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -1437,6 +1444,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -1456,6 +1464,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -1496,12 +1505,12 @@ ShadowRoot {
                 
                       
                 <div
-                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                  class="row align-items-center justify-content-center mt-3 text-gray-700"
                 >
                   
                         
                   <div
-                    class="col-auto"
+                    class="col-auto text-description"
                   >
                     
                           
@@ -1602,15 +1611,12 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
-                  
-            Jeudi 12 Août
-            à 02:00
-        
+                  Jeudi 12 Août à 00:00
                   
                               
                   <small
@@ -1622,7 +1628,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -1643,7 +1649,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -1654,11 +1660,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -1703,6 +1711,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -1722,6 +1731,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -1762,12 +1772,12 @@ ShadowRoot {
                 
                       
                 <div
-                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                  class="row align-items-center justify-content-center mt-3 text-gray-700"
                 >
                   
                         
                   <div
-                    class="col-auto"
+                    class="col-auto text-description"
                   >
                     
                           
@@ -1869,15 +1879,12 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
-                  
-            Jeudi 12 Août
-            à 02:00
-        
+                  Jeudi 12 Août à 00:00
                   
                               
                   <small
@@ -1889,7 +1896,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -1910,7 +1917,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -1921,11 +1928,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -1971,6 +1980,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -1990,6 +2000,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -2092,15 +2103,12 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
-                  
-            Jeudi 12 Août
-            à 02:00
-        
+                  Jeudi 12 Août à 00:00
                   
                               
                   <small
@@ -2112,7 +2120,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -2133,7 +2141,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -2144,11 +2152,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -2193,6 +2203,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -2212,6 +2223,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -2252,12 +2264,12 @@ ShadowRoot {
                 
                       
                 <div
-                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                  class="row align-items-center justify-content-center mt-3 text-gray-700"
                 >
                   
                         
                   <div
-                    class="col-auto"
+                    class="col-auto text-description"
                   >
                     
                           
@@ -2358,15 +2370,12 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
-                  
-            Jeudi 12 Août
-            à 02:00
-        
+                  Jeudi 12 Août à 00:00
                   
                               
                   <small
@@ -2378,7 +2387,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -2399,7 +2408,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -2410,11 +2419,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -2459,6 +2470,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -2478,6 +2490,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -2518,12 +2531,12 @@ ShadowRoot {
                 
                       
                 <div
-                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                  class="row align-items-center justify-content-center mt-3 text-gray-700"
                 >
                   
                         
                   <div
-                    class="col-auto"
+                    class="col-auto text-description"
                   >
                     
                           
@@ -2624,15 +2637,12 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
-                  
-            Jeudi 12 Août
-            à 02:00
-        
+                  Jeudi 12 Août à 00:00
                   
                               
                   <small
@@ -2644,7 +2654,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -2665,7 +2675,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -2676,11 +2686,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -2725,6 +2737,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -2744,6 +2757,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -2784,12 +2798,12 @@ ShadowRoot {
                 
                       
                 <div
-                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                  class="row align-items-center justify-content-center mt-3 text-gray-700"
                 >
                   
                         
                   <div
-                    class="col-auto"
+                    class="col-auto text-description"
                   >
                     
                           
@@ -2886,8 +2900,8 @@ ShadowRoot {
               >
                 
                             
-                <h5
-                  class="card-title"
+                <h3
+                  class="card-title h5"
                 >
                   
                               
@@ -2903,7 +2917,7 @@ ShadowRoot {
                   </small>
                   
                             
-                </h5>
+                </h3>
                 
                             
                 <div
@@ -2924,7 +2938,7 @@ ShadowRoot {
                       
                                   
                       <span
-                        class="fw-bold text-dark"
+                        class="fw-bold"
                       >
                         <!---->
                         Chez Huguette
@@ -2935,11 +2949,13 @@ ShadowRoot {
                       <br />
                       
                                   
-                      <em>
+                      <span
+                        class="text-description"
+                      >
                         <!---->
                         123 rue Bidon
                         <!---->
-                      </em>
+                      </span>
                       
                                 
                     </div>
@@ -2984,6 +3000,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -3003,6 +3020,7 @@ ShadowRoot {
                     
                                 
                     <span
+                      class="text-description"
                       slot="content"
                     >
                       <!---->
@@ -3043,12 +3061,12 @@ ShadowRoot {
                 
                       
                 <div
-                  class="row align-items-center justify-content-center mt-3 text-black-50"
+                  class="row align-items-center justify-content-center mt-3 text-gray-700"
                 >
                   
                         
                   <div
-                    class="col-auto"
+                    class="col-auto text-description"
                   >
                     
                           
