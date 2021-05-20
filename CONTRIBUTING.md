@@ -8,7 +8,7 @@ C'est ici que se développent les prochaines fonctionnalités à ajouter au fron
 envie de participer à l'aventure. Nous accueillons ta contribution avec plaisir et ce document
 est là pour faciliter ton intégration au sein du projet VMD.
 
-Mais d'abord, quelques indication sur ce que contient ce dépôt :
+Mais d'abord, quelques indications sur ce que contient ce dépôt :
 
 + l'application web type [SPA](https://fr.wikipedia.org/wiki/Application_web_monopage) développée avec
   des composants [lit-elements](https://lit-element.polymer-project.org/guide/templates), [lit-html](https://lit-html.polymer-project.org/guide)
