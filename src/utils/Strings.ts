@@ -1,5 +1,4 @@
 
-
 export class Strings {
     public static padLeft(value: number, size: number, filler: string) {
         const padSize = size - (""+value).length;
@@ -12,6 +11,7 @@ export class Strings {
         return (value && value>1)?pluralForm:'';
     }
 
+    // FIXME move to dedicated component
     static toNormalizedPhoneNumber(phoneNumber: string|undefined) {
         if(phoneNumber === undefined) {
             return undefined;
@@ -36,6 +36,7 @@ export class Strings {
         return normalizedPhoneNumber;
     }
 
+    // FIXME move to router
     public static toReadableURLPathValue(value: string) {
         return value.toLowerCase()
             .replace(/[-\s']/gi, "_")
@@ -51,8 +52,9 @@ export class Strings {
 
     public static toFullTextSearchableString(value: string) {
         // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
-        // function here, than the one used in communes-import.js tooling
-        return value.toLowerCase()
+        // function here, than the one used in communes-import.ts tooling
+        // Hence its extraction into a reusable/shareable mjs file
+        return value.toLowerCase().trim()
             .replace(/[-\s']/gi, "_")
             .replace(/[èéëêêéè]/gi, "e")
             .replace(/[áàâäãåâà]/gi, "a")

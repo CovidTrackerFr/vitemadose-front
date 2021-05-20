@@ -1,9 +1,4 @@
-import {
-    css,
-    customElement,
-    html,
-    LitElement,
-    property, PropertyValues, query,
+import {css, customElement, html, LitElement, internalProperty, property, PropertyValues, query,
     unsafeCSS
 } from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
@@ -12,10 +7,10 @@ import {Router} from "../routing/Router";
 import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
 import {
+    SearchRequest,
     CodeDepartement,
     CodeTriCentre,
     Commune,
-    Departement,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
     Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
@@ -23,18 +18,17 @@ import {
     State,
     TRIS_CENTRE
 } from "../state/State";
-import {Dates} from "../utils/Dates";
+import { formatDistanceToNow, parseISO } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import {Strings} from "../utils/Strings";
 import {
     ValueStrCustomEvent,
-    AutocompleteTriggered,
-    CommuneSelected, DepartementSelected, VmdCommuneOrDepartmentSelectorComponent
 } from "../components/vmd-commune-or-departement-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
-import {setDebouncedInterval} from "../utils/Schedulers";
+import {setDebouncedInterval, delay } from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
@@ -45,6 +39,7 @@ const MAX_DISTANCE_CENTRE_IN_KM = 100;
 const MAX_CENTER_RESULTS_COUNT = 180;
 
 export abstract class AbstractVmdRdvView extends LitElement {
+    DELAI_VERIFICATION_MISE_A_JOUR = 45000
 
     //language=css
     static styles = [
@@ -54,63 +49,15 @@ export abstract class AbstractVmdRdvView extends LitElement {
         `
     ];
 
-    @property({type: String}) codeDepartementSelectionne: CodeDepartement | undefined = undefined;
-    @property({type: String}) searchType: SearchType = "standard";
-
-    @property({type: Array, attribute: false}) communesAutocomplete: Set<string>|undefined = undefined;
-    @property({type: Array, attribute: false}) recuperationCommunesEnCours: boolean = false;
-
-    @property({type: Array, attribute: false}) communesDisponibles: Commune[]|undefined = undefined;
-    @property({type: Array, attribute: false}) departementsDisponibles: Departement[] = [];
-
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
+    @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
     @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
-    protected lieuBackgroundRefreshIntervalId: number|undefined = undefined;
-
-
-    get communeSelectionnee(): Commune|undefined {
-        if(this.derniereCommuneSelectionnee) {
-            return this.derniereCommuneSelectionnee;
-        }
-
-        // Calling a non-getter as getter overriden methods don't seem to be able to call
-        // super.departementSelectionne
-        return this.getCommuneSelectionnee();
-    }
-
-    get departementSelectionne(): Departement|undefined {
-        // Calling a non-getter as getter overriden methods don't seem to be able to call
-        // super.departementSelectionne
-        return this.getDepartementSelectionne();
-    }
-
-    resetCommuneSelectionneeTo(commune: Commune|undefined) {
-        this.derniereCommuneSelectionnee = commune;
-    }
-
-    protected getDepartementSelectionne(): Departement|undefined {
-        if(this.codeDepartementSelectionne && this.departementsDisponibles) {
-            return this.departementsDisponibles.find(d => this.codeDepartementSelectionne === d.code_departement);
-        }
-
-        return undefined;
-    }
-
-    protected getCodeCommuneSelectionne(): string|undefined {
-        if(!this.communeSelectionnee) {
-            return undefined;
-        }
-        return this.communeSelectionnee.code;
-    }
-
-    protected getCommuneSelectionnee(): Commune|undefined {
-        return undefined;
-    }
+    protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
 
     get totalCreneaux() {
         if (!this.lieuxParDepartementAffiches) {
@@ -121,94 +68,56 @@ export abstract class AbstractVmdRdvView extends LitElement {
             .reduce((total, lieu) => total+lieu.appointment_count, 0);
     }
 
-    async communeAutocompleteTriggered(autocomplete: string) {
-        this.recuperationCommunesEnCours = true;
-        this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, autocomplete);
-        this.recuperationCommunesEnCours = false;
-        this.requestUpdate('communesDisponibles')
+    protected beforeNewSearchFromLocation (search: SearchRequest): SearchRequest {
+      return search
     }
 
-    async communeSelected(commune: Commune, triggerNavigation: boolean): Promise<void> {
-        if(!this.communeSelectionnee) {
-            this.derniereCommuneSelectionnee = commune;
-
-            const departement = this.departementsDisponibles.find(d => d.code_departement === commune.codeDepartement);
-            Router.navigateToRendezVousAvecCommune('distance',
-                commune.codeDepartement,
-                libelleUrlPathDuDepartement(departement!),
-                commune.code,
-                commune.codePostal,
-                libelleUrlPathDeCommune(commune),
-                this.searchType
-            );
-            return;
-        }
-
-        if(`${this.communeSelectionnee.code}-${this.communeSelectionnee.codePostal}` !== `${commune.code}-${commune.codePostal}` || this.codeDepartementSelectionne !== commune.codeDepartement) {
-            this.codeDepartementSelectionne = commune.codeDepartement;
-            this.resetCommuneSelectionneeTo(commune);
-
-            if(triggerNavigation) {
-                this.refreshPageWhenValidParams();
-            }
-        }
-
-        return Promise.resolve();
+    async onSearchSelected (event: CustomEvent<SearchRequest>) {
+      const search = event.detail
+      this.goToNewSearch(this.beforeNewSearchFromLocation(search))
     }
 
-    async departementSelected(departement: Departement, triggerNavigation: boolean): Promise<void> {
-        if(this.communeSelectionnee) {
-            Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement), this.searchType);
-            return;
-        }
-
-        if(departement.code_departement !== this.codeDepartementSelectionne) {
-            this.codeDepartementSelectionne = departement.code_departement;
-
-            if(triggerNavigation) {
-                this.refreshPageWhenValidParams();
-            }
-        }
-
-        return Promise.resolve();
+    protected async goToNewSearch (search: SearchRequest) {
+      if (SearchRequest.isByDepartement(search)) {
+        Router.navigateToRendezVousAvecDepartement(search.departement.code_departement, libelleUrlPathDuDepartement(search.departement), search.type);
+      } else {
+        const departements = await State.current.departementsDisponibles()
+        const departement = departements.find(d => d.code_departement === search.commune.codeDepartement);
+        const commune = search.commune
+        Router.navigateToRendezVousAvecCommune(search.tri, commune.codeDepartement,
+          libelleUrlPathDuDepartement(departement!), commune.code, commune.codePostal, libelleUrlPathDeCommune(commune), search.type)
+      }
     }
 
     render() {
         const lieuxDisponibles = (this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxAffichables)?
             this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => {
-                if(this.searchType === 'chronodose') {
+                if(this.currentSearch && SearchRequest.isChronodoseType(this.currentSearch)) {
                     return l.appointment_count > 0;
-                } else /* if(this.searchType === 'standard') */ {
+                } else /* if(this.currentSearch && SearchRequest.isStandardType(this.currentSearch)) */ {
                     return l.disponible;
                 }
             }):[];
 
         return html`
-            <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'bg-std': this.searchType==='standard', 'bg-chronodose': this.searchType==='chronodose'})}">
+            <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'bg-std': SearchRequest.isStandardType(this.currentSearch), 'bg-chronodose': SearchRequest.isChronodoseType(this.currentSearch)})}">
               <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
-                <li role="button" tabindex="0" class="col bg-std text-std tab ${classMap({selected: this.searchType==='standard'})}" 
+                <li role="button" tabindex="0" class="col bg-std text-std tab ${classMap({selected: SearchRequest.isStandardType(this.currentSearch)})}" 
                     @click="${() => this.updateSearchTypeTo('standard')}"  
                     @keydown="${(e:KeyboardEvent) => e.key === 'Enter' && this.updateSearchTypeTo('standard')}">
                   Tous les créneaux
                 </li>
-                <li role="button" tabindex="0" class="col bg-chronodose text-chronodose tab ${classMap({selected: this.searchType==='chronodose'})}" 
+                <li role="button" tabindex="0" class="col bg-chronodose text-chronodose tab ${classMap({selected: SearchRequest.isChronodoseType(this.currentSearch)})}"
                     @click="${() => this.updateSearchTypeTo('chronodose')}"  
                     @keydown="${(e:KeyboardEvent) => e.key === 'Enter' && this.updateSearchTypeTo('chronodose')}">
                   <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses uniquement</span>
                 </li>
               </ul>
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
-                    <vmd-commune-or-departement-selector class="mb-3"
-                            @autocomplete-triggered="${(event: CustomEvent<AutocompleteTriggered>) => this.communeAutocompleteTriggered(event.detail.value)}"
-                            @on-commune-selected="${(event: CustomEvent<CommuneSelected>) => this.communeSelected(event.detail.commune, true)}"
-                            @on-departement-selected="${(event: CustomEvent<DepartementSelected>) => this.departementSelected(event.detail.departement, true)}"
-                            codeCommuneSelectionne="${this.getCodeCommuneSelectionne()}"
-                            .departementsDisponibles="${this.departementsDisponibles}"
-                            .autocompleteTriggers="${this.communesAutocomplete}"
-                            .communesDisponibles="${this.communesDisponibles}"
-                            .recuperationCommunesEnCours="${this.recuperationCommunesEnCours}"
-                    >
-                    </vmd-commune-or-departement-selector>
+                    <vmd-search
+                          .value="${this.currentSearch}"
+                          @on-search="${this.onSearchSelected}"
+                        />
                 </div>
                 ${this.renderAdditionnalSearchCriteria()}
             </div>
@@ -221,9 +130,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </div>
               </div>
             `:html`
-                <h3 class="fw-normal text-center h4 ${classMap({ 'search-chronodose': this.searchType==='chronodose', 'search-standard': this.searchType==='standard' })}"
-                    style="${styleMap({display: (this.codeDepartementSelectionne) ? 'block' : 'none'})}">
-                    ${this.searchType==='chronodose'
+                <h3 class="fw-normal text-center h4 ${classMap({ 'search-chronodose': SearchRequest.isChronodoseType(this.currentSearch), 'search-standard': SearchRequest.isStandardType(this.currentSearch) })}"
+                    style="${styleMap({display: (this.lieuxParDepartementAffiches) ? 'block' : 'none'})}">
+                    ${SearchRequest.isChronodoseType(this.currentSearch)
                         ? `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} chronodose${Strings.plural(this.totalCreneaux)} trouvé${Strings.plural(this.totalCreneaux)}`
                         : `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}`
                     }
@@ -231,15 +140,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ?
                       html`
-                      <span class="fs-6 text-black-50">
+                      <p class="fs-6 text-black-50">
                         Dernière mise à jour : il y a
-                        ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}
+                        ${ formatDistanceToNow(parseISO(this.lieuxParDepartementAffiches!.derniereMiseAJour), { locale: fr }) }
                         ${this.miseAJourDisponible?html`
-                          <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; }}">Rafraîchir</button>
+                          <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; this.launchCheckingUpdates() }}">Rafraîchir</button>
                         `:html``}
-                      </span>`
-                      : html``}
-                </h3>
+                      </p>
+                      <p class="alert alert-warning fs-6">
+                          <i class="bi vmdicon-attention-fill"></i>
+                          Les plateformes sont très sollicitées, les données affichées par Vite Ma Dose peuvent avoir jusqu'à 30 minutes de retard pour Doctolib.
+                      </p>
+                        `
+                        : html``}
+                  </h3>
 
                 <div class="spacer mt-5 mb-5"></div>
                 <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
@@ -247,13 +161,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${lieuxDisponibles.length} Lieu${Strings.plural(lieuxDisponibles.length, 'x')} de vaccination avec des ${this.searchType==='chronodose' ? 'chronodoses' : 'disponibilités'}
+                                ${lieuxDisponibles.length} Lieu${Strings.plural(lieuxDisponibles.length, 'x')} de vaccination avec des ${SearchRequest.isChronodoseType(this.currentSearch) ? 'chronodoses' : 'disponibilités'}
                             </span>
                         </h2>
                     ` : html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                           <i class="bi vmdicon-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
-                          Aucun créneau ${this.searchType==='chronodose' ? 'chronodose' : 'de vaccination'} trouvé
+                          Aucun créneau ${SearchRequest.isChronodoseType(this.currentSearch) ? 'chronodose' : 'de vaccination'} trouvé
                         </h2>
                         <div class="mb-5 container-content">
                           <p class="fst-italic">Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
@@ -261,15 +175,15 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           <p class="fst-italic">Nous vous recommandons toutefois de vérifier manuellement
                             les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
                             Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.
-                            ${this.searchType === 'chronodose' ? html`
+                            ${SearchRequest.isChronodoseType(this.currentSearch) ? html`
                                     Si vous êtes déjà éligible, vous pouvez <a class="text-decoration-underline" href="${this.getStandardResultsLink()}"">consulter les créneaux classiques</a>.
-                                `:``}
+                            `:``}
                           </p>
-                          <p class="fst-italic">Pour recevoir une notification quand de nouveaux créneaux seront disponibles, 
+                          <p class="fst-italic">Pour recevoir une notification quand de nouveaux créneaux seront disponibles,
                             nous vous invitons à utiliser les applications mobiles “Vite Ma Dose !” pour
                             <u><a href="https://play.google.com/store/apps/details?id=com.cvtracker.vmd2" target="_blank" rel="noopener">Android</a></u>
                             et <u><a href="http://apple.co/3dFMGy3" target="_blank" rel="noopener">iPhone</a></u>.
-                          </p>                            
+                          </p>
                         </div>
                     `}
 
@@ -277,14 +191,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         return html`<vmd-appointment-card
                             style="--list-index: ${index}"
                             .lieu="${lieu}"
-                            theme="${this.searchType}"
-                            .highlightable="${this.searchType === 'chronodose'}"
+                            theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
+                            .highlightable="${SearchRequest.isChronodoseType(this.currentSearch)}"
                             @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
                         />`;
                     })}
                 </div>
-                ${this.searchType==='standard'?html`
+                ${SearchRequest.isStandardType(this.currentSearch)?html`
                 <div class="eligibility-criteria fade-in-then-fade-out">
                     <p>Les critères d'éligibilité sont vérifiés lors de la prise de rendez-vous</p>
                 </div>`:html``}
@@ -300,54 +214,63 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
 
-    abstract onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void>
-
-    async onceStartupPromiseResolved() {
-        // to be overriden
-    }
 
     async connectedCallback() {
         super.connectedCallback();
-
-        await Promise.all([
-            State.current.departementsDisponibles(),
-            State.current.communeAutocompleteTriggers(Router.basePath)
-        ]).then(async ([departementsDisponibles, autocompletes]: [Departement[], string[]]) => {
-            this.departementsDisponibles = departementsDisponibles;
-
-            this.communesAutocomplete = new Set(autocompletes);
-            await this.onCommuneAutocompleteLoaded(this.communesAutocomplete);
-        });
-
-        await this.onceStartupPromiseResolved();
-        await this.refreshLieux();
-
-        this.lieuBackgroundRefreshIntervalId = setDebouncedInterval(async () => {
-            if(this.codeDepartementSelectionne) {
-                const derniereMiseAJour = this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.derniereMiseAJour:undefined;
-                const lieuxAJourPourDepartement = await State.current.lieuxPour(this.codeDepartementSelectionne, true)
-                this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
-
-                // Used only to refresh derniereMiseAJour's displayed relative time
-                await this.requestUpdate();
-            }
-        }, 45000);
+        this.launchCheckingUpdates();
     }
 
-    preventRafraichissementLieux(): boolean {
-        // overridable
-        return false;
+    disconnectedCallback() {
+        super.disconnectedCallback();
+
+        this.stopCheckingUpdates();
+    }
+
+    stopCheckingUpdates() {
+        if(this.lieuBackgroundRefreshIntervalId) {
+            clearInterval(this.lieuBackgroundRefreshIntervalId);
+            this.lieuBackgroundRefreshIntervalId = undefined;
+        }
+    }
+
+    launchCheckingUpdates() {
+        if(this.lieuBackgroundRefreshIntervalId === undefined) {
+            this.lieuBackgroundRefreshIntervalId = setDebouncedInterval(async () => {
+                const currentSearch = this.currentSearch
+                if (currentSearch) {
+                    const codeDepartement = SearchRequest.isByDepartement(currentSearch)
+                        ? currentSearch.departement.code_departement
+                        : currentSearch.commune.codeDepartement
+                    const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
+                    const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement)
+                    this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
+
+                    // we stop the update check if there has been one
+                    if (this.miseAJourDisponible) {
+                        this.stopCheckingUpdates();
+                    }
+                    // Used only to refresh derniereMiseAJour's displayed relative time
+                    await this.requestUpdate();
+                }
+            }, this.DELAI_VERIFICATION_MISE_A_JOUR);
+        }
     }
 
     abstract codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[]
 
     async refreshLieux() {
-        if(this.codeDepartementSelectionne && !this.preventRafraichissementLieux()) {
+        const currentSearch = this.currentSearch
+        if(currentSearch) {
+            // FIXME move all of this to testable file
+            const codeDepartement = SearchRequest.isByDepartement(currentSearch)
+              ? currentSearch.departement.code_departement
+              : currentSearch.commune.codeDepartement
             try {
                 this.searchInProgress = true;
+                await delay(1) // give some time (one tick) to render loader before doing the heavy lifting
                 const [lieuxDepartement, ...lieuxDepartementsLimitrophes] = await Promise.all([
-                    State.current.lieuxPour(this.codeDepartementSelectionne),
-                    ...this.codeDepartementAdditionnels(this.codeDepartementSelectionne).map(dept => State.current.lieuxPour(dept))
+                    State.current.lieuxPour(codeDepartement),
+                    ...this.codeDepartementAdditionnels(codeDepartement).map(dept => State.current.lieuxPour(dept))
                 ]);
 
                 const lieuxParDepartement = [lieuxDepartement].concat(lieuxDepartementsLimitrophes).reduce((mergedLieuxParDepartement, lieuxParDepartement) => ({
@@ -362,18 +285,19 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     lieuxIndisponibles: []
                 } as LieuxParDepartement);
 
-                this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement);
-                if(this.searchType === 'chronodose') {
+                this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement, currentSearch);
+                if(SearchRequest.isChronodoseType(this.currentSearch)) {
                     this.lieuxParDepartementAffiches.lieuxAffichables = this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => {
                         return !l.appointment_by_phone_only
                     })
                 }
 
+                const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
-                    this.codeDepartementSelectionne,
+                    codeDepartement,
                     this.currentCritereTri(),
-                    this.searchType,
-                    this.communeSelectionnee,
+                    currentSearch.type,
+                    commune,
                     this.lieuxParDepartementAffiches);
             } finally {
                 this.searchInProgress = false;
@@ -383,50 +307,23 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
 
-    disconnectedCallback() {
-        super.disconnectedCallback();
-
-        if(this.lieuBackgroundRefreshIntervalId) {
-            clearInterval(this.lieuBackgroundRefreshIntervalId);
-            this.lieuBackgroundRefreshIntervalId = undefined;
-        }
-    }
-
-    _onRefreshPageWhenValidParams(): "return"|"continue" {
-        // To be overriden
-
-        return "continue";
-    }
-
-    protected refreshPageWhenValidParams() {
-        this.refreshLieux();
-
-        if(this._onRefreshPageWhenValidParams() === 'return') {
-            return;
-        }
-
-        if (this.codeDepartementSelectionne) {
-            Router.navigateToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!), this.searchType);
-        }
-    }
-
     private getStandardResultsLink() {
-        if (this.codeDepartementSelectionne) {
-            return Router.getLinkToRendezVousAvecDepartement(this.codeDepartementSelectionne, libelleUrlPathDuDepartement(this.departementSelectionne!), 'standard');
+        if (this.currentSearch && SearchRequest.isByDepartement(this.currentSearch)) {
+            return Router.getLinkToRendezVousAvecDepartement(this.currentSearch.departement.code_departement, libelleUrlPathDuDepartement(this.currentSearch.departement!), 'standard');
         }
         return ;
     }
 
     private prendreRdv(lieu: Lieu) {
-        if(lieu.url) {
-            Analytics.INSTANCE.clickSurRdv(lieu, this.currentCritereTri(), this.searchType, this.communeSelectionnee);
+        if(this.currentSearch && SearchRequest.isByCommune(this.currentSearch) && lieu.url) {
+            Analytics.INSTANCE.clickSurRdv(lieu, this.currentCritereTri(), this.currentSearch.type, this.currentSearch.commune);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
 
     private verifierRdv(lieu: Lieu) {
-        if(lieu.url) {
-            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentCritereTri(), this.searchType, this.communeSelectionnee);
+        if(this.currentSearch && SearchRequest.isByCommune(this.currentSearch) && lieu.url) {
+            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentCritereTri(), this.currentSearch.type, this.currentSearch.commune);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
@@ -435,6 +332,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return html``;
     }
 
+    // FIXME move me to testable files
     protected extraireFormuleDeTri(lieu: LieuAffichableAvecDistance, tri: CodeTriCentre) {
         if(tri === 'date') {
             let firstLevelSort;
@@ -467,13 +365,15 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     protected updateSearchTypeTo(searchType: SearchType) {
-        this.searchType = searchType;
-
-        this.refreshPageWhenValidParams();
+        if(this.currentSearch) {
+            this.goToNewSearch({
+                ...this.currentSearch, type: searchType
+            });
+        }
     }
 
     protected transformLieuEnFonctionDuTypeDeRecherche(lieu: LieuAffichableAvecDistance) {
-        if(this.searchType === 'chronodose') {
+        if(SearchRequest.isChronodoseType(this.currentSearch)) {
             return {...lieu, appointment_count: ((!lieu.appointment_schedules?.length)?[]:lieu.appointment_schedules)?.find(s => s.name === 'chronodose')?.total || 0 };
         } else /* if(this.searchType === 'standard') */ {
             return lieu;
@@ -482,120 +382,73 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     abstract currentCritereTri(): CodeTriCentre;
     abstract libelleLieuSelectionne(): TemplateResult;
-    abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement;
-
+    // FIXME move me to a testable file
+    abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement, search: SearchRequest): LieuxAvecDistanceParDepartement;
 }
 
 @customElement('vmd-rdv-par-commune')
 export class VmdRdvParCommuneView extends AbstractVmdRdvView {
-    @property({type: String}) codeCommuneSelectionne: string | undefined = undefined;
-    @property({type: String}) codePostalSelectionne: string | undefined = undefined;
+    @internalProperty() protected currentSearch: SearchRequest.ByCommune | void = undefined
+    @property({type: String}) set searchType(type: SearchType) {
+      this._searchType = type
+      this.updateCurrentSearch()
+    }
+    @property({type: String}) set codeCommuneSelectionne(code: string) {
+      this._codeCommuneSelectionne = code
+      this.updateCurrentSearch()
+    }
+    @property({type: String}) set codePostalSelectionne (code: string) {
+      this._codePostalSelectionne = code
+      this.updateCurrentSearch()
+    }
+    @property({type: String}) set critèreDeTri (critèreDeTri: 'date' | 'distance') {
+      this._critèreDeTri = critèreDeTri
+      this.updateCurrentSearch()
+    }
 
-    @property({type: String}) critèreDeTri: CodeTriCentre = 'distance'
+    @internalProperty() private _searchType: SearchType | undefined = undefined;
+    @internalProperty() private _codeCommuneSelectionne: string | undefined = undefined;
+    @internalProperty() private _codePostalSelectionne: string | undefined = undefined;
+    @internalProperty() private _critèreDeTri: CodeTriCentre = 'distance'
+    private currentSearchMarker = {}
 
-    preventRafraichissementLieux() {
-        return !this.communeSelectionnee;
+    private async updateCurrentSearch() {
+      if (this._codeCommuneSelectionne && this._codePostalSelectionne && this._critèreDeTri && this._searchType) {
+        const marker = {}
+        this.currentSearchMarker = marker
+        await delay(20)
+        if (this.currentSearchMarker !== marker) { return }
+        const commune = await State.current.autocomplete.findCommune(this._codePostalSelectionne, this._codeCommuneSelectionne)
+        if (commune) {
+          this.currentSearch = SearchRequest.ByCommune(commune, this._critèreDeTri, this._searchType)
+          this.refreshLieux()
+        }
+      }
     }
 
     codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement) {
         return DEPARTEMENTS_LIMITROPHES[codeDepartementSelectionne];
     }
 
-    protected getDepartementSelectionne(): Departement|undefined {
-        let communeSelectionnee = this.communeSelectionnee;
-        if(communeSelectionnee && this.departementsDisponibles) {
-            return this.departementsDisponibles.find(d => communeSelectionnee!.codeDepartement === d.code_departement);
-        }
-
-        return super.getDepartementSelectionne();
-    }
-
-    _onRefreshPageWhenValidParams() {
-        // To be overriden
-        if(this.departementSelectionne && this.communeSelectionnee && this.codePostalSelectionne) {
-            Router.navigateToRendezVousAvecCommune(this.critèreDeTri, this.departementSelectionne.code_departement, libelleUrlPathDuDepartement(this.departementSelectionne), this.communeSelectionnee.code, this.communeSelectionnee.codePostal, libelleUrlPathDeCommune(this.communeSelectionnee), this.searchType);
-            return 'return';
-        }
-
-        return 'continue';
-    }
-
-
     libelleLieuSelectionne(): TemplateResult {
+        let nom = '???'
+        if (this.currentSearch) {
+          const commune = this.currentSearch.commune
+          nom = `${commune.nom} (${commune.codePostal})`
+        }
         return html`
           autour de
-          <span class="fw-bold">${this.communeSelectionnee?`${this.communeSelectionnee.nom} (${this.communeSelectionnee.codePostal})`:"???"}
-          </span>
+          <span class="fw-bold">${nom}</span>
         `
     }
 
-    async onCommuneAutocompleteLoaded(autocompletes: Set<string>): Promise<void> {
-        if(this.codePostalSelectionne && this.codeCommuneSelectionne) {
-            let codePostalSelectionne = this.codePostalSelectionne;
-            await this.refreshBasedOnCodePostalSelectionne(autocompletes, codePostalSelectionne);
-        }
-    }
+    // FIXME move me to testable file
+    afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement, search: SearchRequest.ByCommune): LieuxAvecDistanceParDepartement {
+        const origin = search.commune
+        const distanceAvec = (lieu: Lieu) => (lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity)
 
-    private async refreshBasedOnCodePostalSelectionne(autocompletes: Set<string>, codePostalSelectionne: string) {
-        const autoCompleteCodePostal = this.getAutoCompleteCodePostal(autocompletes, codePostalSelectionne);
-        if (!autoCompleteCodePostal) {
-            console.error(`Can't find autocomplete matching codepostal ${codePostalSelectionne}`);
-            return autocompletes;
-        }
 
-        await this.updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal);
-
-        const communeSelectionnee = this.getCommuneSelectionnee();
-        if (communeSelectionnee) {
-            this.fillCommuneInSelector(communeSelectionnee, autoCompleteCodePostal);
-            await this.communeSelected(communeSelectionnee, false);
-        }
-
-        return autocompletes;
-    }
-
-    private getAutoCompleteCodePostal(autocompletes: Set<string>, codePostalSelectionne: string) {
-        return codePostalSelectionne.split('')
-            .map((_, index) => codePostalSelectionne!.substring(0, index + 1))
-            .find(autoCompleteAttempt => autocompletes.has(autoCompleteAttempt));
-    }
-
-    private async updateCommunesDisponiblesBasedOnAutocomplete(autoCompleteCodePostal: string) {
-        this.recuperationCommunesEnCours = true;
-        this.communesDisponibles = await State.current.communesPourAutocomplete(Router.basePath, autoCompleteCodePostal)
-        this.recuperationCommunesEnCours = false;
-    }
-
-    private fillCommuneInSelector(communeSelectionnee: Commune, autoCompleteCodePostal: string) {
-        const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneOrDepartmentSelectorComponent)
-        component.fillCommune(communeSelectionnee, autoCompleteCodePostal);
-    }
-
-    protected getCommuneSelectionnee(): Commune|undefined {
-        if(!this.codeCommuneSelectionne || !this.communesDisponibles) {
-            return undefined;
-        }
-        return this.communesDisponibles.find(c => c.code === this.codeCommuneSelectionne && c.codePostal === this.codePostalSelectionne);
-    }
-
-    resetCommuneSelectionneeTo(commune: Commune|undefined) {
-        super.resetCommuneSelectionneeTo(commune);
-        this.codeCommuneSelectionne = commune?commune.code:undefined;
-        this.codePostalSelectionne = commune?commune.codePostal:undefined;
-    }
-
-    afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement {
-        const origin = (this.communeSelectionnee!.latitude && this.communeSelectionnee!.longitude)?
-            {longitude:this.communeSelectionnee!.longitude, latitude: this.communeSelectionnee!.latitude}:undefined;
-        const distanceAvec = origin?
-            (lieu: Lieu) => (lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity)
-            :() => undefined;
-
-        const { lieuxDisponibles, lieuxIndisponibles } = {
-            lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles:[],
-            lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles:[],
-        };
-
+        const { lieuxDisponibles, lieuxIndisponibles } = lieuxParDepartement
         return {
             ...lieuxParDepartement,
             lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
@@ -603,22 +456,36 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
                 .map(l => ({...l, distance: distanceAvec(l) }))
                 .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
-                .sortBy(l => this.extraireFormuleDeTri(l, this.critèreDeTri))
+                .sortBy(l => this.extraireFormuleDeTri(l, search.tri))
                 .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
                 .build()
         };
     }
 
+    // FIXME move me to vmd-search)
     critereTriUpdated(triCentre: CodeTriCentre) {
-        this.critèreDeTri = triCentre;
-
         Analytics.INSTANCE.critereTriCentresMisAJour(triCentre);
-
-        this.refreshPageWhenValidParams();
+        if (this.currentSearch) {
+          const nextSearch = {
+            ...this.currentSearch,
+            tri: triCentre
+          }
+          this.goToNewSearch(nextSearch)
+        }
+    }
+    protected beforeNewSearchFromLocation (search: SearchRequest): SearchRequest {
+      if (SearchRequest.isByCommune(search) && this.currentSearch) {
+        return {
+          ...search,
+          tri: this.currentSearch.tri
+        }
+      }
+      return search
     }
 
+    // FIXME move me to vmd-search
     renderAdditionnalSearchCriteria(): TemplateResult {
-        if(this.searchType === 'standard') {
+        if(SearchRequest.isStandardType(this.currentSearch)) {
             return html`
           <div class="rdvForm-fields row align-items-center">
             <label class="col-sm-24 col-md-auto mb-md-3">
@@ -626,7 +493,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             </label>
             <div class="col">
               <vmd-button-switch class="mb-3"
-                     codeSelectionne="${this.critèreDeTri}"
+                     codeSelectionne="${this._critèreDeTri}"
                      .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle }))}"
                      @changed="${(event: ValueStrCustomEvent<CodeTriCentre>) => this.critereTriUpdated(event.detail.value)}">
               </vmd-button-switch>
@@ -654,38 +521,51 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
 @customElement('vmd-rdv-par-departement')
 export class VmdRdvParDepartementView extends AbstractVmdRdvView {
+    @property({type: String})
+    set searchType (type: SearchType) {
+      this._searchType = type
+      this.updateCurrentSearch()
+    }
+    @property({type: String})
+    set codeDepartementSelectionne (code: CodeDepartement) {
+      this._codeDepartement = code
+      this.updateCurrentSearch()
+    }
+    @internalProperty() private _searchType: SearchType | void = undefined
+    @internalProperty() private _codeDepartement: CodeDepartement | void = undefined
+    @internalProperty() protected currentSearch: SearchRequest.ByDepartement | void = undefined
 
-    async onceStartupPromiseResolved() {
-        if(this.codeDepartementSelectionne) {
-            const departementSelectionne = this.departementsDisponibles.find(d => d.code_departement === this.codeDepartementSelectionne);
-            if (departementSelectionne) {
-                const component = (this.shadowRoot!.querySelector("vmd-commune-or-departement-selector") as VmdCommuneOrDepartmentSelectorComponent)
-                component.fillDepartement(departementSelectionne);
-
-                await this.departementSelected(departementSelectionne, false);
-            }
+    private async updateCurrentSearch() {
+        const code = this._codeDepartement
+        if (code && this._searchType) {
+          const departements = await State.current.departementsDisponibles()
+          const departementSelectionne = departements.find(d => d.code_departement === code);
+          if (departementSelectionne) {
+            this.currentSearch = SearchRequest.ByDepartement(departementSelectionne, this._searchType)
+            this.refreshLieux()
+          }
         }
     }
 
-    async onCommuneAutocompleteLoaded () {
-    }
     codeDepartementAdditionnels () {
-      return []
+        return []
     }
 
     libelleLieuSelectionne(): TemplateResult {
+        let nom = '???'
+        if (this.currentSearch) {
+          const departement = this.currentSearch.departement
+          nom = `${departement.nom_departement} (${departement.code_departement})`
+        }
         return html`
           pour
-          <span class="fw-bold">${this.departementSelectionne?`${this.departementSelectionne.nom_departement} (${this.departementSelectionne.code_departement})`:"???"}
-          </span>
+          <span class="fw-bold">${nom}</span>
         `
     }
 
+    // FIXME move me to testable file
     afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement {
-        const { lieuxDisponibles, lieuxIndisponibles } = {
-            lieuxDisponibles: lieuxParDepartement?lieuxParDepartement.lieuxDisponibles:[],
-            lieuxIndisponibles: lieuxParDepartement?lieuxParDepartement.lieuxIndisponibles:[],
-        };
+        const { lieuxDisponibles, lieuxIndisponibles } = lieuxParDepartement
 
         return {
             ...lieuxParDepartement,

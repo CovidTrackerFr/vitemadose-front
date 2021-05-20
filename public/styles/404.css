@@ -1,0 +1,101 @@
+:root {
+    --vmd-primary: #5561d9;
+    --vmd-secondary: #ed505b;
+    --vmd-success: #6db455;
+    --vmd-info: #585b79;
+    --vmd-warning: #ffc107;
+    --vmd-danger: #dc3545;
+    --vmd-light: #eff1f3;
+    --vmd-dark: #212529;
+}
+
+html {
+    padding: 0;
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
+    color: var(--vmd-dark);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    box-sizing: border-box;
+    color: var(--vmd-dark);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-decoration-line: none;
+    text-decoration-style: solid;
+}
+
+a:hover {
+    color: var(--vmd-secondary);
+}
+
+.container {
+    max-width: 1320px;
+    margin: auto;
+}
+
+.logo {}
+
+.logo._desktop {
+    display: none;
+}
+
+.logo._phone {
+    display: block;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.row > .col {
+    padding: 0 12px;
+}
+
+.inlineRow {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.col.borderStart {
+    border-left: 1px solid var(--vmd-light);
+}
+
+.illu404 {
+    max-width: 70vw;
+    margin: auto;
+    display: block;
+}
+
+.content {
+    padding: 0 16px;
+}
+
+h1 {
+    color: var(--vmd-primary);
+}
+
+@media screen and (min-width: 576px) {
+    .logo._desktop {
+        display: block;
+    }
+
+    .logo._phone {
+        display: none;
+    }
+
+    .illu404 {
+        max-width: 50vw;
+        margin: auto;
+        display: block;
+    }
+}
