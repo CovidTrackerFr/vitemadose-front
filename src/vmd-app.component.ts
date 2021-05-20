@@ -27,6 +27,7 @@ export class VmdAppComponent extends LitElement {
         smoothscroll.polyfill();
 
         State.instanciate({ webBaseUrl: import.meta.env.BASE_URL })
+        Router.configure({ webBaseUrl: import.meta.env.BASE_URL })
         Router.installRoutes((viewTemplateResult) => {
             this.viewTemplateResult = viewTemplateResult;
         })

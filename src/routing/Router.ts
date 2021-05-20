@@ -19,9 +19,6 @@ type RouteDeclaration = {
     pageTitleProvider?: TitleProvider;
 };
 
-// @ts-ignore
-const BASE_URL = '/'
-
 class Routing {
     public static readonly INSTANCE = new Routing();
 
@@ -31,10 +28,15 @@ class Routing {
 
     private _viewChangeCallbacks: ViewChangedCallback[] = [];
 
+    private webBaseUrl: string = '/'
     private currentPath: string|undefined = undefined;
 
     public get basePath() {
-        return BASE_URL
+        return this.webBaseUrl
+    }
+
+    public configure (config: { webBaseUrl: string }) {
+      this.webBaseUrl = config.webBaseUrl
     }
 
     installRoutes(callback?: ViewChangedCallback): ViewChangedCallbackCleaner|undefined {
