@@ -44,8 +44,6 @@ import tippy from 'tippy.js';
 import {InfiniteScroll} from "../state/InfiniteScroll";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
-// aimed at fixing nasty Safari rendering bug
-const MAX_CENTER_RESULTS_COUNT = 180;
 
 export abstract class AbstractVmdRdvView extends LitElement {
     DELAI_VERIFICATION_MISE_A_JOUR = 45000
@@ -497,7 +495,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
                 .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
                 .sortBy(l => this.extraireFormuleDeTri(l, search.tri))
-                .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
                 .build()
         };
     }
@@ -614,7 +611,6 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
                 .map(l => ({...l, distance: undefined }))
                 .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .sortBy(l => this.extraireFormuleDeTri(l, 'date'))
-                .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
                 .build()
         };
     }
