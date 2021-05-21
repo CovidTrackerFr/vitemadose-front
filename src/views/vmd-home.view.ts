@@ -43,7 +43,7 @@ export class VmdHomeView extends LitElement {
                 nom_region: "Outremer"
             });
         }
-        let departement: Departement|undefined = departements.find(({ code_departement }) => code_departement === commune.codeDepartement)
+        const departement: Departement|undefined = departements.find(({ code_departement }) => code_departement === commune.codeDepartement)
 
         if(!departement) {
             console.error(`Can't find departement matching code ${commune.codeDepartement}`)
