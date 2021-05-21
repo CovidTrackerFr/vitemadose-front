@@ -287,7 +287,7 @@ export class State {
         const resp = await fetch(`${VMD_BASE_URL}/departements.json`);
         const departements: Departement[] = await resp.json();
 
-        if (!departements.find(d => d.code_departement==='om')) {
+        if (!departements.find(d => d.code_departement === DEPARTEMENT_OM.code_departement)) {
             // The OM departement is missing in back-end departements.json.
             departements.push(DEPARTEMENT_OM);
         }
