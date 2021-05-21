@@ -33,19 +33,11 @@ export class VmdHomeView extends LitElement {
         const departement = event.detail.departement
         Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement), searchType)
       } else {
-        const commune = event.detail.commune
-        const departements = await State.current.departementsDisponibles()
-        if(!departements.find(d => d.code_departement==='om')) {
-            departements.push({
-                code_departement: 'om',
-                nom_departement: "Collectivités d'Outremer",
-                code_region: -1,
-                nom_region: "Outremer"
-            });
-        }
-        const departement: Departement|undefined = departements.find(({ code_departement }) => code_departement === commune.codeDepartement)
+        const commune = event.detail.commune;
+        const departements = await State.current.departementsDisponibles();
+        const departement: Departement|undefined = departements.find(({ code_departement }) => code_departement === commune.codeDepartement);
 
-        if(!departement) {
+        if (!departement) {
             console.error(`Can't find departement matching code ${commune.codeDepartement}`)
             return;
         }
@@ -58,7 +50,7 @@ export class VmdHomeView extends LitElement {
             commune.codePostal,
             libelleUrlPathDeCommune(commune!),
             searchType
-        )
+        );
       }
     }
 

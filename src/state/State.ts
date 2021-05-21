@@ -199,6 +199,14 @@ function convertDepartementForSort(codeDepartement: CodeDepartement) {
     }
 }
 
+const DEPARTEMENT_OM = {
+    code_departement: 'om',
+    nom_departement: "Collectivités d'Outremer",
+    code_region: -1,
+    nom_region: "Outremer"
+};
+
+
 export type StatLieu = {disponibles: number, total: number, creneaux: number};
 export type StatLieuGlobale = StatLieu & { proportion: number };
 export type StatsLieuParDepartement = Record<string, StatLieu>
@@ -276,8 +284,14 @@ export class State {
 
     @Memoize()
     async departementsDisponibles(): Promise<Departement[]> {
-        const resp = await fetch(`${VMD_BASE_URL}/departements.json`)
-        const departements: Departement[] = await resp.json()
+        const resp = await fetch(`${VMD_BASE_URL}/departements.json`);
+        const departements: Departement[] = await resp.json();
+
+        if (!departements.find(d => d.code_departement==='om')) {
+            // The OM departement is missing in back-end departements.json.
+            departements.push(DEPARTEMENT_OM);
+        }
+
         return departements.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)))
     }
 
