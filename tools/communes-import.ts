@@ -112,19 +112,36 @@ function sitemapIndexDynamicEntry(codeDepartement: string): string {
     `.trim();
 }
 
+const COLLECTIVITES_OUTREMER = new Map<string, Partial<Commune>>([
+    ["97501", { codeDepartement: "om", centre: { type: "Point", coordinates: [-56.3814, 47.0975] } }],
+    ["97502", { codeDepartement: "om", centre: { type: "Point", coordinates: [-56.1833, 46.7667] } }],
+    ["97701", { codeDepartement: "om", centre: { type: "Point", coordinates: [-62.8314, 17.9034] } }],
+    ["97801", { codeDepartement: "om", centre: { type: "Point", coordinates: [-63.0785, 18.0409] } }],
+]);
+
+function completerCommunesOutremer(commune: Commune): Commune {
+    if(COLLECTIVITES_OUTREMER.has(commune.code)) {
+        return {...commune, ...COLLECTIVITES_OUTREMER.get(commune.code)};
+    } else {
+        return commune;
+    }
+}
+
 Promise.all([
     fetch(`https://geo.api.gouv.fr/communes?boost=population&fields=code,nom,codeDepartement,centre,codesPostaux`).then(resp => resp.json()),
     fetch(`https://vitemadose.gitlab.io/vitemadose/departements.json`).then(resp => resp.json()),
 ]).then(([rawCommunes, departements]: [RawCommune[], Departement[]]) => {
     const communes: Commune[] = rawCommunes.map(rawCommune => rawCommune.codesPostaux.map(cp => ({
-            ...rawCommune,
-            codePostal: cp,
-            // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
-            // function here, than the one used defined in Strings.toFullTextSearchableString()
-            // Hence its extraction into a reusable/shareable mjs file
-            // ALSO, note that INDEXED_CHARS would have every possible translated values defined below
-            fullTextSearchableNom: Strings.toFullTextSearchableString(rawCommune.nom)
-        }))).flat();
+                ...rawCommune,
+                codePostal: cp,
+                // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
+                // function here, than the one used defined in Strings.toFullTextSearchableString()
+                // Hence its extraction into a reusable/shareable mjs file
+                // ALSO, note that INDEXED_CHARS would have every possible translated values defined below
+                fullTextSearchableNom: Strings.toFullTextSearchableString(rawCommune.nom)
+            }))
+        ).flat()
+        .map(commune => completerCommunesOutremer(commune));
 
     const communeByKey = communes.reduce((map, commune) => {
         map.set(keyOf(commune), commune);

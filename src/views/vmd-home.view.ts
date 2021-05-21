@@ -6,7 +6,7 @@ import {
     PLATEFORMES, SearchType,
     SearchRequest,
     State,
-    StatsLieu,
+    StatsLieu, Departement,
 } from "../state/State";
 import {CSS_Global, CSS_Home} from "../styles/ConstructibleStyleSheets";
 
@@ -33,11 +33,11 @@ export class VmdHomeView extends LitElement {
         const departement = event.detail.departement
         Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement), searchType)
       } else {
-        const commune = event.detail.commune
-        const departements = await State.current.departementsDisponibles()
-        const departement = departements.find(({ code_departement }) => code_departement === commune.codeDepartement)
+        const commune = event.detail.commune;
+        const departements = await State.current.departementsDisponibles();
+        const departement: Departement|undefined = departements.find(({ code_departement }) => code_departement === commune.codeDepartement);
 
-        if(!departement) {
+        if (!departement) {
             console.error(`Can't find departement matching code ${commune.codeDepartement}`)
             return;
         }
@@ -50,7 +50,7 @@ export class VmdHomeView extends LitElement {
             commune.codePostal,
             libelleUrlPathDeCommune(commune!),
             searchType
-        )
+        );
       }
     }
 
