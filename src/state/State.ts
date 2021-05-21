@@ -199,7 +199,7 @@ function convertDepartementForSort(codeDepartement: CodeDepartement) {
     }
 }
 
-const DEPARTEMENT_OM = {
+const DEPARTEMENT_OM: Departement = {
     code_departement: 'om',
     nom_departement: "Collectivités d'Outremer",
     code_region: -1,
