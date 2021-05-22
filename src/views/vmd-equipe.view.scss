@@ -1,0 +1,81 @@
+@import "bootstrap/scss/functions";
+@import "../styles/_bootstrap-variables";
+
+.contributors {
+  display: grid;
+  grid-template-rows: auto;
+  align-items: stretch;
+
+  grid-template-columns: 100%;
+  column-gap: 2em;
+  row-gap: 2em;
+  --photo-size: 10em;
+
+  @media (min-width: $grid-breakpoint-md) {
+    grid-template-columns: 50% 50%;
+    column-gap: 2em;
+    row-gap: 2em;
+    --photo-size: 10em;
+  }
+
+  @media (min-width: $grid-breakpoint-xl) {
+    grid-template-columns: 33% auto 33%;
+    column-gap: 2em;
+    row-gap: 2em;
+    --photo-size: 10em;
+  }
+}
+
+
+.contributor {
+  box-sizing: border-box;
+  padding: 1em;
+  box-shadow: rgb(0 0 0 / 18%) 0px 0.3rem 0.25rem;
+
+  display: grid;
+  grid-template-rows: auto 3em;
+  grid-template-columns: var(--photo-size);
+  column-gap: 1em;
+  row-gap: 0;
+  grid-template-areas:
+    "photo info"
+    "photo teams";
+
+  .photo {
+    grid-area: photo;
+    img {
+      border-radius: var(--photo-size);
+      height: var(--photo-size);
+      width: var(--photo-size);
+    }
+  }
+
+  .info {
+    grid-area: info;
+    margin-top: 2em;
+    .job {
+      font-size: 80%;
+    }
+  }
+
+  .teams {
+    grid-area: teams;
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    .team {
+      display: inline;
+      &:first-child::before {
+        content: ''
+      }
+      &::before {
+        content: ', '
+      }
+    }
+  }
+}
