@@ -43,6 +43,9 @@ export class VmdAppComponent extends LitElement {
                     <div class="col">
                         <div class="row justify-content-end gx-5">
                             <div class="col-auto">
+                                <a href="${Router.basePath}equipe">L'Équipe</a>
+                            </div>
+                            <div class="col-auto">
                                 <a href="${Router.basePath}apropos">À propos</a>
                             </div>
                             <div class="col-auto border-start">
