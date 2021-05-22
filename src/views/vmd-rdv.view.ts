@@ -327,7 +327,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         return !l.appointment_by_phone_only
                     })
                 }
-                this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, this.cartesAffichees);
+                this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, []);
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
