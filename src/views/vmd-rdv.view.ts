@@ -69,8 +69,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
 
     protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
-    private infiniteScrollListener: EventListener | undefined = undefined;
     private infiniteScroll = new InfiniteScroll();
+    private infiniteScrollObserver: IntersectionObserver | undefined;
 
     get totalCreneaux() {
         if (!this.lieuxParDepartementAffiches) {
@@ -196,18 +196,21 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         </div>
                     `}
 
-                        ${repeat(this.cartesAffichees || [],
-                                (c => `${c.departement}||${c.nom}||${c.plateforme}}`),
-                                (lieu, index) => {
-                                    return html`<vmd-appointment-card
-                            style="--list-index: ${index}"
-                            .lieu="${lieu}"
-                            theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
-                            .highlightable="${SearchRequest.isChronodoseType(this.currentSearch)}"
-                            @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
-                            @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
-                        />`;
-                    })}
+                        <div id="scroller">
+                            ${repeat(this.cartesAffichees || [],
+                                    (c => `${c.departement}||${c.nom}||${c.plateforme}}`),
+                                    (lieu, index) => {
+                                        return html`<vmd-appointment-card
+                                style="--list-index: ${index}"
+                                .lieu="${lieu}"
+                                theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
+                                .highlightable="${SearchRequest.isChronodoseType(this.currentSearch)}"
+                                @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
+                                @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
+                            />`;
+                            })}
+                            <div id="sentinel"></div>
+                        </div>
                 </div>
                 ${SearchRequest.isStandardType(this.currentSearch)?html`
                 <div class="eligibility-criteria fade-in-then-fade-out">
@@ -222,6 +225,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         tippy(this.$chronodoseLabel, {
             content: (el) => el.getAttribute('title')!
         });
+        this.registerInfiniteScroll();
     }
 
 
@@ -229,24 +233,32 @@ export abstract class AbstractVmdRdvView extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
         this.launchCheckingUpdates();
-        this.registerInfiniteScroll();
     }
 
     private registerInfiniteScroll() {
-        if (!this.infiniteScrollListener) {
-            const html = document.querySelector('html');
-            if (html) {
-                this.infiniteScrollListener = () => {
-                    setDebouncedInterval(() => {
-                        const height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-                        if (html && html.scrollTop + height + this.SCROLL_OFFSET >= html.scrollHeight) {
-                            this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches,
-                                this.cartesAffichees);
-                        }
-                    }, this.DELAI_VERIFICATION_SCROLL)
-                };
-                window.addEventListener('scroll', this.infiniteScrollListener, false);
+        if (!this.shadowRoot) {
+            return;
+        }
+
+        const scroller = this.shadowRoot.querySelector('#scroller');
+        const sentinel = this.shadowRoot.querySelector('#sentinel');
+
+        if (!scroller || !sentinel) {
+            return;
+        }
+
+        if (this.infiniteScrollObserver) {
+            this.infiniteScrollObserver.disconnect();
+        }
+        this.infiniteScrollObserver = new IntersectionObserver(entries => {
+            if (entries.some(entry => entry.isIntersecting)) {
+                this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches,
+                    this.cartesAffichees);
+                scroller.appendChild(sentinel);
             }
+        }, { root: null, rootMargin: '200px', threshold: 0.0 });
+        if (sentinel) {
+            this.infiniteScrollObserver.observe(sentinel);
         }
     }
 
@@ -264,8 +276,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     private stopListeningToScroll() {
-        if (this.infiniteScrollListener) {
-            removeEventListener('scroll', this.infiniteScrollListener, false);
+        if (this.infiniteScrollObserver) {
+            this.infiniteScrollObserver.disconnect();
         }
     }
 
