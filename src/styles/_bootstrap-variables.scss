@@ -308,6 +308,12 @@ $paragraph-margin-bottom:   1rem;
 // adapting to different screen sizes, for use in media queries.
 
 // scss-docs-start grid-breakpoints
+$grid-breakpoint-xs: 0px;
+$grid-breakpoint-sm: 576px;
+$grid-breakpoint-md: 768px;
+$grid-breakpoint-lg: 992px;
+$grid-breakpoint-xl: 1200px;
+$grid-breakpoint-xxl: 1400px;
 $grid-breakpoints: (
         xs: 0,
         sm: 576px,
