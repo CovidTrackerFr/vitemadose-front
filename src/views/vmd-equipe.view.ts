@@ -9,6 +9,8 @@ import {
 
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
+const DEFAULT_PICTURE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5QUWFgkw2H/zhQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAP0lEQVQY06WNQQ6AMBACGeL/n7XPWjw0sYnVHnSODASqSlISLdg+LnFrAN3tIdb1SKx3kvjxdd5ry08NfFwDJ0OrHVn+VpHQAAAAAElFTkSuQmCC'
+
 @customElement('vmd-equipe')
 export class VmdEquipe extends LitElement {
     static styles = [
@@ -53,7 +55,7 @@ export class VmdEquipe extends LitElement {
         return html`
           <a href="${c.site_web || `https://github.com/${c.pseudo}` }" target="_blank nofollow" class="contributor" style="--index:${i};">
               <div class="photo">
-                <img src="${c.photo}" alt="Avatar de ${c.nom || c.pseudo}">
+                <img src="${c.photo || DEFAULT_PICTURE}" alt="Avatar de ${c.nom || c.pseudo}">
               </div>
               <div class="info">
                 <h4 class="h5">@${c.pseudo}</h4>
