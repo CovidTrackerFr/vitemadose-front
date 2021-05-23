@@ -57,7 +57,7 @@ export class VmdSearchComponent extends LitElement {
     private onCommuneSelected (commune: Commune) {
       this.currentSelection = commune
       this.dispatchEvent(new CustomEvent<SearchRequest.ByCommune>('on-search', {
-        detail: SearchRequest.ByCommune(commune, 'distance', this.currentSearchType || 'standard')
+        detail: SearchRequest.ByCommune(commune, this.currentSearchType || 'standard')
       }))
     }
 

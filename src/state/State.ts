@@ -17,10 +17,11 @@ export namespace SearchRequest {
   export type ByDepartement = {
       type: SearchType,
       par: 'departement',
-      departement: Departement
+      departement: Departement,
+      tri: 'date'
   }
   export function ByDepartement (departement: Departement, type: SearchType): ByDepartement {
-    return { type, par: 'departement', departement }
+    return { type, par: 'departement', departement, tri: 'date' }
   }
   export function isByDepartement (searchRequest: SearchRequest): searchRequest is ByDepartement {
     return searchRequest.par === 'departement'
@@ -30,10 +31,10 @@ export namespace SearchRequest {
     type: SearchType,
     par: 'commune',
     commune: Commune,
-    tri: CodeTriCentre
+    tri: 'distance'
   }
-  export function ByCommune (commune: Commune, tri: CodeTriCentre, type: SearchType): ByCommune {
-    return { type, par: 'commune', commune, tri }
+  export function ByCommune (commune: Commune, type: SearchType): ByCommune {
+    return { type, par: 'commune', commune, tri: 'distance' }
   }
   export function isByCommune (searchRequest: SearchRequest): searchRequest is ByCommune {
     return searchRequest.par === 'commune'
@@ -45,14 +46,6 @@ export namespace SearchRequest {
 }
 
 export type CodeTriCentre = 'date' | 'distance';
-export type TriCentre = {
-    codeTriCentre: CodeTriCentre;
-    libelle: string;
-};
-export const TRIS_CENTRE: Map<CodeTriCentre, TriCentre> = new Map([
-    ['distance', { codeTriCentre: 'distance', libelle: "Au plus proche" }],
-    ['date', { codeTriCentre: 'date', libelle: "Disponible au plus vite" }],
-]);
 
 const USE_RAW_GITHUB = false
 const VMD_BASE_URL = USE_RAW_GITHUB

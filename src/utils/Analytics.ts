@@ -30,7 +30,7 @@ export class Analytics {
         });
     }
 
-    clickSurRdv(lieu: Lieu, triCentre: CodeTriCentre, searchType: SearchType, commune: Commune|undefined) {
+    clickSurRdv(lieu: Lieu, triCentre: CodeTriCentre|'unknown', searchType: SearchType, commune: Commune|undefined) {
         window.dataLayer.push({
             'event': 'rdv_click',
             'rdv_departement' : lieu.departement,
@@ -44,7 +44,7 @@ export class Analytics {
         });
     }
 
-    clickSurVerifRdv(lieu: Lieu, triCentre: CodeTriCentre, searchType: SearchType, commune: Commune|undefined) {
+    clickSurVerifRdv(lieu: Lieu, triCentre: CodeTriCentre|'unknown', searchType: SearchType, commune: Commune|undefined) {
         window.dataLayer.push({
             'event': 'rdv_verify',
             'rdv_departement' : lieu.departement,
@@ -58,7 +58,7 @@ export class Analytics {
         });
     }
 
-    rechercheLieuEffectuee(codeDepartement: CodeDepartement, triCentre: CodeTriCentre, searchType: SearchType, commune: Commune|undefined, resultats: LieuxAvecDistanceParDepartement|undefined) {
+    rechercheLieuEffectuee(codeDepartement: CodeDepartement, triCentre: CodeTriCentre|'unknown', searchType: SearchType, commune: Commune|undefined, resultats: LieuxAvecDistanceParDepartement|undefined) {
         window.dataLayer.push({
             'event': commune?'search_by_commune':'search_by_departement',
             'search_departement': codeDepartement,

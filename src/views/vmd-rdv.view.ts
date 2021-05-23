@@ -15,7 +15,6 @@ import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
 import {
     CodeDepartement,
-    CodeTriCentre,
     Commune,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
@@ -25,13 +24,11 @@ import {
     LieuxParDepartement,
     SearchRequest,
     SearchType,
-    State,
-    TRIS_CENTRE
+    State, CodeTriCentre
 } from "../state/State";
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import {Strings} from "../utils/Strings";
-import {ValueStrCustomEvent,} from "../components/vmd-commune-or-departement-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
@@ -109,13 +106,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
             .reduce((total, lieu) => total+lieu.appointment_count, 0);
     }
 
-    protected beforeNewSearchFromLocation (search: SearchRequest): SearchRequest {
-      return search
-    }
-
     async onSearchSelected (event: CustomEvent<SearchRequest>) {
       const search = event.detail
-      this.goToNewSearch(this.beforeNewSearchFromLocation(search))
+      this.goToNewSearch(search)
     }
 
     protected async goToNewSearch (search: SearchRequest) {
@@ -153,7 +146,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   </vmd-button-switch>
                 </div>
               </div>
-              ${this.renderAdditionnalSearchCriteria()}
             </div>
 
             <div class="spacer mt-5 mb-5"></div>
@@ -427,7 +419,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
                     codeDepartement,
-                    this.currentCritereTri(),
+                    this.currentTri(),
                     currentSearch.type,
                     commune,
                     this.lieuxParDepartementAffiches);
@@ -442,20 +434,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     private prendreRdv(lieu: Lieu) {
         if(this.currentSearch && SearchRequest.isByCommune(this.currentSearch) && lieu.url) {
-            Analytics.INSTANCE.clickSurRdv(lieu, this.currentCritereTri(), this.currentSearch.type, this.currentSearch.commune);
+            Analytics.INSTANCE.clickSurRdv(lieu, this.currentTri(), this.currentSearch.type, this.currentSearch.commune);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
 
     private verifierRdv(lieu: Lieu) {
         if(this.currentSearch && SearchRequest.isByCommune(this.currentSearch) && lieu.url) {
-            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentCritereTri(), this.currentSearch.type, this.currentSearch.commune);
+            Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentTri(), this.currentSearch.type, this.currentSearch.commune);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
 
-    renderAdditionnalSearchCriteria(): TemplateResult {
-        return html``;
+    private currentTri(): CodeTriCentre|"unknown" {
+        return this.currentSearch?this.currentSearch.tri:'unknown';
     }
 
     // FIXME move me to testable files
@@ -502,7 +494,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return lieu;
     }
 
-    abstract currentCritereTri(): CodeTriCentre;
     abstract libelleLieuSelectionne(): TemplateResult;
     // FIXME move me to a testable file
     abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement, search: SearchRequest): LieuxAvecDistanceParDepartement;
@@ -523,26 +514,21 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
       this._codePostalSelectionne = code
       this.updateCurrentSearch()
     }
-    @property({type: String}) set critèreDeTri (critèreDeTri: 'date' | 'distance') {
-      this._critèreDeTri = critèreDeTri
-      this.updateCurrentSearch()
-    }
 
     @internalProperty() private _searchType: SearchType | undefined = undefined;
     @internalProperty() private _codeCommuneSelectionne: string | undefined = undefined;
     @internalProperty() private _codePostalSelectionne: string | undefined = undefined;
-    @internalProperty() private _critèreDeTri: CodeTriCentre = 'distance'
     private currentSearchMarker = {}
 
     private async updateCurrentSearch() {
-      if (this._codeCommuneSelectionne && this._codePostalSelectionne && this._critèreDeTri && this._searchType) {
+      if (this._codeCommuneSelectionne && this._codePostalSelectionne && this._searchType) {
         const marker = {}
         this.currentSearchMarker = marker
         await delay(20)
         if (this.currentSearchMarker !== marker) { return }
         const commune = await State.current.autocomplete.findCommune(this._codePostalSelectionne, this._codeCommuneSelectionne)
         if (commune) {
-          this.currentSearch = SearchRequest.ByCommune(commune, this._critèreDeTri, this._searchType)
+          this.currentSearch = SearchRequest.ByCommune(commune, this._searchType)
           this.refreshLieux()
         }
       }
@@ -578,56 +564,9 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
                 .map(l => ({...l, distance: distanceAvec(l) }))
                 .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
-                .sortBy(l => this.extraireFormuleDeTri(l, search.tri))
+                .sortBy(l => this.extraireFormuleDeTri(l, 'distance'))
                 .build()
         };
-    }
-
-    // FIXME move me to vmd-search)
-    critereTriUpdated(triCentre: CodeTriCentre) {
-        Analytics.INSTANCE.critereTriCentresMisAJour(triCentre);
-        if (this.currentSearch) {
-          const nextSearch = {
-            ...this.currentSearch,
-            tri: triCentre
-          }
-          this.goToNewSearch(nextSearch)
-        }
-    }
-    protected beforeNewSearchFromLocation (search: SearchRequest): SearchRequest {
-      if (SearchRequest.isByCommune(search) && this.currentSearch) {
-        return {
-          ...search,
-          tri: this.currentSearch.tri
-        }
-      }
-      return search
-    }
-
-    // FIXME move me to vmd-search
-    renderAdditionnalSearchCriteria(): TemplateResult {
-        if(SearchRequest.isStandardType(this.currentSearch)) {
-            return html`
-          <div class="rdvForm-fields row align-items-center">
-            <label class="col-sm-24 col-md-auto mb-md-3">
-              Je recherche une dose de vaccin :
-            </label>
-            <div class="col">
-              <vmd-button-switch class="mb-3"
-                     codeSelectionne="${this._critèreDeTri}"
-                     .options="${Array.from(TRIS_CENTRE.values()).map(tc => ({code: tc.codeTriCentre, libelle: tc.libelle }))}"
-                     @changed="${(event: ValueStrCustomEvent<CodeTriCentre>) => this.critereTriUpdated(event.detail.value)}">
-              </vmd-button-switch>
-            </div>
-          </div>
-        `;
-        } else {
-            return html``;
-        }
-    }
-
-    currentCritereTri(): CodeTriCentre {
-        return this.critèreDeTri;
     }
 }
 
