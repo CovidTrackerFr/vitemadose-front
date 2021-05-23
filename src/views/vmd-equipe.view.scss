@@ -9,16 +9,16 @@
   grid-template-columns: 100%;
   column-gap: 2em;
   row-gap: 2em;
-  --photo-size: 10em;
+  --photo-size: 6em;
 
   @media (min-width: $grid-breakpoint-md) {
     grid-template-columns: 50% 50%;
     column-gap: 2em;
     row-gap: 2em;
-    --photo-size: 10em;
+    --photo-size: 8em;
   }
 
-  @media (min-width: $grid-breakpoint-xl) {
+  @media (min-width: $grid-breakpoint-xxl) {
     grid-template-columns: 33% auto 33%;
     column-gap: 2em;
     row-gap: 2em;
