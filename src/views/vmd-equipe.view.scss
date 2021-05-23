@@ -9,13 +9,15 @@
   grid-template-columns: 100%;
   column-gap: 2em;
   row-gap: 2em;
-  --photo-size: 6em;
+  --photo-size: 7em;
+  font-size: .8em;
 
   @media (min-width: $grid-breakpoint-md) {
     grid-template-columns: 50% 50%;
     column-gap: 2em;
     row-gap: 2em;
     --photo-size: 8em;
+    font-size: .9em;
   }
 
   @media (min-width: $grid-breakpoint-xxl) {
@@ -23,6 +25,7 @@
     column-gap: 2em;
     row-gap: 2em;
     --photo-size: 10em;
+    font-size: 1em;
   }
 }
 
@@ -33,13 +36,14 @@
   box-shadow: rgb(0 0 0 / 18%) 0px 0.3rem 0.25rem;
 
   display: grid;
-  grid-template-rows: auto 3em;
-  grid-template-columns: var(--photo-size);
+  grid-template-rows: auto 2em;
+  grid-template-columns: var(--photo-size) auto;
   column-gap: 1em;
   row-gap: 0;
   grid-template-areas:
     "photo info"
-    "photo teams";
+    "photo teams"
+    ;
 
   .photo {
     grid-area: photo;
@@ -52,9 +56,29 @@
 
   .info {
     grid-area: info;
-    margin-top: 2em;
+    margin-top: 2.5em;
+
+    @media (max-width: $grid-breakpoint-md) {
+      margin-top: 1.5em;
+    }
+
     .job {
       font-size: 80%;
+    }
+  }
+
+  .links {
+    grid-area: info;
+    text-align: right;
+    ul {
+      font-size: 1.5em;
+      @media (max-width: $grid-breakpoint-md) {
+        font-size: 2em;
+      }
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      li { display: inline }
     }
   }
 

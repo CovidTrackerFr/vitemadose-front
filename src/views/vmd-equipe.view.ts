@@ -55,6 +55,9 @@ export class VmdEquipe extends LitElement {
         <div class="photo">
           <img src="${c.photo || DEFAULT_PICTURE}" alt="Avatar de ${c.nom || c.pseudo}">
         </div>
+        <div class="links">
+          ${this.renderLinks(c)}
+        </div>
         <div class="info">
           <h4 class="h5">@${c.pseudo}</h4>
           <h5 class="h6">${c.nom || c.pseudo}</h5>
@@ -80,6 +83,29 @@ export class VmdEquipe extends LitElement {
           <div class="contributor">${content}</div>
         `
       }
+    }
+
+    private renderLinks(c: Contributor) {
+      const icons = {
+        'twitter': 'vmdicon-twitter-fill',
+        'linkedin': 'vmdicon-linkedin-fill',
+        'github': 'vmdicon-github-fill',
+      }
+      const defaultIcon = 'vmdicon-link'
+      const list = repeat(c.links, (l) => l.site, (l) => {
+        return html `
+          <li>
+            <a
+              href="${l.url}"
+              title="Profil ${l.site} de ${c.nom || c.pseudo}"
+              target="_blank nofollow"
+            >
+              <i class="${icons[l.site] || defaultIcon}"></i>
+            </a>
+          </li>
+        `
+      })
+      return html`<ul>${list}<ul>`
     }
 
     private mainLink(c: Contributor): string | void {
