@@ -54,6 +54,36 @@ export abstract class AbstractVmdRdvView extends LitElement {
         CSS_Global,
         css`${unsafeCSS(rdvViewCss)}`,
         css`
+          .list-group-horizontal.days li.list-group-item.selected {
+            border: 4px solid #5561d9;
+            padding: 5px;
+          }
+          .list-group-horizontal.days li.list-group-item:not(.selected) {
+            padding: 8px;
+          }
+          
+          .cpt-rdv {
+            border-radius: 8px;
+            padding: 4px 6px;
+            white-space: nowrap;
+            background-color: #5561d9; color: white;
+            font-weight: bold;
+          }
+
+          ul.days {
+            width: 100%;
+            overflow: scroll;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            font-size: 2rem;
+          }
+          .days li {
+            text-align: center;
+          }
+          .days .day {
+            font-weight: bold;
+            white-space: nowrap;
+          }
         `
     ];
 
@@ -127,6 +157,82 @@ export abstract class AbstractVmdRdvView extends LitElement {
             </div>
 
             <div class="spacer mt-5 mb-5"></div>
+
+            <ul class="days list-group list-group-horizontal">
+              <li class="list-group-item">
+                <div class="day">Ven 21</div>
+                <span class="cpt-rdv">1 créneau</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Sam 22</div>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Dim 23</div>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Lun 24</div>
+              </li>
+              <li class="list-group-item selected">
+                <div class="day">Mar 25</div>
+                <span class="cpt-rdv">20 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Mer 26</div>
+                <span class="cpt-rdv">25 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Jeu 27</div>
+                <span class="cpt-rdv">22 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Ven 28</div>
+                <span class="cpt-rdv">30 créneaux</span>
+              </li>
+<!--              <li class="list-group-item">-->
+<!--                <div class="day">Sam 29</div>-->
+<!--                <span class="cpt-rdv">28 créneaux</span>-->
+<!--              </li>-->
+              <li class="list-group-item">
+                <div class="day">Dim 30</div>
+                <span class="cpt-rdv">28 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Lun 31</div>
+                <span class="cpt-rdv">35 créneau</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Mar 01/06</div>
+                <span class="cpt-rdv">42 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Mer 02/06</div>
+                <span class="cpt-rdv">42 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Jeu 03/06</div>
+                <span class="cpt-rdv">42 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Ven 04/06</div>
+                <span class="cpt-rdv">42 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Sam 05/06</div>
+                <span class="cpt-rdv">42 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Dim 06/06</div>
+                <span class="cpt-rdv">42 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Lun 07/06</div>
+                <span class="cpt-rdv">42 créneaux</span>
+              </li>
+              <li class="list-group-item">
+                <div class="day">Mar 08/06</div>
+                <span class="cpt-rdv">42 créneaux</span>
+              </li>
+            </ul>
 
             ${this.searchInProgress?html`
               <div class="d-flex justify-content-center">
