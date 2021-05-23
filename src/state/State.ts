@@ -1,6 +1,7 @@
 import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
+import {ArrayBuilder} from "../utils/Arrays";
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -150,14 +151,31 @@ function transformLieu(rawLieu: any): Lieu {
     };
 }
 export type Coordinates = { latitude: number, longitude: number }
-
+export type StatsCreneauxQuotidienParTag = {
+    tag: string;
+    total: number;
+};
+export type StatsCreneauxQuotidien = {
+    date: string; // "2021-05-23"
+    total: number;
+    urls: string[];
+    countByTag: StatsCreneauxQuotidienParTag[];
+}
 export type LieuxParDepartement = {
     lieuxDisponibles: Lieu[];
     lieuxIndisponibles: Lieu[];
     codeDepartements: CodeDepartement[];
+    creneauxQuotidiens: StatsCreneauxQuotidien[];
     derniereMiseAJour: ISODateString;
 };
 export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
+
+export type LieuxParDepartement_JSON = {
+    centres_disponibles: Lieu[];
+    centres_indisponibles: Lieu[];
+    creneaux_quotidiens: {}[];
+    last_updated: string;
+};
 
 export type LieuAffichableAvecDistance = Lieu & { disponible: boolean, distance: number|undefined };
 export type LieuxAvecDistanceParDepartement = {
@@ -268,17 +286,51 @@ export class State {
             )
         );
 
-        const lieuxParDepartement = [principalLieuxDepartement].concat(lieuxDepartementsAditionnels).reduce((mergedLieuxParDepartement, lieuxParDepartement) => ({
-            codeDepartements: mergedLieuxParDepartement.codeDepartements.concat(lieuxParDepartement.codeDepartement),
-            derniereMiseAJour: mergedLieuxParDepartement.derniereMiseAJour,
-            lieuxDisponibles: mergedLieuxParDepartement.lieuxDisponibles.concat(lieuxParDepartement.centres_disponibles.map(transformLieu)),
-            lieuxIndisponibles: mergedLieuxParDepartement.lieuxIndisponibles.concat(lieuxParDepartement.centres_indisponibles.map(transformLieu)),
-        }), {
+        const lieuxParDepartement: LieuxParDepartement = [principalLieuxDepartement].concat(lieuxDepartementsAditionnels).reduce((mergedLieuxParDepartement: LieuxParDepartement, lieuxParDepartement: LieuxParDepartement_JSON & {codeDepartement: string}) => {
+            const creneauxQuotidiens: StatsCreneauxQuotidien[] = mergedLieuxParDepartement.creneauxQuotidiens;
+            (lieuxParDepartement.creneaux_quotidiens || []).forEach((creneauxQuotidien: any) => {
+                if(!creneauxQuotidiens.find(cq => cq.date === creneauxQuotidien.date)) {
+                    creneauxQuotidiens.push({
+                        date: creneauxQuotidien.date,
+                        total: 0,
+                        countByTag: [],
+                        urls: []
+                    })
+                }
+                const creneauxQuotidienMatchingDate = creneauxQuotidiens.find(cq => cq.date === creneauxQuotidien.date)!;
+
+                creneauxQuotidienMatchingDate.total += creneauxQuotidien.total;
+                creneauxQuotidienMatchingDate.urls.push(creneauxQuotidien.url);
+                creneauxQuotidien.countByTag.forEach((statsCreneauxQuotidienParTag: StatsCreneauxQuotidienParTag) => {
+                    if(!creneauxQuotidienMatchingDate.countByTag.find(cbt => cbt.tag === statsCreneauxQuotidienParTag.tag)) {
+                        creneauxQuotidienMatchingDate.countByTag.push({
+                            tag: statsCreneauxQuotidienParTag.tag,
+                            total: 0
+                        });
+                    }
+
+                    creneauxQuotidienMatchingDate.countByTag.find(cbt => cbt.tag === statsCreneauxQuotidienParTag.tag)!.total += statsCreneauxQuotidienParTag.total;
+                });
+            });
+
+            return {
+                codeDepartements: mergedLieuxParDepartement.codeDepartements.concat(lieuxParDepartement.codeDepartement),
+                derniereMiseAJour: mergedLieuxParDepartement.derniereMiseAJour,
+                lieuxDisponibles: mergedLieuxParDepartement.lieuxDisponibles.concat(lieuxParDepartement.centres_disponibles.map(transformLieu)),
+                lieuxIndisponibles: mergedLieuxParDepartement.lieuxIndisponibles.concat(lieuxParDepartement.centres_indisponibles.map(transformLieu)),
+                creneauxQuotidiens
+            };
+        }, {
             codeDepartements: [],
             derniereMiseAJour: principalLieuxDepartement.last_updated,
             lieuxDisponibles: [],
-            lieuxIndisponibles: []
+            lieuxIndisponibles: [],
+            creneauxQuotidiens: []
         } as LieuxParDepartement);
+
+        lieuxParDepartement.creneauxQuotidiens = ArrayBuilder.from(lieuxParDepartement.creneauxQuotidiens)
+            .sortBy(cq => cq.date)
+            .build();
 
         return lieuxParDepartement;
     }
