@@ -531,7 +531,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         ? currentSearch.departement.code_departement
                         : currentSearch.commune.codeDepartement
                     const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
-                    const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement)
+                    const lieuxAJourPourDepartement = await State.current.lieuxPour([codeDepartement])
                     this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
 
                     // we stop the update check if there has been one
@@ -557,22 +557,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
             try {
                 this.searchInProgress = true;
                 await delay(1) // give some time (one tick) to render loader before doing the heavy lifting
-                const [lieuxDepartement, ...lieuxDepartementsLimitrophes] = await Promise.all([
-                    State.current.lieuxPour(codeDepartement),
-                    ...this.codeDepartementAdditionnels(codeDepartement).map(dept => State.current.lieuxPour(dept))
-                ]);
-
-                const lieuxParDepartement = [lieuxDepartement].concat(lieuxDepartementsLimitrophes).reduce((mergedLieuxParDepartement, lieuxParDepartement) => ({
-                    codeDepartements: mergedLieuxParDepartement.codeDepartements.concat(lieuxParDepartement.codeDepartements),
-                    derniereMiseAJour: mergedLieuxParDepartement.derniereMiseAJour,
-                    lieuxDisponibles: mergedLieuxParDepartement.lieuxDisponibles.concat(lieuxParDepartement.lieuxDisponibles),
-                    lieuxIndisponibles: mergedLieuxParDepartement.lieuxIndisponibles.concat(lieuxParDepartement.lieuxIndisponibles),
-                }), {
-                    codeDepartements: [],
-                    derniereMiseAJour: lieuxDepartement.derniereMiseAJour,
-                    lieuxDisponibles: [],
-                    lieuxIndisponibles: []
-                } as LieuxParDepartement);
+                const lieuxParDepartement = await State.current.lieuxPour([codeDepartement].concat(this.codeDepartementAdditionnels(codeDepartement)));
 
                 this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement, currentSearch);
                 this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, []);

@@ -260,15 +260,26 @@ export class State {
       this.autocomplete = new Autocomplete(webBaseUrl, () => this.departementsDisponibles())
     }
 
-    async lieuxPour(codeDepartement: CodeDepartement): Promise<LieuxParDepartement> {
-        const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: 'no-cache' })
-        const results = await resp.json()
-        const lieuxParDepartement = {
-            lieuxDisponibles: results.centres_disponibles.map(transformLieu),
-            lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
-            codeDepartements: [codeDepartement],
-            derniereMiseAJour: results.last_updated
-        };
+    async lieuxPour(codesDepartements: CodeDepartement[]): Promise<LieuxParDepartement> {
+        const [principalLieuxDepartement, ...lieuxDepartementsAditionnels] = await Promise.all(
+            codesDepartements.map(codeDept => fetch(`${VMD_BASE_URL}/${codeDept}.json`, { cache: 'no-cache' })
+                .then(resp => resp.json())
+                .then((statsDept: LieuxParDepartement_JSON) => ({...statsDept, codeDepartement: codeDept}))
+            )
+        );
+
+        const lieuxParDepartement = [principalLieuxDepartement].concat(lieuxDepartementsAditionnels).reduce((mergedLieuxParDepartement, lieuxParDepartement) => ({
+            codeDepartements: mergedLieuxParDepartement.codeDepartements.concat(lieuxParDepartement.codeDepartement),
+            derniereMiseAJour: mergedLieuxParDepartement.derniereMiseAJour,
+            lieuxDisponibles: mergedLieuxParDepartement.lieuxDisponibles.concat(lieuxParDepartement.centres_disponibles.map(transformLieu)),
+            lieuxIndisponibles: mergedLieuxParDepartement.lieuxIndisponibles.concat(lieuxParDepartement.centres_indisponibles.map(transformLieu)),
+        }), {
+            codeDepartements: [],
+            derniereMiseAJour: principalLieuxDepartement.last_updated,
+            lieuxDisponibles: [],
+            lieuxIndisponibles: []
+        } as LieuxParDepartement);
+
         return lieuxParDepartement;
     }
 
