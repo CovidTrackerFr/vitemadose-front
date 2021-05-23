@@ -110,9 +110,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     <vmd-search
                           .value="${this.currentSearch}"
                           @on-search="${this.onSearchSelected}"
-                        />
+                    />
+              </div>
+              <div class="rdvForm-fields row align-items-center">
+                <label class="col-sm-24 col-md-auto mb-md-3">
+                  Type de vaccin :
+                </label>
+                <div class="col">
+                  <vmd-button-switch class="mb-3"
+                                     codeSelectionne="18-55"
+                                     .options="${[{code:"18-55", libelle: "Préconisé pour les 18-55 ans"}, {code:"tous", libelle: "Tous"}]}">
+                  </vmd-button-switch>
                 </div>
-                ${this.renderAdditionnalSearchCriteria()}
+              </div>
+              ${this.renderAdditionnalSearchCriteria()}
             </div>
 
             <div class="spacer mt-5 mb-5"></div>
