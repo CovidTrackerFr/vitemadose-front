@@ -81,6 +81,123 @@ export abstract class AbstractVmdRdvView extends LitElement {
             font-weight: bold;
             white-space: nowrap;
           }
+
+          /* see https://css-tricks.com/value-bubbles-for-range-inputs/ */
+          .range-wrap {
+            position: relative;
+            margin: 3rem auto 3rem;
+          }
+          .bubble {
+            background: #5561d9;
+            color: white;
+            padding: 4px 12px;
+            position: absolute;
+            border-radius: 4px;
+            left: 50%;
+            top: 40px;
+            transform: translateX(-50%);
+          }
+          .bubble::after {
+            content: "";
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #5561d9;
+            top: -1px;
+            left: 50%;
+          }
+          
+          /* see https://www.cssportal.com/style-input-range/ */
+          input[type=range] {
+            height: 26px;
+            background-color: transparent;
+            -webkit-appearance: none;
+            margin: 10px 0;
+            width: 100%;
+          }
+          input[type=range]:focus {
+            outline: none;
+          }
+          input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 14px;
+            cursor: pointer;
+            animate: 0.2s;
+            box-shadow: 1px 1px 1px #5561d9;
+            background: #5561d9;
+            border-radius: 14px;
+            border: 0px solid #000000;
+          }
+          input[type=range]::-webkit-slider-thumb {
+            box-shadow: 0px 0px 0px #000000;
+            border: 0px solid #000000;
+            height: 20px;
+            width: 40px;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -3px;
+          }
+          input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #5561d9;
+          }
+          input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 14px;
+            cursor: pointer;
+            animate: 0.2s;
+            box-shadow: 1px 1px 1px #5561d9;
+            background: #5561d9;
+            border-radius: 14px;
+            border: 0px solid #000000;
+          }
+          input[type=range]::-moz-range-thumb {
+            box-shadow: 0px 0px 0px #000000;
+            border: 0px solid #000000;
+            height: 20px;
+            width: 40px;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+          }
+          input[type=range]::-ms-track {
+            width: 100%;
+            height: 14px;
+            cursor: pointer;
+            animate: 0.2s;
+            background: transparent;
+            border-color: transparent;
+            color: transparent;
+          }
+          input[type=range]::-ms-fill-lower {
+            background: #5561d9;
+            border: 0px solid #000000;
+            border-radius: 28px;
+            box-shadow: 1px 1px 1px #5561d9;
+          }
+          input[type=range]::-ms-fill-upper {
+            background: #5561d9;
+            border: 0px solid #000000;
+            border-radius: 28px;
+            box-shadow: 1px 1px 1px #5561d9;
+          }
+          input[type=range]::-ms-thumb {
+            margin-top: 1px;
+            box-shadow: 0px 0px 0px #000000;
+            border: 0px solid #000000;
+            height: 20px;
+            width: 40px;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+          }
+          input[type=range]:focus::-ms-fill-lower {
+            background: #5561d9;
+          }
+          input[type=range]:focus::-ms-fill-upper {
+            background: #5561d9;
+          }
         `
     ];
 
@@ -144,6 +261,22 @@ export abstract class AbstractVmdRdvView extends LitElement {
                                      codeSelectionne="18-55"
                                      .options="${[{code:"18-55", libelle: "Préconisé pour les 18-55 ans"}, {code:"tous", libelle: "Tous"}]}">
                   </vmd-button-switch>
+                </div>
+              </div>
+              <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
+                <label for="searchAppointment-distance" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
+                  Distance :
+                </label>
+                <div class="px-0 col">
+                  <vmd-input-range-with-tooltip
+                      id="searchAppointment-distance" codeSelectionne="2km"
+                      .options="${[
+                          {code: 1, libelle:"<1km"}, {code: 2, libelle:"<2km"}, {code: 5, libelle:"<5km"},
+                          {code: 10, libelle:"<10km"}, {code: 20, libelle:"<20km"}, {code: 50, libelle:"<50km"},
+                          {code: 100, libelle:"<100km"}, {code: 150, libelle:"<150km"}
+                      ]}"
+                      @option-selected="${(e: CustomEvent<{value: number|undefined}>) => console.log(`Option sélectionnée : ${e.detail.value}`)}"
+                  ></vmd-input-range-with-tooltip>
                 </div>
               </div>
             </div>
