@@ -52,26 +52,43 @@ export class VmdEquipe extends LitElement {
 
     renderList () {
       return repeat(this.team, (c) => c.pseudo, (c, i) => {
-        return html`
-          <a href="${c.site_web || `https://github.com/${c.pseudo}` }" target="_blank nofollow" class="contributor" style="--index:${i};">
-              <div class="photo">
-                <img src="${c.photo || DEFAULT_PICTURE}" alt="Avatar de ${c.nom || c.pseudo}">
-              </div>
-              <div class="info">
-                <h4 class="h5">@${c.pseudo}</h4>
-                <h5 class="h6">${c.nom || c.pseudo}</h5>
-                <div class="job">
-                  ${c.job}
-                </div>
-              </div>
-              <div class="teams">
-                <ul>
-                  ${repeat(c.teams, (t) => t, (t) => html`<li class="team">${t}</li>`)}
-                </ul>
-              </div>
-          </a>
+        const content = html`
+          <div class="photo">
+            <img src="${c.photo || DEFAULT_PICTURE}" alt="Avatar de ${c.nom || c.pseudo}">
+          </div>
+          <div class="info">
+            <h4 class="h5">@${c.pseudo}</h4>
+            <h5 class="h6">${c.nom || c.pseudo}</h5>
+            <div class="job">
+              ${c.job}
+            </div>
+          </div>
+          <div class="teams">
+            <ul>
+              ${repeat(c.teams, (t) => t, (t) => html`<li class="team">${t}</li>`)}
+            </ul>
+          </div>
         `
+        const mainLink = this.mainLink(c)
+        if (mainLink) {
+          return html`
+            <a href="${mainLink}" target="_blank nofollow" class="contributor">
+              ${content}
+            </a>
+          `
+        } else {
+          return html`
+            <div class="contributor">${content}</div>
+          `
+        }
       })
+    }
+
+    private mainLink(c: Contributor): string | void {
+      if (c.site_web) {
+        return c.site_web
+      }
+      return c.links.map(({ url }) => url)[0]
     }
 
 
