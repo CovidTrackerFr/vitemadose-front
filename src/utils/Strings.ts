@@ -11,6 +11,10 @@ export class Strings {
         return (value && value>1)?pluralForm:'';
     }
 
+    static upperFirst(str: string) {
+        return str[0].toUpperCase()+str.substring(1);
+    }
+
     // FIXME move to dedicated component
     static toNormalizedPhoneNumber(phoneNumber: string|undefined) {
         if(phoneNumber === undefined) {

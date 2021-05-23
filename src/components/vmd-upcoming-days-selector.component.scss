@@ -1,0 +1,43 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "../styles/bootstrap-variables";
+@import "../styles/global-variables";
+
+.list-group-horizontal.days li.list-group-item {
+  text-align: center;
+  cursor: pointer;
+
+  &.selected {
+    border: 5px solid $primary;
+    padding: 5px;
+  }
+  &:not(.selected) {
+    padding: 9px;
+    border-width: 1px;
+    &:hover {
+      border: 3px solid $primary;
+      border-style: dashed;
+      padding: 7px;
+    }
+  }
+}
+
+.cpt-rdv {
+  border-radius: 8px;
+  padding: 4px 6px;
+  white-space: nowrap;
+  background-color: $primary; color: white;
+  font-weight: bold;
+}
+
+ul.days {
+  width: 100%;
+  overflow: scroll;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+.days .day {
+  font-weight: bold;
+  white-space: nowrap;
+}

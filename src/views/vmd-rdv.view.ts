@@ -24,9 +24,9 @@ import {
     LieuxParDepartement,
     SearchRequest,
     SearchType,
-    State, CodeTriCentre
+    State, CodeTriCentre, StatsCreneauxQuotidien
 } from "../state/State";
-import { formatDistanceToNow, parseISO } from 'date-fns'
+import {formatDistanceToNow, parseISO, startOfDay} from 'date-fns'
 import { fr } from 'date-fns/locale'
 import {Strings} from "../utils/Strings";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
@@ -51,37 +51,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
         CSS_Global,
         css`${unsafeCSS(rdvViewCss)}`,
         css`
-          .list-group-horizontal.days li.list-group-item.selected {
-            border: 4px solid #5561d9;
-            padding: 5px;
-          }
-          .list-group-horizontal.days li.list-group-item:not(.selected) {
-            padding: 8px;
-          }
-          
-          .cpt-rdv {
-            border-radius: 8px;
-            padding: 4px 6px;
-            white-space: nowrap;
-            background-color: #5561d9; color: white;
-            font-weight: bold;
-          }
-
-          ul.days {
-            width: 100%;
-            overflow: scroll;
-            margin-top: 10px;
-            margin-bottom: 30px;
-            font-size: 2rem;
-          }
-          .days li {
-            text-align: center;
-          }
-          .days .day {
-            font-weight: bold;
-            white-space: nowrap;
-          }
-
           input[type=time] {
             line-height: 20px;
             width: 80px;
@@ -219,7 +188,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
     @property({type: Array, attribute: false}) cartesAffichees: LieuAffichableAvecDistance[] = [];
-
+    @internalProperty() lieuxParDepartement: LieuxParDepartement|undefined = undefined;
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
@@ -310,89 +279,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
             </div>
 
             <div class="spacer mt-5 mb-5"></div>
-
-            <ul class="days list-group list-group-horizontal">
-              <li class="list-group-item">
-                <div class="day">Ven 21</div>
-                <span class="cpt-rdv">1 créneau</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Sam 22</div>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Dim 23</div>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Lun 24</div>
-              </li>
-              <li class="list-group-item selected">
-                <div class="day">Mar 25</div>
-                <span class="cpt-rdv">20 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Mer 26</div>
-                <span class="cpt-rdv">25 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Jeu 27</div>
-                <span class="cpt-rdv">22 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Ven 28</div>
-                <span class="cpt-rdv">30 créneaux</span>
-              </li>
-<!--              <li class="list-group-item">-->
-<!--                <div class="day">Sam 29</div>-->
-<!--                <span class="cpt-rdv">28 créneaux</span>-->
-<!--              </li>-->
-              <li class="list-group-item">
-                <div class="day">Dim 30</div>
-                <span class="cpt-rdv">28 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Lun 31</div>
-                <span class="cpt-rdv">35 créneau</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Mar 01/06</div>
-                <span class="cpt-rdv">42 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Mer 02/06</div>
-                <span class="cpt-rdv">42 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Jeu 03/06</div>
-                <span class="cpt-rdv">42 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Ven 04/06</div>
-                <span class="cpt-rdv">42 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Sam 05/06</div>
-                <span class="cpt-rdv">42 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Dim 06/06</div>
-                <span class="cpt-rdv">42 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Lun 07/06</div>
-                <span class="cpt-rdv">42 créneaux</span>
-              </li>
-              <li class="list-group-item">
-                <div class="day">Mar 08/06</div>
-                <span class="cpt-rdv">42 créneaux</span>
-              </li>
-            </ul>
-
+            
             ${this.searchInProgress?html`
               <div class="d-flex justify-content-center">
                 <div class="spinner-border text-primary" style="height: 50px; width: 50px" role="status">
                 </div>
               </div>
             `:html`
+                <vmd-upcoming-days-selector
+                    start="${startOfDay(new Date()).toISOString().substring(0, 10)}"
+                    dateSelectionnee=""
+                    .statsCreneauxQuotidien="${this.lieuxParDepartement?.creneauxQuotidiens || []}"
+                    @jour-selectionne="${(event: CustomEvent<StatsCreneauxQuotidien>) => console.log(event.detail.date)}"
+                ></vmd-upcoming-days-selector>
+
                 <h3 class="fw-normal text-center h4 ${classMap({ 'search-highlighted': !SearchRequest.isStandardType(this.currentSearch), 'search-standard': SearchRequest.isStandardType(this.currentSearch) })}"
                     style="${styleMap({display: (this.lieuxParDepartementAffiches) ? 'block' : 'none'})}">
                     ${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}
@@ -557,9 +457,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
             try {
                 this.searchInProgress = true;
                 await delay(1) // give some time (one tick) to render loader before doing the heavy lifting
-                const lieuxParDepartement = await State.current.lieuxPour([codeDepartement].concat(this.codeDepartementAdditionnels(codeDepartement)));
+                this.lieuxParDepartement = await State.current.lieuxPour([codeDepartement].concat(this.codeDepartementAdditionnels(codeDepartement)));
 
-                this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement, currentSearch);
+                this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(this.lieuxParDepartement, currentSearch);
                 this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, []);
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
