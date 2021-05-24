@@ -102,10 +102,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return html`
             <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'bg-std': SearchRequest.isStandardType(this.currentSearch), 'bg-chronodose': SearchRequest.isChronodoseType(this.currentSearch)})}">
               <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
-                <li class="col bg-std text-std tab ${classMap({selected: SearchRequest.isStandardType(this.currentSearch)})}" @click="${() => this.updateSearchTypeTo('standard')}">
+                <li role="button" tabindex="0" class="col bg-std text-std tab ${classMap({selected: SearchRequest.isStandardType(this.currentSearch)})}" 
+                    @click="${() => this.updateSearchTypeTo('standard')}"  
+                    @keydown="${(e:KeyboardEvent) => e.key === 'Enter' && this.updateSearchTypeTo('standard')}">
                   Tous les créneaux
                 </li>
-                <li class="col bg-chronodose text-chronodose tab ${classMap({selected: SearchRequest.isChronodoseType(this.currentSearch)})}" @click="${() => this.updateSearchTypeTo('chronodose')}">
+                <li role="button" tabindex="0" class="col bg-chronodose text-chronodose tab ${classMap({selected: SearchRequest.isChronodoseType(this.currentSearch)})}"
+                    @click="${() => this.updateSearchTypeTo('chronodose')}"  
+                    @keydown="${(e:KeyboardEvent) => e.key === 'Enter' && this.updateSearchTypeTo('chronodose')}">
                   <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses uniquement</span>
                 </li>
               </ul>

@@ -65,7 +65,6 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
                 <input type="search" class="autocomplete-input"
                     autocomplete="off"
                     required
-                    autocomplete="off"
                     @focusin="${this.onFocusIn}"
                     @focusout="${this.onInputBlur}"
                     @keydown="${this.handleKeydown}"
@@ -99,7 +98,10 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
     private onFocusIn (e: Event) {
       this.inputHasFocus = true
-      window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' })
+      if(window.matchMedia("(max-width: 700px)").matches) {
+        window.scroll({ top: this.offsetTop - 32, behavior: 'smooth' })
+      }
+      
       const input = e.target as HTMLInputElement
       if (this._currentValue && input) {
         input.select()

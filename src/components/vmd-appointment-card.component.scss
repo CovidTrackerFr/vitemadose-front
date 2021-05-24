@@ -102,11 +102,11 @@ a:focus {
 
 .search-chronodose {
   .highlight-text {
-    background-color: tint-color($chronodoseColor, 80%);
+    background-color: $lightChronodoseColor;
     color: $chronodoseColor;
   }
   .btn-tel {
-    background-color: tint-color($chronodoseColor, 80%);
+    background-color: $lightChronodoseColor;
     color: $chronodoseColor;
   }
 }
