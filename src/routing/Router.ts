@@ -1,7 +1,13 @@
 import page from "page";
 import { TemplateResult } from "lit-html";
 import {html} from "lit-element";
-import {CodeTriCentre, SearchType, State} from "../state/State";
+import {
+    CodeTriCentre,
+    SearchType,
+    searchTypeConfigFor,
+    searchTypeConfigFromPathParam,
+    State
+} from "../state/State";
 import {Analytics} from "../utils/Analytics";
 // @ts-ignore
 import {rechercheDepartementDescriptor, rechercheCommuneDescriptor} from './DynamicURLs';
@@ -57,12 +63,12 @@ class Routing {
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
                 rechercheDepartementDescriptor.routerUrl
             ],
-            analyticsViewName: (_) => `search_results_by_department`,
+            analyticsViewName: (pathParams) => searchTypeConfigFromPathParam(pathParams).analytics.searchResultsByDepartement,
             viewContent: async (params) => {
                 await import('../views/vmd-rdv.view');
                 return (subViewSlot) =>
                     html`<vmd-rdv-par-departement
-                        searchType="standard"
+                        searchType="${searchTypeConfigFromPathParam(params).type}"
                         codeDepartementSelectionne="${params[`codeDpt`]}">
                       ${subViewSlot}
                     </vmd-rdv-par-departement>`
@@ -79,12 +85,12 @@ class Routing {
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`,
                 rechercheCommuneDescriptor.routerUrl
             ],
-            analyticsViewName: (_) => `search_results_by_city`,
+            analyticsViewName: (pathParams) => searchTypeConfigFromPathParam(pathParams).analytics.searchResultsByCity,
             viewContent: async (params) => {
                 await import('../views/vmd-rdv.view');
                 return (subViewSlot) =>
                     html`<vmd-rdv-par-commune
-                    searchType="standard"
+                    searchType="${searchTypeConfigFromPathParam(params).type}"
                     codeCommuneSelectionne="${params[`codeCommune`]}"
                     codePostalSelectionne="${params[`codePostal`]}"
                     critèreDeTri="${params[`codeTriCentre`]}">
@@ -193,11 +199,11 @@ class Routing {
     }
 
     public getLinkToRendezVousAvecDepartement(codeDepartement: string, pathLibelleDepartement: string, searchType: SearchType) {
-        return `${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/recherche-${searchType}`;
+        return `${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/recherche-${searchTypeConfigFor(searchType).pathParam}`;
     }
 
     public navigateToRendezVousAvecCommune(codeTriCentre: CodeTriCentre, codeDepartement: string, pathLibelleDepartement: string, codeCommune: string, codePostal: string, pathLibelleCommune: string, searchType: SearchType) {
-        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/commune${codeCommune}-${codePostal}-${pathLibelleCommune}/recherche-${searchType}/en-triant-par-${codeTriCentre}`);
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/commune${codeCommune}-${codePostal}-${pathLibelleCommune}/recherche-${searchTypeConfigFor(searchType).pathParam}/en-triant-par-${codeTriCentre}`);
     }
 
     navigateToHome() {

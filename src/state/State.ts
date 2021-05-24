@@ -247,6 +247,48 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
 }
 
 export type SearchType = "standard";
+export type SearchTypeConfig = {
+    dailyAppointmentsExtractor: (dailyStat: StatsCreneauxQuotidien) => number;
+    cardAppointmentsExtractor: (lieu: Lieu) => number;
+    filterLieuxDisponibles: (lieux: LieuAffichableAvecDistance[]) => LieuAffichableAvecDistance[];
+    pathParam: string;
+    standardTabSelected: boolean;
+    excludeAppointmentByPhoneOnly: boolean;
+    theme: 'standard'|'highlighted';
+    analytics: {
+        searchResultsByDepartement: string;
+        searchResultsByCity: string;
+    }
+};
+const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type}} = {
+    'standard': {
+        type: 'standard',
+        dailyAppointmentsExtractor: (dailyStat) => dailyStat.total,
+        cardAppointmentsExtractor: (lieu) => lieu.appointment_count,
+        filterLieuxDisponibles: (lieux) => lieux.filter(lieu => lieu.disponible),
+        pathParam: 'standard',
+        standardTabSelected: true,
+        excludeAppointmentByPhoneOnly: false,
+        theme: 'standard',
+        analytics: {
+            searchResultsByDepartement: 'search_results_by_department',
+            searchResultsByCity: 'search_results_by_city'
+        }
+    }
+};
+export function searchTypeConfigFromPathParam(pathParams: Record<string,string>) {
+    const config = Object.values(SEARCH_TYPE_CONFIGS).find(config => pathParams && config.pathParam === pathParams['typeRecherche']);
+    if(config) {
+        return config;
+    }
+    throw new Error(`No config found for path param: ${pathParams['typeRecherche']}`);
+}
+export function searchTypeConfigFromSearch(searchRequest: SearchRequest|void, fallback: SearchType) {
+    return searchTypeConfigFor(searchRequest ? searchRequest.type : fallback);
+}
+export function searchTypeConfigFor(searchType: SearchType) {
+    return SEARCH_TYPE_CONFIGS[searchType];
+}
 
 export class State {
 

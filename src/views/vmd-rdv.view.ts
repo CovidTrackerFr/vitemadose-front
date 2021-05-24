@@ -22,9 +22,12 @@ import {
     LieuAffichableAvecDistance,
     LieuxAvecDistanceParDepartement,
     LieuxParDepartement,
-    SearchRequest,
-    SearchType,
-    State, CodeTriCentre, StatsCreneauxQuotidien
+   SearchRequest, SearchType,
+    State,
+    CodeTriCentre,
+    StatsCreneauxQuotidien,
+    searchTypeConfigFor,
+    searchTypeConfigFromSearch
 } from "../state/State";
 import {formatDistanceToNow, parseISO, startOfDay} from 'date-fns'
 import { fr } from 'date-fns/locale'
@@ -224,8 +227,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     render() {
-        const lieuxDisponibles = (this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxAffichables)?
-            this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => l.disponible):[];
+        const countLieuxDisponibles = searchTypeConfigFromSearch(this.currentSearch, 'standard').filterLieuxDisponibles(this.lieuxParDepartementAffiches?.lieuxAffichables || []).length;
+        const searchTypeConfig = searchTypeConfigFromSearch(this.currentSearch, 'standard');
+        const standardMode = searchTypeConfig.standardTabSelected;
 
         return html`
             <div class="criteria-container text-dark rounded-3 py-5 ${classMap({'bg-std': SearchRequest.isStandardType(this.currentSearch), 'bg-highlighted': !SearchRequest.isStandardType(this.currentSearch)})}">
@@ -317,11 +321,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
                 <div class="spacer mt-5 mb-5"></div>
                 <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
-                    ${lieuxDisponibles.length ? html`
+                    ${countLieuxDisponibles ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${lieuxDisponibles.length} Lieu${Strings.plural(lieuxDisponibles.length, 'x')} de vaccination avec des disponibilités
+                                ${countLieuxDisponibles} Lieu${Strings.plural(countLieuxDisponibles, 'x')} de vaccination avec des disponibilités
                             </span>
                         </h2>
                     ` : html`
@@ -350,14 +354,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
                                           return html`<vmd-appointment-card
                                     style="--list-index: ${index}"
                                     .lieu="${lieu}"
-                                    theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
+                                    theme="${searchTypeConfig.theme}"
                                     @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                                     @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
                                 />`;
                             })}
                             <div id="sentinel"></div>
                         </div>
-                ${SearchRequest.isStandardType(this.currentSearch)?html`
+                ${standardMode?html`
                 <div class="eligibility-criteria fade-in-then-fade-out">
                     <p>Les critères d'éligibilité sont vérifiés lors de la prise de rendez-vous</p>
                 </div>`:html``}
@@ -536,10 +540,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
 
-    protected transformLieuEnFonctionDuTypeDeRecherche(lieu: LieuAffichableAvecDistance) {
-        return lieu;
-    }
-
     abstract libelleLieuSelectionne(): TemplateResult;
     // FIXME move me to a testable file
     abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement, search: SearchRequest): LieuxAvecDistanceParDepartement;
@@ -603,15 +603,26 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
 
         const { lieuxDisponibles, lieuxIndisponibles } = lieuxParDepartement
+
+        let lieuxAffichablesBuilder = ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
+            .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
+            .map(l => ({
+                ...l,
+                distance: distanceAvec(l),
+                appointment_count: searchTypeConfigFor(search.type).cardAppointmentsExtractor(l)
+            })).filter(l =>
+                (!l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
+            )
+        if(searchTypeConfigFromSearch(this.currentSearch, 'standard').excludeAppointmentByPhoneOnly) {
+            lieuxAffichablesBuilder.filter(l => !l.appointment_by_phone_only)
+        }
+
+        lieuxAffichablesBuilder.sortBy(l => this.extraireFormuleDeTri(l, 'distance'))
+
+        const lieuxAffichables = lieuxAffichablesBuilder.build();
         return {
             ...lieuxParDepartement,
-            lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
-                .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
-                .map(l => ({...l, distance: distanceAvec(l) }))
-                .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
-                .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
-                .sortBy(l => this.extraireFormuleDeTri(l, 'distance'))
-                .build()
+            lieuxAffichables,
         };
     }
 }
@@ -661,17 +672,28 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
     }
 
     // FIXME move me to testable file
-    afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement): LieuxAvecDistanceParDepartement {
+    afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement, search: SearchRequest): LieuxAvecDistanceParDepartement {
         const { lieuxDisponibles, lieuxIndisponibles } = lieuxParDepartement
+
+        let lieuxAffichablesBuilder = ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
+            .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
+            .map(l => ({
+                ...l,
+                distance: undefined,
+                appointment_count: searchTypeConfigFor(search.type).cardAppointmentsExtractor(l)
+            }))
+
+        if(searchTypeConfigFromSearch(this.currentSearch, 'standard').excludeAppointmentByPhoneOnly) {
+            lieuxAffichablesBuilder.filter(l => !l.appointment_by_phone_only)
+        }
+
+        lieuxAffichablesBuilder.sortBy(l => this.extraireFormuleDeTri(l, 'distance'))
+
+        const lieuxAffichables = lieuxAffichablesBuilder.build();
 
         return {
             ...lieuxParDepartement,
-            lieuxAffichables: ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
-                .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
-                .map(l => ({...l, distance: undefined }))
-                .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
-                .sortBy(l => this.extraireFormuleDeTri(l, 'date'))
-                .build()
+            lieuxAffichables,
         };
     }
 
