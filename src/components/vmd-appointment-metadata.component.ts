@@ -38,7 +38,7 @@ export class VmdAppointmentMetadataComponent extends LitElement {
         return html`
             <div class="row ${classMap({'align-items-center':!!this.centerIconVertically})}">
                 <i class="bi ${this.icon} col-auto"></i>
-                <p class="col">
+                <p class="col card-text">
                   <slot name="content"></slot>
                 </p>
             </div>
