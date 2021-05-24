@@ -180,6 +180,7 @@ export type LieuxParDepartement_JSON = {
 export type LieuAffichableAvecDistance = Lieu & { disponible: boolean, distance: number|undefined };
 export type LieuxAvecDistanceParDepartement = {
     lieuxAffichables: LieuAffichableAvecDistance[];
+    lieuxDisponibles: LieuAffichableAvecDistance[];
     codeDepartements: CodeDepartement[];
     derniereMiseAJour: ISODateString;
 };

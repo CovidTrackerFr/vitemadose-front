@@ -35,6 +35,7 @@ describe('InfiniteScroll', () => {
         }
         lieuxParDepartementAffiches = {
             lieuxAffichables: lieuxAffichables,
+            lieuxDisponibles: [],
             codeDepartements: [],
             derniereMiseAJour: new Date().toISOString()
         };

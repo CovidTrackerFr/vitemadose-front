@@ -227,7 +227,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     render() {
-        const countLieuxDisponibles = searchTypeConfigFromSearch(this.currentSearch, 'standard').filterLieuxDisponibles(this.lieuxParDepartementAffiches?.lieuxAffichables || []).length;
+        const countLieuxDisponibles = (this.lieuxParDepartementAffiches?.lieuxDisponibles || []).length;
         const searchTypeConfig = searchTypeConfigFromSearch(this.currentSearch, 'standard');
         const standardMode = searchTypeConfig.standardTabSelected;
 
@@ -623,6 +623,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         return {
             ...lieuxParDepartement,
             lieuxAffichables,
+            lieuxDisponibles: searchTypeConfigFromSearch(this.currentSearch, 'standard').filterLieuxDisponibles(lieuxAffichables)
         };
     }
 }
@@ -694,6 +695,7 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
         return {
             ...lieuxParDepartement,
             lieuxAffichables,
+            lieuxDisponibles: searchTypeConfigFromSearch(this.currentSearch, 'standard').filterLieuxDisponibles(lieuxAffichables)
         };
     }
 
