@@ -21,6 +21,7 @@ describe('InfiniteScroll', () => {
                 appointment_by_phone_only: false,
                 appointment_schedules: [],
                 plateforme: 'Doctolib',
+                internal_id: 'doctolib12345',
                 prochain_rdv: '2021-05-17T09:10:00.000+02:00',
                 metadata: {
                     address: '1 Place de la Concorde',

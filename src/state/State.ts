@@ -19,10 +19,11 @@ export namespace SearchRequest {
       type: SearchType,
       par: 'departement',
       departement: Departement,
-      tri: 'date'
+      tri: 'date',
+      date: string|undefined
   }
-  export function ByDepartement (departement: Departement, type: SearchType): ByDepartement {
-    return { type, par: 'departement', departement, tri: 'date' }
+  export function ByDepartement (departement: Departement, type: SearchType, date: string|undefined): ByDepartement {
+    return { type, par: 'departement', departement, tri: 'date', date }
   }
   export function isByDepartement (searchRequest: SearchRequest): searchRequest is ByDepartement {
     return searchRequest.par === 'departement'
@@ -32,10 +33,11 @@ export namespace SearchRequest {
     type: SearchType,
     par: 'commune',
     commune: Commune,
-    tri: 'distance'
+    tri: 'distance',
+    date: string|undefined
   }
-  export function ByCommune (commune: Commune, type: SearchType): ByCommune {
-    return { type, par: 'commune', commune, tri: 'distance' }
+  export function ByCommune (commune: Commune, type: SearchType, date: string|undefined): ByCommune {
+    return { type, par: 'commune', commune, tri: 'distance', date }
   }
   export function isByCommune (searchRequest: SearchRequest): searchRequest is ByCommune {
     return searchRequest.par === 'commune'
@@ -124,6 +126,7 @@ export type Lieu = {
     appointment_schedules: AppointmentSchedule[]|undefined;
     plateforme: TypePlateforme;
     prochain_rdv: ISODateString|null;
+    internal_id: string;
     metadata: {
         address: string;
         phone_number: string|undefined;
@@ -247,14 +250,29 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
     return Strings.toReadableURLPathValue(commune.nom);
 }
 
+export type Creneau = {
+    debut: ISODateString;
+    tags: string[];
+}
+export type CreneauxPourLieu = {
+    id: string;
+    creneaux: Creneau[];
+}
+export type RendezVoudDuJour = {
+    date: string;
+    timezone: string;
+    lieux: CreneauxPourLieu[];
+}
+
 export type SearchType = "standard";
 export type SearchTypeConfig = {
     dailyAppointmentsExtractor: (dailyStat: StatsCreneauxQuotidien) => number;
-    cardAppointmentsExtractor: (lieu: Lieu) => number;
+    cardAppointmentsExtractor: (lieu: Lieu, creneauxPourLieu: CreneauxPourLieu|undefined) => number;
     filterLieuxDisponibles: (lieux: LieuAffichableAvecDistance[]) => LieuAffichableAvecDistance[];
     pathParam: string;
     standardTabSelected: boolean;
     excludeAppointmentByPhoneOnly: boolean;
+    jourSelectionnable: boolean;
     theme: 'standard'|'highlighted';
     analytics: {
         searchResultsByDepartement: string;
@@ -265,11 +283,12 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
     'standard': {
         type: 'standard',
         dailyAppointmentsExtractor: (dailyStat) => dailyStat.total,
-        cardAppointmentsExtractor: (lieu) => lieu.appointment_count,
+        cardAppointmentsExtractor: (_, creneauxPourLieu) => creneauxPourLieu?creneauxPourLieu.creneaux.length:-1,
         filterLieuxDisponibles: (lieux) => lieux.filter(lieu => lieu.disponible),
         pathParam: 'standard',
         standardTabSelected: true,
         excludeAppointmentByPhoneOnly: false,
+        jourSelectionnable: true,
         theme: 'standard',
         analytics: {
             searchResultsByDepartement: 'search_results_by_department',
@@ -426,5 +445,34 @@ export class State {
               proportion: Math.round(global.disponibles * 10000 / global.total)/100
           }
       };
+    }
+
+    async rdvDuJour(stats: StatsCreneauxQuotidien) {
+        const rdvQuotidiensParDepartements: RendezVoudDuJour[] = await Promise.all(
+            stats.urls.map(urlRdvQuotidienParDpt =>
+                fetch(`${VMD_BASE_URL}/${urlRdvQuotidienParDpt}`, {cache: 'no-cache'})
+                    .then(resp => resp.json()))
+        );
+
+        return rdvQuotidiensParDepartements.reduce((rdvQuotidiensAggreges, rdvQuotidiensParDepartement) => {
+            rdvQuotidiensParDepartement.lieux.forEach(lieu => {
+                if(!rdvQuotidiensAggreges.lieux.find(l => l.id === lieu.id)) {
+                    rdvQuotidiensAggreges.lieux.push({
+                        id: lieu.id,
+                        creneaux: []
+                    })
+                }
+
+                Array.prototype.push.apply(rdvQuotidiensAggreges.lieux.find(l => l.id === lieu.id)!.creneaux, lieu.creneaux);
+            })
+
+            return rdvQuotidiensAggreges;
+        }, {
+            date: stats.date,
+            lieux: [],
+            // Crossing fingers we can't query a list of departments not sharing the same timezone
+            // (spoiler alert: this is not possible)
+            timezone: rdvQuotidiensParDepartements[0]?.timezone
+        } as RendezVoudDuJour);
     }
 }

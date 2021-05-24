@@ -21,6 +21,7 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
 
     @property() statsCreneauxQuotidien: StatsCreneauxQuotidien[] = [];
     @property() dateSelectionnee: string|undefined = undefined;
+    @property({attribute: false}) dailyAppointmentExtractor: (stat: StatsCreneauxQuotidien) => number = () => 0;
 
     constructor() {
         super();
@@ -29,12 +30,15 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
     render() {
         return html`
           <ul class="days list-group list-group-horizontal">
-            ${repeat(this.statsCreneauxQuotidien, date => date, stat => html`
+            ${repeat(this.statsCreneauxQuotidien, date => date, stat => {
+                const appointmentCount = this.dailyAppointmentExtractor(stat);
+                return html`
               <li class="list-group-item ${classMap({selected: this.dateSelectionnee === stat.date})}" @click="${() => this.jourSelectionne(stat)}">
                 <div class="day">${Strings.upperFirst(format(parse(stat.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'E dd/MM', {locale: fr})).replace(".","")}</div>
-                ${stat.total?html`<span class="cpt-rdv">${stat.total} créneau${Strings.plural(stat.total, "x")}</span>`:html``}
+                ${appointmentCount?html`<span class="cpt-rdv">${appointmentCount} créneau${Strings.plural(appointmentCount, "x")}</span>`:html``}
               </li>
-            `)}
+                `;
+            })}
           </ul>
         `;
     }
