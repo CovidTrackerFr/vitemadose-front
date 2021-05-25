@@ -1,4 +1,3 @@
-import {DateString, ISODateString, WeekDay} from "../utils/Dates";
 import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
@@ -64,7 +63,7 @@ const VMD_BASE_URL = USE_RAW_GITHUB
   : "https://vitemadose.gitlab.io/vitemadose"
 
 
-export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma";
+export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma"|"AvecMonDoc";
 export type Plateforme = {
     // Should be the same than PLATEFORMES' key
     code: TypePlateforme;
@@ -76,15 +75,15 @@ export type Plateforme = {
     website: string;
     // Used for specific styling on logos, see for example _searchAppointment.scss
     styleCode: string;
-    highlightEnabled: boolean;
 };
 export const PLATEFORMES: Record<TypePlateforme, Plateforme> = {
-    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',            highlightEnabled: true,  styleCode: '_doctolib'},
-    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/',              highlightEnabled: false, styleCode: '_maiia'},
-    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/',            highlightEnabled: false, styleCode: '_ordoclic'},
-    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  website: 'https://www.keldoc.com/',             highlightEnabled: false, styleCode: '_keldoc'},
-    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, website: 'https://masante.pandalab.eu/welcome', highlightEnabled: false, styleCode: '_pandalab'},
-    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login',          highlightEnabled: false, styleCode: '_mapharma'},
+    'Doctolib': { code: 'Doctolib', logo: 'logo_doctolib.png', nom: 'Doctolib', promoted: true,  website: 'https://www.doctolib.fr/',  styleCode: '_doctolib'},
+    'Maiia':    { code: 'Maiia',    logo: 'logo_maiia.png',    nom: 'Maiia',    promoted: true,  website: 'https://www.maiia.com/', styleCode: '_maiia'},
+    'Ordoclic': { code: 'Ordoclic', logo: 'logo_ordoclic.png', nom: 'Ordoclic', promoted: true,  website: 'https://covid-pharma.fr/', styleCode: '_ordoclic'},
+    'Keldoc':   { code: 'Keldoc',   logo: 'logo_keldoc.png',   nom: 'Keldoc',   promoted: true,  website: 'https://www.keldoc.com/', styleCode: '_keldoc'},
+    'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, website: 'https://masante.pandalab.eu/welcome', styleCode: '_pandalab'},
+    'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login', styleCode: '_mapharma'},
+    'AvecMonDoc': { code: 'AvecMonDoc', logo: 'logo_avecmondoc.png', nom: 'AvecMonDoc', promoted: true,  website: 'https://www.avecmondoc.com/', styleCode: '_avecmondoc'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
@@ -109,6 +108,8 @@ export const TYPES_LIEUX: {[k in TypeLieu]: string} = {
     "drugstore": 'Pharmacie',
     "general-practitioner": 'Médecin généraliste',
 };
+export type ISODateString = string
+export type WeekDay = "lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"
 export type BusinessHours = Record<WeekDay,string>;
 export type VaccineType = string;
 export type AppointmentPerVaccine = {
@@ -117,8 +118,8 @@ export type AppointmentPerVaccine = {
 };
 export type AppointmentSchedule = {
     name: string;
-    from: DateString; // Should be better to have ISODateString here
-    to: DateString; // Should be better to have ISODateString here
+    from: string; // Should be better to have ISODateString here
+    to: string; // Should be better to have ISODateString here
     // appointments_per_vaccine: AppointmentPerVaccine[];
     total: number;
 };
@@ -198,6 +199,14 @@ function convertDepartementForSort(codeDepartement: CodeDepartement) {
     }
 }
 
+const DEPARTEMENT_OM: Departement = {
+    code_departement: 'om',
+    nom_departement: "Collectivités d'Outremer",
+    code_region: -1,
+    nom_region: "Outremer"
+};
+
+
 export type StatLieu = {disponibles: number, total: number, creneaux: number};
 export type StatLieuGlobale = StatLieu & { proportion: number };
 export type StatsLieuParDepartement = Record<string, StatLieu>
@@ -261,28 +270,28 @@ export class State {
       this.autocomplete = new Autocomplete(webBaseUrl, () => this.departementsDisponibles())
     }
 
-    private _lieuxParDepartement: LieuxParDepartements = new Map<CodeDepartement, LieuxParDepartement>();
-    async lieuxPour(codeDepartement: CodeDepartement, avoidCache: boolean = false): Promise<LieuxParDepartement> {
-        if(this._lieuxParDepartement.has(codeDepartement) && !avoidCache) {
-            return Promise.resolve(this._lieuxParDepartement.get(codeDepartement)!);
-        } else {
-            const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: avoidCache ? 'no-cache' : 'default' })
-            const results = await resp.json()
-            const lieuxParDepartement = {
-                lieuxDisponibles: results.centres_disponibles.map(transformLieu),
-                lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
-                codeDepartements: [codeDepartement],
-                derniereMiseAJour: results.last_updated
-            };
-            this._lieuxParDepartement.set(codeDepartement, lieuxParDepartement);
-            return lieuxParDepartement;
-        }
+    async lieuxPour(codeDepartement: CodeDepartement): Promise<LieuxParDepartement> {
+        const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: 'no-cache' })
+        const results = await resp.json()
+        const lieuxParDepartement = {
+            lieuxDisponibles: results.centres_disponibles.map(transformLieu),
+            lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
+            codeDepartements: [codeDepartement],
+            derniereMiseAJour: results.last_updated
+        };
+        return lieuxParDepartement;
     }
 
     @Memoize()
     async departementsDisponibles(): Promise<Departement[]> {
-        const resp = await fetch(`${VMD_BASE_URL}/departements.json`)
-        const departements: Departement[] = await resp.json()
+        const resp = await fetch(`${VMD_BASE_URL}/departements.json`);
+        const departements: Departement[] = await resp.json();
+
+        if (!departements.find(d => d.code_departement === DEPARTEMENT_OM.code_departement)) {
+            // The OM departement is missing in back-end departements.json.
+            departements.push(DEPARTEMENT_OM);
+        }
+
         return departements.sort((d1, d2) => convertDepartementForSort(d1.code_departement).localeCompare(convertDepartementForSort(d2.code_departement)))
     }
 

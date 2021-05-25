@@ -29,7 +29,8 @@ import {
     State,
     TRIS_CENTRE
 } from "../state/State";
-import {Dates} from "../utils/Dates";
+import { formatDistanceToNow, parseISO } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import {Strings} from "../utils/Strings";
 import {ValueStrCustomEvent,} from "../components/vmd-commune-or-departement-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
@@ -64,6 +65,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) cartesAffichees: LieuAffichableAvecDistance[] = [];
 
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
+    @property() private showMap: boolean = false
 
     @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
@@ -115,10 +117,14 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return html`
             <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'bg-std': SearchRequest.isStandardType(this.currentSearch), 'bg-chronodose': SearchRequest.isChronodoseType(this.currentSearch)})}">
               <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
-                <li class="col bg-std text-std tab ${classMap({selected: SearchRequest.isStandardType(this.currentSearch)})}" @click="${() => this.updateSearchTypeTo('standard')}">
+                <li role="button" tabindex="0" class="col bg-std text-std tab ${classMap({selected: SearchRequest.isStandardType(this.currentSearch)})}" 
+                    @click="${() => this.updateSearchTypeTo('standard')}"  
+                    @keydown="${(e:KeyboardEvent) => e.key === 'Enter' && this.updateSearchTypeTo('standard')}">
                   Tous les créneaux
                 </li>
-                <li class="col bg-chronodose text-chronodose tab ${classMap({selected: SearchRequest.isChronodoseType(this.currentSearch)})}" @click="${() => this.updateSearchTypeTo('chronodose')}">
+                <li role="button" tabindex="0" class="col bg-chronodose text-chronodose tab ${classMap({selected: SearchRequest.isChronodoseType(this.currentSearch)})}"
+                    @click="${() => this.updateSearchTypeTo('chronodose')}"  
+                    @keydown="${(e:KeyboardEvent) => e.key === 'Enter' && this.updateSearchTypeTo('chronodose')}">
                   <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses uniquement</span>
                 </li>
               </ul>
@@ -149,9 +155,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ?
                       html`
-                      <p class="fs-6 text-black-50">
+                      <p class="fs-6 text-gray-600">
                         Dernière mise à jour : il y a
-                        ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}
+                        ${ formatDistanceToNow(parseISO(this.lieuxParDepartementAffiches!.derniereMiseAJour), { locale: fr }) }
                         ${this.miseAJourDisponible?html`
                           <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; this.launchCheckingUpdates() }}">Rafraîchir</button>
                         `:html``}
@@ -165,7 +171,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   </h3>
 
                 <div class="spacer mt-5 mb-5"></div>
-                <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
                     ${lieuxDisponibles.length ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
@@ -196,6 +201,16 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         </div>
                     `}
 
+                <div class="criteria-container text-dark rounded-3 pb-3 bg-light">
+                    <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
+                        <li class="col bg-light text-std tab ${classMap({selected: !this.showMap})}" @click="${() => {this.showMap = false}}">
+                            Liste des lieux
+                        </li>
+                        <li class="col bg-light text-std tab ${classMap({selected: this.showMap})}" @click="${() => {this.showMap = true}}">
+                            Carte des lieux
+                        </li>
+                    </ul>
+                    <div style="display: ${this.showMap ? 'none' : 'block'};">
                         <div id="scroller">
                             ${repeat(this.cartesAffichees || [],
                                     (c => `${c.departement}||${c.nom}||${c.plateforme}}`),
@@ -211,6 +226,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
                             })}
                             <div id="sentinel"></div>
                         </div>
+                    </div>
+                    ${this.showMap ? html`<vmd-appointment-map .currentSearch="${this.currentSearch}" .lieux="${this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[]}"/>` : html``}
                 </div>
                 ${SearchRequest.isStandardType(this.currentSearch)?html`
                 <div class="eligibility-criteria fade-in-then-fade-out">
@@ -289,7 +306,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         ? currentSearch.departement.code_departement
                         : currentSearch.commune.codeDepartement
                     const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
-                    const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement, true)
+                    const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement)
                     this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
 
                     // we stop the update check if there has been one

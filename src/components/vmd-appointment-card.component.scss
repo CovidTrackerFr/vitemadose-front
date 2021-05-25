@@ -27,6 +27,9 @@
   &._mapharma {
     max-width: 10rem;
   }
+  &._avecmondoc {
+    max-width: 11rem;
+  }
 }
 
 .card {
@@ -51,6 +54,16 @@
     font-size: 80%;
   }
 
+  .text-description {
+    color: $gray-600;
+  }
+
+  &.bg-disabled {
+    .text-description {
+      color: $gray-700;
+    }
+  }
+
   &.clickable {
     &:hover {
       background-color: darken($card-bg, 3%);
@@ -70,9 +83,9 @@
   }
 }
 
-vmd-appointment-metadata [slot='content'] a {
+vmd-appointment-metadata [slot="content"] a {
   &:hover {
-    color: $link-color
+    color: $link-color;
   }
 
   @include media-breakpoint-down(lg) {
@@ -82,17 +95,18 @@ vmd-appointment-metadata [slot='content'] a {
   }
 }
 
-a:hover, a:focus {
+a:hover,
+a:focus {
   color: $link-color;
 }
 
 .search-chronodose {
   .highlight-text {
-    background-color: tint-color($chronodoseColor, 80%);
+    background-color: $lightChronodoseColor;
     color: $chronodoseColor;
   }
   .btn-tel {
-    background-color: tint-color($chronodoseColor, 80%);
+    background-color: $lightChronodoseColor;
     color: $chronodoseColor;
   }
 }
@@ -102,7 +116,7 @@ a:hover, a:focus {
     color: $stdColor;
   }
   .btn-tel {
-    background-color: tint-color($stdColor, 80%);
+    background-color: tint-color($stdColor, 91%);
     color: $stdColor;
   }
 }

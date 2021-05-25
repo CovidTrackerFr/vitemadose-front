@@ -40,10 +40,7 @@ export class VmdLieuxView extends LitElement {
 
     render() {
         return html`
-          <h2 class="h1"> Carte des centres de vaccination contre la Covid-19</h2>
-
           <slot name="about-lieux"></slot>
-
           <div id="mapid" style="height: 80vh; width: 90vw; max-width: 100%; max-height: 600px; margin-bottom: 40px"></div>
         `;
     }
@@ -85,9 +82,9 @@ export class VmdLieuxView extends LitElement {
                 console.log("error1")
             });
 
-        tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        tileLayer('https://{s}.tile.jawg.io/jawg-sunny/{z}/{x}/{y}.png?access-token=sOXVrxPultoFMoo0oQigvvfXgPxaX0OFlFJF7y1rw0ZQy1c1yFTSnXSVOBqw0W6Y', {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank" class="jawg-attrib">&copy; <b>Jawg</b>Maps</a> | <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap is open data licensed under ODbL" target="_blank" class="osm-attrib">&copy; OSM contributors</a>            '
         }).addTo(mymap);
     }
 

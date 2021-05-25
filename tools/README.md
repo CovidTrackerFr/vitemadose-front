@@ -1,9 +1,16 @@
-# Pre-requisite
+# Pré-requis
 
-Prior to anything, `npm install` dependencies from within current `tools/` directory
+Node 14 ou supérieur.
 
-# Générer les fichiers d'autocompletion pour communes
+# Installation
 
-Il suffit d'exécuter `node communes-import.js` : cela va générer un ensemble de fichiers JSON
-qui seront utilisés pour l'autocomplete.
+Installer les dépendances : `npm ci`
 
+# Exécution
+
+Une fois les dépendances installées, lancer la commande suivante : `npx ts-node communes-import.ts `
+
+Sous IntelliJ IDEA, il faudra configurer le launcher avec les options suivantes :
+- Working directory : current `tools` directory
+- Node parameters : `--require ts-node/register`
+- Application parameters : `--project ./tsconfig.json`
