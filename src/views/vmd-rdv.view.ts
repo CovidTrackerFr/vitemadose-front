@@ -53,6 +53,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
+    @property() private showMap: boolean = false
 
     @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
@@ -156,7 +157,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   </h3>
 
                 <div class="spacer mt-5 mb-5"></div>
-                <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
                     ${lieuxDisponibles.length ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
@@ -186,7 +186,16 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           </p>
                         </div>
                     `}
-
+                    <div class="criteria-container text-dark rounded-3 pb-3 bg-light">
+                      <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
+                        <li class="col bg-light text-std tab ${classMap({selected: !this.showMap})}" @click="${() => {this.showMap = false}}">
+                          Liste des lieux
+                        </li>
+                        <li class="col bg-light text-std tab ${classMap({selected: this.showMap})}" @click="${() => {this.showMap = true}}">
+                          Carte des lieux
+                        </li>
+                      </ul>
+                      <div style="display: ${this.showMap ? 'none' : 'block'};">
                     ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
                         return html`<vmd-appointment-card
                             style="--list-index: ${index}"
@@ -197,7 +206,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
                             @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
                         />`;
                     })}
-                </div>
+                    </div>
+                    ${this.showMap ? html`<vmd-appointment-map .currentSearch="${this.currentSearch}" .lieux="${this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[]}"/>` : html``}
+                    </div>
                 ${SearchRequest.isStandardType(this.currentSearch)?html`
                 <div class="eligibility-criteria fade-in-then-fade-out">
                     <p>Les critères d'éligibilité sont vérifiés lors de la prise de rendez-vous</p>
