@@ -189,7 +189,7 @@ export type LieuxParDepartement_JSON = {
 
 export type LieuAffichableAvecDistance = Lieu & { disponible: boolean, distance: number|undefined };
 export type LieuxAvecDistanceParDepartement = {
-    lieuxAffichables: LieuAffichableAvecDistance[];
+    lieuxMatchantCriteres: LieuAffichableAvecDistance[];
     lieuxDisponibles: LieuAffichableAvecDistance[];
     codeDepartements: CodeDepartement[];
     derniereMiseAJour: ISODateString;
@@ -266,6 +266,9 @@ export type CreneauxPourLieu = {
     creneaux: Creneau[];
 }
 export type RendezVousDuJour = Omit<RendezVousDuJour_JSON, "codeDepartement">;
+export function countCreneauxFor(dailyAppointments: RendezVousDuJour) {
+    return dailyAppointments.lieux.reduce((total, lieu) => total + lieu.creneaux.length, 0);
+}
 export type RendezVousDuJour_JSON = {
     date: string;
     codeDepartement: CodeDepartement;
@@ -275,9 +278,9 @@ export type RendezVousDuJour_JSON = {
 
 export type SearchType = "standard";
 export type SearchTypeConfig = {
-    dailyAppointmentsExtractor: (dailyStat: StatsCreneauxQuotidien) => number;
-    cardAppointmentsExtractor: (lieu: Lieu, creneauxPourLieu: CreneauxPourLieu|undefined) => number;
-    filterLieuxDisponibles: (lieux: LieuAffichableAvecDistance[]) => LieuAffichableAvecDistance[];
+    filtrerCreneauxCompatibles: (creneaux: Creneau[]) => Creneau[];
+    cardAppointmentsExtractor: (lieu: Lieu, daySelectorDisponible: boolean, creneauxPourLieu: CreneauxPourLieu|undefined) => number;
+    lieuConsidereCommeDisponible: (lieu: LieuAffichableAvecDistance, lieuxIdsDuJourSelectionne: string[]|undefined) => boolean;
     pathParam: string;
     standardTabSelected: boolean;
     excludeAppointmentByPhoneOnly: boolean;
@@ -291,9 +294,11 @@ export type SearchTypeConfig = {
 const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type}} = {
     'standard': {
         type: 'standard',
-        dailyAppointmentsExtractor: (dailyStat) => dailyStat.total,
-        cardAppointmentsExtractor: (_, creneauxPourLieu) => creneauxPourLieu?creneauxPourLieu.creneaux.length:-1,
-        filterLieuxDisponibles: (lieux) => lieux.filter(lieu => lieu.disponible),
+        filtrerCreneauxCompatibles: (creneaux) => creneaux,
+        cardAppointmentsExtractor: (lieu, daySelectorDisponible, creneauxPourLieu) => daySelectorDisponible
+            ?creneauxPourLieu?creneauxPourLieu.creneaux.length:0
+            :lieu.appointment_count,
+        lieuConsidereCommeDisponible: (lieu, lieuxIdsDuJourSelectionne) => lieu.appointment_by_phone_only || !lieuxIdsDuJourSelectionne || lieuxIdsDuJourSelectionne.includes(lieu.internal_id),
         pathParam: 'standard',
         standardTabSelected: true,
         excludeAppointmentByPhoneOnly: false,
@@ -502,5 +507,10 @@ export class State {
             // (spoiler alert: this is not possible)
             timezone: rdvQuotidiensParDepartements[0]?.timezone
         } as RendezVousDuJour);
+    }
+
+    async rdvDesJours(stats: StatsCreneauxQuotidien[]): Promise<RendezVousDuJour[]> {
+        const rdvDesJours = await Promise.all(stats.map(stat => this.rdvDuJour(stat)));
+        return rdvDesJours;
     }
 }

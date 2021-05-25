@@ -1,6 +1,6 @@
 import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
 import upcomingDaysSelectorCss from "./vmd-upcoming-days-selector.component.scss";
-import {StatsCreneauxQuotidien} from "../state/State";
+import {countCreneauxFor, RendezVousDuJour} from "../state/State";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 import {repeat} from "lit-html/directives/repeat";
 import {classMap} from "lit-html/directives/class-map";
@@ -19,9 +19,8 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
         `
     ];
 
-    @property() statsCreneauxQuotidien: StatsCreneauxQuotidien[] = [];
+    @property() creneauxQuotidiens: RendezVousDuJour[] = [];
     @property() dateSelectionnee: string|undefined = undefined;
-    @property({attribute: false}) dailyAppointmentExtractor: (stat: StatsCreneauxQuotidien) => number = () => 0;
 
     constructor() {
         super();
@@ -30,11 +29,11 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
     render() {
         return html`
           <ul class="days list-group list-group-horizontal">
-            ${repeat(this.statsCreneauxQuotidien, date => date, stat => {
-                const appointmentCount = this.dailyAppointmentExtractor(stat);
+            ${repeat(this.creneauxQuotidiens, cq => cq.date, cq => {
+                const appointmentCount = countCreneauxFor(cq);
                 return html`
-              <li class="list-group-item ${classMap({selected: this.dateSelectionnee === stat.date})}" @click="${() => this.jourSelectionne(stat)}">
-                <div class="day">${Strings.upperFirst(format(parse(stat.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'E dd/MM', {locale: fr})).replace(".","")}</div>
+              <li class="list-group-item ${classMap({selected: this.dateSelectionnee === cq.date})}" @click="${() => this.jourSelectionne(cq)}">
+                <div class="day">${Strings.upperFirst(format(parse(cq.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'E dd/MM', {locale: fr})).replace(".","")}</div>
                 ${appointmentCount?html`<span class="cpt-rdv">${appointmentCount} créneau${Strings.plural(appointmentCount, "x")}</span>`:html``}
               </li>
                 `;
@@ -53,9 +52,9 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
         // console.log("disconnected callback")
     }
 
-    private jourSelectionne(stat: StatsCreneauxQuotidien) {
-        this.dispatchEvent(new CustomEvent<StatsCreneauxQuotidien>('jour-selectionne', {
-            detail: stat
+    private jourSelectionne(creneauxQuotidien: RendezVousDuJour) {
+        this.dispatchEvent(new CustomEvent<RendezVousDuJour>('jour-selectionne', {
+            detail: creneauxQuotidien
         }));
 
     }

@@ -35,7 +35,7 @@ describe('InfiniteScroll', () => {
             });
         }
         lieuxParDepartementAffiches = {
-            lieuxAffichables: lieuxAffichables,
+            lieuxMatchantCriteres: lieuxAffichables,
             lieuxDisponibles: [],
             codeDepartements: [],
             derniereMiseAJour: new Date().toISOString()
@@ -55,7 +55,7 @@ describe('InfiniteScroll', () => {
 
     it('should ajouterCartesPaginees add 20 more cards', () => {
         // Given
-        const cartesAffichees = lieuxParDepartementAffiches.lieuxAffichables.slice(0, 20);
+        const cartesAffichees = lieuxParDepartementAffiches.lieuxMatchantCriteres.slice(0, 20);
 
         // When
         const output = scroll.ajouterCartesPaginees(lieuxParDepartementAffiches, cartesAffichees);
@@ -66,7 +66,7 @@ describe('InfiniteScroll', () => {
 
     it('should ajouterCartesPaginees add 5 more cards', () => {
         // Given
-        const cartesAffichees = lieuxParDepartementAffiches.lieuxAffichables.slice(0, 40);
+        const cartesAffichees = lieuxParDepartementAffiches.lieuxMatchantCriteres.slice(0, 40);
 
         // When
         const output = scroll.ajouterCartesPaginees(lieuxParDepartementAffiches, cartesAffichees);
@@ -77,7 +77,7 @@ describe('InfiniteScroll', () => {
 
     it('should ajouterCartesPaginees not add more cards', () => {
         // Given
-        const cartesAffichees = lieuxParDepartementAffiches.lieuxAffichables.slice(0, 45);
+        const cartesAffichees = lieuxParDepartementAffiches.lieuxMatchantCriteres.slice(0, 45);
 
         // When
         const output = scroll.ajouterCartesPaginees(lieuxParDepartementAffiches, cartesAffichees);

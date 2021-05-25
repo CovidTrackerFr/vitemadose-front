@@ -25,10 +25,9 @@ import {
    SearchRequest, SearchType,
     State,
     CodeTriCentre,
-    StatsCreneauxQuotidien,
     RendezVousDuJour,
     searchTypeConfigFor,
-    searchTypeConfigFromSearch
+    searchTypeConfigFromSearch, SearchTypeConfig, countCreneauxFor
 } from "../state/State";
 import {formatDistanceToNow, parseISO, startOfDay} from 'date-fns'
 import { fr } from 'date-fns/locale'
@@ -188,14 +187,16 @@ export abstract class AbstractVmdRdvView extends LitElement {
         `
     ];
 
-    @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
+    @internalProperty() lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
+    @internalProperty() creneauxQuotidiensDetaillesAffiches: RendezVousDuJour[] = [];
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
     @property({type: Array, attribute: false}) cartesAffichees: LieuAffichableAvecDistance[] = [];
     @internalProperty() lieuxParDepartement: LieuxParDepartement|undefined = undefined;
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
-    @internalProperty() rdvsDuJourSelectionne: RendezVousDuJour | undefined = undefined;
+    @internalProperty() creneauxQuotidiensDetailles: RendezVousDuJour[] = [];
+    @internalProperty() jourSelectionne: string|undefined = undefined;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
 
@@ -208,8 +209,12 @@ export abstract class AbstractVmdRdvView extends LitElement {
             return 0;
         }
         return this.lieuxParDepartementAffiches
-            .lieuxAffichables
+            .lieuxDisponibles
             .reduce((total, lieu) => total+lieu.appointment_count, 0);
+    }
+
+    get daySelectorAvailable(): boolean {
+        return !!this.lieuxParDepartement?.creneauxQuotidiens.length && !!this.currentSearch && searchTypeConfigFor(this.currentSearch.type).jourSelectionnable;
     }
 
     async onSearchSelected (event: CustomEvent<SearchRequest>) {
@@ -242,7 +247,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           @on-search="${this.onSearchSelected}"
                     />
               </div>
-              ${standardMode?html`
+              ${this.daySelectorAvailable?html`
               <div class="rdvForm-fields row align-items-center">
                 <label class="col-sm-24 col-md-auto mb-md-3">
                   Type de vaccin :
@@ -295,13 +300,12 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </div>
               </div>
             `:html`
-              ${this.lieuxParDepartement?.creneauxQuotidiens && searchTypeConfig.jourSelectionnable?html`
+              ${this.daySelectorAvailable?html`
                 <vmd-upcoming-days-selector
                     start="${startOfDay(new Date()).toISOString().substring(0, 10)}"
-                    dateSelectionnee="${this.rdvsDuJourSelectionne?.date || ""}"
-                    .statsCreneauxQuotidien="${this.lieuxParDepartement.creneauxQuotidiens}"
-                    .dailyAppointmentExtractor="${this.currentSearch?searchTypeConfigFor(this.currentSearch.type).dailyAppointmentsExtractor:()=>0}"
-                    @jour-selectionne="${(event: CustomEvent<StatsCreneauxQuotidien>) => this.jourSelectionne(event.detail) }"
+                    dateSelectionnee="${this.jourSelectionne || ""}"
+                    .creneauxQuotidiens="${this.creneauxQuotidiensDetaillesAffiches}"
+                    @jour-selectionne="${(event: CustomEvent<RendezVousDuJour>) => { this.jourSelectionne = event.detail.date; this.rafraichirDonneesAffichees(); } }"
                 ></vmd-upcoming-days-selector>`:html``}
 
                 <h3 class="fw-normal text-center h4 ${classMap({ 'search-highlighted': !SearchRequest.isStandardType(this.currentSearch), 'search-standard': SearchRequest.isStandardType(this.currentSearch) })}"
@@ -379,11 +383,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
     updated(changedProperties: PropertyValues) {
         super.updated(changedProperties);
         this.registerInfiniteScroll();
-    }
-
-    async jourSelectionne(statJourSelectionne: StatsCreneauxQuotidien) {
-        this.rdvsDuJourSelectionne = await State.current.rdvDuJour(statJourSelectionne);
-        await this.refreshLieux();
     }
 
     async connectedCallback() {
@@ -472,19 +471,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 this.searchInProgress = true;
                 await delay(1) // give some time (one tick) to render loader before doing the heavy lifting
                 this.lieuxParDepartement = await State.current.lieuxPour([codeDepartement].concat(this.codeDepartementAdditionnels(codeDepartement)));
+                this.creneauxQuotidiensDetailles = await State.current.rdvDesJours(this.lieuxParDepartement.creneauxQuotidiens);
 
-                if(!this.rdvsDuJourSelectionne) {
-                    const dailyAppointmentsExtractor = searchTypeConfigFor(currentSearch.type).dailyAppointmentsExtractor;
-                    // Pre-selecting first date having appointments
-                    const statsPremierJourAvecCreneaux = this.lieuxParDepartement.creneauxQuotidiens.reduce((statTrouvee, stat) => {
-                        return statTrouvee || (dailyAppointmentsExtractor(stat) !== 0?  stat : undefined);
-                    }, undefined as StatsCreneauxQuotidien|undefined);
-                    if(statsPremierJourAvecCreneaux) {
-                        this.rdvsDuJourSelectionne = await State.current.rdvDuJour(statsPremierJourAvecCreneaux);
-                    }
-                }
-
-                this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(this.lieuxParDepartement, currentSearch);
+                this.rafraichirDonneesAffichees();
                 this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, []);
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
@@ -501,6 +490,75 @@ export abstract class AbstractVmdRdvView extends LitElement {
             this.lieuxParDepartementAffiches = undefined;
             this.cartesAffichees = [];
         }
+    }
+
+    private rafraichirDonneesAffichees() {
+        if(this.currentSearch && this.lieuxParDepartement && this.creneauxQuotidiensDetailles) {
+            const searchTypeConfig = searchTypeConfigFor(this.currentSearch.type);
+            const lieuxMatchantCriteres = this.filtrerLieuxMatchantLesCriteres(this.lieuxParDepartement, this.currentSearch);
+            // On calcule les créneaux quotidiens en fonction des lieux matchant les critères
+            this.creneauxQuotidiensDetaillesAffiches = this.filtrerCreneauxQuotidiensEnFonctionDesLieuxMatchantLesCriteres(this.creneauxQuotidiensDetailles, lieuxMatchantCriteres, searchTypeConfig);
+
+            let daySelectorAvailable = this.daySelectorAvailable;
+            if(daySelectorAvailable) {
+                // On voit quel jour selectionner:
+                // 1/ on essaie de conserver le même jour selectionné si possible
+                // 2/ si pas possible (pas de créneau) on prend le premier jour dispo avec des créneaux
+                // 3/ si pas possible (aucun jour avec des créneaux) aucun jour n'est sélectionné
+                if(this.jourSelectionne) {
+                    const creneauxQuotidienSelectionnes = this.creneauxQuotidiensDetaillesAffiches.find(cq => cq.date === this.jourSelectionne);
+                    if(!creneauxQuotidienSelectionnes || countCreneauxFor(creneauxQuotidienSelectionnes)===0) {
+                        this.jourSelectionne = undefined;
+                    }
+                }
+                if(!this.jourSelectionne) {
+                    this.jourSelectionne = this.creneauxQuotidiensDetaillesAffiches.filter(dailyAppointments => countCreneauxFor(dailyAppointments) !== 0)[0]?.date;
+                }
+            } else {
+                this.jourSelectionne = undefined;
+            }
+
+            // On calcule les lieux affichés en fonction du jour sélectionné
+            const creneauxQuotidienSelectionnes = this.creneauxQuotidiensDetaillesAffiches.find(cq => cq.date === this.jourSelectionne);
+            const lieuxIdsAvecCreneauxDuJourSelectionne = creneauxQuotidienSelectionnes
+                ?creneauxQuotidienSelectionnes.lieux.filter(l => l.creneaux.length).map(l => l.id)
+                :undefined;
+            const lieuxMatchantCriteresAvecCountRdvMAJ = lieuxMatchantCriteres.map(l => ({
+                ...l,
+                appointment_count: searchTypeConfig.cardAppointmentsExtractor(l, daySelectorAvailable, creneauxQuotidienSelectionnes?.lieux.find(cpl => cpl.id === l.internal_id))
+            }));
+
+            let lieuxDisponiblesAffiches = lieuxMatchantCriteresAvecCountRdvMAJ
+                .filter(l => searchTypeConfig.lieuConsidereCommeDisponible(l, lieuxIdsAvecCreneauxDuJourSelectionne))
+                .map(l => ({
+                    ...l,
+                    disponible: true
+                }));
+            let lieuxIndisponiblesAffiches = lieuxMatchantCriteresAvecCountRdvMAJ
+                .filter(l => !searchTypeConfig.lieuConsidereCommeDisponible(l, lieuxIdsAvecCreneauxDuJourSelectionne))
+                .map(l => ({
+                    ...l,
+                    disponible: false
+                }));
+            this.lieuxParDepartementAffiches = {
+                derniereMiseAJour: this.lieuxParDepartement.derniereMiseAJour,
+                codeDepartements: this.lieuxParDepartement.codeDepartements,
+                lieuxMatchantCriteres: lieuxDisponiblesAffiches.concat(lieuxIndisponiblesAffiches),
+                lieuxDisponibles: lieuxDisponiblesAffiches
+            };
+        }
+    }
+
+    private filtrerCreneauxQuotidiensEnFonctionDesLieuxMatchantLesCriteres(creneauxQuotidiensDetailles: RendezVousDuJour[], lieuxMatchantCriteres: LieuAffichableAvecDistance[], searchTypeConfig: SearchTypeConfig): RendezVousDuJour[] {
+        const lieuIdsMatchantCriteres = lieuxMatchantCriteres.map(l => l.internal_id);
+        return creneauxQuotidiensDetailles.map(rdvDuJour => {
+            return {
+                ...rdvDuJour,
+                lieux: rdvDuJour.lieux
+                    .filter(l => lieuIdsMatchantCriteres.includes(l.id))
+                    .map(l => ({...l, creneaux: searchTypeConfig.filtrerCreneauxCompatibles(l.creneaux) }))
+            };
+        })
     }
 
     private prendreRdv(lieu: Lieu) {
@@ -563,7 +621,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     abstract libelleLieuSelectionne(): TemplateResult;
     // FIXME move me to a testable file
-    abstract afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement, search: SearchRequest): LieuxAvecDistanceParDepartement;
+    abstract filtrerLieuxMatchantLesCriteres(lieuxParDepartement: LieuxParDepartement, search: SearchRequest): LieuAffichableAvecDistance[];
 }
 
 @customElement('vmd-rdv-par-commune')
@@ -595,7 +653,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         if (this.currentSearchMarker !== marker) { return }
         const commune = await State.current.autocomplete.findCommune(this._codePostalSelectionne, this._codeCommuneSelectionne)
         if (commune) {
-          this.currentSearch = SearchRequest.ByCommune(commune, this._searchType, this.rdvsDuJourSelectionne?.date)
+          this.currentSearch = SearchRequest.ByCommune(commune, this._searchType, this.jourSelectionne)
           this.refreshLieux()
         }
       }
@@ -618,35 +676,24 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     }
 
     // FIXME move me to testable file
-    afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement, search: SearchRequest.ByCommune): LieuxAvecDistanceParDepartement {
+    filtrerLieuxMatchantLesCriteres(lieuxParDepartement: LieuxParDepartement, search: SearchRequest.ByCommune): LieuAffichableAvecDistance[] {
         const origin = search.commune
         const distanceAvec = (lieu: Lieu) => (lieu.location ? distanceEntreDeuxPoints(origin, lieu.location) : Infinity)
-
 
         const { lieuxDisponibles, lieuxIndisponibles } = lieuxParDepartement
 
         let lieuxAffichablesBuilder = ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
             .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
-            .map(l => ({
-                ...l,
-                distance: distanceAvec(l),
-                appointment_count: searchTypeConfigFor(search.type).cardAppointmentsExtractor(l, this.rdvsDuJourSelectionne?.lieux.find(cpl => cpl.id === l.internal_id))
-            })).filter(l =>
-                (!l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
-                && (!this.rdvsDuJourSelectionne || this.rdvsDuJourSelectionne.lieux.map(_l => _l.id).includes(l.internal_id))
-            )
+            .map(l => ({ ...l, distance: distanceAvec(l) })
+            ).filter(l => (!l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM))
         if(searchTypeConfigFromSearch(this.currentSearch, 'standard').excludeAppointmentByPhoneOnly) {
             lieuxAffichablesBuilder.filter(l => !l.appointment_by_phone_only)
         }
 
         lieuxAffichablesBuilder.sortBy(l => this.extraireFormuleDeTri(l, 'distance'))
 
-        const lieuxAffichables = lieuxAffichablesBuilder.build();
-        return {
-            ...lieuxParDepartement,
-            lieuxAffichables,
-            lieuxDisponibles: searchTypeConfigFromSearch(this.currentSearch, 'standard').filterLieuxDisponibles(lieuxAffichables)
-        };
+        const lieuxMatchantCriteres = lieuxAffichablesBuilder.build();
+        return lieuxMatchantCriteres;
     }
 }
 
@@ -672,7 +719,7 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
           const departements = await State.current.departementsDisponibles()
           const departementSelectionne = departements.find(d => d.code_departement === code);
           if (departementSelectionne) {
-            this.currentSearch = SearchRequest.ByDepartement(departementSelectionne, this._searchType, this.rdvsDuJourSelectionne?.date)
+            this.currentSearch = SearchRequest.ByDepartement(departementSelectionne, this._searchType, this.jourSelectionne)
             this.refreshLieux()
           }
         }
@@ -695,18 +742,12 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
     }
 
     // FIXME move me to testable file
-    afficherLieuxParDepartement(lieuxParDepartement: LieuxParDepartement, search: SearchRequest): LieuxAvecDistanceParDepartement {
+    filtrerLieuxMatchantLesCriteres(lieuxParDepartement: LieuxParDepartement /*, search: SearchRequest */): LieuAffichableAvecDistance[] {
         const { lieuxDisponibles, lieuxIndisponibles } = lieuxParDepartement
 
         let lieuxAffichablesBuilder = ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
             .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
-            .map(l => ({
-                ...l,
-                distance: undefined,
-                appointment_count: searchTypeConfigFor(search.type).cardAppointmentsExtractor(l, this.rdvsDuJourSelectionne?.lieux.find(cpl => cpl.id === l.internal_id))
-            })).filter(l =>
-                (!this.rdvsDuJourSelectionne || this.rdvsDuJourSelectionne.lieux.map(_l => _l.id).includes(l.internal_id))
-            )
+            .map(l => ({ ...l, distance: undefined }))
 
         if(searchTypeConfigFromSearch(this.currentSearch, 'standard').excludeAppointmentByPhoneOnly) {
             lieuxAffichablesBuilder.filter(l => !l.appointment_by_phone_only)
@@ -714,13 +755,8 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
 
         lieuxAffichablesBuilder.sortBy(l => this.extraireFormuleDeTri(l, 'distance'))
 
-        const lieuxAffichables = lieuxAffichablesBuilder.build();
-
-        return {
-            ...lieuxParDepartement,
-            lieuxAffichables,
-            lieuxDisponibles: searchTypeConfigFromSearch(this.currentSearch, 'standard').filterLieuxDisponibles(lieuxAffichables)
-        };
+        const lieuxMatchantCriteres = lieuxAffichablesBuilder.build();
+        return lieuxMatchantCriteres;
     }
 
     currentCritereTri(): CodeTriCentre {
