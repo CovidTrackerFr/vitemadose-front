@@ -42,8 +42,6 @@ import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 import {InfiniteScroll} from "../state/InfiniteScroll";
 
-const MAX_DISTANCE_CENTRE_IN_KM = 100;
-
 export abstract class AbstractVmdRdvView extends LitElement {
     DELAI_VERIFICATION_MISE_A_JOUR = 45000
     DELAI_VERIFICATION_SCROLL = 1000;
@@ -206,6 +204,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     constructor(private options: {
         codeDepartementAdditionnels: (codeDepartementSelectionne: CodeDepartement) => CodeDepartement[],
+        criteresDeRechercheAdditionnels: () => TemplateResult
     }) {
         super();
     }
@@ -266,23 +265,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   ></vmd-button-switch>
                 </div>
               </div>`:html``}
-              ${false?html`
-              <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
-                <label for="searchAppointment-distance" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
-                  Distance :
-                </label>
-                <div class="px-0 col">
-                  <vmd-input-range-with-tooltip
-                      id="searchAppointment-distance" codeSelectionne="2km"
-                      .options="${[
-                          {code: 1, libelle:"<1km"}, {code: 2, libelle:"<2km"}, {code: 5, libelle:"<5km"},
-                          {code: 10, libelle:"<10km"}, {code: 20, libelle:"<20km"}, {code: 50, libelle:"<50km"},
-                          {code: 100, libelle:"<100km"}, {code: 150, libelle:"<150km"}
-                      ]}"
-                      @option-selected="${(e: CustomEvent<{value: number|undefined}>) => console.log(`Option sélectionnée : ${e.detail.value}`)}"
-                  ></vmd-input-range-with-tooltip>
-                </div>
-              </div>`:html``}
+              ${this.options.criteresDeRechercheAdditionnels()}
               ${false?html`
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                 <label for="searchAppointment-heures" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
@@ -498,7 +481,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
 
-    private rafraichirDonneesAffichees() {
+    rafraichirDonneesAffichees() {
         if(this.currentSearch && this.lieuxParDepartement && this.creneauxQuotidiensDetailles) {
             const searchTypeConfig = searchTypeConfigFor(this.currentSearch.type);
             const lieuxMatchantCriteres = this.filtrerLieuxMatchantLesCriteres(this.lieuxParDepartement, this.currentSearch);
@@ -649,11 +632,31 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     @internalProperty() private _searchType: SearchType | undefined = undefined;
     @internalProperty() private _codeCommuneSelectionne: string | undefined = undefined;
     @internalProperty() private _codePostalSelectionne: string | undefined = undefined;
+    @internalProperty() private _distanceSelectionnee: number = 50;
+
     private currentSearchMarker = {}
 
     constructor() {
         super({
             codeDepartementAdditionnels: (codeDepartementSelectionne) => DEPARTEMENTS_LIMITROPHES[codeDepartementSelectionne],
+            criteresDeRechercheAdditionnels: () => html`
+          <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
+            <label for="searchAppointment-distance" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
+              Distance :
+            </label>
+            <div class="px-0 col">
+              <vmd-input-range-with-tooltip
+                  id="searchAppointment-distance" codeSelectionne="${this._distanceSelectionnee}"
+                  .options="${[
+                    {code: 1, libelle:"<1km"}, {code: 2, libelle:"<2km"}, {code: 5, libelle:"<5km"},
+                    {code: 10, libelle:"<10km"}, {code: 20, libelle:"<20km"}, {code: 50, libelle:"<50km"},
+                    {code: 100, libelle:"<100km"}, {code: 150, libelle:"<150km"}
+                  ]}"
+                  @option-selected="${(e: CustomEvent<{value: number}>) => { this._distanceSelectionnee = e.detail.value; this.rafraichirDonneesAffichees(); }}"
+              ></vmd-input-range-with-tooltip>
+            </div>
+          </div>
+            `
         });
     }
 
@@ -693,7 +696,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         let lieuxAffichablesBuilder = ArrayBuilder.from([...lieuxDisponibles].map(l => ({...l, disponible: true})))
             .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
             .map(l => ({ ...l, distance: distanceAvec(l) })
-            ).filter(l => (!l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM))
+            ).filter(l => (!l.distance || l.distance < this._distanceSelectionnee))
         if(searchTypeConfigFromSearch(this.currentSearch, 'standard').excludeAppointmentByPhoneOnly) {
             lieuxAffichablesBuilder.filter(l => !l.appointment_by_phone_only)
         }
@@ -724,6 +727,7 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
     constructor() {
         super({
             codeDepartementAdditionnels: () => [],
+            criteresDeRechercheAdditionnels: () => html``
         });
     }
 

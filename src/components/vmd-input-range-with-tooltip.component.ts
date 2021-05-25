@@ -54,9 +54,9 @@ export class VmdInputRangeWithTooltipComponent extends LitElement {
 
     indexUpdated(indexStr: string) {
         this.indexOptionSelectionnee = Number(indexStr);
-        this.dispatchEvent(new CustomEvent<{value: string|number|undefined}>('option-selected', {
+        this.dispatchEvent(new CustomEvent<{value: string|number}>('option-selected', {
             detail: {
-                value: this.options[this.indexOptionSelectionnee]?.code
+                value: this.options[this.indexOptionSelectionnee]!.code
             }
         }));
     }
