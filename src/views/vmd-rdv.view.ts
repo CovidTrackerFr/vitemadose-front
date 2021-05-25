@@ -26,7 +26,7 @@ import {
     State,
     CodeTriCentre,
     StatsCreneauxQuotidien,
-    RendezVoudDuJour,
+    RendezVousDuJour,
     searchTypeConfigFor,
     searchTypeConfigFromSearch
 } from "../state/State";
@@ -195,7 +195,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @internalProperty() lieuxParDepartement: LieuxParDepartement|undefined = undefined;
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
-    @internalProperty() rdvsDuJourSelectionne: RendezVoudDuJour | undefined = undefined;
+    @internalProperty() rdvsDuJourSelectionne: RendezVousDuJour | undefined = undefined;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
 

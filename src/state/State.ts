@@ -2,6 +2,7 @@ import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
 import {ArrayBuilder} from "../utils/Arrays";
+import {formatISO} from "date-fns";
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -164,6 +165,12 @@ export type StatsCreneauxQuotidien = {
     urls: string[];
     countByTag: StatsCreneauxQuotidienParTag[];
 }
+export type StatsCreneauxQuotidien_JSON = {
+    date: string; // "2021-05-23"
+    total: number;
+    url: string;
+    countByTag: StatsCreneauxQuotidienParTag[];
+}
 export type LieuxParDepartement = {
     lieuxDisponibles: Lieu[];
     lieuxIndisponibles: Lieu[];
@@ -176,7 +183,7 @@ export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
 export type LieuxParDepartement_JSON = {
     centres_disponibles: Lieu[];
     centres_indisponibles: Lieu[];
-    creneaux_quotidiens: {}[];
+    creneaux_quotidiens: StatsCreneauxQuotidien_JSON[];
     last_updated: string;
 };
 
@@ -258,8 +265,10 @@ export type CreneauxPourLieu = {
     id: string;
     creneaux: Creneau[];
 }
-export type RendezVoudDuJour = {
+export type RendezVousDuJour = Omit<RendezVousDuJour_JSON, "codeDepartement">;
+export type RendezVousDuJour_JSON = {
     date: string;
+    codeDepartement: CodeDepartement;
     timezone: string;
     lieux: CreneauxPourLieu[];
 }
@@ -296,7 +305,7 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
         }
     }
 };
-export function searchTypeConfigFromPathParam(pathParams: Record<string,string>) {
+export function searchTypeConfigFromPathParam(pathParams: Record<string,string>): SearchTypeConfig & {type: SearchType} {
     const config = Object.values(SEARCH_TYPE_CONFIGS).find(config => pathParams && config.pathParam === pathParams['typeRecherche']);
     if(config) {
         return config;
@@ -306,7 +315,7 @@ export function searchTypeConfigFromPathParam(pathParams: Record<string,string>)
 export function searchTypeConfigFromSearch(searchRequest: SearchRequest|void, fallback: SearchType) {
     return searchTypeConfigFor(searchRequest ? searchRequest.type : fallback);
 }
-export function searchTypeConfigFor(searchType: SearchType) {
+export function searchTypeConfigFor(searchType: SearchType): SearchTypeConfig & {type: SearchType} {
     return SEARCH_TYPE_CONFIGS[searchType];
 }
 
@@ -350,7 +359,7 @@ export class State {
 
         const lieuxParDepartement: LieuxParDepartement = [principalLieuxDepartement].concat(lieuxDepartementsAditionnels).reduce((mergedLieuxParDepartement: LieuxParDepartement, lieuxParDepartement: LieuxParDepartement_JSON & {codeDepartement: string}) => {
             const creneauxQuotidiens: StatsCreneauxQuotidien[] = mergedLieuxParDepartement.creneauxQuotidiens;
-            (lieuxParDepartement.creneaux_quotidiens || []).forEach((creneauxQuotidien: any) => {
+            (lieuxParDepartement.creneaux_quotidiens || []).forEach((creneauxQuotidien) => {
                 if(!creneauxQuotidiens.find(cq => cq.date === creneauxQuotidien.date)) {
                     creneauxQuotidiens.push({
                         date: creneauxQuotidien.date,
@@ -447,11 +456,30 @@ export class State {
       };
     }
 
-    async rdvDuJour(stats: StatsCreneauxQuotidien) {
-        const rdvQuotidiensParDepartements: RendezVoudDuJour[] = await Promise.all(
-            stats.urls.map(urlRdvQuotidienParDpt =>
-                fetch(`${VMD_BASE_URL}/${urlRdvQuotidienParDpt}`, {cache: 'no-cache'})
-                    .then(resp => resp.json()))
+    private _cacheRdvDuJour: {url: string, expires: string, rdvDuJour: RendezVousDuJour}[] = [];
+    async rdvDuJour(stats: StatsCreneauxQuotidien): Promise<RendezVousDuJour> {
+        const rdvQuotidiensParDepartements: RendezVousDuJour[] = await Promise.all(
+            stats.urls.map(async urlRdvQuotidienParDpt => {
+                const cachedRdv = this._cacheRdvDuJour.find(cachedRdv => cachedRdv.url === urlRdvQuotidienParDpt);
+                if(cachedRdv && Date.parse(cachedRdv.expires) > Date.now()) {
+                    return cachedRdv.rdvDuJour;
+                } else {
+                    const rdvJSON: RendezVousDuJour_JSON = await fetch(`${VMD_BASE_URL}/${urlRdvQuotidienParDpt}`, {cache: 'no-cache'}).then(resp => resp.json());
+                    const {codeDepartement, ...rdv } = rdvJSON;
+                    const expiration = formatISO(Date.now() + 1000 * 60 * 3);
+                    if(cachedRdv) {
+                        cachedRdv.rdvDuJour = rdv;
+                        cachedRdv.expires = expiration;
+                    } else {
+                        this._cacheRdvDuJour.push({
+                            url: urlRdvQuotidienParDpt,
+                            rdvDuJour: rdv,
+                            expires: expiration
+                        })
+                    }
+                    return rdv;
+                }
+            })
         );
 
         return rdvQuotidiensParDepartements.reduce((rdvQuotidiensAggreges, rdvQuotidiensParDepartement) => {
@@ -473,6 +501,6 @@ export class State {
             // Crossing fingers we can't query a list of departments not sharing the same timezone
             // (spoiler alert: this is not possible)
             timezone: rdvQuotidiensParDepartements[0]?.timezone
-        } as RendezVoudDuJour);
+        } as RendezVousDuJour);
     }
 }
