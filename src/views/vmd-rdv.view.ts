@@ -260,6 +260,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   ></vmd-button-switch>
                 </div>
               </div>`:html``}
+              ${false?html`
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                 <label for="searchAppointment-distance" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
                   Distance :
@@ -275,7 +276,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                       @option-selected="${(e: CustomEvent<{value: number|undefined}>) => console.log(`Option sélectionnée : ${e.detail.value}`)}"
                   ></vmd-input-range-with-tooltip>
                 </div>
-              </div>
+              </div>`:html``}
               ${false?html`
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                 <label for="searchAppointment-heures" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
