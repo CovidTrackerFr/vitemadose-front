@@ -270,6 +270,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   ></vmd-input-range-with-tooltip>
                 </div>
               </div>
+              ${false?html`
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                 <label for="searchAppointment-heures" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
                   Horaires :
@@ -283,7 +284,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   <div class="time-range"><input type="time" /> - <input type="time" /></div>
                   <button class="btn btn-primary">+</button>
                 </div>
-              </div>
+              </div>`:html``}
             </div>
 
             <div class="spacer mt-5 mb-5"></div>
