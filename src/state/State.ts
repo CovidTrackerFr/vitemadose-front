@@ -54,8 +54,10 @@ export type CodeTriCentre = 'date' | 'distance';
 const USE_RAW_GITHUB = false
 const VMD_BASE_URL = USE_RAW_GITHUB
   ? "https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output"
-  : "https://vitemadose.gitlab.io/vitemadose"
-
+  // : "https://vitemadose.gitlab.io/vitemadose"
+  // : "http://localhost:8001"
+  // TODO: CHANGE ME
+  :'/disponibilite-generale/tmp'
 
 export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma"|"AvecMonDoc";
 export type Plateforme = {

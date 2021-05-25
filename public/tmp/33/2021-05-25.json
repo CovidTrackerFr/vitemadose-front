@@ -1,0 +1,11 @@
+{
+  "date": "2021-05-25",
+  "timezone": "Europe/Paris",
+  "lieux": [{
+    "id": "doctolib271065pid186147",
+    "creneaux": [
+      {"debut":"2021-05-25T12:00:00+0200", "tags": []},
+      {"debut":"2021-05-25T12:10:00+0200", "tags": []}
+    ]
+  }]
+}
