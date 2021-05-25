@@ -17,6 +17,7 @@ import {
     TYPES_LIEUX
 } from "../state/State";
 import {Router} from "../routing/Router";
+import {Dates} from "../utils/Dates";
 import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
@@ -101,6 +102,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                 cardConfig = {
                     highlighted: this.highlightable && !specificCardConfig.disabledBG,
+                    estCliquable: true,
                     disabledBG: specificCardConfig.disabledBG,
                     libelleDateAbsente: specificCardConfig.libelleDateAbsente,
                     cardLink: (content) =>
@@ -130,6 +132,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             } else if(typeLieu === 'actif-via-tel') {
                 cardConfig = {
                     highlighted: false,
+                    estCliquable: true,
                     disabledBG: false,
                     libelleDateAbsente: 'Réservation tél uniquement',
                     cardLink: (content) => html`
@@ -145,6 +148,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             } else if(typeLieu === 'inactif') {
                 cardConfig = {
                     highlighted: false,
+                    estCliquable: false,
                     disabledBG: true,
                     libelleDateAbsente: 'Aucun rendez-vous',
                     cardLink: (content) => content,
