@@ -242,6 +242,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           @on-search="${this.onSearchSelected}"
                     />
               </div>
+              ${standardMode?html`
               <div class="rdvForm-fields row align-items-center">
                 <label class="col-sm-24 col-md-auto mb-md-3">
                   Type de vaccin :
@@ -252,7 +253,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                                      .options="${[{code:"18-55", libelle: "Préconisé pour les 18-55 ans"}, {code:"tous", libelle: "Tous"}]}">
                   </vmd-button-switch>
                 </div>
-              </div>
+              </div>`:html``}
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                 <label for="searchAppointment-distance" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
                   Distance :
