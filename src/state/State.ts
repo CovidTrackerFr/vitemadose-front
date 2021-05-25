@@ -276,7 +276,7 @@ export type RendezVousDuJour_JSON = {
     lieux: CreneauxPourLieu[];
 }
 
-export type SearchType = "standard";
+export type SearchType = "standard"|"18_55";
 export type SearchTypeConfig = {
     filtrerCreneauxCompatibles: (creneaux: Creneau[]) => Creneau[];
     cardAppointmentsExtractor: (lieu: Lieu, daySelectorDisponible: boolean, creneauxPourLieu: CreneauxPourLieu|undefined) => number;
@@ -308,7 +308,27 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
             searchResultsByDepartement: 'search_results_by_department',
             searchResultsByCity: 'search_results_by_city'
         }
-    }
+    },
+    '18_55': {
+        type: '18_55',
+        filtrerCreneauxCompatibles: (creneaux) => creneaux.filter(c => c.tags.includes('preco18_55')),
+        cardAppointmentsExtractor: (_, daySelectorDisponible, creneauxPourLieu) => {
+            if(daySelectorDisponible) {
+                return creneauxPourLieu?creneauxPourLieu.creneaux.filter(cbt => cbt.tags.includes('preco18_55')).length:0;
+            }
+            throw new Error("We're not supposed to call cardAppointmentsExtractor() on 18_55 without day selector !")
+        },
+        lieuConsidereCommeDisponible: (lieu, lieuxIdsDuJourSelectionne) => lieu.appointment_by_phone_only || !lieuxIdsDuJourSelectionne || lieuxIdsDuJourSelectionne.includes(lieu.internal_id),
+        pathParam: '18_55',
+        standardTabSelected: true,
+        excludeAppointmentByPhoneOnly: false,
+        jourSelectionnable: true,
+        theme: 'standard',
+        analytics: {
+            searchResultsByDepartement: 'search_results_by_department_18_55',
+            searchResultsByCity: 'search_results_by_city_18_55'
+        }
+    },
 };
 export function searchTypeConfigFromPathParam(pathParams: Record<string,string>): SearchTypeConfig & {type: SearchType} {
     const config = Object.values(SEARCH_TYPE_CONFIGS).find(config => pathParams && config.pathParam === pathParams['typeRecherche']);

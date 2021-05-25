@@ -254,9 +254,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </label>
                 <div class="col">
                   <vmd-button-switch class="mb-3"
-                                     codeSelectionne="18-55"
-                                     .options="${[{code:"18-55", libelle: "Préconisé pour les 18-55 ans"}, {code:"tous", libelle: "Tous"}]}">
-                  </vmd-button-switch>
+                         codeSelectionne="${this.currentSearch ? this.currentSearch.type : '18_55'}"
+                         .options="${[{code:"18_55", libelle: "Préconisé pour les 18-55 ans"}, {code:"standard", libelle: "Tous"}]}"
+                         @changed="${(e: CustomEvent<{value: SearchType}>) => this.updateSearchTypeTo(e.detail.value)}"
+                  ></vmd-button-switch>
                 </div>
               </div>`:html``}
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
