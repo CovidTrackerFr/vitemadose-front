@@ -12,6 +12,9 @@ export class Strings {
     }
 
     static upperFirst(str: string) {
+        if (!str) {
+            return '';
+        }
         return str[0].toUpperCase()+str.substring(1);
     }
 
