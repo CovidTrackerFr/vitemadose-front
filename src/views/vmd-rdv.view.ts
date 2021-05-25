@@ -204,6 +204,12 @@ export abstract class AbstractVmdRdvView extends LitElement {
     private infiniteScroll = new InfiniteScroll();
     private infiniteScrollObserver: IntersectionObserver | undefined;
 
+    constructor(private options: {
+        codeDepartementAdditionnels: (codeDepartementSelectionne: CodeDepartement) => CodeDepartement[],
+    }) {
+        super();
+    }
+
     get totalCreneaux() {
         if (!this.lieuxParDepartementAffiches) {
             return 0;
@@ -460,8 +466,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
 
-    abstract codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement): CodeDepartement[]
-
     async refreshLieux() {
         const currentSearch = this.currentSearch
         if(currentSearch) {
@@ -472,7 +476,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
             try {
                 this.searchInProgress = true;
                 await delay(1) // give some time (one tick) to render loader before doing the heavy lifting
-                this.lieuxParDepartement = await State.current.lieuxPour([codeDepartement].concat(this.codeDepartementAdditionnels(codeDepartement)));
+                this.lieuxParDepartement = await State.current.lieuxPour([codeDepartement].concat(this.options.codeDepartementAdditionnels(codeDepartement)));
                 this.creneauxQuotidiensDetailles = await State.current.rdvDesJours(this.lieuxParDepartement.creneauxQuotidiens);
 
                 this.rafraichirDonneesAffichees();
@@ -647,6 +651,12 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
     @internalProperty() private _codePostalSelectionne: string | undefined = undefined;
     private currentSearchMarker = {}
 
+    constructor() {
+        super({
+            codeDepartementAdditionnels: (codeDepartementSelectionne) => DEPARTEMENTS_LIMITROPHES[codeDepartementSelectionne],
+        });
+    }
+
     private async updateCurrentSearch() {
       if (this._codeCommuneSelectionne && this._codePostalSelectionne && this._searchType) {
         const marker = {}
@@ -659,10 +669,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
           this.refreshLieux()
         }
       }
-    }
-
-    codeDepartementAdditionnels(codeDepartementSelectionne: CodeDepartement) {
-        return DEPARTEMENTS_LIMITROPHES[codeDepartementSelectionne];
     }
 
     libelleLieuSelectionne(): TemplateResult {
@@ -715,6 +721,12 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
     @internalProperty() private _codeDepartement: CodeDepartement | void = undefined
     @internalProperty() protected currentSearch: SearchRequest.ByDepartement | void = undefined
 
+    constructor() {
+        super({
+            codeDepartementAdditionnels: () => [],
+        });
+    }
+
     private async updateCurrentSearch() {
         const code = this._codeDepartement
         if (code && this._searchType) {
@@ -725,10 +737,6 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
             this.refreshLieux()
           }
         }
-    }
-
-    codeDepartementAdditionnels () {
-        return []
     }
 
     libelleLieuSelectionne(): TemplateResult {
@@ -759,9 +767,5 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
 
         const lieuxMatchantCriteres = lieuxAffichablesBuilder.build();
         return lieuxMatchantCriteres;
-    }
-
-    currentCritereTri(): CodeTriCentre {
-        return 'date';
     }
 }
