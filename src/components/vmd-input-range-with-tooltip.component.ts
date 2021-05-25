@@ -9,6 +9,7 @@ import {
 } from 'lit-element';
 import inputRangeWithTooltipCss from "./vmd-input-range-with-tooltip.component.scss";
 import {styleMap} from "lit-html/directives/style-map";
+import {classMap} from "lit-html/directives/class-map";
 
 export type Options = {code: string|number, libelle: string};
 
@@ -23,6 +24,7 @@ export class VmdInputRangeWithTooltipComponent extends LitElement {
     ];
 
     @property({attribute: false}) options: Options[] = [];
+    @property({type: String}) theme!: string;
 
     @internalProperty() indexOptionSelectionnee: number = 0;
     @internalProperty() get libelleAffiche() {
@@ -45,7 +47,10 @@ export class VmdInputRangeWithTooltipComponent extends LitElement {
 
     render() {
         return html`
-          <div class="range-wrap">
+          <div class="range-wrap ${classMap({
+            'search-standard': this.theme==='standard',
+            'search-highlighted': this.theme==='highlighted'
+          })}">
             <input type="range" class="range" value="${this.indexOptionSelectionnee}" min="0" max="${this.max}" @input="${(e: any) => this.indexUpdated(e.currentTarget.value)}" />
             <output class="bubble" style="${styleMap({left: this.bubbleLeft})}">${this.libelleAffiche}</output>
           </div>

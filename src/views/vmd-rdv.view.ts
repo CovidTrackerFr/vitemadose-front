@@ -222,6 +222,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
         return !!this.lieuxParDepartement?.creneauxQuotidiens.length && !!this.currentSearch && searchTypeConfigFor(this.currentSearch.type).jourSelectionnable;
     }
 
+    get searchTypeConfig() {
+        return searchTypeConfigFromSearch(this.currentSearch, 'standard')
+    }
+
     async onSearchSelected (event: CustomEvent<SearchRequest>) {
       const search = event.detail
       this.goToNewSearch(search)
@@ -239,9 +243,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
       }
     }
 
+
+
     render() {
         const countLieuxDisponibles = (this.lieuxParDepartementAffiches?.lieuxDisponibles || []).length;
-        const searchTypeConfig = searchTypeConfigFromSearch(this.currentSearch, 'standard');
+        const searchTypeConfig = this.searchTypeConfig;
         const standardMode = searchTypeConfig.standardTabSelected;
 
         return html`
@@ -647,6 +653,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             <div class="px-0 col">
               <vmd-input-range-with-tooltip
                   id="searchAppointment-distance" codeSelectionne="${this._distanceSelectionnee}"
+                  theme="${this.searchTypeConfig.theme}"
                   .options="${[
                     {code: 1, libelle:"<1km"}, {code: 2, libelle:"<2km"}, {code: 5, libelle:"<5km"},
                     {code: 10, libelle:"<10km"}, {code: 20, libelle:"<20km"}, {code: 50, libelle:"<50km"},
@@ -697,7 +704,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
             .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
             .map(l => ({ ...l, distance: distanceAvec(l) })
             ).filter(l => (!l.distance || l.distance < this._distanceSelectionnee))
-        if(searchTypeConfigFromSearch(this.currentSearch, 'standard').excludeAppointmentByPhoneOnly) {
+        if(this.searchTypeConfig.excludeAppointmentByPhoneOnly) {
             lieuxAffichablesBuilder.filter(l => !l.appointment_by_phone_only)
         }
 
@@ -763,7 +770,7 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
             .concat([...lieuxIndisponibles].map(l => ({...l, disponible: false})))
             .map(l => ({ ...l, distance: undefined }))
 
-        if(searchTypeConfigFromSearch(this.currentSearch, 'standard').excludeAppointmentByPhoneOnly) {
+        if(this.searchTypeConfig.excludeAppointmentByPhoneOnly) {
             lieuxAffichablesBuilder.filter(l => !l.appointment_by_phone_only)
         }
 
