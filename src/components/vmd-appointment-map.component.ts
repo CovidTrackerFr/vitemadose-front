@@ -2,7 +2,8 @@ import { css, unsafeCSS, customElement, html, LitElement, property, internalProp
 import { Icon, map, marker, tileLayer, LatLngTuple } from 'leaflet';
 import leafletCss from 'leaflet/dist/leaflet.css';
 import leafletMarkerCss from 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-import { MarkerClusterGroup } from 'leaflet.markercluster';
+import * as L from 'leaflet';
+import 'leaflet.markercluster';
 import { Router } from '../routing/Router';
 import { LieuAffichableAvecDistance, Coordinates, SearchRequest, TYPES_LIEUX } from '../state/State';
 import { CSS_Global } from '../styles/ConstructibleStyleSheets';
@@ -43,8 +44,8 @@ export class VmdAppointmentMapComponent extends LitElement {
 
   private loadMap() {
     const coordinates =
-      this.currentSearch &&
-      (this.toCoordinates(this.currentSearch.commune) || this.toCoordinates(this.currentSearch.departement));
+      this.currentSearch instanceof SearchRequest.ByCommune &&
+      this.toCoordinates((this.currentSearch as SearchRequest.ByCommune).commune);
     const mymap = map(this.shadowRoot!.querySelector('#appointment-map') as HTMLElement).setView(
       coordinates || [46.505, 3],
       13
@@ -87,7 +88,7 @@ export class VmdAppointmentMapComponent extends LitElement {
     };
     const markers = lieux
       .filter((lieu) => lieu.disponible)
-      .reduce((markers: MarkerClusterGroup, lieu: LieuAffichableAvecDistance) => {
+      .reduce((markers: L.MarkerClusterGroup, lieu: LieuAffichableAvecDistance) => {
         const coordinates = this.toCoordinates(lieu.location);
         if (coordinates) {
           var string_popup = `
@@ -143,7 +144,7 @@ export class VmdAppointmentMapComponent extends LitElement {
         }
 
         return markers;
-      }, new MarkerClusterGroup({ disableClusteringAtZoom: 9 }));
+      }, new L.MarkerClusterGroup({ disableClusteringAtZoom: 9 }));
 
     return { markers, bounds };
   }
