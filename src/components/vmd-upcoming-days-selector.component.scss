@@ -15,7 +15,6 @@ ul.days {
   color: $primary;
   border: 0px;
   border-radius: 1rem;
-  margin: 0rem 0.5rem;
   padding: 1.6rem;
 
   display: flex;
@@ -41,6 +40,7 @@ ul.days {
   }
 
   .date-card {
+    margin: 0px 1.1rem;
     border-radius: 1rem;
     width: 10rem;
     padding: 1rem;
@@ -57,7 +57,7 @@ ul.days {
   }
 
   .cpt-rdv {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     text-align: center;
     white-space: nowrap;
     font-weight: bold;
