@@ -34,7 +34,7 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
                 return html`
               <li class="list-group-item ${classMap({
                 selected: this.dateSelectionnee === cq.date, 
-                selectable: this.dateSelectionnee !== cq.date && appointmentCount > 0,
+                selectable: this.isSelectable(cq),
                 empty: this.dateSelectionnee !== cq.date && appointmentCount === 0
               })}" @click="${() => this.jourSelectionne(cq)}">
                 <div class="date-card">
@@ -60,9 +60,18 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
     }
 
     private jourSelectionne(creneauxQuotidien: RendezVousDuJour) {
+        if(!this.isSelectable(creneauxQuotidien)) {
+            return;
+        }
+
         this.dispatchEvent(new CustomEvent<RendezVousDuJour>('jour-selectionne', {
             detail: creneauxQuotidien
         }));
 
+    }
+
+    private isSelectable(creneauxQuotidien: RendezVousDuJour) {
+        const appointmentCount = countCreneauxFor(creneauxQuotidien);
+        return this.dateSelectionnee !== creneauxQuotidien.date && appointmentCount > 0;
     }
 }
