@@ -37,7 +37,10 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
                 selectable: this.isSelectable(cq),
                 empty: this.dateSelectionnee !== cq.date && appointmentCount === 0
               })}" @click="${() => this.jourSelectionne(cq)}">
-                <div class="date-card">
+                <div class="date-card ${classMap({
+                  'shadow-lg': this.dateSelectionnee === cq.date,
+                  'shadow-sm': this.dateSelectionnee !== cq.date && appointmentCount>0,
+                })}">
                   <div class="weekday">${Strings.upperFirst(format(parse(cq.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'EEEE', {locale: fr})).replace(".","")}</div>
                   <div class="day">${Strings.upperFirst(format(parse(cq.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'dd', {locale: fr}))}</div>
                 </div>
