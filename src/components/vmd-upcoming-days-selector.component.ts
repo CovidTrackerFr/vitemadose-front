@@ -41,7 +41,7 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
                   <div class="weekday">${Strings.upperFirst(format(parse(cq.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'EEEE', {locale: fr})).replace(".","")}</div>
                   <div class="day">${Strings.upperFirst(format(parse(cq.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'dd', {locale: fr}))}</div>
                 </div>
-                ${appointmentCount?html`<div class="cpt-rdv">${appointmentCount} créneau${Strings.plural(appointmentCount, "x")}</div>`:html``}
+                <div class="cpt-rdv">${appointmentCount>0?html`${appointmentCount} créneau${Strings.plural(appointmentCount, "x")}`:html`0 créneaux`}</div>
               </li>
                 `;
             })}

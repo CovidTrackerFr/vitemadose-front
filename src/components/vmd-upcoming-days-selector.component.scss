@@ -34,8 +34,10 @@ ul.days {
     background-color: $primary;
     color: white;
   }
-  &.empty .date-card {
-    background-color: tint-color($gray-600, 80%);
+  &.empty {
+    .date-card {
+      background-color: tint-color($gray-600, 80%);
+    }
     color: $gray-600;
   }
 
