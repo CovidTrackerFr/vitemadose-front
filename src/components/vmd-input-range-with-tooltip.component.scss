@@ -6,7 +6,11 @@
 /* see https://css-tricks.com/value-bubbles-for-range-inputs/ */
 .range-wrap {
     position: relative;
-    margin: 3rem auto 3rem;
+    margin: 3rem 0 3rem 0;
+    /* Avoid too much space between label and input range */
+    @include media-breakpoint-down(md) {
+        margin-top: 0;
+    }
 }
 .bubble {
     color: white;
