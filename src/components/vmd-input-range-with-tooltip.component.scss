@@ -31,7 +31,9 @@ input[type=range] {
     height: 26px;
     background-color: transparent;
     -webkit-appearance: none;
-    margin: 10px 0;
+    /* 1px margin left+right is important here, as for strange reasons, if margin=0 here, range slider
+       is not displayed anymore on mobile (<=md) resolutions */
+    margin: 10px 1px;
     width: 100%;
 }
 input[type=range]:focus {
