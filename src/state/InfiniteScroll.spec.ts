@@ -29,7 +29,7 @@ describe('InfiniteScroll', () => {
                     business_hours: undefined
                 },
                 type: 'vaccination-center',
-                vaccine_type: '',
+                vaccine_type: 'Pfizer-BioNTech',
                 disponible: true,
                 distance: undefined
             });

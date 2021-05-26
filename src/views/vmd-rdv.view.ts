@@ -27,7 +27,7 @@ import {
     CodeTriCentre,
     RendezVousDuJour,
     searchTypeConfigFor,
-    searchTypeConfigFromSearch, SearchTypeConfig, countCreneauxFor
+    searchTypeConfigFromSearch, SearchTypeConfig, countCreneauxFor, VACCINE_CATEGORIES
 } from "../state/State";
 import {formatDistanceToNow, parseISO, startOfDay} from 'date-fns'
 import { fr } from 'date-fns/locale'
@@ -266,7 +266,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 <div class="col">
                   <vmd-button-switch class="mb-3"
                          codeSelectionne="${this.currentSearch ? this.currentSearch.type : '18_55'}"
-                         .options="${[{code:"18_55", libelle: "Préconisé pour les 18-55 ans"}, {code:"standard", libelle: "Tous"}]}"
+                         .options="${VACCINE_CATEGORIES}"
                          @changed="${(e: CustomEvent<{value: SearchType}>) => this.updateSearchTypeTo(e.detail.value)}"
                   ></vmd-button-switch>
                 </div>

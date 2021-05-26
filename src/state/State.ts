@@ -115,7 +115,7 @@ export const TYPES_LIEUX: {[k in TypeLieu]: string} = {
 export type ISODateString = string
 export type WeekDay = "lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"
 export type BusinessHours = Record<WeekDay,string>;
-export type VaccineType = string;
+export type VaccineType = "AstraZeneca"|"Janssen"|"Pfizer-BioNTech"|"Moderna"|"ARNm";
 export type AppointmentPerVaccine = {
     vaccine_type: VaccineType;
     appointments: number;
@@ -286,6 +286,13 @@ export type RendezVousDuJour_JSON = {
     lieux: CreneauxPourLieu[];
 }
 
+type VaccineCategory = {code: SearchType, libelle: string, supported_tags: string[]};
+export const VACCINE_CATEGORIES: VaccineCategory[] = [
+    { code: "18_55", libelle: "Préconisé pour les 18-55 ans",  supported_tags: ["Pfizer-BioNTech", "Moderna", "ARNm", "preco18_55"] },
+    // { code: "16_18", libelle: "Préconisé pour les 16-18 ans", supported_tags: ["Pfizer-BioNTech"] },
+    { code: "standard", libelle: "Tous", supported_tags: ["Moderna", "Pfizer-BioNTech", "Janssen", "AstraZeneca", "ARNm"] },
+];
+
 export type SearchType = "standard"|"18_55";
 export type SearchTypeConfig = {
     filtrerCreneauxCompatibles: (creneaux: Creneau[]) => Creneau[];
@@ -301,6 +308,7 @@ export type SearchTypeConfig = {
         searchResultsByCity: string;
     }
 };
+const VACCINE_CATEGORY_FOR_18_55 = VACCINE_CATEGORIES.find(vc => vc.code === '18_55')!;
 const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type}} = {
     'standard': {
         type: 'standard',
@@ -321,7 +329,9 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
     },
     '18_55': {
         type: '18_55',
-        filtrerCreneauxCompatibles: (creneaux) => creneaux.filter(c => c.tags.includes('preco18_55')),
+        filtrerCreneauxCompatibles: (creneaux) => creneaux.filter(c =>
+            c.tags.filter(t => VACCINE_CATEGORY_FOR_18_55.supported_tags.includes(t)).length>0
+        ),
         cardAppointmentsExtractor: (_, daySelectorDisponible, creneauxPourLieu) => {
             if(daySelectorDisponible) {
                 return creneauxPourLieu?creneauxPourLieu.creneaux.filter(cbt => cbt.tags.includes('preco18_55')).length:0;
