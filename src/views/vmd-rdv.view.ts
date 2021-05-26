@@ -297,14 +297,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </div>
               </div>
             `:html`
-              ${this.daySelectorAvailable?html`
-                <vmd-upcoming-days-selector
-                    start="${startOfDay(new Date()).toISOString().substring(0, 10)}"
-                    dateSelectionnee="${this.jourSelectionne || ""}"
-                    .creneauxQuotidiens="${this.creneauxQuotidiensDetaillesAffiches}"
-                    @jour-selectionne="${(event: CustomEvent<RendezVousDuJour>) => { this.jourSelectionne = event.detail.date; this.rafraichirDonneesAffichees(); } }"
-                ></vmd-upcoming-days-selector>`:html``}
-
                 <h3 class="fw-normal text-center h4 ${classMap({ 'search-highlighted': !SearchRequest.isStandardType(this.currentSearch), 'search-standard': SearchRequest.isStandardType(this.currentSearch) })}"
                     style="${styleMap({display: (this.lieuxParDepartementAffiches) ? 'block' : 'none'})}">
                     ${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}
@@ -328,7 +320,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
                   </h3>
 
                 <div class="spacer mt-5 mb-5"></div>
-                <div class="resultats px-2 py-5 text-dark bg-light rounded-3">
+
+                ${this.daySelectorAvailable?html`
+                  <div class="resultats px-2 py-3 text-dark bg-light rounded-resultats-top mb-2">
+                      <vmd-upcoming-days-selector
+                            start="${startOfDay(new Date()).toISOString().substring(0, 10)}"
+                            dateSelectionnee="${this.jourSelectionne || ""}"
+                            .creneauxQuotidiens="${this.creneauxQuotidiensDetaillesAffiches}"
+                            @jour-selectionne="${(event: CustomEvent<RendezVousDuJour>) => {
+                        this.jourSelectionne = event.detail.date;
+                        this.rafraichirDonneesAffichees();
+                    }}"></vmd-upcoming-days-selector>
+                  </div>
+                `:html``}
+                <div class="resultats px-2 py-5 text-dark bg-light ${classMap({ 'rounded-resultats-top': !this.daySelectorAvailable })}">
                     ${countLieuxDisponibles ? html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>

@@ -3,41 +3,64 @@
 @import "../styles/bootstrap-variables";
 @import "../styles/global-variables";
 
-.list-group-horizontal.days li.list-group-item {
-  text-align: center;
-  cursor: pointer;
-
-  &.selected {
-    border: 5px solid $primary;
-    padding: 5px;
-  }
-  &:not(.selected) {
-    padding: 9px;
-    border-width: 1px;
-    &:hover {
-      border: 3px solid $primary;
-      border-style: dashed;
-      padding: 7px;
-    }
-  }
-}
-
-.cpt-rdv {
-  border-radius: 8px;
-  padding: 4px 6px;
-  white-space: nowrap;
-  background-color: $primary; color: white;
-  font-weight: bold;
-}
-
 ul.days {
   width: 100%;
   overflow: scroll;
-  margin-top: 10px;
-  margin-bottom: 30px;
   font-size: 2rem;
 }
-.days .day {
-  font-weight: bold;
-  white-space: nowrap;
+
+.list-group-horizontal.days li.list-group-item {
+  background-color: transparent;
+  text-align: center;
+  color: $primary;
+  border: 0px;
+  border-radius: 1rem;
+  margin: 0rem 0.5rem;
+  padding: 1.6rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &.selectable {
+    cursor: pointer;
+    &:hover {
+      background-color: tint-color($primary, 80%);
+    }
+    .date-card {
+      background-color: white;
+    }
+  }
+  &.selected .date-card {
+    background-color: $primary;
+    color: white;
+  }
+  &.empty .date-card {
+    background-color: tint-color($gray-600, 80%);
+    color: $gray-600;
+  }
+
+  .date-card {
+    border-radius: 1rem;
+    width: 10rem;
+    padding: 1rem;
+    box-shadow: $box-shadow;
+  }
+
+  .weekday {
+    font-size: 1.8rem;
+  }
+  .day {
+    font-size: 3.0rem;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .cpt-rdv {
+    font-size: 1.2rem;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: bold;
+    padding-top: 5px;
+  }
 }

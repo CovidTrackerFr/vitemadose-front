@@ -32,9 +32,16 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
             ${repeat(this.creneauxQuotidiens, cq => cq.date, cq => {
                 const appointmentCount = countCreneauxFor(cq);
                 return html`
-              <li class="list-group-item ${classMap({selected: this.dateSelectionnee === cq.date})}" @click="${() => this.jourSelectionne(cq)}">
-                <div class="day">${Strings.upperFirst(format(parse(cq.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'E dd/MM', {locale: fr})).replace(".","")}</div>
-                ${appointmentCount?html`<span class="cpt-rdv">${appointmentCount} créneau${Strings.plural(appointmentCount, "x")}</span>`:html``}
+              <li class="list-group-item ${classMap({
+                selected: this.dateSelectionnee === cq.date, 
+                selectable: this.dateSelectionnee !== cq.date && appointmentCount > 0,
+                empty: this.dateSelectionnee !== cq.date && appointmentCount === 0
+              })}" @click="${() => this.jourSelectionne(cq)}">
+                <div class="date-card">
+                  <div class="weekday">${Strings.upperFirst(format(parse(cq.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'EEEE', {locale: fr})).replace(".","")}</div>
+                  <div class="day">${Strings.upperFirst(format(parse(cq.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'dd', {locale: fr}))}</div>
+                </div>
+                ${appointmentCount?html`<div class="cpt-rdv">${appointmentCount} créneau${Strings.plural(appointmentCount, "x")}</div>`:html``}
               </li>
                 `;
             })}
