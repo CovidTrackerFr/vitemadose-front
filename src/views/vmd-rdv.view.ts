@@ -1,4 +1,12 @@
-import {css, customElement, html, LitElement, internalProperty, property, PropertyValues, query,
+import {
+    css,
+    customElement,
+    html,
+    internalProperty,
+    LitElement,
+    property,
+    PropertyValues,
+    query,
     unsafeCSS
 } from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
@@ -7,39 +15,41 @@ import {Router} from "../routing/Router";
 import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
 import {
-    SearchRequest,
     CodeDepartement,
     CodeTriCentre,
     Commune,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
-    Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
-    LieuxParDepartement, SearchType,
+    Lieu,
+    LieuAffichableAvecDistance,
+    LieuxAvecDistanceParDepartement,
+    LieuxParDepartement,
+    SearchRequest,
+    SearchType,
     State,
     TRIS_CENTRE
 } from "../state/State";
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import {Strings} from "../utils/Strings";
-import {
-    ValueStrCustomEvent,
-} from "../components/vmd-commune-or-departement-selector.component";
+import {ValueStrCustomEvent,} from "../components/vmd-commune-or-departement-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
-import {setDebouncedInterval, delay } from "../utils/Schedulers";
+import {delay, setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 import tippy from 'tippy.js';
+import {InfiniteScroll} from "../state/InfiniteScroll";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
-// aimed at fixing nasty Safari rendering bug
-const MAX_CENTER_RESULTS_COUNT = 180;
 
 export abstract class AbstractVmdRdvView extends LitElement {
     DELAI_VERIFICATION_MISE_A_JOUR = 45000
+    DELAI_VERIFICATION_SCROLL = 1000;
+    SCROLL_OFFSET = 200;
 
     //language=css
     static styles = [
@@ -52,13 +62,17 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
+    @property({type: Array, attribute: false}) cartesAffichees: LieuAffichableAvecDistance[] = [];
+
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
     @property() private showMap: boolean = false
 
     @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
-
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
+
     protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
+    private infiniteScroll = new InfiniteScroll();
+    private infiniteScrollObserver: IntersectionObserver | undefined;
 
     get totalCreneaux() {
         if (!this.lieuxParDepartementAffiches) {
@@ -186,29 +200,35 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           </p>
                         </div>
                     `}
-                    <div class="criteria-container text-dark rounded-3 pb-3 bg-light">
-                      <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
+
+                <div class="criteria-container text-dark rounded-3 pb-3 bg-light">
+                    <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
                         <li class="col bg-light text-std tab ${classMap({selected: !this.showMap})}" @click="${() => {this.showMap = false}}">
-                          Liste des lieux
+                            Liste des lieux
                         </li>
                         <li class="col bg-light text-std tab ${classMap({selected: this.showMap})}" @click="${() => {this.showMap = true}}">
-                          Carte des lieux
+                            Carte des lieux
                         </li>
-                      </ul>
-                      <div style="display: ${this.showMap ? 'none' : 'block'};">
-                    ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
-                        return html`<vmd-appointment-card
-                            style="--list-index: ${index}"
-                            .lieu="${lieu}"
-                            theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
-                            .highlightable="${SearchRequest.isChronodoseType(this.currentSearch)}"
-                            @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
-                            @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
-                        />`;
-                    })}
+                    </ul>
+                    <div style="display: ${this.showMap ? 'none' : 'block'};">
+                        <div id="scroller">
+                            ${repeat(this.cartesAffichees || [],
+                                    (c => `${c.departement}||${c.nom}||${c.plateforme}}`),
+                                    (lieu, index) => {
+                                        return html`<vmd-appointment-card
+                                style="--list-index: ${index}"
+                                .lieu="${lieu}"
+                                theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
+                                .highlightable="${SearchRequest.isChronodoseType(this.currentSearch)}"
+                                @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
+                                @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
+                            />`;
+                            })}
+                            <div id="sentinel"></div>
+                        </div>
                     </div>
                     ${this.showMap ? html`<vmd-appointment-map .currentSearch="${this.currentSearch}" .lieux="${this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[]}"/>` : html``}
-                    </div>
+                </div>
                 ${SearchRequest.isStandardType(this.currentSearch)?html`
                 <div class="eligibility-criteria fade-in-then-fade-out">
                     <p>Les critères d'éligibilité sont vérifiés lors de la prise de rendez-vous</p>
@@ -221,7 +241,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
         super.updated(changedProperties);
         tippy(this.$chronodoseLabel, {
             content: (el) => el.getAttribute('title')!
-        })
+        });
+        this.registerInfiniteScroll();
     }
 
 
@@ -231,16 +252,48 @@ export abstract class AbstractVmdRdvView extends LitElement {
         this.launchCheckingUpdates();
     }
 
+    private registerInfiniteScroll() {
+        if (!this.shadowRoot) {
+            return;
+        }
+
+        const scroller = this.shadowRoot.querySelector('#scroller');
+        const sentinel = this.shadowRoot.querySelector('#sentinel');
+
+        if (!scroller || !sentinel) {
+            return;
+        }
+
+        if (this.infiniteScrollObserver) {
+            this.infiniteScrollObserver.disconnect();
+        }
+        this.infiniteScrollObserver = new IntersectionObserver(entries => {
+            if (entries.some(entry => entry.isIntersecting)) {
+                this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches,
+                    this.cartesAffichees);
+            }
+        }, { root: null, rootMargin: '200px', threshold: 0.0 });
+        if (sentinel) {
+            this.infiniteScrollObserver.observe(sentinel);
+        }
+    }
+
     disconnectedCallback() {
         super.disconnectedCallback();
-
         this.stopCheckingUpdates();
+        this.stopListeningToScroll();
     }
 
     stopCheckingUpdates() {
         if(this.lieuBackgroundRefreshIntervalId) {
             clearInterval(this.lieuBackgroundRefreshIntervalId);
             this.lieuBackgroundRefreshIntervalId = undefined;
+        }
+    }
+
+    private stopListeningToScroll() {
+        if (this.infiniteScrollObserver) {
+            this.infiniteScrollObserver.disconnect();
         }
     }
 
@@ -302,6 +355,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         return !l.appointment_by_phone_only
                     })
                 }
+                this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, []);
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
@@ -315,6 +369,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
             }
         } else {
             this.lieuxParDepartementAffiches = undefined;
+            this.cartesAffichees = [];
         }
     }
 
@@ -468,7 +523,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
                 .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
                 .sortBy(l => this.extraireFormuleDeTri(l, search.tri))
-                .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
                 .build()
         };
     }
@@ -585,7 +639,6 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
                 .map(l => ({...l, distance: undefined }))
                 .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .sortBy(l => this.extraireFormuleDeTri(l, 'date'))
-                .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
                 .build()
         };
     }
