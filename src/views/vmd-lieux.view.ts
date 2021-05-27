@@ -82,9 +82,9 @@ export class VmdLieuxView extends LitElement {
                 console.log("error1")
             });
 
-        tileLayer('https://{s}.tile.jawg.io/jawg-sunny/{z}/{x}/{y}.png?access-token=sOXVrxPultoFMoo0oQigvvfXgPxaX0OFlFJF7y1rw0ZQy1c1yFTSnXSVOBqw0W6Y', {
+        tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank" class="jawg-attrib">&copy; <b>Jawg</b>Maps</a> | <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap is open data licensed under ODbL" target="_blank" class="osm-attrib">&copy; OSM contributors</a>            '
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(mymap);
     }
 
