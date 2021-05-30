@@ -6,7 +6,6 @@ import {
     LitElement,
     property,
     PropertyValues,
-    query,
     unsafeCSS
 } from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
@@ -41,7 +40,6 @@ import {delay, setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
-import tippy from 'tippy.js';
 import {InfiniteScroll} from "../state/InfiniteScroll";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
@@ -66,7 +64,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
-    @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
 
     protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
@@ -213,9 +210,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     updated(changedProperties: PropertyValues) {
         super.updated(changedProperties);
-        tippy(this.$chronodoseLabel, {
-            content: (el) => el.getAttribute('title')!
-        });
         this.registerInfiniteScroll();
     }
 

@@ -4,7 +4,6 @@ import {
     html,
     LitElement,
     property,
-    PropertyValues, query,
     unsafeCSS
 } from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
@@ -21,7 +20,6 @@ import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
-import tippy from "tippy.js";
 import { format as formatDate, parseISO } from "date-fns"
 import { fr } from 'date-fns/locale'
 
@@ -42,8 +40,6 @@ export class VmdAppointmentCardComponent extends LitElement {
     @property({type: Object, attribute: false}) lieu!: LieuAffichableAvecDistance;
     @property({type: String}) theme!: string;
     @property() highlightable!: boolean;
-
-    @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
     constructor() {
         super();
@@ -161,10 +157,6 @@ export class VmdAppointmentCardComponent extends LitElement {
               'search-standard': this.theme==='standard',
               'search-chronodose': this.theme==='chronodose'
                 })}">
-                ${cardConfig.highlighted?html`
-                <div class="row align-items-center highlight-text">
-                  <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses disponibles<i class="bi vmdicon-lightning-charge-fill"></i></span>
-                </div>`:html``}
                 <div class="card-body p-4">
                     <div class="row align-items-center ">
                         <div class="col">
@@ -206,13 +198,6 @@ export class VmdAppointmentCardComponent extends LitElement {
                 </div>
             </div>
             `);
-    }
-
-    updated(changedProperties: PropertyValues) {
-        super.updated(changedProperties);
-        tippy(this.$chronodoseLabel, {
-            content: (el) => el.getAttribute('title')!
-        })
     }
 
     private cardTitle(cardConfig: any): string {
