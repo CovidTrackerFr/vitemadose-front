@@ -100,14 +100,14 @@ a:focus {
   color: $link-color;
 }
 
-.search-chronodose {
+.search-highlighted {
   .highlight-text {
-    background-color: $lightChronodoseColor;
-    color: $chronodoseColor;
+    background-color: $lightHighlihtedColor;
+    color: $highlightedColor;
   }
   .btn-tel {
-    background-color: $lightChronodoseColor;
-    color: $chronodoseColor;
+    background-color: $lightHighlihtedColor;
+    color: $highlightedColor;
   }
 }
 .search-standard {

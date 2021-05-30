@@ -149,7 +149,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             <div class="card rounded-3 mb-5  ${classMap({
               'bg-disabled': cardConfig.disabledBG,
               'search-standard': this.theme==='standard',
-              'search-chronodose': this.theme==='chronodose'
+              'search-highlighted': this.theme==='highlighted'
                 })}">
                 <div class="card-body p-4">
                     <div class="row align-items-center ">
