@@ -49,15 +49,13 @@ export type CodeTriCentre = 'date' | 'distance';
 const USE_RAW_GITHUB = false
 
 function getVmdbaseurl() {
-    if (USE_RAW_GITHUB) {
+    if(document.location.host.includes('dev.vitemado.se') || document.location.host.includes('localhost')) {
+        return 'https://vitemadose.gitlab.io/vitemadose-staging/v2';
+    } else if (USE_RAW_GITHUB) {
         return 'https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output';
+    } else {
+        return 'https://vitemadose.gitlab.io/vitemadose';
     }
-
-    // TODO: CHANGE ME
-    if (document.location.host.includes('localhost')) {
-        return '/tmp';
-    }
-    return '/disponibilite-generale/tmp'
 }
 
 const VMD_BASE_URL = getVmdbaseurl()
