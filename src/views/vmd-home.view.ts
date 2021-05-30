@@ -6,7 +6,7 @@ import {
     PLATEFORMES, SearchType,
     SearchRequest,
     State,
-    StatsLieu,
+    StatsLieu, Departement,
 } from "../state/State";
 import {CSS_Global, CSS_Home} from "../styles/ConstructibleStyleSheets";
 
@@ -28,16 +28,16 @@ export class VmdHomeView extends LitElement {
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
     private async onSearch (event: CustomEvent<SearchRequest>) {
-      const searchType: SearchType = window.location.hostname === 'chronodose.fr' ? 'chronodose':'standard';
+      const searchType: SearchType = 'standard';
       if (SearchRequest.isByDepartement(event.detail)) {
         const departement = event.detail.departement
         Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement), searchType)
       } else {
-        const commune = event.detail.commune
-        const departements = await State.current.departementsDisponibles()
-        const departement = departements.find(({ code_departement }) => code_departement === commune.codeDepartement)
+        const commune = event.detail.commune;
+        const departements = await State.current.departementsDisponibles();
+        const departement: Departement|undefined = departements.find(({ code_departement }) => code_departement === commune.codeDepartement);
 
-        if(!departement) {
+        if (!departement) {
             console.error(`Can't find departement matching code ${commune.codeDepartement}`)
             return;
         }
@@ -50,7 +50,7 @@ export class VmdHomeView extends LitElement {
             commune.codePostal,
             libelleUrlPathDeCommune(commune!),
             searchType
-        )
+        );
       }
     }
 
@@ -71,7 +71,7 @@ export class VmdHomeView extends LitElement {
             </div>
 
             <div class="platforms mt-5">
-                <h5 class="text-black-50 text-center mb-5">Trouvez vos rendez-vous avec</h5>
+                <h2 class="text-gray-600 text-center mb-5 h5">Trouvez vos rendez-vous avec</h2>
 
                 <div class="row justify-content-center align-items-center">
                   ${Object.values(PLATEFORMES).filter(p => p.promoted).map(plateforme => {
@@ -100,7 +100,7 @@ export class VmdHomeView extends LitElement {
 
                             <div class="homeCard-actions">
                                 <div class="row justify-content-center justify-content-lg-start mt-5">
-                                    <a href="https://covidtracker.fr/vaccintracker/" target="_blank" class="col-auto btn btn-primary btn-lg">
+                                    <a href="https://covidtracker.fr/vaccintracker/" target="_blank" rel="noreferrer" class="col-auto btn btn-primary btn-lg">
                                         Accéder à VaccinTracker&nbsp;<i class="bi vmdicon-arrow-up-right"></i>
                                     </a>
                                 </div>
@@ -157,6 +157,8 @@ export class VmdHomeView extends LitElement {
                     </div>
                 </div>
             </div>
+
+            <div class="spacer mt-5 mb-5"></div>
 
             <slot name="about"></slot>
         `;

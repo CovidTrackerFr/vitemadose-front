@@ -3,6 +3,8 @@ import { TemplateResult } from "lit-html";
 import {html} from "lit-element";
 import {CodeTriCentre, SearchType, State} from "../state/State";
 import {Analytics} from "../utils/Analytics";
+// @ts-ignore
+import {rechercheDepartementDescriptor, rechercheCommuneDescriptor} from './DynamicURLs';
 
 export type SlottedTemplateResultFactory = (subViewSlot: TemplateResult) => TemplateResult;
 
@@ -39,23 +41,28 @@ class Routing {
         page.redirect(`${this.basePath}index.html`, `/`);
 
         this.declareRoutes({
-            pathPattern: `/`, analyticsViewName: () => 'home',
+            pathPattern: `/`,
+            analyticsViewName: () => 'home',
             viewContent: async () => {
                 await import('../views/vmd-home.view')
                 return (subViewSlot) =>
                     html`<vmd-home>${subViewSlot}</vmd-home>`
             }
         });
+        // Legacy URL
+        page(`${this.basePath}centres-vaccination-covid-dpt:codeDpt-:nomDpt/recherche-chronodoses`,
+            (context) =>  page.redirect(`${this.basePath}centres-vaccination-covid-dpt${context.params['codeDpt']}-${context.params['nomDpt']}/recherche-standard`));
         this.declareRoutes({
             pathPattern: [
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/recherche-:typeRecherche`
-            ], analyticsViewName: (pathParams) => `search_results_by_department${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
+                rechercheDepartementDescriptor.routerUrl
+            ],
+            analyticsViewName: (_) => `search_results_by_department`,
             viewContent: async (params) => {
-                await import('../views/vmd-rdv.view')
+                await import('../views/vmd-rdv.view');
                 return (subViewSlot) =>
                     html`<vmd-rdv-par-departement
-                        searchType="${(params['typeRecherche'] && params['typeRecherche']==='chronodoses')?'chronodose':'standard'}"
+                        searchType="standard"
                         codeDepartementSelectionne="${params[`codeDpt`]}">
                       ${subViewSlot}
                     </vmd-rdv-par-departement>`
@@ -64,16 +71,20 @@ class Routing {
                 State.current.chercheDepartementParCode(params[`codeDpt`])
                     .then(nomDpt => `Vaccination COVID-19 en ${nomDpt.nom_departement} ${params[`codeDpt`]}`)
         });
+        // Legacy URL
+        page(`${this.basePath}centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/recherche-chronodoses/en-triant-par-:codeTriCentre`,
+            (context) =>  page.redirect(`${this.basePath}centres-vaccination-covid-dpt${context.params['codeDpt']}-${context.params['nomDpt']}/commune${context.params['codeCommune']}-${context.params['codePostal']}-${context.params['nomCommune']}/recherche-standard/en-triant-par-${context.params['codeTriCentre']}`));
         this.declareRoutes({
             pathPattern: [
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`,
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/recherche-:typeRecherche/en-triant-par-:codeTriCentre`,
-            ], analyticsViewName: (pathParams) => `search_results_by_city${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
+                rechercheCommuneDescriptor.routerUrl
+            ],
+            analyticsViewName: (_) => `search_results_by_city`,
             viewContent: async (params) => {
-                await import('../views/vmd-rdv.view')
+                await import('../views/vmd-rdv.view');
                 return (subViewSlot) =>
                     html`<vmd-rdv-par-commune
-                    searchType="${(params['typeRecherche'] && params['typeRecherche']==='chronodoses')?'chronodose':'standard'}"
+                    searchType="standard"
                     codeCommuneSelectionne="${params[`codeCommune`]}"
                     codePostalSelectionne="${params[`codePostal`]}"
                     critèreDeTri="${params[`codeTriCentre`]}">
@@ -85,39 +96,41 @@ class Routing {
                     .then(commune => `Vaccination COVID-19 à ${commune.nom} ${commune.codePostal}`)
         });
         this.declareRoutes({
-            pathPattern: `/centres`, analyticsViewName: () => 'centres',
+            pathPattern: [
+                // Legacy URLs with tranche age inside ... used only for old URLs referenced by Google
+                '/centres',
+                // Proper URL really used
+                '/lieux'
+            ],
+            analyticsViewName: () => 'centres',
             viewContent: async () => {
-                await import('../views/vmd-lieux.view')
+                await import('../views/vmd-lieux.view');
                 return (subViewSlot) =>
                     html`<vmd-lieux>${subViewSlot}</vmd-lieux>`
             }
         });
         this.declareRoutes({
-            pathPattern: `/statistiques`, analyticsViewName: () => 'statistiques',
+            pathPattern: `/statistiques`,
+            analyticsViewName: () => 'statistiques',
             viewContent: async () => {
-                await import('../views/vmd-statistiques.view')
+                await import('../views/vmd-statistiques.view');
                 return (subViewSlot) =>
                     html`<vmd-statistiques>${subViewSlot}</vmd-statistiques>`
             }
         });
         this.declareRoutes({
-            pathPattern: `/apropos`, analyticsViewName: () => 'a_propos',
+            pathPattern: `/apropos`,
+            analyticsViewName: () => 'a_propos',
             viewContent: async () => {
-                await import('../views/vmd-apropos.view')
+                await import('../views/vmd-apropos.view');
                 return (subViewSlot) =>
                     html`<vmd-apropos>${subViewSlot}</vmd-apropos>`
             }
         });
-        this.declareRoutes({
-            pathPattern: `/chronodose`, analyticsViewName: () => 'chronodose',
-            viewContent: async () => {
-                await import('../views/vmd-chronodose.view')
-                return (subViewSlot) =>
-                    html`<vmd-chronodose>${subViewSlot}</vmd-chronodose>`
-            }
-        });
+        // Legacy URL
+        page.redirect(`${this.basePath}chronodose`, `/`);
 
-        page(`*`, (context) => this._notFoundRoute(context));
+        page(`*`, (context) => Routing._notFoundRoute(context));
         page();
 
         return callbackCleaner;
@@ -126,7 +139,12 @@ class Routing {
     private declareRoutes(routeDeclaration: RouteDeclaration) {
         const paths: string[] = (typeof routeDeclaration.pathPattern === 'string') ? [routeDeclaration.pathPattern] : routeDeclaration.pathPattern;
         paths.forEach(path => {
-            this._declareRoute(path, routeDeclaration.analyticsViewName, routeDeclaration.viewContent, routeDeclaration.pageTitleProvider || Routing.DEFAULT_TITLE_PROMISE);
+            this._declareRoute(
+                path,
+                routeDeclaration.analyticsViewName,
+                routeDeclaration.viewContent,
+                routeDeclaration.pageTitleProvider || Routing.DEFAULT_TITLE_PROMISE
+            );
         });
     }
 
@@ -142,7 +160,9 @@ class Routing {
                     Promise.resolve(slottedViewComponentFactoryResult)),
                 titlePromise(context.params).catch(() => Routing.DEFAULT_TITLE)
             ]).then(([slottedViewTemplateFactory, title]) => {
-                this.currentPath === '/' && window.scroll({ top: 0, behavior: 'smooth' })
+                if(this.currentPath === '/' && window.matchMedia("(max-width: 700px)").matches) { 
+                    window.scroll({ top: 0, behavior: 'smooth' });
+                }
 
                 this.currentPath = path;
 
@@ -162,9 +182,10 @@ class Routing {
         }
     }
 
-    private _notFoundRoute(context: PageJS.Context) {
-        console.error(`Route not found : ${context.path} ! Redirecting to home...`);
-        this.navigateToHome();
+    private static _notFoundRoute(context: PageJS.Context) {
+        let notFoundUrl: string = window.location.protocol + '//' + window.location.host + '/404.html';
+        console.error(`Route not found : ${context.path} ! Redirecting to ${notFoundUrl}`);
+        window.location.href = notFoundUrl;
     }
 
     public navigateToRendezVousAvecDepartement(codeDepartement: string, pathLibelleDepartement: string, searchType: SearchType) {
@@ -172,11 +193,11 @@ class Routing {
     }
 
     public getLinkToRendezVousAvecDepartement(codeDepartement: string, pathLibelleDepartement: string, searchType: SearchType) {
-        return `${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/recherche-${searchType==='chronodose'?'chronodoses':'standard'}`;
+        return `${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/recherche-${searchType}`;
     }
 
     public navigateToRendezVousAvecCommune(codeTriCentre: CodeTriCentre, codeDepartement: string, pathLibelleDepartement: string, codeCommune: string, codePostal: string, pathLibelleCommune: string, searchType: SearchType) {
-        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/commune${codeCommune}-${codePostal}-${pathLibelleCommune}/recherche-${searchType==='chronodose'?'chronodoses':'standard'}/en-triant-par-${codeTriCentre}`);
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/commune${codeCommune}-${codePostal}-${pathLibelleCommune}/recherche-${searchType}/en-triant-par-${codeTriCentre}`);
     }
 
     navigateToHome() {
@@ -185,7 +206,7 @@ class Routing {
 
     navigateToUrlIfPossible(url: string) {
         if(url) {
-            window.open(url, '_blank')
+            window.open(url, '_blank', 'noreferrer')
         }
     }
 }

@@ -39,8 +39,8 @@
     }
 }
 
-.search-chronodose .option.active {
-    color: $chronodoseColor;
+.search-highlighted .option.active {
+    color: $highlightedColor;
 }
 .search-standard .option.active {
     color: $stdColor;

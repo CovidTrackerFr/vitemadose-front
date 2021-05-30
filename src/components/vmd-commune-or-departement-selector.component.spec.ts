@@ -38,6 +38,14 @@ describe('<vmd-commune-or-departement-selector />', () => {
       départementCalvados,
       communeDeauville
     ]))
+
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation(query => ({
+        matches: false,
+        media: query,
+      })),
+    });
   })
   describe('when a value is given', () => {
     describe('and is a département', () => {

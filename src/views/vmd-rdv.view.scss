@@ -23,9 +23,9 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    color: $red;
+    color: $red-600;
     width: 100%;
-    background-color: $pink-100;
+    background-color: $red-100;
     text-align: center;
     vertical-align: center;
 
@@ -50,7 +50,7 @@ vmd-appointment-card {
     opacity: 1;
     animation: fade-in ease-in 200ms;
     animation-fill-mode: backwards;
-    animation-delay: calc((var(--list-index) * 60ms) + 50ms);
+    animation-delay: calc((var(--page-index) * 60ms) + 50ms);
 
     @keyframes fade-in {
         from {
@@ -68,8 +68,8 @@ vmd-appointment-card {
     &.search-standard {
         background-color: $lightStdColor;
     }
-    &.search-chronodose {
-        background-color: $lightChronodoseColor;
+    &.search-highlighted {
+        background-color: $lightHighlihtedColor;
     }
 }
 

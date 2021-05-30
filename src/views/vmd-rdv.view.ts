@@ -1,4 +1,11 @@
-import {css, customElement, html, LitElement, internalProperty, property, PropertyValues, query,
+import {
+    css,
+    customElement,
+    html,
+    internalProperty,
+    LitElement,
+    property,
+    PropertyValues,
     unsafeCSS
 } from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
@@ -7,38 +14,40 @@ import {Router} from "../routing/Router";
 import rdvViewCss from "./vmd-rdv.view.scss";
 import distanceEntreDeuxPoints from "../distance"
 import {
-    SearchRequest,
     CodeDepartement,
     CodeTriCentre,
     Commune,
     libelleUrlPathDeCommune,
     libelleUrlPathDuDepartement,
-    Lieu, LieuAffichableAvecDistance, LieuxAvecDistanceParDepartement,
-    LieuxParDepartement, SearchType,
+    Lieu,
+    LieuAffichableAvecDistance,
+    LieuxAvecDistanceParDepartement,
+    LieuxParDepartement,
+    SearchRequest,
+    SearchType,
     State,
     TRIS_CENTRE
 } from "../state/State";
-import {Dates} from "../utils/Dates";
+import { formatDistanceToNow, parseISO } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import {Strings} from "../utils/Strings";
-import {
-    ValueStrCustomEvent,
-} from "../components/vmd-commune-or-departement-selector.component";
+import {ValueStrCustomEvent,} from "../components/vmd-commune-or-departement-selector.component";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
 import {TemplateResult} from "lit-html";
 import {Analytics} from "../utils/Analytics";
 import {LieuCliqueCustomEvent} from "../components/vmd-appointment-card.component";
-import {setDebouncedInterval, delay } from "../utils/Schedulers";
+import {delay, setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
-import tippy from 'tippy.js';
+import {InfiniteScroll} from "../state/InfiniteScroll";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
-// aimed at fixing nasty Safari rendering bug
-const MAX_CENTER_RESULTS_COUNT = 180;
 
 export abstract class AbstractVmdRdvView extends LitElement {
     DELAI_VERIFICATION_MISE_A_JOUR = 45000
+    DELAI_VERIFICATION_SCROLL = 1000;
+    SCROLL_OFFSET = 200;
 
     //language=css
     static styles = [
@@ -51,12 +60,15 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Array, attribute: false}) lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
+    @property({type: Array, attribute: false}) cartesAffichees: LieuAffichableAvecDistance[] = [];
+
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
-    @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
-
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
+
     protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
+    private infiniteScroll = new InfiniteScroll();
+    private infiniteScrollObserver: IntersectionObserver | undefined;
 
     get totalCreneaux() {
         if (!this.lieuxParDepartementAffiches) {
@@ -90,24 +102,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     render() {
         const lieuxDisponibles = (this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxAffichables)?
-            this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => {
-                if(this.currentSearch && SearchRequest.isChronodoseType(this.currentSearch)) {
-                    return l.appointment_count > 0;
-                } else /* if(this.currentSearch && SearchRequest.isStandardType(this.currentSearch)) */ {
-                    return l.disponible;
-                }
-            }):[];
+            this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => l.disponible):[];
 
         return html`
-            <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'bg-std': SearchRequest.isStandardType(this.currentSearch), 'bg-chronodose': SearchRequest.isChronodoseType(this.currentSearch)})}">
-              <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
-                <li class="col bg-std text-std tab ${classMap({selected: SearchRequest.isStandardType(this.currentSearch)})}" @click="${() => this.updateSearchTypeTo('standard')}">
-                  Tous les créneaux
-                </li>
-                <li class="col bg-chronodose text-chronodose tab ${classMap({selected: SearchRequest.isChronodoseType(this.currentSearch)})}" @click="${() => this.updateSearchTypeTo('chronodose')}">
-                  <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses uniquement</span>
-                </li>
-              </ul>
+            <div class="criteria-container text-dark rounded-3 py-5 ${classMap({'bg-std': SearchRequest.isStandardType(this.currentSearch), 'bg-highlighted': !SearchRequest.isStandardType(this.currentSearch)})}">
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                     <vmd-search
                           .value="${this.currentSearch}"
@@ -125,19 +123,16 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </div>
               </div>
             `:html`
-                <h3 class="fw-normal text-center h4 ${classMap({ 'search-chronodose': SearchRequest.isChronodoseType(this.currentSearch), 'search-standard': SearchRequest.isStandardType(this.currentSearch) })}"
+                <h3 class="fw-normal text-center h4 ${classMap({ 'search-highlighted': !SearchRequest.isStandardType(this.currentSearch), 'search-standard': SearchRequest.isStandardType(this.currentSearch) })}"
                     style="${styleMap({display: (this.lieuxParDepartementAffiches) ? 'block' : 'none'})}">
-                    ${SearchRequest.isChronodoseType(this.currentSearch)
-                        ? `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} chronodose${Strings.plural(this.totalCreneaux)} trouvé${Strings.plural(this.totalCreneaux)}`
-                        : `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}`
-                    }
-                  ${this.libelleLieuSelectionne()}
+                    ${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}
+                    ${this.libelleLieuSelectionne()}
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ?
                       html`
-                      <p class="fs-6 text-black-50">
+                      <p class="fs-6 text-gray-600">
                         Dernière mise à jour : il y a
-                        ${Dates.formatDurationFromNow(this.lieuxParDepartementAffiches!.derniereMiseAJour)}
+                        ${ formatDistanceToNow(parseISO(this.lieuxParDepartementAffiches!.derniereMiseAJour), { locale: fr }) }
                         ${this.miseAJourDisponible?html`
                           <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; this.launchCheckingUpdates() }}">Rafraîchir</button>
                         `:html``}
@@ -156,13 +151,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${lieuxDisponibles.length} Lieu${Strings.plural(lieuxDisponibles.length, 'x')} de vaccination avec des ${SearchRequest.isChronodoseType(this.currentSearch) ? 'chronodoses' : 'disponibilités'}
+                                ${lieuxDisponibles.length} Lieu${Strings.plural(lieuxDisponibles.length, 'x')} de vaccination avec des disponibilités
                             </span>
                         </h2>
                     ` : html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                           <i class="bi vmdicon-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
-                          Aucun créneau ${SearchRequest.isChronodoseType(this.currentSearch) ? 'chronodose' : 'de vaccination'} trouvé
+                          Aucun créneau de vaccination trouvé
                         </h2>
                         <div class="mb-5 container-content">
                           <p class="fst-italic">Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
@@ -170,9 +165,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           <p class="fst-italic">Nous vous recommandons toutefois de vérifier manuellement
                             les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
                             Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.
-                            ${SearchRequest.isChronodoseType(this.currentSearch) ? html`
-                                    Si vous êtes déjà éligible, vous pouvez <a class="text-decoration-underline" href="${this.getStandardResultsLink()}"">consulter les créneaux classiques</a>.
-                            `:``}
                           </p>
                           <p class="fst-italic">Pour recevoir une notification quand de nouveaux créneaux seront disponibles,
                             nous vous invitons à utiliser les applications mobiles “Vite Ma Dose !” pour
@@ -181,18 +173,20 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           </p>
                         </div>
                     `}
-
-                    ${repeat(this.lieuxParDepartementAffiches?this.lieuxParDepartementAffiches.lieuxAffichables:[], (c => `${c.departement}||${c.nom}||${c.plateforme}}`), (lieu, index) => {
-                        return html`<vmd-appointment-card
-                            style="--list-index: ${index}"
-                            .lieu="${lieu}"
-                            theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
-                            .highlightable="${SearchRequest.isChronodoseType(this.currentSearch)}"
-                            @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
-                            @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
-                        />`;
-                    })}
-                </div>
+                        <div id="scroller">
+                            ${repeat(this.cartesAffichees || [],
+                                       (c => `${c.departement}||${c.nom}||${c.plateforme}}`), 
+                                       (lieu, index) => {
+                                          return html`<vmd-appointment-card
+                                    style="--list-index: ${index}"
+                                    .lieu="${lieu}"
+                                    theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
+                                    @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
+                                    @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
+                                />`;
+                            })}
+                            <div id="sentinel"></div>
+                        </div>
                 ${SearchRequest.isStandardType(this.currentSearch)?html`
                 <div class="eligibility-criteria fade-in-then-fade-out">
                     <p>Les critères d'éligibilité sont vérifiés lors de la prise de rendez-vous</p>
@@ -203,9 +197,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     updated(changedProperties: PropertyValues) {
         super.updated(changedProperties);
-        tippy(this.$chronodoseLabel, {
-            content: (el) => el.getAttribute('title')!
-        })
+        this.registerInfiniteScroll();
     }
 
 
@@ -215,16 +207,48 @@ export abstract class AbstractVmdRdvView extends LitElement {
         this.launchCheckingUpdates();
     }
 
+    private registerInfiniteScroll() {
+        if (!this.shadowRoot) {
+            return;
+        }
+
+        const scroller = this.shadowRoot.querySelector('#scroller');
+        const sentinel = this.shadowRoot.querySelector('#sentinel');
+
+        if (!scroller || !sentinel) {
+            return;
+        }
+
+        if (this.infiniteScrollObserver) {
+            this.infiniteScrollObserver.disconnect();
+        }
+        this.infiniteScrollObserver = new IntersectionObserver(entries => {
+            if (entries.some(entry => entry.isIntersecting)) {
+                this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches,
+                    this.cartesAffichees);
+            }
+        }, { root: null, rootMargin: '200px', threshold: 0.0 });
+        if (sentinel) {
+            this.infiniteScrollObserver.observe(sentinel);
+        }
+    }
+
     disconnectedCallback() {
         super.disconnectedCallback();
-
         this.stopCheckingUpdates();
+        this.stopListeningToScroll();
     }
 
     stopCheckingUpdates() {
         if(this.lieuBackgroundRefreshIntervalId) {
             clearInterval(this.lieuBackgroundRefreshIntervalId);
             this.lieuBackgroundRefreshIntervalId = undefined;
+        }
+    }
+
+    private stopListeningToScroll() {
+        if (this.infiniteScrollObserver) {
+            this.infiniteScrollObserver.disconnect();
         }
     }
 
@@ -237,7 +261,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         ? currentSearch.departement.code_departement
                         : currentSearch.commune.codeDepartement
                     const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
-                    const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement, true)
+                    const lieuxAJourPourDepartement = await State.current.lieuxPour(codeDepartement)
                     this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
 
                     // we stop the update check if there has been one
@@ -281,11 +305,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 } as LieuxParDepartement);
 
                 this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement, currentSearch);
-                if(SearchRequest.isChronodoseType(this.currentSearch)) {
-                    this.lieuxParDepartementAffiches.lieuxAffichables = this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => {
-                        return !l.appointment_by_phone_only
-                    })
-                }
+                this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, []);
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
@@ -299,14 +319,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
             }
         } else {
             this.lieuxParDepartementAffiches = undefined;
+            this.cartesAffichees = [];
         }
-    }
-
-    private getStandardResultsLink() {
-        if (this.currentSearch && SearchRequest.isByDepartement(this.currentSearch)) {
-            return Router.getLinkToRendezVousAvecDepartement(this.currentSearch.departement.code_departement, libelleUrlPathDuDepartement(this.currentSearch.departement!), 'standard');
-        }
-        return ;
     }
 
     private prendreRdv(lieu: Lieu) {
@@ -368,11 +382,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     protected transformLieuEnFonctionDuTypeDeRecherche(lieu: LieuAffichableAvecDistance) {
-        if(SearchRequest.isChronodoseType(this.currentSearch)) {
-            return {...lieu, appointment_count: ((!lieu.appointment_schedules?.length)?[]:lieu.appointment_schedules)?.find(s => s.name === 'chronodose')?.total || 0 };
-        } else /* if(this.searchType === 'standard') */ {
-            return lieu;
-        }
+        return lieu;
     }
 
     abstract currentCritereTri(): CodeTriCentre;
@@ -452,7 +462,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
                 .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .filter(l => !l.distance || l.distance < MAX_DISTANCE_CENTRE_IN_KM)
                 .sortBy(l => this.extraireFormuleDeTri(l, search.tri))
-                .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
                 .build()
         };
     }
@@ -498,15 +507,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         } else {
             return html``;
         }
-    }
-
-    protected updateSearchTypeTo(searchType: SearchType) {
-        if(searchType === 'chronodose') {
-            // This is pointless to sort by time in chronodrive search
-            this.critèreDeTri = 'distance';
-        }
-
-        super.updateSearchTypeTo(searchType);
     }
 
     currentCritereTri(): CodeTriCentre {
@@ -569,7 +569,6 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
                 .map(l => ({...l, distance: undefined }))
                 .map(l => this.transformLieuEnFonctionDuTypeDeRecherche(l))
                 .sortBy(l => this.extraireFormuleDeTri(l, 'date'))
-                .filter((_, idx) => idx < MAX_CENTER_RESULTS_COUNT)
                 .build()
         };
     }

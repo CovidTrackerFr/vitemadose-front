@@ -1,6 +1,6 @@
-@import 'bootstrap/scss/functions';
+@import "bootstrap/scss/functions";
 @import "bootstrap-variables";
-@import 'bootstrap/scss/bootstrap';
+@import "bootstrap/scss/bootstrap";
 
 @import "bootstrap-additional";
 
@@ -10,83 +10,86 @@
 //$base-color: #ffbf16;
 
 html {
-    font-size: 62.5%;
+  font-size: 62.5%;
 }
 
 body {
-    font-size: 1.6rem;
-    padding: {
-        bottom: 3.2rem;
-    };
+  font-size: 1.6rem;
+  padding: {
+    bottom: 3.2rem;
+  }
 }
 
 footer {
-    margin: {
-        top: 12rem !important;
-    };
-    color: $gray-500;
+  margin: {
+    top: 12rem !important;
+  }
+  color: $gray-600;
 }
 
 .spacer {
-    height: 0;
-    line-height: 0;
+  height: 0;
+  line-height: 0;
 }
 
 h1 {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 select[required]:invalid {
-    color: $gray-600;
+  color: $gray-600;
 }
 
-.search-chronodose {
-    .btn-primary {
-        background-color: $chronodoseColor;
-        border-color: $chronodoseColor;
-    }
-    .btn-primary.disabled {
-        background-color: tint-color($chronodoseColor, 20%);
-    }
+.search-highlighted {
+  .btn-primary {
+    background-color: $highlightedColor;
+    border-color: $highlightedColor;
+  }
+  .btn-primary.disabled {
+    background-color: tint-color($highlightedColor, 20%);
+  }
 }
 .search-standard {
-    .btn-primary {
-        background-color: $stdColor;
-        border-color: $stdColor;
-    }
-    .btn-primary.disabled {
-        background-color: tint-color($stdColor, 20%);
-    }
+  .btn-primary {
+    background-color: $stdColor;
+    border-color: $stdColor;
+  }
+  .btn-primary.disabled {
+    background-color: tint-color($stdColor, 20%);
+  }
 }
 
-.bg-chronodose {
-    background-color: $lightChronodoseColor;
+.bg-highlighted {
+  background-color: $lightHighlihtedColor;
 }
 .bg-std {
-    background-color: $lightStdColor;
+  background-color: $lightStdColor;
 }
-.text-chronodose {
-    color: $chronodoseColor;
+.text-highlighted {
+  color: $highlightedColor;
 }
 .text-std {
-    color: $stdColor;
+  color: $stdColor;
 }
 
 .tab {
-    text-align: center;
-    border-top-left-radius: 1.2rem;
-    border-top-right-radius: 1.2rem;
-    padding: 1.2rem 1.5rem;
-    font-weight: bold;
-    border: 1px solid transparent;
-    list-style: none;
-    cursor: pointer;
+  text-align: center;
+  border-top-left-radius: 1.2rem;
+  border-top-right-radius: 1.2rem;
+  padding: 1.2rem 1.5rem;
+  font-weight: bold;
+  border: 1px solid transparent;
+  list-style: none;
+  cursor: pointer;
 
-    &.selected {
-        border-color: lightgrey;
-        border-bottom-color: transparent;
-    }
-    &:not(.selected) {
-        border-bottom-color: lightgrey;
-    }
+  &.selected {
+    border-color: lightgrey;
+    border-bottom-color: transparent;
+  }
+  &:not(.selected) {
+    border-bottom-color: lightgrey;
+  }
+}
+.text-gray-600 {
+  color: $gray-600;
 }

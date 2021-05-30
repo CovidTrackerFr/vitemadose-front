@@ -103,4 +103,5 @@ export const DEPARTEMENTS_LIMITROPHES: Record<CodeDepartement, CodeDepartement[]
     "973": [],
     "974": [],
     "976": [],
+    "om": []
 };

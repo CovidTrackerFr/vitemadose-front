@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/recherche-standard</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97601-97630-acoua/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97602-97650-bandraboua/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97603-97660-bandrele/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97604-97620-boueni/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97605-97670-chiconi/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97606-97620-chirongui/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97607-97660-dembeni/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97608-97615-dzaoudzi/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97609-97625-kani_keli/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97610-97600-koungou/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97611-97600-mamoudzou/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97612-97630-mtsamboro/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97613-97650-m_tsangamouji/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97614-97670-ouangani/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97615-97615-pamandzi/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97616-97640-sada/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt976-mayotte/commune97617-97680-tsingoni/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+</urlset>
