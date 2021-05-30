@@ -255,7 +255,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         const standardMode = searchTypeConfig.standardTabSelected;
 
         return html`
-            <div class="criteria-container text-dark rounded-3 py-5 ${classMap({'bg-std': SearchRequest.isStandardType(this.currentSearch), 'bg-highlighted': !SearchRequest.isStandardType(this.currentSearch)})}">
+            <div class="criteria-container text-dark rounded-3 py-5 bg-std">
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                     <vmd-search
                           .value="${this.currentSearch}"
@@ -301,7 +301,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </div>
               </div>
             `:html`
-                <h3 class="fw-normal text-center h4 ${classMap({ 'search-highlighted': !SearchRequest.isStandardType(this.currentSearch), 'search-standard': SearchRequest.isStandardType(this.currentSearch) })}"
+                <h3 class="fw-normal text-center h4 search-standard"
                     style="${styleMap({display: (this.lieuxParDepartementAffiches) ? 'block' : 'none'})}">
                     ${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}
                     ${this.libelleLieuSelectionne()}

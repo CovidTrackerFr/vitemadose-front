@@ -42,10 +42,6 @@ export namespace SearchRequest {
   export function isByCommune (searchRequest: SearchRequest): searchRequest is ByCommune {
     return searchRequest.par === 'commune'
   }
-
-  export function isStandardType(searchRequest: SearchRequest|void) {
-    return !!searchRequest && searchRequest.type === 'standard';
-  }
 }
 
 export type CodeTriCentre = 'date' | 'distance';
