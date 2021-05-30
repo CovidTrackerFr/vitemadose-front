@@ -68,8 +68,8 @@ vmd-appointment-card {
     &.search-standard {
         background-color: $lightStdColor;
     }
-    &.search-chronodose {
-        background-color: $lightChronodoseColor;
+    &.search-highlighted {
+        background-color: $lightHighlihtedColor;
     }
 }
 

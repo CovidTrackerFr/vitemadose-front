@@ -6,7 +6,6 @@ import {
     LitElement,
     property,
     PropertyValues,
-    query,
     unsafeCSS
 } from 'lit-element';
 import {repeat} from "lit-html/directives/repeat";
@@ -41,7 +40,6 @@ import {delay, setDebouncedInterval} from "../utils/Schedulers";
 import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
-import tippy from 'tippy.js';
 import {InfiniteScroll} from "../state/InfiniteScroll";
 
 const MAX_DISTANCE_CENTRE_IN_KM = 100;
@@ -66,7 +64,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
-    @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
 
     protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
@@ -105,28 +102,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     render() {
         const lieuxDisponibles = (this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.lieuxAffichables)?
-            this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => {
-                if(this.currentSearch && SearchRequest.isChronodoseType(this.currentSearch)) {
-                    return l.appointment_count > 0;
-                } else /* if(this.currentSearch && SearchRequest.isStandardType(this.currentSearch)) */ {
-                    return l.disponible;
-                }
-            }):[];
+            this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => l.disponible):[];
 
         return html`
-            <div class="criteria-container text-dark rounded-3 pb-3 ${classMap({'bg-std': SearchRequest.isStandardType(this.currentSearch), 'bg-chronodose': SearchRequest.isChronodoseType(this.currentSearch)})}">
-              <ul class="p-0 d-flex flex-row mb-5 bg-white fs-5">
-                <li role="button" tabindex="0" class="col bg-std text-std tab ${classMap({selected: SearchRequest.isStandardType(this.currentSearch)})}" 
-                    @click="${() => this.updateSearchTypeTo('standard')}"  
-                    @keydown="${(e:KeyboardEvent) => e.key === 'Enter' && this.updateSearchTypeTo('standard')}">
-                  Tous les créneaux
-                </li>
-                <li role="button" tabindex="0" class="col bg-chronodose text-chronodose tab ${classMap({selected: SearchRequest.isChronodoseType(this.currentSearch)})}"
-                    @click="${() => this.updateSearchTypeTo('chronodose')}"  
-                    @keydown="${(e:KeyboardEvent) => e.key === 'Enter' && this.updateSearchTypeTo('chronodose')}">
-                  <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses uniquement</span>
-                </li>
-              </ul>
+            <div class="criteria-container text-dark rounded-3 py-5 ${classMap({'bg-std': SearchRequest.isStandardType(this.currentSearch), 'bg-highlighted': !SearchRequest.isStandardType(this.currentSearch)})}">
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                     <vmd-search
                           .value="${this.currentSearch}"
@@ -144,13 +123,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 </div>
               </div>
             `:html`
-                <h3 class="fw-normal text-center h4 ${classMap({ 'search-chronodose': SearchRequest.isChronodoseType(this.currentSearch), 'search-standard': SearchRequest.isStandardType(this.currentSearch) })}"
+                <h3 class="fw-normal text-center h4 ${classMap({ 'search-highlighted': !SearchRequest.isStandardType(this.currentSearch), 'search-standard': SearchRequest.isStandardType(this.currentSearch) })}"
                     style="${styleMap({display: (this.lieuxParDepartementAffiches) ? 'block' : 'none'})}">
-                    ${SearchRequest.isChronodoseType(this.currentSearch)
-                        ? `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} chronodose${Strings.plural(this.totalCreneaux)} trouvé${Strings.plural(this.totalCreneaux)}`
-                        : `${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}`
-                    }
-                  ${this.libelleLieuSelectionne()}
+                    ${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}
+                    ${this.libelleLieuSelectionne()}
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ?
                       html`
@@ -175,13 +151,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         <h2 class="row align-items-center justify-content-center mb-5 h5 px-3">
                             <i class="bi vmdicon-calendar2-check-fill text-success me-2 fs-3 col-auto"></i>
                             <span class="col col-sm-auto">
-                                ${lieuxDisponibles.length} Lieu${Strings.plural(lieuxDisponibles.length, 'x')} de vaccination avec des ${SearchRequest.isChronodoseType(this.currentSearch) ? 'chronodoses' : 'disponibilités'}
+                                ${lieuxDisponibles.length} Lieu${Strings.plural(lieuxDisponibles.length, 'x')} de vaccination avec des disponibilités
                             </span>
                         </h2>
                     ` : html`
                         <h2 class="row align-items-center justify-content-center mb-5 h5">
                           <i class="bi vmdicon-calendar-x-fill text-black-50 me-2 fs-3 col-auto"></i>
-                          Aucun créneau ${SearchRequest.isChronodoseType(this.currentSearch) ? 'chronodose' : 'de vaccination'} trouvé
+                          Aucun créneau de vaccination trouvé
                         </h2>
                         <div class="mb-5 container-content">
                           <p class="fst-italic">Nous n’avons pas trouvé de <strong>rendez-vous de vaccination</strong> Covid-19
@@ -189,9 +165,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           <p class="fst-italic">Nous vous recommandons toutefois de vérifier manuellement
                             les rendez-vous de vaccination auprès des sites qui gèrent la réservation de créneau de vaccination.
                             Pour ce faire, cliquez sur le bouton “vérifier le centre de vaccination”.
-                            ${SearchRequest.isChronodoseType(this.currentSearch) ? html`
-                                    Si vous êtes déjà éligible, vous pouvez <a class="text-decoration-underline" href="${this.getStandardResultsLink()}"">consulter les créneaux classiques</a>.
-                            `:``}
                           </p>
                           <p class="fst-italic">Pour recevoir une notification quand de nouveaux créneaux seront disponibles,
                             nous vous invitons à utiliser les applications mobiles “Vite Ma Dose !” pour
@@ -208,7 +181,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                                     style="--list-index: ${index}"
                                     .lieu="${lieu}"
                                     theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
-                                    .highlightable="${SearchRequest.isChronodoseType(this.currentSearch)}"
                                     @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                                     @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
                                 />`;
@@ -225,9 +197,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     updated(changedProperties: PropertyValues) {
         super.updated(changedProperties);
-        tippy(this.$chronodoseLabel, {
-            content: (el) => el.getAttribute('title')!
-        });
         this.registerInfiniteScroll();
     }
 
@@ -336,11 +305,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 } as LieuxParDepartement);
 
                 this.lieuxParDepartementAffiches = this.afficherLieuxParDepartement(lieuxParDepartement, currentSearch);
-                if(SearchRequest.isChronodoseType(this.currentSearch)) {
-                    this.lieuxParDepartementAffiches.lieuxAffichables = this.lieuxParDepartementAffiches.lieuxAffichables.filter(l => {
-                        return !l.appointment_by_phone_only
-                    })
-                }
                 this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, []);
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
@@ -357,13 +321,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
             this.lieuxParDepartementAffiches = undefined;
             this.cartesAffichees = [];
         }
-    }
-
-    private getStandardResultsLink() {
-        if (this.currentSearch && SearchRequest.isByDepartement(this.currentSearch)) {
-            return Router.getLinkToRendezVousAvecDepartement(this.currentSearch.departement.code_departement, libelleUrlPathDuDepartement(this.currentSearch.departement!), 'standard');
-        }
-        return ;
     }
 
     private prendreRdv(lieu: Lieu) {
@@ -425,11 +382,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     protected transformLieuEnFonctionDuTypeDeRecherche(lieu: LieuAffichableAvecDistance) {
-        if(SearchRequest.isChronodoseType(this.currentSearch)) {
-            return {...lieu, appointment_count: ((!lieu.appointment_schedules?.length)?[]:lieu.appointment_schedules)?.find(s => s.name === 'chronodose')?.total || 0 };
-        } else /* if(this.searchType === 'standard') */ {
-            return lieu;
-        }
+        return lieu;
     }
 
     abstract currentCritereTri(): CodeTriCentre;
@@ -554,15 +507,6 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         } else {
             return html``;
         }
-    }
-
-    protected updateSearchTypeTo(searchType: SearchType) {
-        if(searchType === 'chronodose') {
-            // This is pointless to sort by time in chronodrive search
-            this.critèreDeTri = 'distance';
-        }
-
-        super.updateSearchTypeTo(searchType);
     }
 
     currentCritereTri(): CodeTriCentre {

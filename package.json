@@ -52,7 +52,6 @@
     "leaflet.markercluster": "1.4.1",
     "lit-element": "2.4.0",
     "page": "1.11.6",
-    "smoothscroll-polyfill": "0.4.4",
-    "tippy.js": "6.3.1"
+    "smoothscroll-polyfill": "0.4.4"
   }
 }

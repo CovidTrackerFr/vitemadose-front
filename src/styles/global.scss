@@ -40,13 +40,13 @@ select[required]:invalid {
   color: $gray-600;
 }
 
-.search-chronodose {
+.search-highlighted {
   .btn-primary {
-    background-color: $chronodoseColor;
-    border-color: $chronodoseColor;
+    background-color: $highlightedColor;
+    border-color: $highlightedColor;
   }
   .btn-primary.disabled {
-    background-color: tint-color($chronodoseColor, 20%);
+    background-color: tint-color($highlightedColor, 20%);
   }
 }
 .search-standard {
@@ -59,14 +59,14 @@ select[required]:invalid {
   }
 }
 
-.bg-chronodose {
-  background-color: $lightChronodoseColor;
+.bg-highlighted {
+  background-color: $lightHighlihtedColor;
 }
 .bg-std {
   background-color: $lightStdColor;
 }
-.text-chronodose {
-  color: $chronodoseColor;
+.text-highlighted {
+  color: $highlightedColor;
 }
 .text-std {
   color: $stdColor;

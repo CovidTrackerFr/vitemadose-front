@@ -4,7 +4,6 @@ import {
     html,
     LitElement,
     property,
-    PropertyValues, query,
     unsafeCSS
 } from 'lit-element';
 import {classMap} from "lit-html/directives/class-map";
@@ -21,7 +20,6 @@ import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
-import tippy from "tippy.js";
 import { format as formatDate, parseISO } from "date-fns"
 import { fr } from 'date-fns/locale'
 
@@ -41,9 +39,6 @@ export class VmdAppointmentCardComponent extends LitElement {
 
     @property({type: Object, attribute: false}) lieu!: LieuAffichableAvecDistance;
     @property({type: String}) theme!: string;
-    @property() highlightable!: boolean;
-
-    @query("#chronodose-label") $chronodoseLabel!: HTMLSpanElement;
 
     constructor() {
         super();
@@ -73,7 +68,6 @@ export class VmdAppointmentCardComponent extends LitElement {
             // FIXME créer un type `SearchResultItem` ou un truc du genre, pour avoir une meilleure vue des cas possibles
             // Qu'un if-pit de 72 lignes de long et 190 colonnes de large xD
             let cardConfig: {
-                highlighted: boolean
                 cardLink:(content: TemplateResult) => TemplateResult,
                 disabledBG: boolean,
                 actions: TemplateResult|undefined, libelleDateAbsente: string
@@ -100,7 +94,6 @@ export class VmdAppointmentCardComponent extends LitElement {
                 }
 
                 cardConfig = {
-                    highlighted: this.highlightable && !specificCardConfig.disabledBG,
                     disabledBG: specificCardConfig.disabledBG,
                     libelleDateAbsente: specificCardConfig.libelleDateAbsente,
                     cardLink: (content) =>
@@ -129,7 +122,6 @@ export class VmdAppointmentCardComponent extends LitElement {
                 };
             } else if(typeLieu === 'actif-via-tel') {
                 cardConfig = {
-                    highlighted: false,
                     disabledBG: false,
                     libelleDateAbsente: 'Réservation tél uniquement',
                     cardLink: (content) => html`
@@ -144,7 +136,6 @@ export class VmdAppointmentCardComponent extends LitElement {
                 };
             } else if(typeLieu === 'inactif') {
                 cardConfig = {
-                    highlighted: false,
                     disabledBG: true,
                     libelleDateAbsente: 'Aucun rendez-vous',
                     cardLink: (content) => content,
@@ -156,15 +147,10 @@ export class VmdAppointmentCardComponent extends LitElement {
 
             return cardConfig.cardLink(html`
             <div class="card rounded-3 mb-5  ${classMap({
-              highlighted: cardConfig.highlighted,
               'bg-disabled': cardConfig.disabledBG,
               'search-standard': this.theme==='standard',
-              'search-chronodose': this.theme==='chronodose'
+              'search-highlighted': this.theme==='highlighted'
                 })}">
-                ${cardConfig.highlighted?html`
-                <div class="row align-items-center highlight-text">
-                  <span id="chronodose-label" title="Les chronodoses sont des doses de vaccin réservables à court terme sans critères d'éligibilité"><i class="bi vmdicon-lightning-charge-fill"></i>Chronodoses disponibles<i class="bi vmdicon-lightning-charge-fill"></i></span>
-                </div>`:html``}
                 <div class="card-body p-4">
                     <div class="row align-items-center ">
                         <div class="col">
@@ -206,13 +192,6 @@ export class VmdAppointmentCardComponent extends LitElement {
                 </div>
             </div>
             `);
-    }
-
-    updated(changedProperties: PropertyValues) {
-        super.updated(changedProperties);
-        tippy(this.$chronodoseLabel, {
-            content: (el) => el.getAttribute('title')!
-        })
     }
 
     private cardTitle(cardConfig: any): string {

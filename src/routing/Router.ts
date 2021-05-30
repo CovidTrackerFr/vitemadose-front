@@ -49,17 +49,20 @@ class Routing {
                     html`<vmd-home>${subViewSlot}</vmd-home>`
             }
         });
+        // Legacy URL
+        page(`${this.basePath}centres-vaccination-covid-dpt:codeDpt-:nomDpt/recherche-chronodoses`,
+            (context) =>  page.redirect(`${this.basePath}centres-vaccination-covid-dpt${context.params['codeDpt']}-${context.params['nomDpt']}/recherche-standard`));
         this.declareRoutes({
             pathPattern: [
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
                 rechercheDepartementDescriptor.routerUrl
             ],
-            analyticsViewName: (pathParams) => `search_results_by_department${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
+            analyticsViewName: (_) => `search_results_by_department`,
             viewContent: async (params) => {
                 await import('../views/vmd-rdv.view');
                 return (subViewSlot) =>
                     html`<vmd-rdv-par-departement
-                        searchType="${(params['typeRecherche'] && params['typeRecherche']==='chronodoses')?'chronodose':'standard'}"
+                        searchType="standard"
                         codeDepartementSelectionne="${params[`codeDpt`]}">
                       ${subViewSlot}
                     </vmd-rdv-par-departement>`
@@ -68,17 +71,20 @@ class Routing {
                 State.current.chercheDepartementParCode(params[`codeDpt`])
                     .then(nomDpt => `Vaccination COVID-19 en ${nomDpt.nom_departement} ${params[`codeDpt`]}`)
         });
+        // Legacy URL
+        page(`${this.basePath}centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/recherche-chronodoses/en-triant-par-:codeTriCentre`,
+            (context) =>  page.redirect(`${this.basePath}centres-vaccination-covid-dpt${context.params['codeDpt']}-${context.params['nomDpt']}/commune${context.params['codeCommune']}-${context.params['codePostal']}-${context.params['nomCommune']}/recherche-standard/en-triant-par-${context.params['codeTriCentre']}`));
         this.declareRoutes({
             pathPattern: [
                 `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`,
                 rechercheCommuneDescriptor.routerUrl
             ],
-            analyticsViewName: (pathParams) => `search_results_by_city${pathParams['typeRecherche']==='chronodoses'?'_chronodose':''}`,
+            analyticsViewName: (_) => `search_results_by_city`,
             viewContent: async (params) => {
                 await import('../views/vmd-rdv.view');
                 return (subViewSlot) =>
                     html`<vmd-rdv-par-commune
-                    searchType="${(params['typeRecherche'] && params['typeRecherche']==='chronodoses')?'chronodose':'standard'}"
+                    searchType="standard"
                     codeCommuneSelectionne="${params[`codeCommune`]}"
                     codePostalSelectionne="${params[`codePostal`]}"
                     critèreDeTri="${params[`codeTriCentre`]}">
@@ -121,15 +127,8 @@ class Routing {
                     html`<vmd-apropos>${subViewSlot}</vmd-apropos>`
             }
         });
-        this.declareRoutes({
-            pathPattern: `/chronodose`,
-            analyticsViewName: () => 'chronodose',
-            viewContent: async () => {
-                await import('../views/vmd-chronodose.view');
-                return (subViewSlot) =>
-                    html`<vmd-chronodose>${subViewSlot}</vmd-chronodose>`;
-            }
-        });
+        // Legacy URL
+        page.redirect(`${this.basePath}chronodose`, `/`);
 
         page(`*`, (context) => Routing._notFoundRoute(context));
         page();
@@ -194,11 +193,11 @@ class Routing {
     }
 
     public getLinkToRendezVousAvecDepartement(codeDepartement: string, pathLibelleDepartement: string, searchType: SearchType) {
-        return `${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/recherche-${searchType==='chronodose'?'chronodoses':'standard'}`;
+        return `${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/recherche-${searchType}`;
     }
 
     public navigateToRendezVousAvecCommune(codeTriCentre: CodeTriCentre, codeDepartement: string, pathLibelleDepartement: string, codeCommune: string, codePostal: string, pathLibelleCommune: string, searchType: SearchType) {
-        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/commune${codeCommune}-${codePostal}-${pathLibelleCommune}/recherche-${searchType==='chronodose'?'chronodoses':'standard'}/en-triant-par-${codeTriCentre}`);
+        page(`${this.basePath}centres-vaccination-covid-dpt${codeDepartement}-${pathLibelleDepartement}/commune${codeCommune}-${codePostal}-${pathLibelleCommune}/recherche-${searchType}/en-triant-par-${codeTriCentre}`);
     }
 
     navigateToHome() {
