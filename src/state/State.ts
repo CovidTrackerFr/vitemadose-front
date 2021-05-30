@@ -39,9 +39,6 @@ export namespace SearchRequest {
     return searchRequest.par === 'commune'
   }
 
-  export function isChronodoseType(searchRequest: SearchRequest|void) {
-    return !!searchRequest && searchRequest.type === 'chronodose';
-  }
   export function isStandardType(searchRequest: SearchRequest|void) {
     return !!searchRequest && searchRequest.type === 'standard';
   }
@@ -238,7 +235,7 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
     return Strings.toReadableURLPathValue(commune.nom);
 }
 
-export type SearchType = "standard"|"chronodose";
+export type SearchType = "standard";
 
 export class State {
 
