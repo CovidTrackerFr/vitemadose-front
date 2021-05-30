@@ -2,7 +2,6 @@ import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
 import {ArrayBuilder} from "../utils/Arrays";
-import {formatISO} from "date-fns";
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -165,35 +164,66 @@ function transformLieu(rawLieu: any): Lieu {
     };
 }
 export type Coordinates = { latitude: number, longitude: number }
+export type TagCreneau = "preco18_55"|"all";
 export type StatsCreneauxQuotidienParTag = {
-    tag: string;
-    total: number;
+    tag: TagCreneau;
+    creneaux: number;
+    creneauxParHeure: [number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number];
 };
-export type StatsCreneauxQuotidien = {
+export type StatsCreneauxQuotidienParTag_JSON = {
+    tag: TagCreneau;
+    creneaux: number;
+    creneaux_par_heure: [number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number];
+};
+export type StatsCreneauxParLieu = {
+    lieu: string;
+    statsCreneauxParTag: StatsCreneauxQuotidienParTag[];
+};
+export type CreneauxParLieu_JSON = {
+    lieu: string;
+    creneaux_par_tag: StatsCreneauxQuotidienParTag_JSON[];
+};
+export type CreneauxParLieu = {
+    lieu: string;
+    creneaux: number;
+}
+export type RendezVousDuJour = {
     date: string; // "2021-05-23"
     total: number;
-    urls: string[];
-    countByTag: StatsCreneauxQuotidienParTag[];
+    creneauxParLieu: CreneauxParLieu[];
 }
-export type StatsCreneauxQuotidien_JSON = {
+export type StatsCreneauxLieuxParJour = {
+    date: string; // "2021-05-23"
+    codesDepartement: CodeDepartement[];
+    total: number;
+    statsCreneauxParLieu: StatsCreneauxParLieu[];
+}
+export function countCreneauxFromCreneauxParTag(statsCreneauxQuotidiensParTag: StatsCreneauxQuotidienParTag[], tag: TagCreneau): number {
+    return statsCreneauxQuotidiensParTag.find(cpt => cpt.tag===tag)?.creneaux || 0;
+}
+export function countCreneauxFromStatsCreneauxLieux(statsCreneauxLieuxParJour: StatsCreneauxLieuxParJour, tag: TagCreneau) {
+    return statsCreneauxLieuxParJour.statsCreneauxParLieu.reduce((total, lieu) => total + countCreneauxFromCreneauxParTag(lieu.statsCreneauxParTag, tag), 0);
+}
+export type StatsCreneauxLieuxParJour_JSON = {
     date: string; // "2021-05-23"
     total: number;
-    url: string;
-    countByTag: StatsCreneauxQuotidienParTag[];
+    creneaux_par_lieu: CreneauxParLieu_JSON[];
 }
+export type InfosDepartementAdditionnelles_JSON = {
+    creneaux_quotidiens: StatsCreneauxLieuxParJour_JSON[];
+};
+
 export type LieuxParDepartement = {
     lieuxDisponibles: Lieu[];
     lieuxIndisponibles: Lieu[];
     codeDepartements: CodeDepartement[];
-    creneauxQuotidiens: StatsCreneauxQuotidien[];
+    statsCreneauxLieuxQuotidiens: StatsCreneauxLieuxParJour[];
     derniereMiseAJour: ISODateString;
 };
-export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
 
 export type LieuxParDepartement_JSON = {
     centres_disponibles: Lieu[];
     centres_indisponibles: Lieu[];
-    creneaux_quotidiens: StatsCreneauxQuotidien_JSON[];
     last_updated: string;
 };
 
@@ -267,37 +297,18 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
     return Strings.toReadableURLPathValue(commune.nom);
 }
 
-export type Creneau = {
-    debut: ISODateString;
-    tags: string[];
-}
-export type CreneauxPourLieu = {
-    id: string;
-    creneaux: Creneau[];
-}
-export type RendezVousDuJour = Omit<RendezVousDuJour_JSON, "codeDepartement">;
-export function countCreneauxFor(dailyAppointments: RendezVousDuJour) {
-    return dailyAppointments.lieux.reduce((total, lieu) => total + lieu.creneaux.length, 0);
-}
-export type RendezVousDuJour_JSON = {
-    date: string;
-    codeDepartement: CodeDepartement;
-    timezone: string;
-    lieux: CreneauxPourLieu[];
-}
-
-type VaccineCategory = {code: SearchType, libelle: string, supported_tags: string[]};
+type VaccineCategory = {code: SearchType, libelle: string};
 export const VACCINE_CATEGORIES: VaccineCategory[] = [
-    { code: "18_55", libelle: "Préconisé pour les 18-55 ans",  supported_tags: ["Pfizer-BioNTech", "Moderna", "ARNm", "preco18_55"] },
-    // { code: "16_18", libelle: "Préconisé pour les 16-18 ans", supported_tags: ["Pfizer-BioNTech"] },
-    { code: "standard", libelle: "Tous", supported_tags: ["Moderna", "Pfizer-BioNTech", "Janssen", "AstraZeneca", "ARNm"] },
+    { code: "18_55", libelle: "Préconisé pour les 18-55 ans" },
+    // { code: "16_18", libelle: "Préconisé pour les 16-18 ans" },
+    { code: "standard", libelle: "Tous" },
 ];
 
 export type SearchType = "standard"|"18_55";
 export type SearchTypeConfig = {
-    filtrerCreneauxCompatibles: (creneaux: Creneau[]) => Creneau[];
-    cardAppointmentsExtractor: (lieu: Lieu, daySelectorDisponible: boolean, creneauxPourLieu: CreneauxPourLieu|undefined) => number;
-    lieuConsidereCommeDisponible: (lieu: LieuAffichableAvecDistance, lieuxIdsDuJourSelectionne: string[]|undefined) => boolean;
+    tagCreneau: TagCreneau;
+    cardAppointmentsExtractor: (lieu: Lieu, daySelectorDisponible: boolean, creneauxParLieux: CreneauxParLieu[]) => number;
+    lieuConsidereCommeDisponible: (lieu: LieuAffichableAvecDistance, creneauxParLieu: CreneauxParLieu|undefined) => boolean;
     pathParam: string;
     standardTabSelected: boolean;
     excludeAppointmentByPhoneOnly: boolean;
@@ -308,15 +319,14 @@ export type SearchTypeConfig = {
         searchResultsByCity: string;
     }
 };
-const VACCINE_CATEGORY_FOR_18_55 = VACCINE_CATEGORIES.find(vc => vc.code === '18_55')!;
 const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type}} = {
     'standard': {
         type: 'standard',
-        filtrerCreneauxCompatibles: (creneaux) => creneaux,
-        cardAppointmentsExtractor: (lieu, daySelectorDisponible, creneauxPourLieu) => daySelectorDisponible
-            ?creneauxPourLieu?creneauxPourLieu.creneaux.length:0
+        tagCreneau: "all",
+        cardAppointmentsExtractor: (lieu, daySelectorDisponible, creneauxParLieux) => daySelectorDisponible
+            ?creneauxParLieux.find(cpl => cpl.lieu === lieu.internal_id)?.creneaux || 0
             :lieu.appointment_count,
-        lieuConsidereCommeDisponible: (lieu, lieuxIdsDuJourSelectionne) => lieu.appointment_by_phone_only || !lieuxIdsDuJourSelectionne || lieuxIdsDuJourSelectionne.includes(lieu.internal_id),
+        lieuConsidereCommeDisponible: (lieu, creneauxParLieu) => lieu.appointment_by_phone_only || (creneauxParLieu?.creneaux || 0) > 0,
         pathParam: 'standard',
         standardTabSelected: true,
         excludeAppointmentByPhoneOnly: false,
@@ -329,16 +339,14 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
     },
     '18_55': {
         type: '18_55',
-        filtrerCreneauxCompatibles: (creneaux) => creneaux.filter(c =>
-            c.tags.filter(t => VACCINE_CATEGORY_FOR_18_55.supported_tags.includes(t)).length>0
-        ),
-        cardAppointmentsExtractor: (_, daySelectorDisponible, creneauxPourLieu) => {
+        tagCreneau: "preco18_55",
+        cardAppointmentsExtractor: (lieu, daySelectorDisponible, creneauxParLieux) => {
             if(daySelectorDisponible) {
-                return creneauxPourLieu?creneauxPourLieu.creneaux.filter(cbt => cbt.tags.includes('preco18_55')).length:0;
+                return creneauxParLieux.find(cpl => cpl.lieu === lieu.internal_id)?.creneaux || 0
             }
             throw new Error("We're not supposed to call cardAppointmentsExtractor() on 18_55 without day selector !")
         },
-        lieuConsidereCommeDisponible: (lieu, lieuxIdsDuJourSelectionne) => lieu.appointment_by_phone_only || !lieuxIdsDuJourSelectionne || lieuxIdsDuJourSelectionne.includes(lieu.internal_id),
+        lieuConsidereCommeDisponible: (lieu, creneauxParLieu) => lieu.appointment_by_phone_only || (creneauxParLieu?.creneaux || 0) > 0,
         pathParam: '18_55',
         standardTabSelected: true,
         excludeAppointmentByPhoneOnly: false,
@@ -396,55 +404,61 @@ export class State {
 
     async lieuxPour(codesDepartements: CodeDepartement[]): Promise<LieuxParDepartement> {
         const [principalLieuxDepartement, ...lieuxDepartementsAditionnels] = await Promise.all(
-            codesDepartements.map(codeDept => fetch(`${VMD_BASE_URL}/${codeDept}.json`, { cache: 'no-cache' })
-                .then(resp => resp.json())
-                .then((statsDept: LieuxParDepartement_JSON) => ({...statsDept, codeDepartement: codeDept}))
-            )
-        );
+            codesDepartements.map(codeDept => Promise.all([
+                fetch(`${VMD_BASE_URL}/${codeDept}.json`, { cache: 'no-cache' })
+                    .then(resp => resp.json())
+                    .then((statsDept: LieuxParDepartement_JSON) => ({...statsDept, codeDepartement: codeDept} as LieuxParDepartement_JSON & {codeDepartement: string})),
+                fetch(`${VMD_BASE_URL}/${codeDept}/creneaux-quotidiens.json`, { cache: 'no-cache' })
+                    .then(resp => resp.json())
+                    .then((creneauxQuotidiens: InfosDepartementAdditionnelles_JSON|undefined) => creneauxQuotidiens),
+            ]).then(([lieuxParDepartement, infosDeptAdditionnelles] : [LieuxParDepartement_JSON & {codeDepartement: string}, InfosDepartementAdditionnelles_JSON|undefined]) => ({
+                ...lieuxParDepartement,
+                creneaux_quotidiens: infosDeptAdditionnelles?.creneaux_quotidiens || []
+            }))
+        ));
 
-        const lieuxParDepartement: LieuxParDepartement = [principalLieuxDepartement].concat(lieuxDepartementsAditionnels).reduce((mergedLieuxParDepartement: LieuxParDepartement, lieuxParDepartement: LieuxParDepartement_JSON & {codeDepartement: string}) => {
-            const creneauxQuotidiens: StatsCreneauxQuotidien[] = mergedLieuxParDepartement.creneauxQuotidiens;
+        const lieuxParDepartement: LieuxParDepartement = [principalLieuxDepartement].concat(lieuxDepartementsAditionnels).reduce((mergedLieuxParDepartement, lieuxParDepartement) => {
+            const creneauxQuotidiens = mergedLieuxParDepartement.statsCreneauxLieuxQuotidiens;
             (lieuxParDepartement.creneaux_quotidiens || []).forEach((creneauxQuotidien) => {
                 if(!creneauxQuotidiens.find(cq => cq.date === creneauxQuotidien.date)) {
                     creneauxQuotidiens.push({
+                        codesDepartement: [],
                         date: creneauxQuotidien.date,
                         total: 0,
-                        countByTag: [],
-                        urls: []
+                        statsCreneauxParLieu: []
                     })
                 }
                 const creneauxQuotidienMatchingDate = creneauxQuotidiens.find(cq => cq.date === creneauxQuotidien.date)!;
 
+                creneauxQuotidienMatchingDate.codesDepartement.push(lieuxParDepartement.codeDepartement);
                 creneauxQuotidienMatchingDate.total += creneauxQuotidien.total;
-                creneauxQuotidienMatchingDate.urls.push(creneauxQuotidien.url);
-                creneauxQuotidien.countByTag.forEach((statsCreneauxQuotidienParTag: StatsCreneauxQuotidienParTag) => {
-                    if(!creneauxQuotidienMatchingDate.countByTag.find(cbt => cbt.tag === statsCreneauxQuotidienParTag.tag)) {
-                        creneauxQuotidienMatchingDate.countByTag.push({
-                            tag: statsCreneauxQuotidienParTag.tag,
-                            total: 0
-                        });
-                    }
-
-                    creneauxQuotidienMatchingDate.countByTag.find(cbt => cbt.tag === statsCreneauxQuotidienParTag.tag)!.total += statsCreneauxQuotidienParTag.total;
-                });
+                Array.prototype.push.apply(creneauxQuotidienMatchingDate.statsCreneauxParLieu, creneauxQuotidien.creneaux_par_lieu.map<StatsCreneauxParLieu>(cpl => ({
+                    lieu: cpl.lieu,
+                    statsCreneauxParTag: cpl.creneaux_par_tag.map(cpt => ({
+                        tag: cpt.tag,
+                        creneaux: cpt.creneaux,
+                        creneauxParHeure: cpt.creneaux_par_heure
+                    }))
+                })));
             });
 
-            return {
+            const lieuxParDepartementMerge: LieuxParDepartement = {
                 codeDepartements: mergedLieuxParDepartement.codeDepartements.concat(lieuxParDepartement.codeDepartement),
                 derniereMiseAJour: mergedLieuxParDepartement.derniereMiseAJour,
                 lieuxDisponibles: mergedLieuxParDepartement.lieuxDisponibles.concat(lieuxParDepartement.centres_disponibles.map(transformLieu)),
                 lieuxIndisponibles: mergedLieuxParDepartement.lieuxIndisponibles.concat(lieuxParDepartement.centres_indisponibles.map(transformLieu)),
-                creneauxQuotidiens
+                statsCreneauxLieuxQuotidiens: creneauxQuotidiens
             };
+            return lieuxParDepartementMerge;
         }, {
             codeDepartements: [],
             derniereMiseAJour: principalLieuxDepartement.last_updated,
             lieuxDisponibles: [],
             lieuxIndisponibles: [],
-            creneauxQuotidiens: []
+            statsCreneauxLieuxQuotidiens: []
         } as LieuxParDepartement);
 
-        lieuxParDepartement.creneauxQuotidiens = ArrayBuilder.from(lieuxParDepartement.creneauxQuotidiens)
+        lieuxParDepartement.statsCreneauxLieuxQuotidiens = ArrayBuilder.from(lieuxParDepartement.statsCreneauxLieuxQuotidiens)
             .sortBy(cq => cq.date)
             .build();
 
@@ -501,56 +515,4 @@ export class State {
       };
     }
 
-    private _cacheRdvDuJour: {url: string, expires: string, rdvDuJour: RendezVousDuJour}[] = [];
-    async rdvDuJour(stats: StatsCreneauxQuotidien): Promise<RendezVousDuJour> {
-        const rdvQuotidiensParDepartements: RendezVousDuJour[] = await Promise.all(
-            stats.urls.map(async urlRdvQuotidienParDpt => {
-                const cachedRdv = this._cacheRdvDuJour.find(cachedRdv => cachedRdv.url === urlRdvQuotidienParDpt);
-                if(cachedRdv && Date.parse(cachedRdv.expires) > Date.now()) {
-                    return cachedRdv.rdvDuJour;
-                } else {
-                    const rdvJSON: RendezVousDuJour_JSON = await fetch(`${VMD_BASE_URL}/${urlRdvQuotidienParDpt}`, {cache: 'no-cache'}).then(resp => resp.json());
-                    const {codeDepartement, ...rdv } = rdvJSON;
-                    const expiration = formatISO(Date.now() + 1000 * 60 * 3);
-                    if(cachedRdv) {
-                        cachedRdv.rdvDuJour = rdv;
-                        cachedRdv.expires = expiration;
-                    } else {
-                        this._cacheRdvDuJour.push({
-                            url: urlRdvQuotidienParDpt,
-                            rdvDuJour: rdv,
-                            expires: expiration
-                        })
-                    }
-                    return rdv;
-                }
-            })
-        );
-
-        return rdvQuotidiensParDepartements.reduce((rdvQuotidiensAggreges, rdvQuotidiensParDepartement) => {
-            rdvQuotidiensParDepartement.lieux.forEach(lieu => {
-                if(!rdvQuotidiensAggreges.lieux.find(l => l.id === lieu.id)) {
-                    rdvQuotidiensAggreges.lieux.push({
-                        id: lieu.id,
-                        creneaux: []
-                    })
-                }
-
-                Array.prototype.push.apply(rdvQuotidiensAggreges.lieux.find(l => l.id === lieu.id)!.creneaux, lieu.creneaux);
-            })
-
-            return rdvQuotidiensAggreges;
-        }, {
-            date: stats.date,
-            lieux: [],
-            // Crossing fingers we can't query a list of departments not sharing the same timezone
-            // (spoiler alert: this is not possible)
-            timezone: rdvQuotidiensParDepartements[0]?.timezone
-        } as RendezVousDuJour);
-    }
-
-    async rdvDesJours(stats: StatsCreneauxQuotidien[]): Promise<RendezVousDuJour[]> {
-        const rdvDesJours = await Promise.all(stats.map(stat => this.rdvDuJour(stat)));
-        return rdvDesJours;
-    }
 }

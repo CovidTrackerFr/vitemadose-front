@@ -1312,21 +1312,5 @@
       ],
       "gid": "d262232"
     }
-  ],
-  "creneaux_quotidiens": [{
-    "date": "2021-05-21",
-    "total": 17,
-    "url": "./17/2021-05-21.json",
-    "countByTag": [{ "tag": "preco18_55", "total": 8 }]
-  }, {
-    "date": "2021-05-22",
-    "total": 22,
-    "url": "./17/2021-05-22.json",
-    "countByTag": [{ "tag": "preco18_55", "total": 22 }]
-  }, {
-    "date": "2021-05-27",
-    "total": 27,
-    "url": "./17/2021-05-27.json",
-    "countByTag": [{ "tag": "preco18_55", "total": 15 }]
-  }]
+  ]
 }

@@ -1,6 +1,6 @@
 import {LitElement, html, customElement, property, css, unsafeCSS} from 'lit-element';
 import upcomingDaysSelectorCss from "./vmd-upcoming-days-selector.component.scss";
-import {countCreneauxFor, RendezVousDuJour} from "../state/State";
+import {RendezVousDuJour} from "../state/State";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 import {repeat} from "lit-html/directives/repeat";
 import {classMap} from "lit-html/directives/class-map";
@@ -30,7 +30,7 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
         return html`
           <ul class="days list-group list-group-horizontal">
             ${repeat(this.creneauxQuotidiens, cq => cq.date, cq => {
-                const appointmentCount = countCreneauxFor(cq);
+                const appointmentCount = cq.total;
                 return html`
               <li class="list-group-item ${classMap({
                 selected: this.dateSelectionnee === cq.date, 
@@ -74,7 +74,7 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
     }
 
     private isSelectable(creneauxQuotidien: RendezVousDuJour) {
-        const appointmentCount = countCreneauxFor(creneauxQuotidien);
+        const appointmentCount = creneauxQuotidien.total;
         return this.dateSelectionnee !== creneauxQuotidien.date && appointmentCount > 0;
     }
 }

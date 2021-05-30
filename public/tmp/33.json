@@ -2729,21 +2729,5 @@
       ],
       "gid": "d261974"
     }
-  ],
-  "creneaux_quotidiens": [{
-    "date": "2021-05-21",
-    "total": 4,
-    "url": "./33/2021-05-21.json",
-    "countByTag": [{ "tag": "preco18_55", "total": 3 }]
-  }, {
-    "date": "2021-05-25",
-    "total": 2,
-    "url": "./33/2021-05-25.json",
-    "countByTag": [{ "tag": "preco18_55", "total": 0 }]
-  }, {
-    "date": "2021-05-26",
-    "total": 26,
-    "url": "./33/2021-05-26.json",
-    "countByTag": [{ "tag": "preco18_55", "total": 15 }]
-  }]
+  ]
 }

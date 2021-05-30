@@ -22,12 +22,17 @@ import {
     LieuAffichableAvecDistance,
     LieuxAvecDistanceParDepartement,
     LieuxParDepartement,
-   SearchRequest, SearchType,
+    SearchRequest,
+    SearchType,
     State,
     CodeTriCentre,
-    RendezVousDuJour,
     searchTypeConfigFor,
-    searchTypeConfigFromSearch, SearchTypeConfig, countCreneauxFor, VACCINE_CATEGORIES
+    searchTypeConfigFromSearch,
+    SearchTypeConfig,
+    VACCINE_CATEGORIES,
+    RendezVousDuJour,
+    StatsCreneauxLieuxParJour,
+    countCreneauxFromCreneauxParTag
 } from "../state/State";
 import {formatDistanceToNow, parseISO, startOfDay} from 'date-fns'
 import { fr } from 'date-fns/locale'
@@ -186,14 +191,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
     ];
 
     @internalProperty() lieuxParDepartementAffiches: LieuxAvecDistanceParDepartement | undefined = undefined;
-    @internalProperty() creneauxQuotidiensDetaillesAffiches: RendezVousDuJour[] = [];
+    @internalProperty() creneauxQuotidiensAffiches: RendezVousDuJour[] = [];
     @property({type: Boolean, attribute: false}) searchInProgress: boolean = false;
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
     @property({type: Array, attribute: false}) cartesAffichees: LieuAffichableAvecDistance[] = [];
     @internalProperty() lieuxParDepartement: LieuxParDepartement|undefined = undefined;
     @internalProperty() protected currentSearch: SearchRequest | void = undefined
 
-    @internalProperty() creneauxQuotidiensDetailles: RendezVousDuJour[] = [];
     @internalProperty() jourSelectionne: string|undefined = undefined;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
@@ -219,7 +223,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     get daySelectorAvailable(): boolean {
-        return !!this.lieuxParDepartement?.creneauxQuotidiens.length && !!this.currentSearch && searchTypeConfigFor(this.currentSearch.type).jourSelectionnable;
+        return !!this.lieuxParDepartement?.statsCreneauxLieuxQuotidiens.length && !!this.currentSearch && searchTypeConfigFor(this.currentSearch.type).jourSelectionnable;
     }
 
     get searchTypeConfig() {
@@ -326,7 +330,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                       <vmd-upcoming-days-selector
                             start="${startOfDay(new Date()).toISOString().substring(0, 10)}"
                             dateSelectionnee="${this.jourSelectionne || ""}"
-                            .creneauxQuotidiens="${this.creneauxQuotidiensDetaillesAffiches}"
+                            .creneauxQuotidiens="${this.creneauxQuotidiensAffiches}"
                             @jour-selectionne="${(event: CustomEvent<RendezVousDuJour>) => {
                         this.jourSelectionne = event.detail.date;
                         this.rafraichirDonneesAffichees();
@@ -471,10 +475,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 this.searchInProgress = true;
                 await delay(1) // give some time (one tick) to render loader before doing the heavy lifting
                 this.lieuxParDepartement = await State.current.lieuxPour([codeDepartement].concat(this.options.codeDepartementAdditionnels(codeDepartement)));
-                this.creneauxQuotidiensDetailles = await State.current.rdvDesJours(this.lieuxParDepartement.creneauxQuotidiens);
 
                 this.rafraichirDonneesAffichees();
-                this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, []);
 
                 const commune = SearchRequest.isByCommune(currentSearch) ? currentSearch.commune : undefined
                 Analytics.INSTANCE.rechercheLieuEffectuee(
@@ -493,11 +495,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     rafraichirDonneesAffichees() {
-        if(this.currentSearch && this.lieuxParDepartement && this.creneauxQuotidiensDetailles) {
+        if(this.currentSearch && this.lieuxParDepartement) {
             const searchTypeConfig = searchTypeConfigFor(this.currentSearch.type);
             const lieuxMatchantCriteres = this.filtrerLieuxMatchantLesCriteres(this.lieuxParDepartement, this.currentSearch);
             // On calcule les créneaux quotidiens en fonction des lieux matchant les critères
-            this.creneauxQuotidiensDetaillesAffiches = this.filtrerCreneauxQuotidiensEnFonctionDesLieuxMatchantLesCriteres(this.creneauxQuotidiensDetailles, lieuxMatchantCriteres, searchTypeConfig);
+            this.creneauxQuotidiensAffiches = this.filtrerCreneauxQuotidiensEnFonctionDesLieuxMatchantLesCriteres(this.lieuxParDepartement.statsCreneauxLieuxQuotidiens, lieuxMatchantCriteres, searchTypeConfig);
 
             let daySelectorAvailable = this.daySelectorAvailable;
             if(daySelectorAvailable) {
@@ -506,59 +508,66 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 // 2/ si pas possible (pas de créneau) on prend le premier jour dispo avec des créneaux
                 // 3/ si pas possible (aucun jour avec des créneaux) aucun jour n'est sélectionné
                 if(this.jourSelectionne) {
-                    const creneauxQuotidienSelectionnes = this.creneauxQuotidiensDetaillesAffiches.find(cq => cq.date === this.jourSelectionne);
-                    if(!creneauxQuotidienSelectionnes || countCreneauxFor(creneauxQuotidienSelectionnes)===0) {
+                    const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne);
+                    if(!creneauxQuotidienSelectionnes || creneauxQuotidienSelectionnes.total===0) {
                         this.jourSelectionne = undefined;
                     }
                 }
                 if(!this.jourSelectionne) {
-                    this.jourSelectionne = this.creneauxQuotidiensDetaillesAffiches.filter(dailyAppointments => countCreneauxFor(dailyAppointments) !== 0)[0]?.date;
+                    this.jourSelectionne = this.creneauxQuotidiensAffiches.filter(dailyAppointments => dailyAppointments.total !== 0)[0]?.date;
                 }
             } else {
                 this.jourSelectionne = undefined;
             }
 
             // On calcule les lieux affichés en fonction du jour sélectionné
-            const creneauxQuotidienSelectionnes = this.creneauxQuotidiensDetaillesAffiches.find(cq => cq.date === this.jourSelectionne);
-            const lieuxIdsAvecCreneauxDuJourSelectionne = creneauxQuotidienSelectionnes
-                ?creneauxQuotidienSelectionnes.lieux.filter(l => l.creneaux.length).map(l => l.id)
-                :undefined;
+            const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne)!;
+            // const lieuxIdsAvecCreneauxDuJourSelectionne = creneauxQuotidienSelectionnes
+            //     ?creneauxQuotidienSelectionnes.creneauxParLieu.map(cpl => cpl.lieu)
+            //     :undefined;
             const lieuxMatchantCriteresAvecCountRdvMAJ = lieuxMatchantCriteres.map(l => ({
                 ...l,
-                appointment_count: searchTypeConfig.cardAppointmentsExtractor(l, daySelectorAvailable, creneauxQuotidienSelectionnes?.lieux.find(cpl => cpl.id === l.internal_id))
+                appointment_count: searchTypeConfig.cardAppointmentsExtractor(l, daySelectorAvailable, creneauxQuotidienSelectionnes?.creneauxParLieu || [])
             }));
 
             let lieuxDisponiblesAffiches = lieuxMatchantCriteresAvecCountRdvMAJ
-                .filter(l => searchTypeConfig.lieuConsidereCommeDisponible(l, lieuxIdsAvecCreneauxDuJourSelectionne))
+                .filter(l => searchTypeConfig.lieuConsidereCommeDisponible(l, creneauxQuotidienSelectionnes.creneauxParLieu.find(cpl => cpl.lieu === l.internal_id)))
                 .map(l => ({
                     ...l,
                     disponible: true
                 }));
             let lieuxIndisponiblesAffiches = lieuxMatchantCriteresAvecCountRdvMAJ
-                .filter(l => !searchTypeConfig.lieuConsidereCommeDisponible(l, lieuxIdsAvecCreneauxDuJourSelectionne))
+                .filter(l => !searchTypeConfig.lieuConsidereCommeDisponible(l, creneauxQuotidienSelectionnes.creneauxParLieu.find(cpl => cpl.lieu === l.internal_id)))
                 .map(l => ({
                     ...l,
                     disponible: false
                 }));
+
             this.lieuxParDepartementAffiches = {
                 derniereMiseAJour: this.lieuxParDepartement.derniereMiseAJour,
                 codeDepartements: this.lieuxParDepartement.codeDepartements,
                 lieuxMatchantCriteres: lieuxDisponiblesAffiches.concat(lieuxIndisponiblesAffiches),
                 lieuxDisponibles: lieuxDisponiblesAffiches
             };
+
+            this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, []);
         }
     }
 
-    private filtrerCreneauxQuotidiensEnFonctionDesLieuxMatchantLesCriteres(creneauxQuotidiensDetailles: RendezVousDuJour[], lieuxMatchantCriteres: LieuAffichableAvecDistance[], searchTypeConfig: SearchTypeConfig): RendezVousDuJour[] {
+    private filtrerCreneauxQuotidiensEnFonctionDesLieuxMatchantLesCriteres(statsCreneauxLieuxParJours: StatsCreneauxLieuxParJour[], lieuxMatchantCriteres: LieuAffichableAvecDistance[], searchTypeConfig: SearchTypeConfig): RendezVousDuJour[] {
         const lieuIdsMatchantCriteres = lieuxMatchantCriteres.map(l => l.internal_id);
-        return creneauxQuotidiensDetailles.map(rdvDuJour => {
+        return statsCreneauxLieuxParJours.map(statsCreneauxLieuxParJour => {
+            const lieuxAvecCreneauxFromDailyStats = statsCreneauxLieuxParJour.statsCreneauxParLieu
+                .map(scpl => ({ lieu: scpl.lieu, creneaux: countCreneauxFromCreneauxParTag(scpl.statsCreneauxParTag, searchTypeConfig.tagCreneau) }))
+                .filter(result => result.creneaux > 0)
+
+            const lieuxAvecCreneauxFiltres = lieuxAvecCreneauxFromDailyStats.filter(cpl => lieuIdsMatchantCriteres.includes(cpl.lieu));
             return {
-                ...rdvDuJour,
-                lieux: rdvDuJour.lieux
-                    .filter(l => lieuIdsMatchantCriteres.includes(l.id))
-                    .map(l => ({...l, creneaux: searchTypeConfig.filtrerCreneauxCompatibles(l.creneaux) }))
-            };
-        })
+                date: statsCreneauxLieuxParJour.date,
+                total: lieuxAvecCreneauxFiltres.reduce((total, lac) => total + lac.creneaux, 0),
+                creneauxParLieu: lieuxAvecCreneauxFiltres
+            }
+        });
     }
 
     private prendreRdv(lieu: Lieu) {
