@@ -193,7 +193,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                                     style="--list-index: ${index}"
                                     .lieu="${lieu}"
                                     theme="${(!!this.currentSearch)?this.currentSearch.type:''}"
-                                    .highlightable="${SearchRequest.isChronodoseType(this.currentSearch)}"
                                     @prise-rdv-cliquee="${(event: LieuCliqueCustomEvent) => this.prendreRdv(event.detail.lieu)}"
                                     @verification-rdv-cliquee="${(event: LieuCliqueCustomEvent) =>  this.verifierRdv(event.detail.lieu)}"
                                 />`;
