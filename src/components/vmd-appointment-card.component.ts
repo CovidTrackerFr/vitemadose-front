@@ -20,8 +20,6 @@ import appointmentCardCss from "./vmd-appointment-card.component.scss";
 import {Strings} from "../utils/Strings";
 import {TemplateResult} from "lit-html";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
-import { format as formatDate, parseISO } from "date-fns"
-import { fr } from 'date-fns/locale'
 
 type LieuCliqueContext = {lieu: Lieu};
 export type LieuCliqueCustomEvent = CustomEvent<LieuCliqueContext>;
@@ -69,16 +67,17 @@ export class VmdAppointmentCardComponent extends LitElement {
             // Qu'un if-pit de 72 lignes de long et 190 colonnes de large xD
             let cardConfig: {
                 cardLink:(content: TemplateResult) => TemplateResult,
+                cardTitle: string,
                 disabledBG: boolean,
-                actions: TemplateResult|undefined, libelleDateAbsente: string
+                actions: TemplateResult|undefined
             };
             let typeLieu = typeActionPour(this.lieu);
             if(typeLieu === 'actif-via-plateforme' || typeLieu === 'inactif-via-plateforme') {
-                let specificCardConfig: { disabledBG: boolean, libelleDateAbsente: string, libelleBouton: string, typeBouton: 'btn-info'|'btn-primary', onclick: ()=>void };
+                let specificCardConfig: { disabledBG: boolean, cardTitle: string, libelleBouton: string, typeBouton: 'btn-info'|'btn-primary', onclick: ()=>void };
                 if(typeLieu === 'inactif-via-plateforme') {
                     specificCardConfig = {
                         disabledBG: true,
-                        libelleDateAbsente: 'Aucun rendez-vous',
+                        cardTitle: 'Aucun rendez-vous',
                         libelleBouton: 'Vérifier le centre de vaccination',
                         typeBouton: 'btn-info',
                         onclick: () => this.verifierRdv()
@@ -86,7 +85,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                 } else {
                     specificCardConfig = {
                         disabledBG: false,
-                        libelleDateAbsente: 'Date inconnue',
+                        cardTitle: `${this.lieu.location.cp} - ${this.lieu.location.city}`,
                         libelleBouton: 'Prendre rendez-vous',
                         typeBouton: 'btn-primary',
                         onclick: () => this.prendreRdv()
@@ -95,7 +94,7 @@ export class VmdAppointmentCardComponent extends LitElement {
 
                 cardConfig = {
                     disabledBG: specificCardConfig.disabledBG,
-                    libelleDateAbsente: specificCardConfig.libelleDateAbsente,
+                    cardTitle: specificCardConfig.cardTitle,
                     cardLink: (content) =>
                         html`<div>${content}</div>`,
                     actions: html`
@@ -123,7 +122,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             } else if(typeLieu === 'actif-via-tel') {
                 cardConfig = {
                     disabledBG: false,
-                    libelleDateAbsente: 'Réservation tél uniquement',
+                    cardTitle: 'Réservation tél uniquement',
                     cardLink: (content) => html`
                           <div>
                             ${content}
@@ -137,7 +136,7 @@ export class VmdAppointmentCardComponent extends LitElement {
             } else if(typeLieu === 'inactif') {
                 cardConfig = {
                     disabledBG: true,
-                    libelleDateAbsente: 'Aucun rendez-vous',
+                    cardTitle: 'Aucun rendez-vous',
                     cardLink: (content) => content,
                     actions: undefined
                 };
@@ -155,7 +154,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                     <div class="row align-items-center ">
                         <div class="col">
                             <div class="card-title h5">
-                              ${this.cardTitle(cardConfig)}
+                              ${cardConfig.cardTitle}
                               <small class="distance">${distance ? `- ${distance} km` : ''}</small>
                             </div>
                             <div class="row">
@@ -194,14 +193,4 @@ export class VmdAppointmentCardComponent extends LitElement {
             `);
     }
 
-    private cardTitle(cardConfig: any): string {
-      if (this.lieu.prochain_rdv) {
-        return this.toTitleCase(formatDate(parseISO(this.lieu.prochain_rdv), "EEEE d MMMM 'à' HH:mm", { locale: fr }))
-      } else {
-        return cardConfig.libelleDateAbsente
-      }
-    }
-    private toTitleCase(date: string): string {
-      return date.replace(/(^|\s)([a-z])(\w)/g, (_, leader, letter, loser) => [leader, letter.toUpperCase(), loser].join(''))
-    }
 }

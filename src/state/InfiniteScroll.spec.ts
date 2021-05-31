@@ -14,7 +14,9 @@ describe('InfiniteScroll', () => {
                 departement: '21',
                 location: {
                     latitude: i,
-                    longitude: i
+                    longitude: i,
+                    city: "Paris",
+                    cp: "75008"
                 },
                 nom: 'Name_' + i,
                 url: 'https://an-awesome-place-to-live-in/' + i,

@@ -123,7 +123,7 @@ export type AppointmentSchedule = {
 export type Lieu = {
     appointment_count: number;
     departement: CodeDepartement;
-    location: Coordinates,
+    location: Location,
     nom: string;
     url: string;
     appointment_by_phone_only: boolean;
@@ -157,7 +157,9 @@ function transformLieu(rawLieu: any): Lieu {
         vaccine_type: rawLieu.vaccine_type?((rawLieu.vaccine_type.length===undefined?[rawLieu.vaccine_type]:rawLieu.vaccine_type)).join(", "):undefined
     };
 }
+
 export type Coordinates = { latitude: number, longitude: number }
+export type Location = Coordinates & {city: string, cp: string}
 export type TagCreneau = "preco18_55"|"all";
 export type StatsCreneauxQuotidienParTag = {
     tag: TagCreneau;
