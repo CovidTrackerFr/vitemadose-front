@@ -81,7 +81,7 @@ export const PLATEFORMES: Record<TypePlateforme, Plateforme> = {
     'Pandalab': { code: 'Pandalab', logo: 'logo_pandalab.png', nom: 'Pandalab', promoted: false, website: 'https://masante.pandalab.eu/welcome', styleCode: '_pandalab'},
     'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login', styleCode: '_mapharma'},
     'AvecMonDoc': { code: 'AvecMonDoc', logo: 'logo_avecmondoc.png', nom: 'AvecMonDoc', promoted: true,  website: 'https://www.avecmondoc.com/', styleCode: '_avecmondoc'},
-    'Clikodoc': { code: 'Clikodoc', logo: 'logo_clikodoc.png', nom: 'Clikodoc', promoted: true,  website: 'https://www.clikodoc.com/', styleCode: '_clikodoc'},
+    'Clikodoc': { code: 'Clikodoc', logo: 'logo_clikodoc.png', nom: 'Clikodoc', promoted: false,  website: 'https://www.clikodoc.com/', styleCode: '_clikodoc'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
