@@ -85,7 +85,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                 } else {
                     specificCardConfig = {
                         disabledBG: false,
-                        cardTitle: `${this.lieu.location.cp} - ${this.lieu.location.city}`,
+                        cardTitle: `${this.lieu.appointment_count} créneau${Strings.plural(this.lieu.appointment_count, 'x')} trouvé${Strings.plural(this.lieu.appointment_count)}`,
                         libelleBouton: 'Prendre rendez-vous',
                         typeBouton: 'btn-primary',
                         onclick: () => this.prendreRdv()
