@@ -49,6 +49,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
     @query(".autocomplete-input") $autoCompleteInput: HTMLInputElement | undefined;
     @query(".autocomplete-results") $autoCompleteResults: HTMLUListElement | undefined;
     @query(".autocomplete-result[aria-selected='true']") $autoCompleteSelectedResult: HTMLOptionElement | undefined;
+    @query("#geolocation span") $geolocationMsg: HTMLButtonElement | undefined;
 
     @internalProperty() filter: string = "";
     @internalProperty() suggestions: Array<Commune|Departement> = []
@@ -74,17 +75,85 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
                     id="searchAppointment-searchbar"
                 />
                 ${this.filter?html`
-                <button type="button" title="Effacer la localisation" class="autocomplete-button" @click="${() => { this.filter = ''; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>${SVG_CLOSE_ICON}</span></button>
-                `:html``}
+                <button type="button" title="Effacer la localisation" class="autocomplete-button" @click="${() => { this.filter = '';this.suggestions = []; this.shadowRoot!.querySelector("input")!.focus(); } }"><span>${SVG_CLOSE_ICON}</span></button>
+                `:html`
+                <ul role="listbox" class="autocomplete-results">
+                    <li class="autocomplete-result" role="button" id="geolocation" @click="${()=>{ this.getLocation()}}"> 📍 Me géolocaliser (bêta) 
+                    <span class="fst-italic"></span>
+                    </li>                
+                  </ul>`}
                 ${this.recupérationEnCours ? html`
                 <div class="spinner-border text-primary" role="status">
                 </div>
                 `:html``}
-                ${this.showDropdown?html`<ul role="listbox" class="autocomplete-results">${this.renderListItems()}</ul>`:html``}
+                ${this.showDropdown?html`
+                  <ul role="listbox" class="autocomplete-results">
+                    ${this.renderListItems()}
+                  </ul>`:html``}
             </div>
           </form>
         `;
     }
+
+  getLocation() {
+    const accuracy = 3;
+    this.currentTaskMarker = {};
+    navigator.geolocation.getCurrentPosition(
+      async  (position) => {
+        const positionStored = localStorage.getItem(`position:${position.coords.latitude.toFixed(accuracy)},${position.coords.longitude.toFixed(accuracy)}`);
+        let positionInfo;
+
+        if(positionStored){
+          positionInfo = JSON.parse(positionStored);
+        }else {
+          this.currentTaskMarker = {};
+          positionInfo = await (await fetch(`https://nominatim.openstreetmap.org/reverse.php?&lat=${position.coords.latitude.toFixed(accuracy)}&lon=${position.coords.longitude.toFixed(accuracy)}&zoom=10&format=json`)).json();
+          localStorage.setItem(`position:${position.coords.latitude.toFixed(accuracy)},${position.coords.longitude.toFixed(accuracy)}`, JSON.stringify(positionInfo));
+          this.currentTaskMarker = undefined;
+        }
+        if(this.$autoCompleteInput) {
+            this.$autoCompleteInput.value = (positionInfo as any)?.address?.town || 
+                      (positionInfo as any)?.address?.city || 
+                      (positionInfo as any)?.address?.village || 
+                      (positionInfo as any)?.address?.municipality || 
+                      (positionInfo as any)?.address?.postcode || '';
+
+          await this.valueChanged({ code: '', key: '', currentTarget: this.$autoCompleteInput } as unknown as KeyboardEvent);
+          this.$autoCompleteInput.focus();
+
+          if(this.suggestions.length>0){
+            const firstSuggestion = this.suggestions[0];
+              if((firstSuggestion as Commune).codePostal)   { 
+                this.communeSelected(this.suggestions[0] as Commune)
+              }else{
+                this.departementSelected(this.suggestions[0] as Departement)
+              }
+          }
+        }                   
+    },
+     (error) => {
+      this.currentTaskMarker = undefined;
+      this.$autoCompleteInput?.focus();
+      if(this.$geolocationMsg){
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            this.$geolocationMsg.innerHTML = "<br/> Vous avez refusé la demande de localisation";          
+            break;
+          case error.POSITION_UNAVAILABLE:
+            this.$geolocationMsg.innerHTML = "<br/> Information localisation indisponible" ;
+            break;
+          case error.TIMEOUT:
+            this.$geolocationMsg.innerHTML = "<br/> Temps d'attente trop long" ;
+            break;
+          default:
+            this.$geolocationMsg.innerHTML = "<br/> Bouh... erreur inconnue";
+            break;
+        }
+        this.$geolocationMsg.innerHTML += "<br/> Vous pouvez continuer votre recherche en utilisant votre clavier"
+      }
+    }
+  );
+  }
 
     renderListItems() {
         return repeat(this.suggestions, this.keyForSuggestion.bind(this), (suggestion, index) => {
@@ -114,8 +183,8 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
     get showDropdown() {
         return this.inputHasFocus
-            && this.filter
-            && this.suggestions.length > 0;
+            // && this.filter
+            // && this.suggestions.length > 0;
     }
 
     private onInputBlur () {
@@ -147,7 +216,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
     private departementSelected(dpt: Departement) {
         this.suggestions = []
-        this.filter = `${dpt.code_departement} - ${dpt.nom_departement}`;
+        // this.filter = `${dpt.code_departement} - ${dpt.nom_departement}`;
         this.dispatchEvent(new CustomEvent<DepartementSelected>('on-departement-selected', {
             detail: {
                 departement: dpt
@@ -202,7 +271,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
     }
     private communeSelected(commune: Commune) {
         this.suggestions = []
-        this.filter = `${commune.codePostal} - ${commune.nom}`;
+        // this.filter = `${commune.codePostal} - ${commune.nom}`;
         this.dispatchEvent(new CustomEvent<CommuneSelected>('on-commune-selected', {
             detail: {
                 commune
