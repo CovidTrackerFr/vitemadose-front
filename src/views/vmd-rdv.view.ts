@@ -494,6 +494,26 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
 
+    private autoSelectJourSelectionne(daySelectorAvailable: boolean) {
+        if(daySelectorAvailable) {
+            // On voit quel jour selectionner:
+            // 1/ on essaie de conserver le même jour selectionné si possible
+            // 2/ si pas possible (pas de créneau) on prend le premier jour dispo avec des créneaux
+            // 3/ si pas possible (aucun jour avec des créneaux) aucun jour n'est sélectionné
+            if(this.jourSelectionne) {
+                const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne);
+                if(!creneauxQuotidienSelectionnes || creneauxQuotidienSelectionnes.total===0) {
+                    this.jourSelectionne = undefined;
+                }
+            }
+            if(!this.jourSelectionne) {
+                this.jourSelectionne = this.creneauxQuotidiensAffiches.filter(dailyAppointments => dailyAppointments.total !== 0)[0]?.date;
+            }
+        } else {
+            this.jourSelectionne = undefined;
+        }
+    }
+
     rafraichirDonneesAffichees() {
         if(this.currentSearch && this.lieuxParDepartement) {
             const searchTypeConfig = searchTypeConfigFor(this.currentSearch.type);
@@ -502,23 +522,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
             this.creneauxQuotidiensAffiches = this.filtrerCreneauxQuotidiensEnFonctionDesLieuxMatchantLesCriteres(this.lieuxParDepartement.statsCreneauxLieuxQuotidiens, lieuxMatchantCriteres, searchTypeConfig);
 
             let daySelectorAvailable = this.daySelectorAvailable;
-            if(daySelectorAvailable) {
-                // On voit quel jour selectionner:
-                // 1/ on essaie de conserver le même jour selectionné si possible
-                // 2/ si pas possible (pas de créneau) on prend le premier jour dispo avec des créneaux
-                // 3/ si pas possible (aucun jour avec des créneaux) aucun jour n'est sélectionné
-                if(this.jourSelectionne) {
-                    const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne);
-                    if(!creneauxQuotidienSelectionnes || creneauxQuotidienSelectionnes.total===0) {
-                        this.jourSelectionne = undefined;
-                    }
-                }
-                if(!this.jourSelectionne) {
-                    this.jourSelectionne = this.creneauxQuotidiensAffiches.filter(dailyAppointments => dailyAppointments.total !== 0)[0]?.date;
-                }
-            } else {
-                this.jourSelectionne = undefined;
-            }
+            this.autoSelectJourSelectionne(daySelectorAvailable);
 
             // On calcule les lieux affichés en fonction du jour sélectionné
             const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne)!;
