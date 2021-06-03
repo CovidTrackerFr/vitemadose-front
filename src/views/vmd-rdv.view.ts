@@ -525,20 +525,21 @@ export abstract class AbstractVmdRdvView extends LitElement {
             this.autoSelectJourSelectionne(daySelectorAvailable);
 
             // On calcule les lieux affichés en fonction du jour sélectionné
-            const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne)!;
+            const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne);
+            const creneauxParLieu = creneauxQuotidienSelectionnes?.creneauxParLieu || [];
             const lieuxMatchantCriteresAvecCountRdvMAJ = lieuxMatchantCriteres.map(l => ({
                 ...l,
-                appointment_count: searchTypeConfig.cardAppointmentsExtractor(l, daySelectorAvailable, creneauxQuotidienSelectionnes?.creneauxParLieu || [])
+                appointment_count: searchTypeConfig.cardAppointmentsExtractor(l, daySelectorAvailable, creneauxParLieu)
             }));
 
             let lieuxDisponiblesAffiches = lieuxMatchantCriteresAvecCountRdvMAJ
-                .filter(l => searchTypeConfig.lieuConsidereCommeDisponible(l, creneauxQuotidienSelectionnes.creneauxParLieu.find(cpl => cpl.lieu === l.internal_id)))
+                .filter(l => searchTypeConfig.lieuConsidereCommeDisponible(l, creneauxParLieu.find(cpl => cpl.lieu === l.internal_id)))
                 .map(l => ({
                     ...l,
                     disponible: true
                 }));
             let lieuxIndisponiblesAffiches = lieuxMatchantCriteresAvecCountRdvMAJ
-                .filter(l => !searchTypeConfig.lieuConsidereCommeDisponible(l, creneauxQuotidienSelectionnes.creneauxParLieu.find(cpl => cpl.lieu === l.internal_id)))
+                .filter(l => !searchTypeConfig.lieuConsidereCommeDisponible(l, creneauxParLieu.find(cpl => cpl.lieu === l.internal_id)))
                 .map(l => ({
                     ...l,
                     disponible: false
