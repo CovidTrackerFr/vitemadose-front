@@ -214,12 +214,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     get totalCreneaux() {
-        if (!this.lieuxParDepartementAffiches) {
+        if (!this.creneauxQuotidiensAffiches) {
             return 0;
         }
-        return this.lieuxParDepartementAffiches
-            .lieuxDisponibles
-            .reduce((total, lieu) => total+lieu.appointment_count, 0);
+        return this.creneauxQuotidiensAffiches
+            .reduce((total, rdvDuJour) => total+rdvDuJour.total, 0);
     }
 
     get daySelectorAvailable(): boolean {
@@ -253,6 +252,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
         const countLieuxDisponibles = (this.lieuxParDepartementAffiches?.lieuxDisponibles || []).length;
         const searchTypeConfig = this.searchTypeConfig;
         const standardMode = searchTypeConfig.standardTabSelected;
+        const creneauxTotaux = this.totalCreneaux;
 
         return html`
             <div class="criteria-container text-dark rounded-3 py-5 bg-std">
@@ -303,7 +303,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
             `:html`
                 <h3 class="fw-normal text-center h4 search-standard"
                     style="${styleMap({display: (this.lieuxParDepartementAffiches) ? 'block' : 'none'})}">
-                    ${this.totalCreneaux.toLocaleString()} créneau${Strings.plural(this.totalCreneaux, "x")} de vaccination trouvé${Strings.plural(this.totalCreneaux)}
+                    ${creneauxTotaux.toLocaleString()} créneau${Strings.plural(creneauxTotaux, "x")} de vaccination trouvé${Strings.plural(creneauxTotaux)}
                     ${this.libelleLieuSelectionne()}
                   <br/>
                   ${(this.lieuxParDepartementAffiches && this.lieuxParDepartementAffiches.derniereMiseAJour) ?
