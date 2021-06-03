@@ -526,9 +526,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
             // On calcule les lieux affichés en fonction du jour sélectionné
             const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne)!;
-            // const lieuxIdsAvecCreneauxDuJourSelectionne = creneauxQuotidienSelectionnes
-            //     ?creneauxQuotidienSelectionnes.creneauxParLieu.map(cpl => cpl.lieu)
-            //     :undefined;
             const lieuxMatchantCriteresAvecCountRdvMAJ = lieuxMatchantCriteres.map(l => ({
                 ...l,
                 appointment_count: searchTypeConfig.cardAppointmentsExtractor(l, daySelectorAvailable, creneauxQuotidienSelectionnes?.creneauxParLieu || [])
