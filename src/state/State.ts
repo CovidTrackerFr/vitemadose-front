@@ -82,7 +82,7 @@ export const PLATEFORMES: Record<TypePlateforme, Plateforme> = {
     'Mapharma': { code: 'Mapharma', logo: 'logo_mapharma.png', nom: 'Mapharma', promoted: true,  website: 'https://mapharma.net/login', styleCode: '_mapharma'},
     'AvecMonDoc': { code: 'AvecMonDoc', logo: 'logo_avecmondoc.png', nom: 'AvecMonDoc', promoted: true,  website: 'https://www.avecmondoc.com/', styleCode: '_avecmondoc'},
     'Clikodoc': { code: 'Clikodoc', logo: 'logo_clikodoc.png', nom: 'Clikodoc', promoted: false,  website: 'https://www.clikodoc.com/', styleCode: '_clikodoc'},
-    'mesoigner': { code: 'mesoigner', logo: 'logo_mesoigner.png', nom: 'MeSoigner', promoted: true, website: 'https://www.mesoigner.fr/', styleCode: '_mesoigner'},
+    'mesoigner': { code: 'mesoigner', logo: 'logo_mesoigner.svg', nom: 'MeSoigner', promoted: true, website: 'https://www.mesoigner.fr/', styleCode: '_mesoigner'},
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
