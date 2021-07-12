@@ -113,6 +113,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         />
                 </div>
                 ${this.renderAdditionnalSearchCriteria()}
+                <vmd-appointment-map .currentSearch="${this.currentSearch}" .lieux="${lieuxDisponibles}"/>
             </div>
 
             <div class="spacer mt-5 mb-5"></div>
