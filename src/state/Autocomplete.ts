@@ -2,7 +2,7 @@ import { Memoize } from 'typescript-memoize'
 import { Departement, Commune } from './State'
 import {Strings} from "../utils/Strings";
 
-type NormalizedSearch = string & { __normalized_search: void }
+type NormalizedSearch = string
 export interface CommuneAutocomplete {
   n: string // nom
   z: string // code postal
@@ -23,7 +23,7 @@ export class Autocomplete {
     this.webBaseUrl = webBaseUrl.endsWith('/') ? webBaseUrl : `${webBaseUrl}/`
   }
 
-  async findCommune (codePostal: string, codeInsee: string): Promise<Commune | void> {
+  async findCommune (codePostal: string, codeInsee: string): Promise<Commune | undefined> {
     const communes = await this.getMatchingCommunes(this.normalize(codePostal))
     return communes.find((commune) => commune.codePostal === codePostal && commune.code === codeInsee)
   }
@@ -58,7 +58,7 @@ export class Autocomplete {
     })
   }
 
-  private mapAutocompleteToCommune(option: CommuneAutocomplete | OutreMerAutocomplete): Commune | void {
+  private mapAutocompleteToCommune(option: CommuneAutocomplete | OutreMerAutocomplete): Commune | undefined {
     if ('g' in option && 'd' in option) {
       const [ longitude, latitude ] =  option.g.split(',').map(Number)
       return {

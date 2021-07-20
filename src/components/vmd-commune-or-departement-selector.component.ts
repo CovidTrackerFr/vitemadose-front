@@ -44,7 +44,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
         this.fillCommune(v)
       }
     }
-    @internalProperty() private _currentValue: Commune | Departement | void = undefined
+    @internalProperty() private _currentValue: Commune | Departement | undefined = undefined
     @internalProperty() inputHasFocus: boolean = false;
     @query(".autocomplete-input") $autoCompleteInput: HTMLInputElement | undefined;
     @query(".autocomplete-results") $autoCompleteResults: HTMLUListElement | undefined;
@@ -52,7 +52,7 @@ export class VmdCommuneOrDepartmentSelectorComponent extends LitElement {
 
     @internalProperty() filter: string = "";
     @internalProperty() suggestions: Array<Commune|Departement> = []
-    @internalProperty() currentTaskMarker: {} | void = undefined
+    @internalProperty() currentTaskMarker: {} | undefined = undefined
 
     render() {
         return html`
