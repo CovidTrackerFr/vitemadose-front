@@ -10,6 +10,9 @@ ul.days {
 }
 
 .list-group-horizontal.days li.list-group-item {
+  &:nth-child(0), &:nth-child(1) {
+    filter: hue-rotate(110deg);
+  }
   background-color: transparent;
   text-align: center;
   color: $primary;
