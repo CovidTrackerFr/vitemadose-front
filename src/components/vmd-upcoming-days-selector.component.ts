@@ -14,7 +14,7 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
     //language=css
     static styles = [
         CSS_Global,
-        css`${unsafeCSS(upcomingDaysSelectorCss)}`,
+        unsafeCSS(upcomingDaysSelectorCss),
         css`
         `
     ];

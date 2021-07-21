@@ -328,7 +328,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 ${this.daySelectorAvailable?html`
                   <div class="resultats px-4 py-3 text-dark bg-light rounded-resultats-top mb-2">
                       <vmd-upcoming-days-selector
-                            start="${startOfDay(new Date()).toISOString().substring(0, 10)}"
                             dateSelectionnee="${this.jourSelectionne || ""}"
                             .creneauxQuotidiens="${this.creneauxQuotidiensAffiches}"
                             @jour-selectionne="${(event: CustomEvent<RendezVousDuJour>) => {
