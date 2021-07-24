@@ -262,19 +262,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           @on-search="${this.onSearchSelected}"
                     />
               </div>
-              ${this.daySelectorAvailable?html`
-              <div class="rdvForm-fields row align-items-center">
-                <label class="col-sm-24 col-md-auto mb-md-3">
-                  Type de vaccin :
-                </label>
-                <div class="col">
-                  <vmd-button-switch class="mb-3"
-                         codeSelectionne="${this.currentSearch ? this.currentSearch.type : '18_55'}"
-                         .options="${VACCINE_CATEGORIES}"
-                         @changed="${(e: CustomEvent<{value: SearchType}>) => this.updateSearchTypeTo(e.detail.value)}"
-                  ></vmd-button-switch>
-                </div>
-              </div>`:html``}
               ${this.options.criteresDeRechercheAdditionnels()}
               ${false?html`
               <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
