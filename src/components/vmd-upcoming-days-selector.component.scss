@@ -26,7 +26,7 @@ ul.days {
 
   &.selectable {
     cursor: pointer;
-    &:hover {
+    &:not(.empty):hover {
       background-color: tint-color($primary, 80%);
     }
     .date-card {
@@ -34,7 +34,7 @@ ul.days {
     }
   }
   &.selected .date-card {
-    background-color: $primary;
+    background-color: tint-color($primary, 35%);
     color: white;
   }
   &.empty {
@@ -42,6 +42,13 @@ ul.days {
       background-color: tint-color($gray-600, 80%);
     }
     color: $gray-600;
+    &.selectable {
+      .date-card:hover {
+        background-color: white;
+      }
+      font-size: 1.7rem;
+      font-style: italic;
+    }
   }
 
   .date-card {
@@ -55,7 +62,7 @@ ul.days {
     font-size: 1.8rem;
   }
   .day {
-    font-size: 3.0rem;
+    font-size: 2.5rem;
     font-weight: bold;
     white-space: nowrap;
   }
