@@ -12,7 +12,7 @@ type RawCommune = {
 
 type Commune = RawCommune & {
     codePostal: string;
-    fullTextSearchableNom: string;
+    fullTextNormalizedNom: string;
 };
 
 type Departement = {

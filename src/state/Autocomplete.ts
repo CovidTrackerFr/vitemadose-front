@@ -1,8 +1,13 @@
 import { Memoize } from 'typescript-memoize'
 import { Departement, Commune } from './State'
-import {Strings} from "../utils/Strings";
+import { Strings } from "../utils/Strings";
 
-type NormalizedSearch = string
+// Ce type (dont il est impossible de créer une instance)
+// permet de ne pas simplement faire un alias de string, et ainsi
+// éviter qu'un `string` puisse être utilisé là où ce type est attendu.
+// L'utilisation de `as` permet de caster des strings en ce type.
+type NormalizedSearch = string & { __normalizedSearch : undefined }
+
 export interface CommuneAutocomplete {
   n: string // nom
   z: string // code postal
@@ -80,9 +85,10 @@ export class Autocomplete {
   private async getLongestPrefixMatch(term: NormalizedSearch): Promise<NormalizedSearch | undefined> {
     const prefixes = await this.getAutocompletePrefixes()
     for (let size = term.length; size > 0; --size) {
-      const subPrefix = term.substring(0, size)
+      // Par construction, une sous partie d'un NormalizedSearch est un NormalizedSearch
+      const subPrefix = term.substring(0, size) as NormalizedSearch
       if (prefixes.has(subPrefix)) {
-        return subPrefix as NormalizedSearch
+        return subPrefix 
       }
     }
     return undefined
@@ -94,10 +100,12 @@ export class Autocomplete {
   }
 
   @Memoize()
-  private async getAutocompletePrefixes(): Promise<Set<string>> {
+  private async getAutocompletePrefixes(): Promise<Set<NormalizedSearch>> {
     const response = await window.fetch(`${this.webBaseUrl}autocompletes.json`)
-    const prefixes = (await response.json()) as string[]
-    return new Set<string>(prefixes)
+    // `communes-import.ts` utilise Strings.toFullTextNormalized ce qui
+    // garantit que les préfixes contenus dans ce fichier ont été normalisés
+    const prefixes = (await response.json()) as NormalizedSearch[]
+    return new Set(prefixes)
   }
 
   @Memoize()
@@ -109,8 +117,7 @@ export class Autocomplete {
       .filter((commune) => commune !== undefined) as Commune[]
   }
 
-
-  private normalize (term: string): NormalizedSearch {
-    return Strings.toFullTextSearchableString(term) as NormalizedSearch;
+  private normalize(term: string): NormalizedSearch {
+    return Strings.toFullTextNormalized(term) as NormalizedSearch;
   }
 }
