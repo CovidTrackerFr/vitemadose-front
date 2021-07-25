@@ -32,7 +32,7 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
     ];
 
     @property() set creneauxQuotidiens(creneauxQuotidiens: RendezVousDuJour[]) {
-        const {upcomingDays, ..._ } = creneauxQuotidiens.reduce(({upcomingDays, currentGroup, groups}, infosJour, idx) => {
+        const upcomingDaysResults = creneauxQuotidiens.reduce(({upcomingDays, currentGroup, groups}, infosJour, idx) => {
             // For a given time window with more than 3+ consecutive days with 0 available appointments, we may
             // consider the 2nd (and every following) day as "hideable" as not very useful to be displayed
             // (and hide them)
@@ -83,7 +83,7 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
 
             return {upcomingDays, currentGroup, groups};
         }, { upcomingDays: [], currentGroup: undefined, groups: [] } as { upcomingDays: UpcomingDay[], currentGroup: number|undefined, groups: number[] });
-        this._upcomingDays = upcomingDays;
+        this._upcomingDays = upcomingDaysResults.upcomingDays;
         this.requestUpdate()
     }
     private _upcomingDays: UpcomingDay[] = [];
@@ -96,7 +96,7 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
     render() {
         return html`
           <ul class="days list-group list-group-horizontal">
-            ${repeat(this._upcomingDays, ud => ud.date, (ud, idx) => {
+            ${repeat(this._upcomingDays, ud => ud.date, ud => {
                 return html`
               ${(ud.hidden && ud.firstHiddenFromGroup)?html`
               <li class="list-group-item empty selectable">

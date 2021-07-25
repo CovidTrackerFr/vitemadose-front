@@ -29,12 +29,11 @@ import {
     searchTypeConfigFor,
     searchTypeConfigFromSearch,
     SearchTypeConfig,
-    VACCINE_CATEGORIES,
     RendezVousDuJour,
     StatsCreneauxLieuxParJour,
     countCreneauxFromCreneauxParTag
 } from "../state/State";
-import {formatDistanceToNow, parseISO, startOfDay} from 'date-fns'
+import {formatDistanceToNow, parseISO} from 'date-fns'
 import { fr } from 'date-fns/locale'
 import {Strings} from "../utils/Strings";
 import {DEPARTEMENTS_LIMITROPHES} from "../utils/Departements";
