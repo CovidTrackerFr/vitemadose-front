@@ -21,7 +21,7 @@ export class VmdSearchComponent extends LitElement {
             }
         `
     ];
-    @property() public set value (searchRequest: SearchRequest | void) {
+    @property() public set value (searchRequest: SearchRequest | undefined) {
       if (!searchRequest) {
         this.currentSelection = undefined
         this.currentSearchType = undefined
@@ -35,12 +35,12 @@ export class VmdSearchComponent extends LitElement {
       }
       this.currentValue = searchRequest
     }
-    public get value (): SearchRequest | void {
+    public get value (): SearchRequest | undefined {
       return this.currentValue
     }
-    @internalProperty() private currentValue: SearchRequest | void = undefined
-    @internalProperty() private currentSelection: Commune | Departement | void = undefined
-    @internalProperty() private currentSearchType: SearchType | void = undefined
+    @internalProperty() private currentValue: SearchRequest | undefined = undefined
+    @internalProperty() private currentSelection: Commune | Departement | undefined = undefined
+    @internalProperty() private currentSearchType: SearchType | undefined = undefined
 
     render() {
         return html`
@@ -57,14 +57,14 @@ export class VmdSearchComponent extends LitElement {
     private onCommuneSelected (commune: Commune) {
       this.currentSelection = commune
       this.dispatchEvent(new CustomEvent<SearchRequest.ByCommune>('on-search', {
-        detail: SearchRequest.ByCommune(commune, 'distance', this.currentSearchType || 'standard')
+        detail: SearchRequest.ByCommune(commune, this.currentSearchType || 'standard', this.currentValue?.date)
       }))
     }
 
     private onDepartementSelected (departement: Departement) {
       this.currentSelection = departement
       this.dispatchEvent(new CustomEvent<SearchRequest.ByDepartement>('on-search', {
-        detail: SearchRequest.ByDepartement(departement, this.currentSearchType || 'standard')
+        detail: SearchRequest.ByDepartement(departement, this.currentSearchType || 'standard', this.currentValue?.date)
       }))
     }
 }

@@ -1,0 +1,77 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "../styles/bootstrap-variables";
+@import "../styles/global-variables";
+
+ul.days {
+  width: 100%;
+  overflow-x: scroll;
+  font-size: 2rem;
+}
+
+.list-group-horizontal.days li.list-group-item {
+  &:nth-child(0), &:nth-child(1) {
+    filter: hue-rotate(110deg);
+  }
+  background-color: transparent;
+  text-align: center;
+  color: $primary;
+  border: 0px;
+  border-radius: 1rem;
+  padding: 1.6rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &.selectable {
+    cursor: pointer;
+    &:not(.empty):hover {
+      background-color: tint-color($primary, 80%);
+    }
+    .date-card {
+      background-color: white;
+    }
+  }
+  &.selected .date-card {
+    background-color: tint-color($primary, 35%);
+    color: white;
+  }
+  &.empty {
+    .date-card {
+      background-color: tint-color($gray-600, 80%);
+    }
+    color: $gray-600;
+    &.selectable {
+      .date-card:hover {
+        background-color: white;
+      }
+      font-size: 1.7rem;
+      font-style: italic;
+    }
+  }
+
+  .date-card {
+    margin: 0px 1.1rem;
+    border-radius: 1rem;
+    width: 10rem;
+    padding: 1rem;
+  }
+
+  .weekday {
+    font-size: 1.8rem;
+  }
+  .day {
+    font-size: 2.5rem;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .cpt-rdv {
+    font-size: 1.6rem;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: bold;
+    padding-top: 5px;
+  }
+}
