@@ -302,7 +302,11 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; this.launchCheckingUpdates() }}">Rafraîchir</button>
                         `:html``}
                       </p>
-                      <p class="alert alert-warning fs-6">
+                      <!--
+                      not displayed anymore (see d-none class) as doctolib cache is not relevant
+                      anymore now that we don't have chronodose feature
+                      -->
+                      <p class="alert alert-warning fs-6 d-none">
                           <i class="bi vmdicon-attention-fill"></i>
                           Les plateformes sont très sollicitées, les données affichées par Vite Ma Dose peuvent avoir jusqu'à 15 minutes de retard pour Doctolib.
                       </p>
