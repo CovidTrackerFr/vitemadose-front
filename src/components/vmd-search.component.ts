@@ -21,7 +21,7 @@ export class VmdSearchComponent extends LitElement {
             }
         `
     ];
-    @property() public set value (searchRequest: SearchRequest | void) {
+    @property() public set value (searchRequest: SearchRequest | undefined) {
       if (!searchRequest) {
         this.currentSelection = undefined
         this.currentSearchType = undefined
@@ -35,12 +35,12 @@ export class VmdSearchComponent extends LitElement {
       }
       this.currentValue = searchRequest
     }
-    public get value (): SearchRequest | void {
+    public get value (): SearchRequest | undefined {
       return this.currentValue
     }
-    @internalProperty() private currentValue: SearchRequest | void = undefined
-    @internalProperty() private currentSelection: Commune | Departement | void = undefined
-    @internalProperty() private currentSearchType: SearchType | void = undefined
+    @internalProperty() private currentValue: SearchRequest | undefined = undefined
+    @internalProperty() private currentSelection: Commune | Departement | undefined = undefined
+    @internalProperty() private currentSearchType: SearchType | undefined = undefined
 
     render() {
         return html`
