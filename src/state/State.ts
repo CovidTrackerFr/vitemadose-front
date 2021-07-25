@@ -1,6 +1,7 @@
 import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
+import {ArrayBuilder} from "../utils/Arrays";
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -17,10 +18,12 @@ export namespace SearchRequest {
   export type ByDepartement = {
       type: SearchType,
       par: 'departement',
-      departement: Departement
+      departement: Departement,
+      tri: 'date',
+      date: string|undefined
   }
-  export function ByDepartement (departement: Departement, type: SearchType): ByDepartement {
-    return { type, par: 'departement', departement }
+  export function ByDepartement (departement: Departement, type: SearchType, date: string|undefined): ByDepartement {
+    return { type, par: 'departement', departement, tri: 'date', date }
   }
   export function isByDepartement (searchRequest: SearchRequest): searchRequest is ByDepartement {
     return searchRequest.par === 'departement'
@@ -30,35 +33,32 @@ export namespace SearchRequest {
     type: SearchType,
     par: 'commune',
     commune: Commune,
-    tri: CodeTriCentre
+    tri: 'distance',
+    date: string|undefined
   }
-  export function ByCommune (commune: Commune, tri: CodeTriCentre, type: SearchType): ByCommune {
-    return { type, par: 'commune', commune, tri }
+  export function ByCommune (commune: Commune, type: SearchType, date: string|undefined): ByCommune {
+    return { type, par: 'commune', commune, tri: 'distance', date }
   }
   export function isByCommune (searchRequest: SearchRequest): searchRequest is ByCommune {
     return searchRequest.par === 'commune'
   }
-
-  export function isStandardType(searchRequest: SearchRequest|void) {
-    return !!searchRequest && searchRequest.type === 'standard';
-  }
 }
 
 export type CodeTriCentre = 'date' | 'distance';
-export type TriCentre = {
-    codeTriCentre: CodeTriCentre;
-    libelle: string;
-};
-export const TRIS_CENTRE: Map<CodeTriCentre, TriCentre> = new Map([
-    ['distance', { codeTriCentre: 'distance', libelle: "Au plus proche" }],
-    ['date', { codeTriCentre: 'date', libelle: "Disponible au plus vite" }],
-]);
 
 const USE_RAW_GITHUB = false
-const VMD_BASE_URL = USE_RAW_GITHUB
-  ? "https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output"
-  : "https://vitemadose.gitlab.io/vitemadose"
 
+function getVmdbaseurl() {
+    // if(document.location.host.includes('dev.vitemado.se') || document.location.host.includes('localhost')) {
+    //     return 'https://vitemadose.gitlab.io/vitemadose-staging/v2';
+    /* } else */ if (USE_RAW_GITHUB) {
+        return 'https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output';
+    } else {
+        return 'https://vitemadose.gitlab.io/vitemadose';
+    }
+}
+
+const VMD_BASE_URL = getVmdbaseurl()
 
 export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma"|"AvecMonDoc"|"Clikodoc"|"mesoigner";
 export type Plateforme = {
@@ -110,7 +110,7 @@ export const TYPES_LIEUX: {[k in TypeLieu]: string} = {
 export type ISODateString = string
 export type WeekDay = "lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"
 export type BusinessHours = Record<WeekDay,string>;
-export type VaccineType = string;
+export type VaccineType = "AstraZeneca"|"Janssen"|"Pfizer-BioNTech"|"Moderna"|"ARNm";
 export type AppointmentPerVaccine = {
     vaccine_type: VaccineType;
     appointments: number;
@@ -125,13 +125,14 @@ export type AppointmentSchedule = {
 export type Lieu = {
     appointment_count: number;
     departement: CodeDepartement;
-    location: Coordinates,
+    location: Location,
     nom: string;
     url: string;
     appointment_by_phone_only: boolean;
     appointment_schedules: AppointmentSchedule[]|undefined;
     plateforme: TypePlateforme;
     prochain_rdv: ISODateString|null;
+    internal_id: string;
     metadata: {
         address: string;
         phone_number: string|undefined;
@@ -158,19 +159,76 @@ function transformLieu(rawLieu: any): Lieu {
         vaccine_type: rawLieu.vaccine_type?((rawLieu.vaccine_type.length===undefined?[rawLieu.vaccine_type]:rawLieu.vaccine_type)).join(", "):undefined
     };
 }
+
 export type Coordinates = { latitude: number, longitude: number }
+export type Location = Coordinates & {city: string, cp: string}
+export type TagCreneau = "preco18_55"|"all";
+export type StatsCreneauxQuotidienParTag = {
+    tag: TagCreneau;
+    creneaux: number;
+    creneauxParHeure: [number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number];
+};
+export type StatsCreneauxQuotidienParTag_JSON = {
+    tag: TagCreneau;
+    creneaux: number;
+    creneaux_par_heure: [number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number];
+};
+export type StatsCreneauxParLieu = {
+    lieu: string;
+    statsCreneauxParTag: StatsCreneauxQuotidienParTag[];
+};
+export type CreneauxParLieu_JSON = {
+    lieu: string;
+    creneaux_par_tag: StatsCreneauxQuotidienParTag_JSON[];
+};
+export type CreneauxParLieu = {
+    lieu: string;
+    creneaux: number;
+}
+export type RendezVousDuJour = {
+    date: string; // "2021-05-23"
+    total: number;
+    creneauxParLieu: CreneauxParLieu[];
+}
+export type StatsCreneauxLieuxParJour = {
+    date: string; // "2021-05-23"
+    codesDepartement: CodeDepartement[];
+    total: number;
+    statsCreneauxParLieu: StatsCreneauxParLieu[];
+}
+export function countCreneauxFromCreneauxParTag(statsCreneauxQuotidiensParTag: StatsCreneauxQuotidienParTag[], tag: TagCreneau): number {
+    return statsCreneauxQuotidiensParTag.find(cpt => cpt.tag===tag)?.creneaux || 0;
+}
+export function countCreneauxFromStatsCreneauxLieux(statsCreneauxLieuxParJour: StatsCreneauxLieuxParJour, tag: TagCreneau) {
+    return statsCreneauxLieuxParJour.statsCreneauxParLieu.reduce((total, lieu) => total + countCreneauxFromCreneauxParTag(lieu.statsCreneauxParTag, tag), 0);
+}
+export type StatsCreneauxLieuxParJour_JSON = {
+    date: string; // "2021-05-23"
+    total: number;
+    creneaux_par_lieu: CreneauxParLieu_JSON[];
+}
+export type InfosDepartementAdditionnelles_JSON = {
+    creneaux_quotidiens: StatsCreneauxLieuxParJour_JSON[];
+};
 
 export type LieuxParDepartement = {
     lieuxDisponibles: Lieu[];
     lieuxIndisponibles: Lieu[];
     codeDepartements: CodeDepartement[];
+    statsCreneauxLieuxQuotidiens: StatsCreneauxLieuxParJour[];
     derniereMiseAJour: ISODateString;
 };
-export type LieuxParDepartements = Map<CodeDepartement, LieuxParDepartement>;
+
+export type LieuxParDepartement_JSON = {
+    centres_disponibles: Lieu[];
+    centres_indisponibles: Lieu[];
+    last_updated: string;
+};
 
 export type LieuAffichableAvecDistance = Lieu & { disponible: boolean, distance: number|undefined };
 export type LieuxAvecDistanceParDepartement = {
-    lieuxAffichables: LieuAffichableAvecDistance[];
+    lieuxMatchantCriteres: LieuAffichableAvecDistance[];
+    lieuxDisponibles: LieuAffichableAvecDistance[];
     codeDepartements: CodeDepartement[];
     derniereMiseAJour: ISODateString;
 };
@@ -237,7 +295,80 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
     return Strings.toReadableURLPathValue(commune.nom);
 }
 
-export type SearchType = "standard";
+type VaccineCategory = {code: SearchType, libelle: string};
+export const VACCINE_CATEGORIES: VaccineCategory[] = [
+    { code: "18_55", libelle: "Préconisé pour les 18-55 ans" },
+    // { code: "16_18", libelle: "Préconisé pour les 16-18 ans" },
+    { code: "standard", libelle: "Tous" },
+];
+
+export type SearchType = "standard"|"18_55";
+export type SearchTypeConfig = {
+    tagCreneau: TagCreneau;
+    cardAppointmentsExtractor: (lieu: Lieu, daySelectorDisponible: boolean, creneauxParLieux: CreneauxParLieu[]) => number;
+    lieuConsidereCommeDisponible: (lieu: LieuAffichableAvecDistance, creneauxParLieu: CreneauxParLieu|undefined) => boolean;
+    pathParam: string;
+    standardTabSelected: boolean;
+    excludeAppointmentByPhoneOnly: boolean;
+    jourSelectionnable: boolean;
+    theme: 'standard'|'highlighted';
+    analytics: {
+        searchResultsByDepartement: string;
+        searchResultsByCity: string;
+    }
+};
+const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type}} = {
+    'standard': {
+        type: 'standard',
+        tagCreneau: "all",
+        cardAppointmentsExtractor: (lieu, daySelectorDisponible, creneauxParLieux) => daySelectorDisponible
+            ?creneauxParLieux.find(cpl => cpl.lieu === lieu.internal_id)?.creneaux || 0
+            :lieu.appointment_count,
+        lieuConsidereCommeDisponible: (lieu, creneauxParLieu) => lieu.appointment_by_phone_only || (creneauxParLieu?.creneaux || 0) > 0,
+        pathParam: 'standard',
+        standardTabSelected: true,
+        excludeAppointmentByPhoneOnly: false,
+        jourSelectionnable: true,
+        theme: 'standard',
+        analytics: {
+            searchResultsByDepartement: 'search_results_by_department',
+            searchResultsByCity: 'search_results_by_city'
+        }
+    },
+    '18_55': {
+        type: '18_55',
+        tagCreneau: "preco18_55",
+        cardAppointmentsExtractor: (lieu, daySelectorDisponible, creneauxParLieux) => {
+            if(daySelectorDisponible) {
+                return creneauxParLieux.find(cpl => cpl.lieu === lieu.internal_id)?.creneaux || 0
+            }
+            throw new Error("We're not supposed to call cardAppointmentsExtractor() on 18_55 without day selector !")
+        },
+        lieuConsidereCommeDisponible: (lieu, creneauxParLieu) => lieu.appointment_by_phone_only || (creneauxParLieu?.creneaux || 0) > 0,
+        pathParam: '18_55',
+        standardTabSelected: true,
+        excludeAppointmentByPhoneOnly: false,
+        jourSelectionnable: true,
+        theme: 'standard',
+        analytics: {
+            searchResultsByDepartement: 'search_results_by_department_18_55',
+            searchResultsByCity: 'search_results_by_city_18_55'
+        }
+    },
+};
+export function searchTypeConfigFromPathParam(pathParams: Record<string,string>): SearchTypeConfig & {type: SearchType} {
+    const config = Object.values(SEARCH_TYPE_CONFIGS).find(config => pathParams && config.pathParam === pathParams['typeRecherche']);
+    if(config) {
+        return config;
+    }
+    throw new Error(`No config found for path param: ${pathParams['typeRecherche']}`);
+}
+export function searchTypeConfigFromSearch(searchRequest: SearchRequest|void, fallback: SearchType) {
+    return searchTypeConfigFor(searchRequest ? searchRequest.type : fallback);
+}
+export function searchTypeConfigFor(searchType: SearchType): SearchTypeConfig & {type: SearchType} {
+    return SEARCH_TYPE_CONFIGS[searchType];
+}
 
 export class State {
 
@@ -269,15 +400,66 @@ export class State {
       this.autocomplete = new Autocomplete(webBaseUrl, () => this.departementsDisponibles())
     }
 
-    async lieuxPour(codeDepartement: CodeDepartement): Promise<LieuxParDepartement> {
-        const resp = await fetch(`${VMD_BASE_URL}/${codeDepartement}.json`, { cache: 'no-cache' })
-        const results = await resp.json()
-        const lieuxParDepartement = {
-            lieuxDisponibles: results.centres_disponibles.map(transformLieu),
-            lieuxIndisponibles: results.centres_indisponibles.map(transformLieu),
-            codeDepartements: [codeDepartement],
-            derniereMiseAJour: results.last_updated
-        };
+    async lieuxPour(codesDepartements: CodeDepartement[]): Promise<LieuxParDepartement> {
+        const [principalLieuxDepartement, ...lieuxDepartementsAditionnels] = await Promise.all(
+            codesDepartements.map(codeDept => Promise.all([
+                fetch(`${VMD_BASE_URL}/${codeDept}.json`, { cache: 'no-cache' })
+                    .then(resp => resp.json())
+                    .then((statsDept: LieuxParDepartement_JSON) => ({...statsDept, codeDepartement: codeDept} as LieuxParDepartement_JSON & {codeDepartement: string})),
+                fetch(`${VMD_BASE_URL}/${codeDept}/creneaux-quotidiens.json`, { cache: 'no-cache' })
+                    .then(resp => resp.json())
+                    .then((creneauxQuotidiens: InfosDepartementAdditionnelles_JSON|undefined) => creneauxQuotidiens),
+            ]).then(([lieuxParDepartement, infosDeptAdditionnelles] : [LieuxParDepartement_JSON & {codeDepartement: string}, InfosDepartementAdditionnelles_JSON|undefined]) => ({
+                ...lieuxParDepartement,
+                creneaux_quotidiens: infosDeptAdditionnelles?.creneaux_quotidiens || []
+            }))
+        ));
+
+        const lieuxParDepartement: LieuxParDepartement = [principalLieuxDepartement].concat(lieuxDepartementsAditionnels).reduce((mergedLieuxParDepartement, lieuxParDepartement) => {
+            const creneauxQuotidiens = mergedLieuxParDepartement.statsCreneauxLieuxQuotidiens;
+            (lieuxParDepartement.creneaux_quotidiens || []).forEach((creneauxQuotidien) => {
+                if(!creneauxQuotidiens.find(cq => cq.date === creneauxQuotidien.date)) {
+                    creneauxQuotidiens.push({
+                        codesDepartement: [],
+                        date: creneauxQuotidien.date,
+                        total: 0,
+                        statsCreneauxParLieu: []
+                    })
+                }
+                const creneauxQuotidienMatchingDate = creneauxQuotidiens.find(cq => cq.date === creneauxQuotidien.date)!;
+
+                creneauxQuotidienMatchingDate.codesDepartement.push(lieuxParDepartement.codeDepartement);
+                creneauxQuotidienMatchingDate.total += creneauxQuotidien.total;
+                Array.prototype.push.apply(creneauxQuotidienMatchingDate.statsCreneauxParLieu, creneauxQuotidien.creneaux_par_lieu.map<StatsCreneauxParLieu>(cpl => ({
+                    lieu: cpl.lieu,
+                    statsCreneauxParTag: cpl.creneaux_par_tag.map(cpt => ({
+                        tag: cpt.tag,
+                        creneaux: cpt.creneaux,
+                        creneauxParHeure: cpt.creneaux_par_heure
+                    }))
+                })));
+            });
+
+            const lieuxParDepartementMerge: LieuxParDepartement = {
+                codeDepartements: mergedLieuxParDepartement.codeDepartements.concat(lieuxParDepartement.codeDepartement),
+                derniereMiseAJour: mergedLieuxParDepartement.derniereMiseAJour,
+                lieuxDisponibles: mergedLieuxParDepartement.lieuxDisponibles.concat(lieuxParDepartement.centres_disponibles.map(transformLieu)),
+                lieuxIndisponibles: mergedLieuxParDepartement.lieuxIndisponibles.concat(lieuxParDepartement.centres_indisponibles.map(transformLieu)),
+                statsCreneauxLieuxQuotidiens: creneauxQuotidiens
+            };
+            return lieuxParDepartementMerge;
+        }, {
+            codeDepartements: [],
+            derniereMiseAJour: principalLieuxDepartement.last_updated,
+            lieuxDisponibles: [],
+            lieuxIndisponibles: [],
+            statsCreneauxLieuxQuotidiens: []
+        } as LieuxParDepartement);
+
+        lieuxParDepartement.statsCreneauxLieuxQuotidiens = ArrayBuilder.from(lieuxParDepartement.statsCreneauxLieuxQuotidiens)
+            .sortBy(cq => cq.date)
+            .build();
+
         return lieuxParDepartement;
     }
 
@@ -330,4 +512,5 @@ export class State {
           }
       };
     }
+
 }

@@ -28,7 +28,7 @@ export class VmdHomeView extends LitElement {
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
     private async onSearch (event: CustomEvent<SearchRequest>) {
-      const searchType: SearchType = 'standard';
+      const searchType: SearchType = '18_55';
       if (SearchRequest.isByDepartement(event.detail)) {
         const departement = event.detail.departement
         Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement), searchType)
