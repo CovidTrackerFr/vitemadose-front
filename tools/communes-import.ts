@@ -138,8 +138,8 @@ Promise.all([
                 // which are exclusively composed of the INDEXED_CHARS characters. 
                 // Strings.toFullTextNormalized() converts accents to these chars to make
                 // this comparison possible.
-                // The same method is used in Atocomplete.ts to create search prefixes which
-                // are used to fetch the appropriate pre-computed Commune list computed here.
+                // The same method/implementation is used in Autocomplete.ts to create search prefixes 
+                // which are used to fetch the appropriate pre-computed Commune list computed here.
                 fullTextNormalizedNom: Strings.toFullTextNormalized(rawCommune.nom)
             }))
         ).flat()
