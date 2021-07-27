@@ -7,10 +7,10 @@ import Chart from "chart.js";
 export class VmdStatsByDateCreneauxGraphComponent extends VmdGraphBaseComponent<StatsByDate> {
 
     rebuildGraph(canvas: HTMLCanvasElement, data: StatsByDate): Promise<Chart> {
-        var dates = data.dates
+        const dates = data.dates
         dates.push(dates[dates.length-1])
 
-        var total_appointments = data.total_appointments
+        const total_appointments = data.total_appointments
 
         return Promise.resolve(
             new Chart(canvas, {
