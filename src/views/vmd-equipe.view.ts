@@ -34,7 +34,7 @@ export class VmdEquipe extends LitElement {
                   </div>
                   <div class="row">
                     <div class="col-24">
-                      <p>Vite Ma Dose est conçu, développé et maintenu avec joie et entrain par une équipe d'au moins ${this.team.length} bénévoles.</p>
+                      <p>Vite Ma Dose est conçu, développé, opéré et maintenu avec joie et entrain par une équipe d'au moins ${this.team.length} bénévoles.</p>
                     </div>
                   </div>
                 </div>
