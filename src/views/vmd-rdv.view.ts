@@ -195,7 +195,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @property({type: Boolean, attribute: false}) miseAJourDisponible: boolean = false;
     @property({type: Array, attribute: false}) cartesAffichees: LieuAffichableAvecDistance[] = [];
     @internalProperty() lieuxParDepartement: LieuxParDepartement|undefined = undefined;
-    @internalProperty() protected currentSearch: SearchRequest | void = undefined
+    @internalProperty() protected currentSearch: SearchRequest | undefined = undefined
 
     @internalProperty() jourSelectionne: string|undefined = undefined;
 
@@ -626,7 +626,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
 @customElement('vmd-rdv-par-commune')
 export class VmdRdvParCommuneView extends AbstractVmdRdvView {
-    @internalProperty() protected currentSearch: SearchRequest.ByCommune | void = undefined
+    @internalProperty() protected currentSearch: SearchRequest.ByCommune | undefined = undefined
     @property({type: String}) set searchType(type: SearchType) {
       this._searchType = type
       this.updateCurrentSearch()
@@ -734,7 +734,7 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
     }
     @internalProperty() private _searchType: SearchType | void = undefined
     @internalProperty() private _codeDepartement: CodeDepartement | void = undefined
-    @internalProperty() protected currentSearch: SearchRequest.ByDepartement | void = undefined
+    @internalProperty() protected currentSearch: SearchRequest.ByDepartement | undefined = undefined
 
     constructor() {
         super({
