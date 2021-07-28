@@ -322,6 +322,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                             .creneauxQuotidiens="${this.creneauxQuotidiensAffiches}"
                             @jour-selectionne="${(event: CustomEvent<RendezVousDuJour>) => {
                         this.jourSelectionne = { date: event.detail.date, type: 'manual' };
+                        Analytics.INSTANCE.clickSurJourRdv(this.jourSelectionne.date, this.jourSelectionne.type, event.detail.total);
                         this.rafraichirDonneesAffichees();
                     }}"></vmd-upcoming-days-selector>
                   </div>
@@ -472,6 +473,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     codeDepartement,
                     this.currentTri(),
                     currentSearch.type,
+                    this.jourSelectionne?.type,
+                    this.jourSelectionne?.date,
                     commune,
                     this.lieuxParDepartementAffiches);
             } finally {
