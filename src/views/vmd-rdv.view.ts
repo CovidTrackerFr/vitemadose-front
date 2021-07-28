@@ -197,7 +197,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     @internalProperty() lieuxParDepartement: LieuxParDepartement|undefined = undefined;
     @internalProperty() protected currentSearch: SearchRequest | undefined = undefined
 
-    @internalProperty() jourSelectionne: string|undefined = undefined;
+    @internalProperty() jourSelectionne: {date: string, type: 'manual'|'auto'}|undefined = undefined;
 
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
 
@@ -318,10 +318,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 ${this.daySelectorAvailable?html`
                   <div class="resultats px-4 py-3 text-dark bg-light rounded-resultats-top mb-2">
                       <vmd-upcoming-days-selector
-                            dateSelectionnee="${this.jourSelectionne || ""}"
+                            dateSelectionnee="${this.jourSelectionne?.date || ""}"
                             .creneauxQuotidiens="${this.creneauxQuotidiensAffiches}"
                             @jour-selectionne="${(event: CustomEvent<RendezVousDuJour>) => {
-                        this.jourSelectionne = event.detail.date;
+                        this.jourSelectionne = { date: event.detail.date, type: 'manual' };
                         this.rafraichirDonneesAffichees();
                     }}"></vmd-upcoming-days-selector>
                   </div>
@@ -490,13 +490,16 @@ export abstract class AbstractVmdRdvView extends LitElement {
             // 2/ si pas possible (pas de créneau) on prend le premier jour dispo avec des créneaux
             // 3/ si pas possible (aucun jour avec des créneaux) aucun jour n'est sélectionné
             if(this.jourSelectionne) {
-                const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne);
+                const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne?.date);
                 if(!creneauxQuotidienSelectionnes || creneauxQuotidienSelectionnes.total===0) {
                     this.jourSelectionne = undefined;
                 }
             }
             if(!this.jourSelectionne) {
-                this.jourSelectionne = this.creneauxQuotidiensAffiches.filter(dailyAppointments => dailyAppointments.total !== 0)[0]?.date;
+                this.jourSelectionne = {
+                    date: this.creneauxQuotidiensAffiches.filter(dailyAppointments => dailyAppointments.total !== 0)[0]?.date,
+                    type: 'auto'
+                };
             }
         } else {
             this.jourSelectionne = undefined;
@@ -514,7 +517,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
             this.autoSelectJourSelectionne(daySelectorAvailable);
 
             // On calcule les lieux affichés en fonction du jour sélectionné
-            const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne);
+            const creneauxQuotidienSelectionnes = this.creneauxQuotidiensAffiches.find(cq => cq.date === this.jourSelectionne?.date);
             const creneauxParLieu = creneauxQuotidienSelectionnes?.creneauxParLieu || [];
             const lieuxMatchantCriteresAvecCountRdvMAJ = lieuxMatchantCriteres.map(l => ({
                 ...l,
@@ -680,7 +683,7 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         if (this.currentSearchMarker !== marker) { return }
         const commune = await State.current.autocomplete.findCommune(this._codePostalSelectionne, this._codeCommuneSelectionne)
         if (commune) {
-          this.currentSearch = SearchRequest.ByCommune(commune, this._searchType, this.jourSelectionne)
+          this.currentSearch = SearchRequest.ByCommune(commune, this._searchType, this.jourSelectionne?.date)
           this.refreshLieux()
         }
       }
@@ -749,7 +752,7 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
           const departements = await State.current.departementsDisponibles()
           const departementSelectionne = departements.find(d => d.code_departement === code);
           if (departementSelectionne) {
-            this.currentSearch = SearchRequest.ByDepartement(departementSelectionne, this._searchType, this.jourSelectionne)
+            this.currentSearch = SearchRequest.ByDepartement(departementSelectionne, this._searchType, this.jourSelectionne?.date)
             this.refreshLieux()
           }
         }
