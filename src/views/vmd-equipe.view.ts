@@ -9,8 +9,6 @@ import {
 
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 
-const DEFAULT_PICTURE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5QUWFgkw2H/zhQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAP0lEQVQY06WNQQ6AMBACGeL/n7XPWjw0sYnVHnSODASqSlISLdg+LnFrAN3tIdb1SKx3kvjxdd5ry08NfFwDJ0OrHVn+VpHQAAAAAElFTkSuQmCC'
-
 @customElement('vmd-equipe')
 export class VmdEquipe extends LitElement {
     static styles = [
@@ -51,9 +49,11 @@ export class VmdEquipe extends LitElement {
     }
 
     renderContributor (c: Contributor) {
+      const vmdThemeColors = ['3dc4d1','ec505c','4e7dd6','b15baf']
+      const fallbackPictureUrl = `https://source.boringavatars.com/beam/240/${c.pseudo}?colors=${vmdThemeColors.join(',')}`
       const content = html`
         <div class="photo">
-          <img src="${c.photo || DEFAULT_PICTURE}" alt="Avatar de ${c.nom || c.pseudo}">
+          <img src="${c.photo || fallbackPictureUrl}" alt="Avatar de ${c.nom || c.pseudo}">
         </div>
         <div class="links">
           ${this.renderLinks(c)}
@@ -93,10 +93,11 @@ export class VmdEquipe extends LitElement {
       }
       const defaultIcon = 'vmdicon-link'
       const list = repeat(c.links, (l) => l.site, (l) => {
+        const normalizedUrl = l.url.startsWith('http') ? l.url : `https://${l.url}`
         return html `
           <li>
             <a
-              href="${l.url}"
+              href="${normalizedUrl}"
               title="Profil ${l.site} de ${c.nom || c.pseudo}"
               target="_blank nofollow"
             >
@@ -110,7 +111,7 @@ export class VmdEquipe extends LitElement {
 
     private mainLink(c: Contributor): string | void {
       if (c.site_web) {
-        return c.site_web
+        return c.site_web.startsWith('http') ? c.site_web : `https://${c.site_web}`
       }
       return c.links.map(({ url }) => url)[0]
     }
