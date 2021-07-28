@@ -18,7 +18,7 @@ function keyOf(commune: Commune): string {
 
 function search(communes: Commune[], query: string): Commune[] {
     return communes.filter(c =>
-        c.codePostal.indexOf(query) === 0 || c.fullTextSearchableNom.indexOf(query) !== -1
+        c.codePostal.startsWith(query) || c.fullTextNormalizedNom.indexOf(query) !== -1
     );
 }
 
@@ -34,8 +34,8 @@ function toCompactedCommune(commune: Commune) {
 
 function communeComparatorFor(query: string) {
     return (c1: Commune, c2: Commune) =>
-           Math.min(leven(c1.fullTextSearchableNom, query), leven(c1.codePostal, query))
-         - Math.min(leven(c2.fullTextSearchableNom, query), leven(c2.codePostal, query));
+           Math.min(leven(c1.fullTextNormalizedNom, query), leven(c1.codePostal, query))
+         - Math.min(leven(c2.fullTextNormalizedNom, query), leven(c2.codePostal, query));
 }
 
 type MatchingCommunesSearchResult = {
@@ -78,7 +78,7 @@ function generateFilesForQuery(query: string, communes: Commune[], unreferencedC
             // That's why we're adding here specific keys for these communes
             // Note that we don't have a lot of communes in that case, only 10 commune names, representing 13 different
             // communes
-            filteredMatchingCommunesByKey = new Map([...filteredMatchingCommunesByKey].filter(([k, v]: [string, any]) => v.fullTextSearchableNom.length === query.length))
+            filteredMatchingCommunesByKey = new Map([...filteredMatchingCommunesByKey].filter(([_, commune]) => commune.fullTextNormalizedNom.length === query.length))
             if(filteredMatchingCommunesByKey.size) {
                 const communesMatchantExactement = [...filteredMatchingCommunesByKey.values()];
                 [...filteredMatchingCommunesByKey.keys()].forEach(k => unreferencedCommuneKeys.delete(k));
@@ -134,11 +134,13 @@ Promise.all([
     const communes: Commune[] = rawCommunes.map(rawCommune => rawCommune.codesPostaux.map(cp => ({
                 ...rawCommune,
                 codePostal: cp,
-                // /!\ important note : this is important to have the same implementation of toFullTextSearchableString()
-                // function here, than the one used defined in Strings.toFullTextSearchableString()
-                // Hence its extraction into a reusable/shareable mjs file
-                // ALSO, note that INDEXED_CHARS would have every possible translated values defined below
-                fullTextSearchableNom: Strings.toFullTextSearchableString(rawCommune.nom)
+                // /!\ important note : in this file, these strings are compared to "queries", 
+                // which are exclusively composed of the INDEXED_CHARS characters. 
+                // Strings.toFullTextNormalized() converts accents to these chars to make
+                // this comparison possible.
+                // The same method/implementation is used in Autocomplete.ts to create search prefixes 
+                // which are used to fetch the appropriate pre-computed Commune list computed here.
+                fullTextNormalizedNom: Strings.toFullTextNormalized(rawCommune.nom)
             }))
         ).flat()
         .map(commune => completerCommunesOutremer(commune));

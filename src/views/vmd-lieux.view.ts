@@ -186,7 +186,7 @@ export class VmdLieuxView extends LitElement {
                 reservation_str = lieu.reservation;
             }
 
-            var string_popup = `
+            const string_popup = `
                 <span style='font-size: 150%;'>${lieu.nom}</span>
                 <br>
                 <b>Adresse :</b> ${lieu.adresse}<br><b>Réservation :</b> ${reservation_str}
@@ -197,7 +197,7 @@ export class VmdLieuxView extends LitElement {
                 <br>
                 <b>Mise à jour :</b> ${lieu.maj}
             `;
-            var newMarker = marker([lieu.longitude, lieu.latitude], {
+            const newMarker = marker([lieu.longitude, lieu.latitude], {
                 icon: new Icon.Default({imagePath: `${Router.basePath}assets/images/png/`})
             }).bindPopup(string_popup) //.addTo(this.mymap);
             newMarker.on('click', function() {

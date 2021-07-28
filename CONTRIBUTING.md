@@ -43,7 +43,7 @@ Rien de bien exceptionnel mais voici les quelques points importants :
 Regulièrement, nous mettons en prod le code prêt qui se trouve sur la branche `dev`. Pour faire ceci :
 
 + Prépare une _Release Note._ Le plus facile est de s'inspirer de [la précédente](https://github.com/CovidTrackerFr/vitemadose-front/releases)
-+ Cible la branche `main` avec un nom de tag qui comprends la date du jour au format `YYYYMMDD`.
++ Cible la branche `main` avec un nom de tag qui comprend la date du jour au format `YYYYMMDD`.
 + Enregistre en brouillon et demande une revue !
 + Localement, merge `dev` dans `main` avec ces commandes:
   - `git fetch --prune`
