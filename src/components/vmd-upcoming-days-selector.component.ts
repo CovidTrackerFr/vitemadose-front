@@ -95,33 +95,35 @@ export class VmdUpcomingDaysSelectorComponent extends LitElement {
 
     render() {
         return html`
-          <ul class="days list-group list-group-horizontal">
-            ${repeat(this._upcomingDays, ud => ud.date, ud => {
-                return html`
-              ${(ud.hidden && ud.firstHiddenFromGroup)?html`
-              <li class="list-group-item empty selectable">
-                <div class="date-card" @click="${() => this.showHiddenGroup(ud.hiddenGroup!)}">
-                  Jours sans créneaux
-                </div>
-              </li>
-              `:html``}
-              <li class="list-group-item ${classMap({
-                selected: this.dateSelectionnee === ud.date, 
-                selectable: this.isSelectable(ud),
-                empty: this.dateSelectionnee !== ud.date && ud.total === 0
-              })}" style="${styleMap({ display: ud.hidden?'none':'block' })}" @click="${() => this.jourSelectionne(ud)}">
-                <div class="date-card ${classMap({
-                  'shadow-lg': this.dateSelectionnee === ud.date,
-                  'shadow-sm': this.dateSelectionnee !== ud.date && ud.total>0,
-                })}">
-                  <div class="weekday">${Strings.upperFirst(format(parse(ud.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'EEEE', {locale: fr})).replace(".","")}</div>
-                  <div class="day">${Strings.upperFirst(format(parse(ud.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'dd/MM', {locale: fr}))}</div>
-                </div>
-                <div class="cpt-rdv">${ud.total>0?html`${ud.total} créneau${Strings.plural(ud.total, "x")}`:html`0 créneaux`}</div>
-              </li>
-                `;
-            })}
-          </ul>
+          <div class="scroll-hint">
+            <ul class="days list-group list-group-horizontal">
+              ${repeat(this._upcomingDays, ud => ud.date, ud => {
+                  return html`
+                ${(ud.hidden && ud.firstHiddenFromGroup)?html`
+                <li class="list-group-item empty selectable">
+                  <div class="date-card" @click="${() => this.showHiddenGroup(ud.hiddenGroup!)}">
+                    Jours sans créneaux
+                  </div>
+                </li>
+                `:html``}
+                <li class="list-group-item ${classMap({
+                  selected: this.dateSelectionnee === ud.date,
+                  selectable: this.isSelectable(ud),
+                  empty: this.dateSelectionnee !== ud.date && ud.total === 0
+                })}" style="${styleMap({ display: ud.hidden?'none':'block' })}" @click="${() => this.jourSelectionne(ud)}">
+                  <div class="date-card ${classMap({
+                    'shadow-lg': this.dateSelectionnee === ud.date,
+                    'shadow-sm': this.dateSelectionnee !== ud.date && ud.total>0,
+                  })}">
+                    <div class="weekday">${Strings.upperFirst(format(parse(ud.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'EEEE', {locale: fr})).replace(".","")}</div>
+                    <div class="day">${Strings.upperFirst(format(parse(ud.date, 'yyyy-MM-dd', new Date("1970-01-01T00:00:00Z")), 'dd/MM', {locale: fr}))}</div>
+                  </div>
+                  <div class="cpt-rdv">${ud.total>0?html`${ud.total} créneau${Strings.plural(ud.total, "x")}`:html`0 créneaux`}</div>
+                </li>
+                  `;
+              })}
+            </ul>
+          </div>
         `;
     }
 
