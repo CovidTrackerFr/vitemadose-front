@@ -71,6 +71,9 @@ ul.days {
   &.selected .date-card {
     background-color: tint-color($primary, 35%);
     color: white;
+    &::before {
+      transform: translateY(-0.2em);
+    }
   }
   &.empty {
     .date-card {
@@ -91,6 +94,21 @@ ul.days {
     border-radius: 1rem;
     width: 10rem;
     padding: 1rem;
+
+    position: relative;
+    &::before {
+      content: '﹀';
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: var(--day-gutter);
+      text-align: center;
+      bottom: 100%;
+      left: 0;
+      color: $gray-600;
+      transform: translateY(-1em);
+      transition: transform 200ms ease-in-out;
+    }
   }
 
   .weekday {
