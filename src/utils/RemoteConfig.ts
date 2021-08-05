@@ -11,7 +11,7 @@ export class RemoteConfig {
     private configurationSyncedPromise: Promise<void>|undefined = undefined;
 
     private constructor() {
-        const USE_PRODUCTION_REMOTE_CONFIG = true;
+        const USE_PRODUCTION_REMOTE_CONFIG = RemoteConfig.currentEnv() === 'prod';
         
         const firebaseDevConfig = {
             apiKey: "AIzaSyC5lncyBHo4HAmMecIvokok1A5PWWRrutw",
@@ -31,6 +31,18 @@ export class RemoteConfig {
         this.configuration = firebase.remoteConfig(app);
 
         this.configuration.settings.minimumFetchIntervalMillis = 60 * 60 * 1000; // one hour
+    }
+
+    public static currentEnv(): 'prod'|'testing'|'dev'|'unknown' {
+        if(document.location.host === 'vitemadose.covidtracker.fr') {
+            return 'prod';
+        } else if(document.location.host === 'dev.vitemado.se') {
+            return 'testing';
+        } else if(['localhost', '127.0.0.1'].includes(document.location.host)) {
+            return 'dev';
+        } else {
+            return 'unknown';
+        }
     }
     
     sync(): Promise<void> {
