@@ -215,8 +215,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
         criteresDeRechercheAdditionnels: () => TemplateResult
     }) {
         super();
-
-        this.syncRemoteConfigDisclaimer();
     }
       
     get totalCreneaux() {
@@ -484,6 +482,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
             this.lieuxParDepartementAffiches = undefined;
             this.cartesAffichees = [];
         }
+
+        this.disclaimerEnabled = await RemoteConfig.INSTANCE.disclaimerEnabled();
+        // Refresh only if needed
+        if (this.disclaimerEnabled) {
+            this.disclaimerMessage = await RemoteConfig.INSTANCE.disclaimerMessage();
+            this.disclaimerSeverity = await RemoteConfig.INSTANCE.disclaimerSeverity();
+        }
     }
 
     private autoSelectJourSelectionne(daySelectorAvailable: boolean) {
@@ -622,17 +627,6 @@ export abstract class AbstractVmdRdvView extends LitElement {
         }
     }
       
-    private syncRemoteConfigDisclaimer() {
-      RemoteConfig.sync().then(()=> {
-        this.disclaimerEnabled = RemoteConfig.disclaimerEnabled;
-        // Refresh only if needed
-        if (this.disclaimerEnabled) {
-          this.disclaimerMessage = RemoteConfig.disclaimerMessage;
-          this.disclaimerSeverity = RemoteConfig.disclaimerSeverity;
-        }
-      });
-    }
-
     abstract libelleLieuSelectionne(): TemplateResult;
     // FIXME move me to a testable file
     abstract filtrerLieuxMatchantLesCriteres(lieuxParDepartement: LieuxParDepartement, search: SearchRequest): LieuAffichableAvecDistance[];

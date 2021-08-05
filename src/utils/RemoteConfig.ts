@@ -4,9 +4,13 @@ import firebase from 'firebase/app'
 // Add the Firebase products that you want to use
 import 'firebase/remote-config'
 
-export class RemoteConfig {    
-    // @ts-ignore unused variable used as a static constructor
-    private static _constructor = (() => {
+export class RemoteConfig {
+    public static readonly INSTANCE = new RemoteConfig();
+
+    private readonly configuration: firebase.remoteConfig.RemoteConfig;
+    private configurationSyncedPromise: Promise<void>|undefined = undefined;
+
+    private constructor() {
         const USE_PRODUCTION_REMOTE_CONFIG = true;
         
         const firebaseDevConfig = {
@@ -23,28 +27,30 @@ export class RemoteConfig {
           appId: "1:304644690082:web:e12d50228bc4493b25c7fb"
         }
         
-        firebase.initializeApp(USE_PRODUCTION_REMOTE_CONFIG ? firebaseProdConfig : firebaseDevConfig)
-        
-        firebase.remoteConfig().settings.minimumFetchIntervalMillis = 60 * 60 * 1000; // one hour
-    })();
-    
-    static async sync() {
-        await firebase.remoteConfig().fetchAndActivate();
-    }
+        const app = firebase.initializeApp(USE_PRODUCTION_REMOTE_CONFIG ? firebaseProdConfig : firebaseDevConfig)
+        this.configuration = firebase.remoteConfig(app);
 
-    // Warning : one needs to wait for init() before accessing any remote config value using the
-    // following methods
-
-    static get disclaimerEnabled(): boolean {
-        return firebase.remoteConfig().getBoolean('data_disclaimer_enabled');
+        this.configuration.settings.minimumFetchIntervalMillis = 60 * 60 * 1000; // one hour
     }
     
-    static get disclaimerMessage(): string {
-        return firebase.remoteConfig().getString('data_disclaimer_message');
+    sync(): Promise<void> {
+        this.configurationSyncedPromise = this.configuration.fetchAndActivate().then(() => undefined as void);
+        return this.configurationSyncedPromise;
     }
 
-    static get disclaimerSeverity(): DisclaimerSeverity {
-        return firebase.remoteConfig().getString('data_disclaimer_severity').toLowerCase() as DisclaimerSeverity;
+    async disclaimerEnabled() {
+        await this.configurationSyncedPromise;
+        return this.configuration.getBoolean('data_disclaimer_enabled');
+    }
+    
+    async disclaimerMessage() {
+        await this.configurationSyncedPromise;
+        return this.configuration.getString('data_disclaimer_message');
+    }
+
+    async disclaimerSeverity() {
+        await this.configurationSyncedPromise;
+        return this.configuration.getString('data_disclaimer_severity').toLowerCase() as DisclaimerSeverity;
     }
 }
 
