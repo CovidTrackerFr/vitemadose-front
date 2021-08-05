@@ -4,10 +4,19 @@ import firebase from 'firebase/app'
 // Add the Firebase products that you want to use
 import 'firebase/remote-config'
 
+type DataUrlGenerator = {
+    listDepartements: () => string,
+    statsByDate: () => string,
+    stats: () => string,
+    infosDepartement: (codeDepartement: string) => string,
+    creneauxQuotidiensDepartement: (codeDepartement: string) => string,
+};
+
 export class RemoteConfig {
     public static readonly INSTANCE = new RemoteConfig();
 
     private readonly configuration: firebase.remoteConfig.RemoteConfig;
+    private _urlGenerator: DataUrlGenerator|undefined = undefined;
     private configurationSyncedPromise: Promise<void>|undefined = undefined;
 
     private constructor() {
@@ -45,9 +54,51 @@ export class RemoteConfig {
         }
     }
     
-    sync(): Promise<void> {
-        this.configurationSyncedPromise = this.configuration.fetchAndActivate().then(() => undefined as void);
+    sync() {
+        this.configurationSyncedPromise = this.configuration.fetchAndActivate().then(() => {
+            // If false, rawgithub will be used
+            // but keep in mind that firebase remote config will be taken first
+            const USE_GITLAB_AS_FALLBACK = true;
+
+            let urlBase = this.configuration.getString("url_base");
+            if(urlBase) {
+                const statsPath = this.configuration.getString("path_stats") || `/vitemadose/stats.json`;
+                const statsByDatePath = '/' + (this.configuration.getString("path_stats_by_date") || `vitemadose/stats_by_date.json`);
+                const departementsListPath = this.configuration.getString("path_list_departments") || `/vitemadose/departements.json`;
+                const infosDepartementPath = this.configuration.getString("path_data_department") || `/vitemadose/{code}.json`;
+                this._urlGenerator = {
+                    listDepartements: () => `${urlBase}${departementsListPath}`,
+                    statsByDate: () => `${urlBase}${statsByDatePath}`,
+                    stats: () => `${urlBase}${statsPath}`,
+                    infosDepartement: (codeDepartement) => `${urlBase}${infosDepartementPath.replace('{code}', codeDepartement)}`,
+                    creneauxQuotidiensDepartement: (codeDepartement) => `${urlBase}/vitemadose/${codeDepartement}/creneaux-quotidiens.json`
+                };
+            } else if(USE_GITLAB_AS_FALLBACK) {
+                this._urlGenerator = {
+                    listDepartements: () => 'https://vitemadose.gitlab.io/vitemadose/departements.json',
+                    statsByDate: () => `https://vitemadose.gitlab.io/vitemadose/stats_by_date.json`,
+                    stats: () => `https://vitemadose.gitlab.io/vitemadose/stats.json`,
+                    infosDepartement: (codeDepartement) => `https://vitemadose.gitlab.io/vitemadose/${codeDepartement}.json`,
+                    creneauxQuotidiensDepartement: (codeDepartement) => `https://vitemadose.gitlab.io/vitemadose/${codeDepartement}/creneaux-quotidiens.json`
+                };
+            } else {
+                this._urlGenerator = {
+                    listDepartements: () => `https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/departements.json`,
+                    statsByDate: () => `https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/stats_by_date.json`,
+                    stats: () => `https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/stats.json`,
+                    infosDepartement: (codeDepartement) => `https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/${codeDepartement}.json`,
+                    creneauxQuotidiensDepartement: (codeDepartement) => `https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/${codeDepartement}/creneaux-quotidiens.json`
+                };
+            }
+
+            return undefined as void;
+        });
         return this.configurationSyncedPromise;
+    }
+
+    async urlGenerator() {
+        await this.configurationSyncedPromise;
+        return this._urlGenerator! as DataUrlGenerator;
     }
 
     async disclaimerEnabled() {
