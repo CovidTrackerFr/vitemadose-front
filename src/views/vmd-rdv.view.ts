@@ -45,6 +45,7 @@ import {ArrayBuilder} from "../utils/Arrays";
 import {classMap} from "lit-html/directives/class-map";
 import {CSS_Global} from "../styles/ConstructibleStyleSheets";
 import {InfiniteScroll} from "../state/InfiniteScroll";
+import {DisclaimerSeverity, RemoteConfig} from "../utils/RemoteConfig";
 
 export abstract class AbstractVmdRdvView extends LitElement {
     DELAI_VERIFICATION_MISE_A_JOUR = 45000
@@ -199,6 +200,10 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
     @internalProperty() jourSelectionne: {date: string, type: 'manual'|'auto'}|undefined = undefined;
 
+    @internalProperty() disclaimerEnabled: boolean = false;
+    @internalProperty() disclaimerMessage: string | undefined = undefined;
+    @internalProperty() disclaimerSeverity: DisclaimerSeverity | undefined = undefined;
+
     protected derniereCommuneSelectionnee: Commune|undefined = undefined;
 
     protected lieuBackgroundRefreshIntervalId: ReturnType<typeof setTimeout>|undefined = undefined;
@@ -301,13 +306,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
                           <button class="btn btn-primary" @click="${() => { this.refreshLieux(); this.miseAJourDisponible = false; this.launchCheckingUpdates() }}">Rafraîchir</button>
                         `:html``}
                       </p>
-                      <!--
-                      not displayed anymore (see d-none class) as doctolib cache is not relevant
-                      anymore now that we don't have chronodose feature
-                      -->
-                      <p class="alert alert-warning fs-6 d-none">
+                      <p class="alert ${this.disclaimerSeverity === 'error' ? 'alert-danger':'alert-warning'} fs-6 ${this.disclaimerEnabled ? '' : 'd-none'}">
                           <i class="bi vmdicon-attention-fill"></i>
-                          Les plateformes sont très sollicitées, les données affichées par Vite Ma Dose peuvent avoir jusqu'à 15 minutes de retard pour Doctolib.
+                          ${this.disclaimerMessage}
                       </p>
                         `
                         : html``}
@@ -484,6 +485,13 @@ export abstract class AbstractVmdRdvView extends LitElement {
             this.lieuxParDepartementAffiches = undefined;
             this.cartesAffichees = [];
         }
+
+        this.disclaimerEnabled = await RemoteConfig.INSTANCE.disclaimerEnabled();
+        // Refresh only if needed
+        if (this.disclaimerEnabled) {
+            this.disclaimerMessage = await RemoteConfig.INSTANCE.disclaimerMessage();
+            this.disclaimerSeverity = await RemoteConfig.INSTANCE.disclaimerSeverity();
+        }
     }
 
     private autoSelectJourSelectionne(daySelectorAvailable: boolean) {
@@ -549,18 +557,18 @@ export abstract class AbstractVmdRdvView extends LitElement {
 
             this.cartesAffichees = this.infiniteScroll.ajouterCartesPaginees(this.lieuxParDepartementAffiches, []);
         }
-    }
+      }
 
-    private filtrerCreneauxQuotidiensEnFonctionDesLieuxMatchantLesCriteres(statsCreneauxLieuxParJours: StatsCreneauxLieuxParJour[], lieuxMatchantCriteres: LieuAffichableAvecDistance[], searchTypeConfig: SearchTypeConfig): RendezVousDuJour[] {
+      private filtrerCreneauxQuotidiensEnFonctionDesLieuxMatchantLesCriteres(statsCreneauxLieuxParJours: StatsCreneauxLieuxParJour[], lieuxMatchantCriteres: LieuAffichableAvecDistance[], searchTypeConfig: SearchTypeConfig): RendezVousDuJour[] {
         const lieuIdsMatchantCriteres = lieuxMatchantCriteres.map(l => l.internal_id);
         return statsCreneauxLieuxParJours.map(statsCreneauxLieuxParJour => {
-            const lieuxAvecCreneauxFromDailyStats = statsCreneauxLieuxParJour.statsCreneauxParLieu
+          const lieuxAvecCreneauxFromDailyStats = statsCreneauxLieuxParJour.statsCreneauxParLieu
                 .map(scpl => ({ lieu: scpl.lieu, creneaux: countCreneauxFromCreneauxParTag(scpl.statsCreneauxParTag, searchTypeConfig.tagCreneau) }))
                 .filter(result => result.creneaux > 0)
 
-            const lieuxAvecCreneauxFiltres = lieuxAvecCreneauxFromDailyStats.filter(cpl => lieuIdsMatchantCriteres.includes(cpl.lieu));
+                const lieuxAvecCreneauxFiltres = lieuxAvecCreneauxFromDailyStats.filter(cpl => lieuIdsMatchantCriteres.includes(cpl.lieu));
             return {
-                date: statsCreneauxLieuxParJour.date,
+              date: statsCreneauxLieuxParJour.date,
                 total: lieuxAvecCreneauxFiltres.reduce((total, lac) => total + lac.creneaux, 0),
                 creneauxParLieu: lieuxAvecCreneauxFiltres
             }
@@ -568,21 +576,21 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     private prendreRdv(lieu: Lieu) {
-        if(this.currentSearch && SearchRequest.isByCommune(this.currentSearch) && lieu.url) {
+      if(this.currentSearch && SearchRequest.isByCommune(this.currentSearch) && lieu.url) {
             Analytics.INSTANCE.clickSurRdv(lieu, this.currentTri(), this.currentSearch.type, this.currentSearch.commune);
-        }
+          }
         Router.navigateToUrlIfPossible(lieu.url);
     }
 
     private verifierRdv(lieu: Lieu) {
-        if(this.currentSearch && SearchRequest.isByCommune(this.currentSearch) && lieu.url) {
+      if(this.currentSearch && SearchRequest.isByCommune(this.currentSearch) && lieu.url) {
             Analytics.INSTANCE.clickSurVerifRdv(lieu, this.currentTri(), this.currentSearch.type, this.currentSearch.commune);
         }
         Router.navigateToUrlIfPossible(lieu.url);
     }
 
     private currentTri(): CodeTriCentre|"unknown" {
-        return this.currentSearch?this.currentSearch.tri:'unknown';
+      return this.currentSearch?this.currentSearch.tri:'unknown';
     }
 
     // FIXME move me to testable files
@@ -593,35 +601,35 @@ export abstract class AbstractVmdRdvView extends LitElement {
                 firstLevelSort = 2;
             } else if(lieu.url) {
                 firstLevelSort = lieu.appointment_count !== 0 ? (lieu.prochain_rdv!==null? 0:1):3;
-            } else {
+              } else {
                 firstLevelSort = 4;
             }
             return `${firstLevelSort}__${Strings.padLeft(Date.parse(lieu.prochain_rdv!) || 0, 15, '0')}`;
         } else if(tri === 'distance') {
-            let firstLevelSort;
+          let firstLevelSort;
 
-            // Considering only 2 kind of sorting sections :
+          // Considering only 2 kind of sorting sections :
             // - the one with (potentially) available appointments (with url, or appointment by phone only)
             // - the one with unavailable appointments (without url, or with 0 available appointments)
             if(lieu.appointment_by_phone_only && lieu.metadata.phone_number) {
                 firstLevelSort = 0;
-            } else if(lieu.url) {
+              } else if(lieu.url) {
                 firstLevelSort = lieu.appointment_count !== 0 ? 0:1;
-            } else {
+              } else {
                 firstLevelSort = 1;
-            }
+              }
 
-            return `${firstLevelSort}__${Strings.padLeft(Math.round(lieu.distance!*1000), 8, '0')}`;
+              return `${firstLevelSort}__${Strings.padLeft(Math.round(lieu.distance!*1000), 8, '0')}`;
         } else {
-            throw new Error(`Unsupported tri : ${tri}`);
+          throw new Error(`Unsupported tri : ${tri}`);
         }
     }
 
     protected updateSearchTypeTo(searchType: SearchType) {
         if(this.currentSearch) {
-            this.goToNewSearch({
-                ...this.currentSearch, type: searchType
-            });
+          this.goToNewSearch({
+            ...this.currentSearch, type: searchType
+          });
         }
     }
 
@@ -655,11 +663,11 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
 
     constructor() {
         super({
-            codeDepartementAdditionnels: (codeDepartementSelectionne) => DEPARTEMENTS_LIMITROPHES[codeDepartementSelectionne],
+          codeDepartementAdditionnels: (codeDepartementSelectionne) => DEPARTEMENTS_LIMITROPHES[codeDepartementSelectionne],
             criteresDeRechercheAdditionnels: () => html`
-          <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
+            <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
             <label for="searchAppointment-distance" class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
-              Distance :
+            Distance :
             </label>
             <div class="px-0 col">
               <vmd-input-range-with-tooltip

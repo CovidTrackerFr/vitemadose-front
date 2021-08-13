@@ -3,6 +3,7 @@ import {Router, SlottedTemplateResultFactory} from "./routing/Router";
 import smoothscroll from 'smoothscroll-polyfill';
 import {CSS_Global} from "./styles/ConstructibleStyleSheets";
 import {ServiceWorkers} from "./utils/ServiceWorkers";
+import {RemoteConfig} from "./utils/RemoteConfig";
 
 @customElement('vmd-app')
 export class VmdAppComponent extends LitElement {
@@ -28,6 +29,8 @@ export class VmdAppComponent extends LitElement {
         Router.installRoutes((viewTemplateResult) => {
             this.viewTemplateResult = viewTemplateResult;
         })
+
+        RemoteConfig.INSTANCE.sync();
 
         ServiceWorkers.INSTANCE.startup();
     }

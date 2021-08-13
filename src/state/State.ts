@@ -2,6 +2,7 @@ import {Strings} from "../utils/Strings";
 import { Autocomplete } from './Autocomplete'
 import { Memoize } from 'typescript-memoize'
 import {ArrayBuilder} from "../utils/Arrays";
+import {RemoteConfig} from "../utils/RemoteConfig";
 
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
@@ -45,20 +46,6 @@ export namespace SearchRequest {
 }
 
 export type CodeTriCentre = 'date' | 'distance';
-
-const USE_RAW_GITHUB = false
-
-function getVmdbaseurl() {
-    // if(document.location.host.includes('dev.vitemado.se') || document.location.host.includes('localhost')) {
-    //     return 'https://vitemadose.gitlab.io/vitemadose-staging/v2';
-    /* } else */ if (USE_RAW_GITHUB) {
-        return 'https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output';
-    } else {
-        return 'https://vitemadose.gitlab.io/vitemadose';
-    }
-}
-
-const VMD_BASE_URL = getVmdbaseurl()
 
 export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma"|"AvecMonDoc"|"Clikodoc"|"mesoigner"|"Bimedoc";
 export type Plateforme = {
@@ -402,12 +389,13 @@ export class State {
     }
 
     async lieuxPour(codesDepartements: CodeDepartement[]): Promise<LieuxParDepartement> {
+        const urlGenerator = await RemoteConfig.INSTANCE.urlGenerator();
         const [principalLieuxDepartement, ...lieuxDepartementsAditionnels] = await Promise.all(
             codesDepartements.map(codeDept => Promise.all([
-                fetch(`${VMD_BASE_URL}/${codeDept}.json`, { cache: 'no-cache' })
+                fetch(urlGenerator.infosDepartement(codeDept), { cache: 'no-cache' })
                     .then(resp => resp.json())
                     .then((statsDept: LieuxParDepartement_JSON) => ({...statsDept, codeDepartement: codeDept} as LieuxParDepartement_JSON & {codeDepartement: string})),
-                fetch(`${VMD_BASE_URL}/${codeDept}/creneaux-quotidiens.json`, { cache: 'no-cache' })
+                fetch(urlGenerator.creneauxQuotidiensDepartement(codeDept), { cache: 'no-cache' })
                     .then(resp => resp.json())
                     .then((creneauxQuotidiens: InfosDepartementAdditionnelles_JSON|undefined) => creneauxQuotidiens),
             ]).then(([lieuxParDepartement, infosDeptAdditionnelles] : [LieuxParDepartement_JSON & {codeDepartement: string}, InfosDepartementAdditionnelles_JSON|undefined]) => ({
@@ -466,7 +454,8 @@ export class State {
 
     @Memoize()
     async departementsDisponibles(): Promise<Departement[]> {
-        const resp = await fetch(`${VMD_BASE_URL}/departements.json`);
+        const urlGenerator = await RemoteConfig.INSTANCE.urlGenerator();
+        const resp = await fetch(urlGenerator.listDepartements());
         const departements: Departement[] = await resp.json();
 
         if (!departements.find(d => d.code_departement === DEPARTEMENT_OM.code_departement)) {
@@ -487,7 +476,8 @@ export class State {
         if(this._statsByDate !== undefined) {
             return Promise.resolve(this._statsByDate);
         } else {
-            const resp = await fetch(`${VMD_BASE_URL}/stats_by_date.json`)
+            const urlGenerator = await RemoteConfig.INSTANCE.urlGenerator();
+            const resp = await fetch(urlGenerator.statsByDate())
             const statsByDate: StatsByDate = await resp.json()
 
             this._statsByDate = statsByDate;
@@ -502,7 +492,8 @@ export class State {
 
     @Memoize()
     async statsLieux(): Promise<StatsLieu> {
-      const resp = await fetch(`${VMD_BASE_URL}/stats.json`)
+      const urlGenerator = await RemoteConfig.INSTANCE.urlGenerator();
+      const resp = await fetch(urlGenerator.stats())
       const statsParDepartements: Record<CodeDepartement|'tout_departement', StatLieu> = await resp.json()
       const { tout_departement: global, ...parDepartements } = statsParDepartements
       return {
