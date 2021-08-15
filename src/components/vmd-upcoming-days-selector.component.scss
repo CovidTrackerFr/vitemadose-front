@@ -3,6 +3,35 @@
 @import "../styles/bootstrap-variables";
 @import "../styles/global-variables";
 
+:host {
+  --day-gutter: 1.6rem;
+}
+
+.scroll-hint {
+  position: relative;
+
+  &::before, &::after {
+    z-index: 10;
+    content: '';
+    position: absolute;
+    display: block;
+    top: 0;
+    height: 100%;
+    width: calc(var(--day-gutter) * 2);
+    height: calc(100% - var(--day-gutter));
+    background: $light;
+    background: linear-gradient(90deg, rgba($light, 255) 20%, rgba(255,255,255, 0) 100%);
+  }
+
+  &::before {
+    left: 0;
+  }
+  &::after {
+    right: 0%;
+    transform: rotate(180deg);
+  }
+}
+
 ul.days {
   width: 100%;
   overflow-x: scroll;
@@ -18,7 +47,13 @@ ul.days {
   color: $primary;
   border: 0px;
   border-radius: 1rem;
-  padding: 1.6rem;
+  padding: var(--day-gutter) calc(var(--day-gutter) / 2);
+  &:first-child {
+    padding-left: var(--day-gutter);
+  }
+  &:last-child {
+    padding-right: var(--day-gutter);
+  }
 
   display: flex;
   flex-direction: column;
@@ -36,6 +71,9 @@ ul.days {
   &.selected .date-card {
     background-color: tint-color($primary, 35%);
     color: white;
+    &::before {
+      transform: translateY(-0.2em);
+    }
   }
   &.empty {
     .date-card {
@@ -56,6 +94,21 @@ ul.days {
     border-radius: 1rem;
     width: 10rem;
     padding: 1rem;
+
+    position: relative;
+    &::before {
+      content: '﹀';
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: var(--day-gutter);
+      text-align: center;
+      bottom: 100%;
+      left: 0;
+      color: $gray-600;
+      transform: translateY(-1em);
+      transition: transform 200ms ease-in-out;
+    }
   }
 
   .weekday {

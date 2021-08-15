@@ -20,6 +20,8 @@
 }
 
 .eligibility-criteria {
+    /* to ensure panel is over shaded gutter */
+    z-index: 20;
     position: fixed;
     bottom: 0;
     left: 0;

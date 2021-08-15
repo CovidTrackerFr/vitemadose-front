@@ -110,7 +110,7 @@ export class VmdAppointmentCardComponent extends LitElement {
                         |
                         <div class="col-auto">
                             ${plateforme?html`
-                            <img class="rdvPlatformLogo ${plateforme.styleCode}" src="${Router.basePath}assets/images/png/${plateforme.logo}" alt="Créneau de vaccination ${plateforme.nom}">
+                            <img class="rdvPlatformLogo ${plateforme.styleCode}" src="${Router.basePath}assets/images/logo/${plateforme.logo}" alt="Créneau de vaccination ${plateforme.nom}">
                             `:html`
                             ${this.lieu.plateforme}
                             `}

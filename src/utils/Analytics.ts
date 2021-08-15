@@ -4,6 +4,8 @@ import {
     Lieu,
     LieuxAvecDistanceParDepartement, SearchType,
 } from "../state/State";
+import {differenceInDays, endOfDay, format, parse} from "date-fns";
+import {fr} from "date-fns/locale";
 
 
 type PushBaseParams = Record<string, string|number|undefined> & {event: string};
@@ -58,7 +60,27 @@ export class Analytics {
         });
     }
 
-    rechercheLieuEffectuee(codeDepartement: CodeDepartement, triCentre: CodeTriCentre|'unknown', searchType: SearchType, commune: Commune|undefined, resultats: LieuxAvecDistanceParDepartement|undefined) {
+    static analyticsForJourSelectionne(jourSelectionne: string|undefined) {
+        let dateSelectionnee = jourSelectionne?endOfDay(parse(jourSelectionne, 'yyyy-MM-dd', new Date())):null;
+        let weekday = dateSelectionnee?format(dateSelectionnee, 'EEEE', {locale: fr}):undefined;
+        const diffDays = dateSelectionnee?'j+'+differenceInDays(dateSelectionnee, new Date()):undefined;
+        return { weekday, diffDays };
+    }
+
+    clickSurJourRdv(jourSelectionne: string | undefined, typeSelectionDate: "auto" | "manual" | undefined, total: number) {
+        const jourSelectionneAnalytics = Analytics.analyticsForJourSelectionne(jourSelectionne);
+        window.dataLayer.push({
+            'event': 'appointment_day_selection',
+            'daily_appointments' : total,
+            'date_selection_type': typeSelectionDate,
+            'selected_date': jourSelectionne,
+            'selected_date_diff': jourSelectionneAnalytics.diffDays,
+            'selected_weekday': jourSelectionneAnalytics.weekday,
+        });
+    }
+
+    rechercheLieuEffectuee(codeDepartement: CodeDepartement, triCentre: CodeTriCentre|'unknown', searchType: SearchType, typeSelectionDate: 'auto'|'manual'|undefined, jourSelectionne: string|undefined, commune: Commune|undefined, resultats: LieuxAvecDistanceParDepartement|undefined) {
+        const jourSelectionneAnalytics = Analytics.analyticsForJourSelectionne(jourSelectionne);
         window.dataLayer.push({
             'event': commune?'search_by_commune':'search_by_departement',
             'search_departement': codeDepartement,
@@ -71,7 +93,11 @@ export class Analytics {
                 .filter(l => !isLieuActif(l))
                 .length:undefined,
             'search_sort_type': triCentre,
-            'search_filter_type' : [`kind:${searchType}`].join("|")
+            'search_filter_type' : [`kind:${searchType}`].join("|"),
+            'date_selection_type': typeSelectionDate,
+            'selected_date': jourSelectionne,
+            'selected_date_diff': jourSelectionneAnalytics.diffDays,
+            'selected_weekday': jourSelectionneAnalytics.weekday,
         });
     }
 

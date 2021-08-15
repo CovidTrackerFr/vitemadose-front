@@ -127,6 +127,38 @@ function completerCommunesOutremer(commune: Commune): Commune {
     }
 }
 
+const PARIS_COORDS_OVERRIDES = new Map<string, [number,number]>([
+    { c:"75056", z:"75001", g: [2.336157203926649, 48.86283948229915] },
+    { c:"75056", z:"75002", g: [2.3432755443949866, 48.86889037261654] },
+    { c:"75056", z:"75003", g: [2.3607568335500297, 48.86286492639361] },
+    { c:"75056", z:"75004", g: [2.357594022703559, 48.85439581632856] },
+    { c:"75056", z:"75005", g: [2.351415238575416, 48.84355063561869] },
+    { c:"75056", z:"75006", g: [2.334203785384528, 48.84898025632432] },
+    { c:"75056", z:"75007", g: [2.31272844148442, 48.85710142473717] },
+    { c:"75056", z:"75008", g: [2.3133060597411697, 48.87297052862936] },
+    { c:"75056", z:"75009", g: [2.33864166874507, 48.87729243796416] },
+    { c:"75056", z:"75010", g: [2.360651913467299, 48.87654029132932] },
+    { c:"75056", z:"75011", g: [2.378928291242735, 48.86001335053879] },
+    { c:"75056", z:"75012", g: [2.395032220296042, 48.84042230655008] },
+    { c:"75056", z:"75013", g: [2.3620907702278324, 48.82904787007054] },
+    { c:"75056", z:"75014", g: [2.327993119650175, 48.83025514870483] },
+    { c:"75056", z:"75015", g: [2.29297365224418, 48.84058573684937] },
+    { c:"75056", z:"75016", g: [2.266717150629358, 48.85367625689213] },
+    { c:"75056", z:"75017", g: [2.3071264684475423, 48.88793519362565] },
+    { c:"75056", z:"75018", g: [2.349642564782915, 48.89232572560189] },
+    { c:"75056", z:"75019", g: [2.3868229216398484, 48.887176262044115] },
+    { c:"75056", z:"75020", g: [2.4032033913955675, 48.862725685060646] },
+].map<[string, [number, number]]>(communeDef => ([`${communeDef.c}__${communeDef.z}`, communeDef.g as [number, number]])));
+
+function surchargerCoordonnees(commune: Commune): Commune {
+    if(PARIS_COORDS_OVERRIDES.has(`${commune.code}__${commune.codePostal}`)) {
+        const coords = PARIS_COORDS_OVERRIDES.get(`${commune.code}__${commune.codePostal}`)!;
+        return {...commune, centre: { ...commune.centre, coordinates: coords } };
+    } else {
+        return commune;
+    }
+}
+
 Promise.all([
     fetch(`https://geo.api.gouv.fr/communes?boost=population&fields=code,nom,codeDepartement,centre,codesPostaux`).then(resp => resp.json()),
     fetch(`https://vitemadose.gitlab.io/vitemadose/departements.json`).then(resp => resp.json()),
@@ -143,7 +175,8 @@ Promise.all([
                 fullTextNormalizedNom: Strings.toFullTextNormalized(rawCommune.nom)
             }))
         ).flat()
-        .map(commune => completerCommunesOutremer(commune));
+        .map(commune => completerCommunesOutremer(commune))
+        .map(commune => surchargerCoordonnees(commune));
 
     const communeByKey = communes.reduce((map, commune) => {
         map.set(keyOf(commune), commune);

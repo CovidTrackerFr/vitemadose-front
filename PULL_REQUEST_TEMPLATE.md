@@ -1,7 +1,7 @@
 Cette Pull Request est
 
-- [ ] Un correctif
-- [ ] Une nouvelle fonctionnalité
+- Un correctif
+- Une nouvelle fonctionnalité
 
 ### Checklist
 
@@ -11,5 +11,6 @@ Cette Pull Request est
 
 ### Description
 
-> <Ajouter une description de ce que fait cette PR>
+> Ajouter une description de ce que fait cette PR
+> 
 > Avec une capture d'écran si pertinent.
