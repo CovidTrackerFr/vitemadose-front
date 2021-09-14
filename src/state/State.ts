@@ -47,7 +47,7 @@ export namespace SearchRequest {
 
 export type CodeTriCentre = 'date' | 'distance';
 
-export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma"|"AvecMonDoc"|"Clikodoc"|"mesoigner"|"Bimedoc"|"Valwin";
+export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma"|"AvecMonDoc"|"Clikodoc"|"mesoigner"|"Bimedoc";
 export type Plateforme = {
     // Should be the same than PLATEFORMES' key
     code: TypePlateforme;
@@ -70,8 +70,7 @@ export const PLATEFORMES: Record<TypePlateforme, Plateforme> = {
     'AvecMonDoc': { code: 'AvecMonDoc', logo: 'logo_avecmondoc.png', nom: 'AvecMonDoc', promoted: true,  website: 'https://www.avecmondoc.com/', styleCode: '_avecmondoc'},
     'Clikodoc': { code: 'Clikodoc', logo: 'logo_clikodoc.png', nom: 'Clikodoc', promoted: false,  website: 'https://www.clikodoc.com/', styleCode: '_clikodoc'},
     'mesoigner': { code: 'mesoigner', logo: 'logo_mesoigner.png', nom: 'MeSoigner', promoted: true, website: 'https://www.mesoigner.fr/', styleCode: '_mesoigner'},
-    'Bimedoc': { code: 'Bimedoc', logo: 'logo_bimedoc.svg', nom: 'Bimedoc', promoted: true, website: 'https://www.bimedoc.com/', styleCode: '_bimedoc' },
-    'Valwin': { code: 'Valwin', logo: 'logo_valwin.png', nom: 'Valwin', promoted: true, website: 'https://www.valwin.fr/', styleCode: '_valwin' },
+    'Bimedoc': {code: 'Bimedoc', logo: 'logo_bimedoc.svg', nom: 'Bimedoc', promoted: true, website: 'https://www.bimedoc.com/', styleCode: '_bimedoc'}
     // Beware: if you add a new plateform, don't forget to update 'hardcoded' (indexable) content
     // in index.html page, referencing the list of supported plateforms
 };
