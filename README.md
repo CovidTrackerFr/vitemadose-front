@@ -23,6 +23,8 @@ Run vite (we're obviously using vitejs for vite-ma-dose !) :
 Open your browser : http://localhost:3000/
 and enjoy live reload / on-the-fly typescript compilation
 
+You can also click on [this link](https://gitpod.io/#https://github.com/CovidTrackerFr/vitemadose-front) in order to open a Gitpod workspace with everything loaded in it.
+
 ## Alternative: Running with docker
 If you don't want to install node.js on your machine, you can isolate it with [docker](https://www.docker.com/get-started):
 
