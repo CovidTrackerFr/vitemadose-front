@@ -230,7 +230,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     get searchTypeConfig() {
-        return searchTypeConfigFromSearch(this.currentSearch, 'standard')
+        return searchTypeConfigFromSearch(this.currentSearch, 'dose_rappel')
     }
 
     async onSearchSelected (event: CustomEvent<SearchRequest>) {
