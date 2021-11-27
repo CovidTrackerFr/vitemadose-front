@@ -66,7 +66,7 @@ export class VmdLieuxView extends LitElement {
                     longitude: Number(value[10]),
                     latitude: Number(value[11]),
                     nom: value[1],
-                    reservation: value[34],
+                    reservation: (!value[34])?"":value[34].replace("partners.doctolib.fr", "www.doctolib.fr"),
                     date_ouverture: value[33],
                     rdv_tel: value[35],
                     modalites: value[37],
