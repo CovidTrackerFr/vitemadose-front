@@ -151,7 +151,7 @@ function transformLieu(rawLieu: any): Lieu {
 
 export type Coordinates = { latitude: number, longitude: number }
 export type Location = Coordinates & {city: string, cp: string}
-export type TagCreneau = "preco18_55"|"all"|"dose_rappel"|"premiere_dose";
+export type TagCreneau = "preco18_55"|"all"|"first_dose"|"third_dose";
 export type StatsCreneauxQuotidienParTag = {
     tag: TagCreneau;
     creneaux: number;
@@ -346,7 +346,7 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
     },
     'dose_rappel': {
         type: 'dose_rappel',
-        tagCreneau: 'dose_rappel',
+        tagCreneau: 'third_dose',
         cardAppointmentsExtractor: (lieu, daySelectorDisponible, creneauxParLieux) => daySelectorDisponible
             ?creneauxParLieux.find(cpl => cpl.lieu === lieu.internal_id)?.creneaux || 0
             :lieu.appointment_count,
@@ -363,7 +363,7 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
     },
     'premiere_dose': {
         type: 'premiere_dose',
-        tagCreneau: 'premiere_dose',
+        tagCreneau: 'first_dose',
         cardAppointmentsExtractor: (lieu, daySelectorDisponible, creneauxParLieux) => daySelectorDisponible
             ?creneauxParLieux.find(cpl => cpl.lieu === lieu.internal_id)?.creneaux || 0
             :lieu.appointment_count,
