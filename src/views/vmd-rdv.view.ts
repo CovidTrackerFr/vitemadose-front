@@ -284,7 +284,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
               </div>`:html``}
                 <div class="rdvForm-fields row align-items-center mb-3 mb-md-5">
                     <label class="col-sm-24 col-md-auto mb-md-1 label-for-search p-3 ps-1">
-                        Type de vaccin :
+                        Chemin vaccinal :
                     </label>
                     <div class="col">
                         <vmd-button-switch class="mb-3" style="display: inline-block"
