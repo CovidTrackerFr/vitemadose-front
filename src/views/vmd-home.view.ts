@@ -6,7 +6,7 @@ import {
     PLATEFORMES, SearchType,
     SearchRequest,
     State,
-    StatsLieu, Departement,
+    StatsLieu, Departement, TYPE_RECHERCHE_PAR_DEFAUT,
 } from "../state/State";
 import {CSS_Global, CSS_Home} from "../styles/ConstructibleStyleSheets";
 
@@ -28,7 +28,7 @@ export class VmdHomeView extends LitElement {
     @property({type: Array, attribute: false}) statsLieu: StatsLieu|undefined = undefined;
 
     private async onSearch (event: CustomEvent<SearchRequest>) {
-      const searchType: SearchType = 'dose_rappel';
+      const searchType: SearchType = TYPE_RECHERCHE_PAR_DEFAUT;
       if (SearchRequest.isByDepartement(event.detail)) {
         const departement = event.detail.departement
         Router.navigateToRendezVousAvecDepartement(departement.code_departement, libelleUrlPathDuDepartement(departement), searchType)

@@ -292,6 +292,8 @@ export const VACCINE_CATEGORIES: VaccineCategory[] = [
 ];
 
 export type SearchType = "standard"|"18_55"|"dose_rappel"|"premiere_dose";
+export const TYPE_RECHERCHE_PAR_DEFAUT: SearchType = "dose_rappel";
+
 export type SearchTypeConfig = {
     tagCreneau: TagCreneau;
     cardAppointmentsExtractor: (lieu: Lieu, daySelectorDisponible: boolean, creneauxParLieux: CreneauxParLieu[]) => number;
