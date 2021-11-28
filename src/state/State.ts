@@ -151,7 +151,7 @@ function transformLieu(rawLieu: any): Lieu {
 
 export type Coordinates = { latitude: number, longitude: number }
 export type Location = Coordinates & {city: string, cp: string}
-export type TagCreneau = "preco18_55"|"all"|"first_dose"|"third_dose";
+export type TagCreneau = "preco18_55"|"all"|"third_dose";
 export type StatsCreneauxQuotidienParTag = {
     tag: TagCreneau;
     creneaux: number;
@@ -291,7 +291,7 @@ export const VACCINE_CATEGORIES: VaccineCategory[] = [
     { code: "standard", libelle: "Tous" },
 ];
 
-export type SearchType = "standard"|"18_55"|"dose_rappel"|"premiere_dose";
+export type SearchType = "standard"|"18_55"|"dose_rappel";
 export const TYPE_RECHERCHE_PAR_DEFAUT: SearchType = "dose_rappel";
 
 export type SearchTypeConfig = {
@@ -361,23 +361,6 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
         analytics: {
             searchResultsByDepartement: 'search_results_by_department_third_shot',
             searchResultsByCity: 'search_results_by_city_third_shot'
-        }
-    },
-    'premiere_dose': {
-        type: 'premiere_dose',
-        tagCreneau: 'first_dose',
-        cardAppointmentsExtractor: (lieu, daySelectorDisponible, creneauxParLieux) => daySelectorDisponible
-            ?creneauxParLieux.find(cpl => cpl.lieu === lieu.internal_id)?.creneaux || 0
-            :lieu.appointment_count,
-        lieuConsidereCommeDisponible: (lieu, creneauxParLieu) => lieu.appointment_by_phone_only || (creneauxParLieu?.creneaux || 0) > 0,
-        pathParam: 'premiere_dose',
-        standardTabSelected: true,
-        excludeAppointmentByPhoneOnly: false,
-        jourSelectionnable: true,
-        theme: 'standard',
-        analytics: {
-            searchResultsByDepartement: 'search_results_by_department_first_shot',
-            searchResultsByCity: 'search_results_by_city_first_shot'
         }
     },
 };
