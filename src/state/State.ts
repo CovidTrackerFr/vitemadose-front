@@ -151,7 +151,7 @@ function transformLieu(rawLieu: any): Lieu {
 
 export type Coordinates = { latitude: number, longitude: number }
 export type Location = Coordinates & {city: string, cp: string}
-export type TagCreneau = "preco18_55"|"all"|"first_or_second_dose"|"third_dose"|"unknown_dose";
+export type TagCreneau = /*"preco18_55"|*/"all"|"first_or_second_dose"|"third_dose"|"unknown_dose";
 export type StatsCreneauxQuotidienParTag = {
     tag: TagCreneau;
     creneaux: number;
@@ -284,14 +284,16 @@ export const libelleUrlPathDeCommune = (commune: Commune) => {
     return Strings.toReadableURLPathValue(commune.nom);
 }
 
+/*
 type VaccineCategory = {code: SearchType, libelle: string};
 export const VACCINE_CATEGORIES: VaccineCategory[] = [
     { code: "18_55", libelle: "Préconisé pour les 18-55 ans" },
     // { code: "16_18", libelle: "Préconisé pour les 16-18 ans" },
     { code: "standard", libelle: "Tous" },
 ];
+ */
 
-export type SearchType = "standard"|"18_55"|"dose_rappel"|"dose_1_ou_2"|"dose_indeterminee";
+export type SearchType = "standard"| /*"18_55"|*/ "dose_rappel"|"dose_1_ou_2"|"dose_indeterminee";
 export const TYPE_RECHERCHE_PAR_DEFAUT: SearchType = "dose_rappel";
 
 export type SearchTypeConfig = {
@@ -326,6 +328,7 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
             searchResultsByCity: 'search_results_by_city'
         }
     },
+    /*
     '18_55': {
         type: '18_55',
         tagCreneau: "preco18_55",
@@ -346,6 +349,7 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
             searchResultsByCity: 'search_results_by_city_18_55'
         }
     },
+     */
     'dose_rappel': {
         type: 'dose_rappel',
         tagCreneau: 'third_dose',
