@@ -291,6 +291,8 @@ export const VACCINE_CATEGORIES: VaccineCategory[] = [
     { code: "standard", libelle: "Tous" },
 ];
 
+export const TYPE_RECHERCHE_PAR_DEFAUT: SearchType = "standard";
+
 export type SearchType = "standard"|"18_55";
 export type SearchTypeConfig = {
     tagCreneau: TagCreneau;

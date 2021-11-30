@@ -31,7 +31,7 @@ import {
     SearchTypeConfig,
     RendezVousDuJour,
     StatsCreneauxLieuxParJour,
-    countCreneauxFromCreneauxParTag
+    countCreneauxFromCreneauxParTag, TYPE_RECHERCHE_PAR_DEFAUT
 } from "../state/State";
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import { fr } from 'date-fns/locale'
@@ -230,7 +230,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
     }
 
     get searchTypeConfig() {
-        return searchTypeConfigFromSearch(this.currentSearch, 'standard')
+        return searchTypeConfigFromSearch(this.currentSearch, TYPE_RECHERCHE_PAR_DEFAUT)
     }
 
     async onSearchSelected (event: CustomEvent<SearchRequest>) {
