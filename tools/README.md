@@ -8,7 +8,7 @@ Installer les dépendances : `npm ci`
 
 # Exécution
 
-Une fois les dépendances installées, lancer la commande suivante : `npx ts-node communes-import.ts `
+Une fois les dépendances installées, lancer la commande suivante : `npx ts-node communes-import.ts`
 
 Sous IntelliJ IDEA, il faudra configurer le launcher avec les options suivantes :
 - Working directory : current `tools` directory
