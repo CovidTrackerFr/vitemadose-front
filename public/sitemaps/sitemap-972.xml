@@ -5,78 +5,152 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/recherche-standard</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/recherche-18_55</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/recherche-dose_rappel</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/recherche-dose_1_ou_2</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97201-97216-l_ajoupa_bouillon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97201-97216-l_ajoupa_bouillon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97201-97216-l_ajoupa_bouillon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97201-97216-l_ajoupa_bouillon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97202-97217-les_anses_d_arlet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97202-97217-les_anses_d_arlet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97202-97217-les_anses_d_arlet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97202-97217-les_anses_d_arlet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97203-97218-basse_pointe/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97203-97218-basse_pointe/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97203-97218-basse_pointe/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97203-97218-basse_pointe/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97204-97221-le_carbet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97204-97221-le_carbet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97204-97221-le_carbet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97204-97221-le_carbet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97205-97222-case_pilote/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97205-97222-case_pilote/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97205-97222-case_pilote/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97205-97222-case_pilote/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97206-97223-le_diamant/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97206-97223-le_diamant/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97206-97223-le_diamant/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97206-97223-le_diamant/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97207-97224-ducos/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97207-97224-ducos/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97207-97224-ducos/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97207-97224-ducos/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97208-97250-fonds_saint_denis/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97208-97250-fonds_saint_denis/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97208-97250-fonds_saint_denis/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97208-97250-fonds_saint_denis/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97200-fort_de_france/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97200-fort_de_france/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97200-fort_de_france/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97200-fort_de_france/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97234-fort_de_france/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97234-fort_de_france/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97234-fort_de_france/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97234-fort_de_france/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97212-fort_de_france/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97212-fort_de_france/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97212-fort_de_france/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97209-97212-fort_de_france/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97210-97240-le_francois/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97210-97240-le_francois/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97210-97240-le_francois/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97210-97240-le_francois/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97211-97218-grand_riviere/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97211-97218-grand_riviere/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97211-97218-grand_riviere/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97211-97218-grand_riviere/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97212-97213-gros_morne/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97212-97213-gros_morne/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97212-97213-gros_morne/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97212-97213-gros_morne/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97213-97232-le_lamentin/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97213-97232-le_lamentin/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97213-97232-le_lamentin/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97213-97232-le_lamentin/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97214-97214-le_lorrain/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97214-97214-le_lorrain/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97214-97214-le_lorrain/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97214-97214-le_lorrain/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97215-97218-macouba/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97215-97218-macouba/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97215-97218-macouba/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97215-97218-macouba/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97216-97225-le_marigot/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97216-97225-le_marigot/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97216-97225-le_marigot/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97216-97225-le_marigot/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97217-97290-le_marin/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97217-97290-le_marin/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97217-97290-le_marin/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97217-97290-le_marin/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97218-97260-le_morne_rouge/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97218-97260-le_morne_rouge/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97218-97260-le_morne_rouge/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97218-97260-le_morne_rouge/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97219-97250-le_precheur/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97219-97250-le_precheur/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97219-97250-le_precheur/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97219-97250-le_precheur/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97220-97211-riviere_pilote/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97220-97211-riviere_pilote/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97220-97211-riviere_pilote/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97220-97211-riviere_pilote/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97221-97215-riviere_salee/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97221-97215-riviere_salee/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97221-97215-riviere_salee/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97221-97215-riviere_salee/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97222-97231-le_robert/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97222-97231-le_robert/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97222-97231-le_robert/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97222-97231-le_robert/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97223-97270-saint_esprit/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97223-97270-saint_esprit/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97223-97270-saint_esprit/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97223-97270-saint_esprit/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97224-97212-saint_joseph/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97224-97212-saint_joseph/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97224-97212-saint_joseph/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97224-97212-saint_joseph/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97225-97250-saint_pierre/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97225-97250-saint_pierre/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97225-97250-saint_pierre/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97225-97250-saint_pierre/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97226-97227-sainte_anne/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97226-97227-sainte_anne/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97226-97227-sainte_anne/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97226-97227-sainte_anne/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97227-97228-sainte_luce/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97227-97228-sainte_luce/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97227-97228-sainte_luce/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97227-97228-sainte_luce/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97228-97230-sainte_marie/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97228-97230-sainte_marie/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97228-97230-sainte_marie/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97228-97230-sainte_marie/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97229-97233-schoelcher/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97229-97233-schoelcher/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97229-97233-schoelcher/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97229-97233-schoelcher/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97230-97220-la_trinite/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97230-97220-la_trinite/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97230-97220-la_trinite/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97230-97220-la_trinite/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97231-97229-les_trois_ilets/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97231-97229-les_trois_ilets/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97231-97229-les_trois_ilets/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97231-97229-les_trois_ilets/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97232-97280-le_vauclin/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97232-97280-le_vauclin/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97232-97280-le_vauclin/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97232-97280-le_vauclin/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97233-97226-le_morne_vert/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97233-97226-le_morne_vert/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97233-97226-le_morne_vert/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97233-97226-le_morne_vert/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97234-97222-bellefontaine/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97234-97222-bellefontaine/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97234-97222-bellefontaine/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt972-martinique/commune97234-97222-bellefontaine/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
 </urlset>

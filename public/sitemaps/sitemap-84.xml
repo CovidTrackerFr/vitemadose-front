@@ -5,310 +5,616 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/recherche-standard</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/recherche-18_55</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/recherche-dose_rappel</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/recherche-dose_1_ou_2</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84001-84210-althen_des_paluds/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84001-84210-althen_des_paluds/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84001-84210-althen_des_paluds/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84001-84210-althen_des_paluds/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84002-84240-ansouis/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84002-84240-ansouis/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84002-84240-ansouis/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84002-84240-ansouis/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84003-84400-apt/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84003-84400-apt/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84003-84400-apt/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84003-84400-apt/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84004-84810-aubignan/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84004-84810-aubignan/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84004-84810-aubignan/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84004-84810-aubignan/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84005-84390-aurel/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84005-84390-aurel/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84005-84390-aurel/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84005-84390-aurel/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84006-84400-auribeau/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84006-84400-auribeau/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84006-84400-auribeau/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84006-84400-auribeau/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84007-84140-avignon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84007-84140-avignon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84007-84140-avignon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84007-84140-avignon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84007-84000-avignon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84007-84000-avignon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84007-84000-avignon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84007-84000-avignon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84008-84330-le_barroux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84008-84330-le_barroux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84008-84330-le_barroux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84008-84330-le_barroux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84009-84240-la_bastide_des_jourdans/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84009-84240-la_bastide_des_jourdans/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84009-84240-la_bastide_des_jourdans/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84009-84240-la_bastide_des_jourdans/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84010-84120-la_bastidonne/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84010-84120-la_bastidonne/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84010-84120-la_bastidonne/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84010-84120-la_bastidonne/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84011-84210-le_beaucet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84011-84210-le_beaucet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84011-84210-le_beaucet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84011-84210-le_beaucet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84012-84190-beaumes_de_venise/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84012-84190-beaumes_de_venise/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84012-84190-beaumes_de_venise/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84012-84190-beaumes_de_venise/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84013-84220-beaumettes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84013-84220-beaumettes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84013-84220-beaumettes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84013-84220-beaumettes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84014-84120-beaumont_de_pertuis/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84014-84120-beaumont_de_pertuis/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84014-84120-beaumont_de_pertuis/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84014-84120-beaumont_de_pertuis/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84015-84340-beaumont_du_ventoux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84015-84340-beaumont_du_ventoux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84015-84340-beaumont_du_ventoux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84015-84340-beaumont_du_ventoux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84016-84370-bedarrides/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84016-84370-bedarrides/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84016-84370-bedarrides/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84016-84370-bedarrides/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84017-84410-bedoin/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84017-84410-bedoin/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84017-84410-bedoin/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84017-84410-bedoin/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84018-84570-blauvac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84018-84570-blauvac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84018-84570-blauvac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84018-84570-blauvac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84019-84500-bollene/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84019-84500-bollene/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84019-84500-bollene/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84019-84500-bollene/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84020-84480-bonnieux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84020-84480-bonnieux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84020-84480-bonnieux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84020-84480-bonnieux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84021-84390-brantes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84021-84390-brantes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84021-84390-brantes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84021-84390-brantes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84022-84110-buisson/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84022-84110-buisson/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84022-84110-buisson/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84022-84110-buisson/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84023-84480-buoux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84023-84480-buoux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84023-84480-buoux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84023-84480-buoux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84024-84240-cabrieres_d_aigues/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84024-84240-cabrieres_d_aigues/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84024-84240-cabrieres_d_aigues/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84024-84240-cabrieres_d_aigues/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84025-84220-cabrieres_d_avignon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84025-84220-cabrieres_d_avignon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84025-84220-cabrieres_d_avignon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84025-84220-cabrieres_d_avignon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84026-84160-cadenet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84026-84160-cadenet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84026-84160-cadenet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84026-84160-cadenet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84027-84860-caderousse/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84027-84860-caderousse/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84027-84860-caderousse/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84027-84860-caderousse/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84028-84290-cairanne/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84028-84290-cairanne/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84028-84290-cairanne/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84028-84290-cairanne/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84029-84850-camaret_sur_aigues/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84029-84850-camaret_sur_aigues/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84029-84850-camaret_sur_aigues/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84029-84850-camaret_sur_aigues/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84030-84330-caromb/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84030-84330-caromb/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84030-84330-caromb/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84030-84330-caromb/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84031-84200-carpentras/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84031-84200-carpentras/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84031-84200-carpentras/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84031-84200-carpentras/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84032-84750-caseneuve/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84032-84750-caseneuve/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84032-84750-caseneuve/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84032-84750-caseneuve/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84033-84400-castellet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84033-84400-castellet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84033-84400-castellet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84033-84400-castellet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84034-84510-caumont_sur_durance/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84034-84510-caumont_sur_durance/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84034-84510-caumont_sur_durance/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84034-84510-caumont_sur_durance/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84035-84300-cavaillon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84035-84300-cavaillon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84035-84300-cavaillon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84035-84300-cavaillon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84036-84470-chateauneuf_de_gadagne/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84036-84470-chateauneuf_de_gadagne/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84036-84470-chateauneuf_de_gadagne/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84036-84470-chateauneuf_de_gadagne/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84037-84230-chateauneuf_du_pape/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84037-84230-chateauneuf_du_pape/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84037-84230-chateauneuf_du_pape/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84037-84230-chateauneuf_du_pape/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84038-84460-cheval_blanc/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84038-84460-cheval_blanc/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84038-84460-cheval_blanc/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84038-84460-cheval_blanc/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84039-84350-courthezon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84039-84350-courthezon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84039-84350-courthezon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84039-84350-courthezon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84040-84110-crestet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84040-84110-crestet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84040-84110-crestet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84040-84110-crestet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84041-84410-crillon_le_brave/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84041-84410-crillon_le_brave/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84041-84410-crillon_le_brave/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84041-84410-crillon_le_brave/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84042-84160-cucuron/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84042-84160-cucuron/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84042-84160-cucuron/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84042-84160-cucuron/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84043-84320-entraigues_sur_la_sorgue/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84043-84320-entraigues_sur_la_sorgue/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84043-84320-entraigues_sur_la_sorgue/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84043-84320-entraigues_sur_la_sorgue/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84044-84340-entrechaux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84044-84340-entrechaux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84044-84340-entrechaux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84044-84340-entrechaux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84045-84110-faucon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84045-84110-faucon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84045-84110-faucon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84045-84110-faucon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84046-84410-flassan/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84046-84410-flassan/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84046-84410-flassan/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84046-84410-flassan/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84047-84400-gargas/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84047-84400-gargas/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84047-84400-gargas/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84047-84400-gargas/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84048-84400-gignac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84048-84400-gignac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84048-84400-gignac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84048-84400-gignac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84049-84190-gigondas/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84049-84190-gigondas/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84049-84190-gigondas/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84049-84190-gigondas/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84050-84220-gordes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84050-84220-gordes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84050-84220-gordes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84050-84220-gordes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84051-84220-goult/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84051-84220-goult/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84051-84220-goult/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84051-84220-goult/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84052-84240-grambois/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84052-84240-grambois/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84052-84240-grambois/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84052-84240-grambois/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84053-84600-grillon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84053-84600-grillon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84053-84600-grillon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84053-84600-grillon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84054-84800-l_isle_sur_la_sorgue/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84054-84800-l_isle_sur_la_sorgue/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84054-84800-l_isle_sur_la_sorgue/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84054-84800-l_isle_sur_la_sorgue/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84055-84450-jonquerettes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84055-84450-jonquerettes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84055-84450-jonquerettes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84055-84450-jonquerettes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84056-84150-jonquieres/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84056-84150-jonquieres/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84056-84150-jonquieres/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84056-84150-jonquieres/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84057-84220-joucas/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84057-84220-joucas/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84057-84220-joucas/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84057-84220-joucas/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84058-84480-lacoste/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84058-84480-lacoste/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84058-84480-lacoste/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84058-84480-lacoste/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84059-84190-lafare/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84059-84190-lafare/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84059-84190-lafare/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84059-84190-lafare/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84060-84400-lagarde_d_apt/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84060-84400-lagarde_d_apt/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84060-84400-lagarde_d_apt/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84060-84400-lagarde_d_apt/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84061-84290-lagarde_pareol/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84061-84290-lagarde_pareol/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84061-84290-lagarde_pareol/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84061-84290-lagarde_pareol/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84062-84800-lagnes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84062-84800-lagnes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84062-84800-lagnes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84062-84800-lagnes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84063-84840-lamotte_du_rhone/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84063-84840-lamotte_du_rhone/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84063-84840-lamotte_du_rhone/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84063-84840-lamotte_du_rhone/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84064-84840-lapalud/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84064-84840-lapalud/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84064-84840-lapalud/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84064-84840-lapalud/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84065-84360-lauris/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84065-84360-lauris/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84065-84360-lauris/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84065-84360-lauris/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84066-84220-lioux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84066-84220-lioux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84066-84220-lioux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84066-84220-lioux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84067-84870-loriol_du_comtat/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84067-84870-loriol_du_comtat/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84067-84870-loriol_du_comtat/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84067-84870-loriol_du_comtat/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84068-84160-lourmarin/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84068-84160-lourmarin/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84068-84160-lourmarin/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84068-84160-lourmarin/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84069-84340-malaucene/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84069-84340-malaucene/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84069-84340-malaucene/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84069-84340-malaucene/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84070-84570-malemort_du_comtat/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84070-84570-malemort_du_comtat/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84070-84570-malemort_du_comtat/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84070-84570-malemort_du_comtat/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84071-84660-maubec/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84071-84660-maubec/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84071-84660-maubec/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84071-84660-maubec/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84072-84380-mazan/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84072-84380-mazan/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84072-84380-mazan/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84072-84380-mazan/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84073-84560-menerbes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84073-84560-menerbes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84073-84560-menerbes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84073-84560-menerbes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84074-84360-merindol/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84074-84360-merindol/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84074-84360-merindol/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84074-84360-merindol/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84075-84570-methamis/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84075-84570-methamis/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84075-84570-methamis/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84075-84570-methamis/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84076-84120-mirabeau/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84076-84120-mirabeau/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84076-84120-mirabeau/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84076-84120-mirabeau/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84077-84330-modene/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84077-84330-modene/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84077-84330-modene/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84077-84330-modene/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84078-84430-mondragon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84078-84430-mondragon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84078-84430-mondragon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84078-84430-mondragon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84079-84390-monieux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84079-84390-monieux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84079-84390-monieux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84079-84390-monieux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84080-84170-monteux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84080-84170-monteux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84080-84170-monteux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84080-84170-monteux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84081-84310-morieres_les_avignon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84081-84310-morieres_les_avignon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84081-84310-morieres_les_avignon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84081-84310-morieres_les_avignon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84082-84570-mormoiron/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84082-84570-mormoiron/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84082-84570-mormoiron/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84082-84570-mormoiron/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84083-84550-mornas/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84083-84550-mornas/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84083-84550-mornas/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84083-84550-mornas/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84084-84240-la_motte_d_aigues/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84084-84240-la_motte_d_aigues/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84084-84240-la_motte_d_aigues/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84084-84240-la_motte_d_aigues/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84085-84220-murs/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84085-84220-murs/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84085-84220-murs/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84085-84220-murs/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84086-84580-oppede/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84086-84580-oppede/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84086-84580-oppede/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84086-84580-oppede/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84087-84100-orange/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84087-84100-orange/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84087-84100-orange/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84087-84100-orange/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84088-84210-pernes_les_fontaines/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84088-84210-pernes_les_fontaines/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84088-84210-pernes_les_fontaines/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84088-84210-pernes_les_fontaines/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84089-84120-pertuis/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84089-84120-pertuis/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84089-84120-pertuis/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84089-84120-pertuis/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84090-84240-peypin_d_aigues/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84090-84240-peypin_d_aigues/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84090-84240-peypin_d_aigues/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84090-84240-peypin_d_aigues/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84091-84420-piolenc/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84091-84420-piolenc/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84091-84420-piolenc/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84091-84420-piolenc/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84092-84130-le_pontet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84092-84130-le_pontet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84092-84130-le_pontet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84092-84130-le_pontet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84093-84360-puget/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84093-84360-puget/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84093-84360-puget/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84093-84360-puget/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84094-84110-puymeras/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84094-84110-puymeras/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84094-84110-puymeras/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84094-84110-puymeras/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84095-84160-puyvert/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84095-84160-puyvert/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84095-84160-puyvert/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84095-84160-puyvert/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84096-84110-rasteau/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84096-84110-rasteau/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84096-84110-rasteau/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84096-84110-rasteau/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84097-84600-richerenches/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84097-84600-richerenches/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84097-84600-richerenches/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84097-84600-richerenches/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84098-84110-roaix/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84098-84110-roaix/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84098-84110-roaix/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84098-84110-roaix/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84099-84440-robion/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84099-84440-robion/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84099-84440-robion/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84099-84440-robion/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84100-84190-la_roque_alric/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84100-84190-la_roque_alric/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84100-84190-la_roque_alric/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84100-84190-la_roque_alric/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84101-84210-la_roque_sur_pernes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84101-84210-la_roque_sur_pernes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84101-84210-la_roque_sur_pernes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84101-84210-la_roque_sur_pernes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84102-84220-roussillon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84102-84220-roussillon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84102-84220-roussillon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84102-84220-roussillon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84103-84400-rustrel/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84103-84400-rustrel/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84103-84400-rustrel/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84103-84400-rustrel/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84104-84110-sablet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84104-84110-sablet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84104-84110-sablet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84104-84110-sablet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84105-84400-saignon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84105-84400-saignon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84105-84400-saignon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84105-84400-saignon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84106-84290-sainte_cecile_les_vignes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84106-84290-sainte_cecile_les_vignes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84106-84290-sainte_cecile_les_vignes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84106-84290-sainte_cecile_les_vignes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84107-84390-saint_christol/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84107-84390-saint_christol/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84107-84390-saint_christol/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84107-84390-saint_christol/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84108-84210-saint_didier/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84108-84210-saint_didier/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84108-84210-saint_didier/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84108-84210-saint_didier/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84109-84330-saint_hippolyte_le_graveyron/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84109-84330-saint_hippolyte_le_graveyron/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84109-84330-saint_hippolyte_le_graveyron/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84109-84330-saint_hippolyte_le_graveyron/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84110-84390-saint_leger_du_ventoux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84110-84390-saint_leger_du_ventoux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84110-84390-saint_leger_du_ventoux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84110-84390-saint_leger_du_ventoux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84111-84110-saint_marcellin_les_vaison/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84111-84110-saint_marcellin_les_vaison/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84111-84110-saint_marcellin_les_vaison/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84111-84110-saint_marcellin_les_vaison/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84112-84750-saint_martin_de_castillon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84112-84750-saint_martin_de_castillon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84112-84750-saint_martin_de_castillon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84112-84750-saint_martin_de_castillon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84113-84760-saint_martin_de_la_brasque/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84113-84760-saint_martin_de_la_brasque/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84113-84760-saint_martin_de_la_brasque/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84113-84760-saint_martin_de_la_brasque/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84114-84220-saint_pantaleon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84114-84220-saint_pantaleon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84114-84220-saint_pantaleon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84114-84220-saint_pantaleon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84115-84330-saint_pierre_de_vassols/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84115-84330-saint_pierre_de_vassols/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84115-84330-saint_pierre_de_vassols/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84115-84330-saint_pierre_de_vassols/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84116-84110-saint_romain_en_viennois/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84116-84110-saint_romain_en_viennois/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84116-84110-saint_romain_en_viennois/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84116-84110-saint_romain_en_viennois/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84117-84290-saint_roman_de_malegarde/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84117-84290-saint_roman_de_malegarde/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84117-84290-saint_roman_de_malegarde/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84117-84290-saint_roman_de_malegarde/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84118-84490-saint_saturnin_les_apt/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84118-84490-saint_saturnin_les_apt/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84118-84490-saint_saturnin_les_apt/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84118-84490-saint_saturnin_les_apt/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84119-84450-saint_saturnin_les_avignon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84119-84450-saint_saturnin_les_avignon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84119-84450-saint_saturnin_les_avignon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84119-84450-saint_saturnin_les_avignon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84120-84390-saint_trinit/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84120-84390-saint_trinit/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84120-84390-saint_trinit/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84120-84390-saint_trinit/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84121-84240-sannes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84121-84240-sannes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84121-84240-sannes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84121-84240-sannes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84122-84260-sarrians/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84122-84260-sarrians/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84122-84260-sarrians/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84122-84260-sarrians/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84123-84390-sault/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84123-84390-sault/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84123-84390-sault/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84123-84390-sault/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84124-84800-saumane_de_vaucluse/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84124-84800-saumane_de_vaucluse/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84124-84800-saumane_de_vaucluse/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84124-84800-saumane_de_vaucluse/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84125-84390-savoillan/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84125-84390-savoillan/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84125-84390-savoillan/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84125-84390-savoillan/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84126-84110-seguret/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84126-84110-seguret/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84126-84110-seguret/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84126-84110-seguret/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84127-84830-serignan_du_comtat/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84127-84830-serignan_du_comtat/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84127-84830-serignan_du_comtat/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84127-84830-serignan_du_comtat/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84128-84400-sivergues/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84128-84400-sivergues/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84128-84400-sivergues/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84128-84400-sivergues/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84129-84700-sorgues/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84129-84700-sorgues/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84129-84700-sorgues/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84129-84700-sorgues/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84130-84190-suzette/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84130-84190-suzette/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84130-84190-suzette/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84130-84190-suzette/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84131-84300-taillades/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84131-84300-taillades/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84131-84300-taillades/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84131-84300-taillades/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84132-84250-le_thor/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84132-84250-le_thor/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84132-84250-le_thor/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84132-84250-le_thor/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84133-84240-la_tour_d_aigues/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84133-84240-la_tour_d_aigues/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84133-84240-la_tour_d_aigues/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84133-84240-la_tour_d_aigues/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84134-84850-travaillan/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84134-84850-travaillan/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84134-84850-travaillan/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84134-84850-travaillan/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84135-84100-uchaux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84135-84100-uchaux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84135-84100-uchaux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84135-84100-uchaux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84136-84190-vacqueyras/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84136-84190-vacqueyras/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84136-84190-vacqueyras/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84136-84190-vacqueyras/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84137-84110-vaison_la_romaine/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84137-84110-vaison_la_romaine/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84137-84110-vaison_la_romaine/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84137-84110-vaison_la_romaine/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84138-84600-valreas/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84138-84600-valreas/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84138-84600-valreas/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84138-84600-valreas/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84139-84800-fontaine_de_vaucluse/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84139-84800-fontaine_de_vaucluse/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84139-84800-fontaine_de_vaucluse/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84139-84800-fontaine_de_vaucluse/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84140-84160-vaugines/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84140-84160-vaugines/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84140-84160-vaugines/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84140-84160-vaugines/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84141-84270-vedene/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84141-84270-vedene/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84141-84270-vedene/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84141-84270-vedene/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84142-84740-velleron/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84142-84740-velleron/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84142-84740-velleron/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84142-84740-velleron/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84143-84210-venasque/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84143-84210-venasque/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84143-84210-venasque/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84143-84210-venasque/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84144-84750-viens/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84144-84750-viens/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84144-84750-viens/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84144-84750-viens/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84145-84400-villars/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84145-84400-villars/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84145-84400-villars/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84145-84400-villars/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84146-84110-villedieu/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84146-84110-villedieu/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84146-84110-villedieu/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84146-84110-villedieu/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84147-84530-villelaure/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84147-84530-villelaure/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84147-84530-villelaure/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84147-84530-villelaure/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84148-84570-villes_sur_auzon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84148-84570-villes_sur_auzon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84148-84570-villes_sur_auzon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84148-84570-villes_sur_auzon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84149-84150-violes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84149-84150-violes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84149-84150-violes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84149-84150-violes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84150-84820-visan/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84150-84820-visan/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84150-84820-visan/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84150-84820-visan/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84151-84240-vitrolles_en_luberon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84151-84240-vitrolles_en_luberon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84151-84240-vitrolles_en_luberon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt84-vaucluse/commune84151-84240-vitrolles_en_luberon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
 </urlset>

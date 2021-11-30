@@ -5,334 +5,664 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/recherche-standard</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/recherche-18_55</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/recherche-dose_rappel</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/recherche-dose_1_ou_2</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48001-48310-albaret_le_comtal/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48001-48310-albaret_le_comtal/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48001-48310-albaret_le_comtal/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48001-48310-albaret_le_comtal/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48002-48200-albaret_sainte_marie/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48002-48200-albaret_sainte_marie/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48002-48200-albaret_sainte_marie/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48002-48200-albaret_sainte_marie/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48003-48190-allenc/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48003-48190-allenc/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48003-48190-allenc/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48003-48190-allenc/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48004-48800-altier/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48004-48800-altier/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48004-48800-altier/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48004-48800-altier/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48005-48100-antrenas/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48005-48100-antrenas/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48005-48100-antrenas/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48005-48100-antrenas/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48007-48310-arzenc_d_apcher/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48007-48310-arzenc_d_apcher/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48007-48310-arzenc_d_apcher/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48007-48310-arzenc_d_apcher/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48008-48170-arzenc_de_randon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48008-48170-arzenc_de_randon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48008-48170-arzenc_de_randon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48008-48170-arzenc_de_randon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48009-48130-peyre_en_aubrac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48009-48130-peyre_en_aubrac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48009-48130-peyre_en_aubrac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48009-48130-peyre_en_aubrac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48009-48100-peyre_en_aubrac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48009-48100-peyre_en_aubrac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48009-48100-peyre_en_aubrac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48009-48100-peyre_en_aubrac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48010-48600-auroux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48010-48600-auroux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48010-48600-auroux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48010-48600-auroux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48012-48200-les_monts_verts/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48012-48200-les_monts_verts/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48012-48200-les_monts_verts/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48012-48200-les_monts_verts/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48013-48000-badaroux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48013-48000-badaroux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48013-48000-badaroux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48013-48000-badaroux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48015-48800-pied_de_borne/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48015-48800-pied_de_borne/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48015-48800-pied_de_borne/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48015-48800-pied_de_borne/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48016-48000-balsieges/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48016-48000-balsieges/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48016-48000-balsieges/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48016-48000-balsieges/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48017-48500-banassac_canilhac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48017-48500-banassac_canilhac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48017-48500-banassac_canilhac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48017-48500-banassac_canilhac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48018-48000-barjac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48018-48000-barjac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48018-48000-barjac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48018-48000-barjac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48019-48400-barre_des_cevennes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48019-48400-barre_des_cevennes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48019-48400-barre_des_cevennes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48019-48400-barre_des_cevennes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48020-48400-bassurels/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48020-48400-bassurels/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48020-48400-bassurels/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48020-48400-bassurels/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48021-48250-la_bastide_puylaurent/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48021-48250-la_bastide_puylaurent/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48021-48250-la_bastide_puylaurent/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48021-48250-la_bastide_puylaurent/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48025-48200-les_bessons/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48025-48200-les_bessons/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48025-48200-les_bessons/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48025-48200-les_bessons/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48026-48200-blavignac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48026-48200-blavignac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48026-48200-blavignac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48026-48200-blavignac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48190-mont_lozere_et_goulet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48190-mont_lozere_et_goulet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48190-mont_lozere_et_goulet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48190-mont_lozere_et_goulet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48250-mont_lozere_et_goulet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48250-mont_lozere_et_goulet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48250-mont_lozere_et_goulet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48250-mont_lozere_et_goulet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48170-mont_lozere_et_goulet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48170-mont_lozere_et_goulet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48170-mont_lozere_et_goulet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48027-48170-mont_lozere_et_goulet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48028-48400-les_bondons/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48028-48400-les_bondons/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48028-48400-les_bondons/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48028-48400-les_bondons/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48029-48000-le_born/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48029-48000-le_born/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48029-48000-le_born/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48029-48000-le_born/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48030-48000-brenoux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48030-48000-brenoux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48030-48000-brenoux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48030-48000-brenoux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48031-48310-brion/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48031-48310-brion/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48031-48310-brion/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48031-48310-brion/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48032-48100-le_buisson/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48032-48100-le_buisson/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48032-48100-le_buisson/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48032-48100-le_buisson/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48034-48500-la_canourgue/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48034-48500-la_canourgue/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48034-48500-la_canourgue/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48034-48500-la_canourgue/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48036-48400-cassagnas/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48036-48400-cassagnas/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48036-48400-cassagnas/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48036-48400-cassagnas/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48037-48190-chadenet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48037-48190-chadenet/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48037-48190-chadenet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48037-48190-chadenet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48038-48600-bel_air_val_d’ance/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48038-48600-bel_air_val_d’ance/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48038-48600-bel_air_val_d’ance/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48038-48600-bel_air_val_d’ance/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48039-48230-chanac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48039-48230-chanac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48039-48230-chanac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48039-48230-chanac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48041-48300-chastanier/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48041-48300-chastanier/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48041-48300-chastanier/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48041-48300-chastanier/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48042-48000-chastel_nouvel/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48042-48000-chastel_nouvel/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48042-48000-chastel_nouvel/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48042-48000-chastel_nouvel/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48043-48170-chateauneuf_de_randon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48043-48170-chateauneuf_de_randon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48043-48170-chateauneuf_de_randon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48043-48170-chateauneuf_de_randon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48044-48310-chauchailles/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48044-48310-chauchailles/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48044-48310-chauchailles/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48044-48310-chauchailles/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48045-48170-chaudeyrac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48045-48170-chaudeyrac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48045-48170-chaudeyrac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48045-48170-chaudeyrac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48046-48140-chaulhac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48046-48140-chaulhac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48046-48140-chaulhac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48046-48140-chaulhac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48048-48300-cheylard_l_eveque/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48048-48300-cheylard_l_eveque/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48048-48300-cheylard_l_eveque/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48048-48300-cheylard_l_eveque/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48050-48400-bedoues_cocures/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48050-48400-bedoues_cocures/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48050-48400-bedoues_cocures/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48050-48400-bedoues_cocures/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48051-48160-le_collet_de_deze/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48051-48160-le_collet_de_deze/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48051-48160-le_collet_de_deze/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48051-48160-le_collet_de_deze/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48053-48190-cubieres/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48053-48190-cubieres/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48053-48190-cubieres/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48053-48190-cubieres/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48054-48190-cubierettes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48054-48190-cubierettes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48054-48190-cubierettes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48054-48190-cubierettes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48055-48230-cultures/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48055-48230-cultures/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48055-48230-cultures/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48055-48230-cultures/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48056-48230-esclanedes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48056-48230-esclanedes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48056-48230-esclanedes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48056-48230-esclanedes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48058-48310-la_fage_montivernoux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48058-48310-la_fage_montivernoux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48058-48310-la_fage_montivernoux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48058-48310-la_fage_montivernoux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48059-48200-la_fage_saint_julien/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48059-48200-la_fage_saint_julien/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48059-48200-la_fage_saint_julien/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48059-48200-la_fage_saint_julien/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48061-48400-florac_trois_rivieres/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48061-48400-florac_trois_rivieres/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48061-48400-florac_trois_rivieres/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48061-48400-florac_trois_rivieres/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48063-48700-fontans/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48063-48700-fontans/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48063-48700-fontans/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48063-48700-fontans/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48063-48120-fontans/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48063-48120-fontans/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48063-48120-fontans/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48063-48120-fontans/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48064-48310-fournels/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48064-48310-fournels/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48064-48310-fournels/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48064-48310-fournels/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48065-48400-fraissinet_de_fourques/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48065-48400-fraissinet_de_fourques/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48065-48400-fraissinet_de_fourques/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48065-48400-fraissinet_de_fourques/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48067-48110-gabriac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48067-48110-gabriac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48067-48110-gabriac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48067-48110-gabriac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48068-48100-gabrias/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48068-48100-gabrias/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48068-48100-gabrias/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48068-48100-gabrias/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48069-48150-gatuzieres/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48069-48150-gatuzieres/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48069-48150-gatuzieres/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48069-48150-gatuzieres/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48070-48600-grandrieu/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48070-48600-grandrieu/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48070-48600-grandrieu/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48070-48600-grandrieu/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48071-48260-grandvals/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48071-48260-grandvals/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48071-48260-grandvals/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48071-48260-grandvals/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48072-48100-grezes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48072-48100-grezes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48072-48100-grezes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48072-48100-grezes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48073-48340-les_hermaux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48073-48340-les_hermaux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48073-48340-les_hermaux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48073-48340-les_hermaux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48074-48150-hures_la_parade/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48074-48150-hures_la_parade/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48074-48150-hures_la_parade/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48074-48150-hures_la_parade/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48075-48320-ispagnac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48075-48320-ispagnac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48075-48320-ispagnac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48075-48320-ispagnac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48077-48140-julianges/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48077-48140-julianges/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48077-48140-julianges/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48077-48140-julianges/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48079-48120-lajo/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48079-48120-lajo/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48079-48120-lajo/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48079-48120-lajo/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48080-48300-langogne/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48080-48300-langogne/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48080-48300-langogne/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48080-48300-langogne/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48081-48000-lanuejols/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48081-48000-lanuejols/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48081-48000-lanuejols/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48081-48000-lanuejols/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48082-48170-laubert/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48082-48170-laubert/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48082-48170-laubert/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48082-48170-laubert/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48083-48700-les_laubies/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48083-48700-les_laubies/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48083-48700-les_laubies/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48083-48700-les_laubies/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48085-48500-laval_du_tarn/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48085-48500-laval_du_tarn/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48085-48500-laval_du_tarn/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48085-48500-laval_du_tarn/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48085-48210-laval_du_tarn/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48085-48210-laval_du_tarn/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48085-48210-laval_du_tarn/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48085-48210-laval_du_tarn/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48086-48250-luc/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48086-48250-luc/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48086-48250-luc/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48086-48250-luc/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48087-48270-prinsuejols_malbouzon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48087-48270-prinsuejols_malbouzon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48087-48270-prinsuejols_malbouzon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48087-48270-prinsuejols_malbouzon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48087-48100-prinsuejols_malbouzon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48087-48100-prinsuejols_malbouzon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48087-48100-prinsuejols_malbouzon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48087-48100-prinsuejols_malbouzon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48088-48210-la_malene/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48088-48210-la_malene/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48088-48210-la_malene/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48088-48210-la_malene/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48089-48140-le_malzieu_forain/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48089-48140-le_malzieu_forain/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48089-48140-le_malzieu_forain/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48089-48140-le_malzieu_forain/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48090-48140-le_malzieu_ville/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48090-48140-le_malzieu_ville/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48090-48140-le_malzieu_ville/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48090-48140-le_malzieu_ville/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48091-48260-marchastel/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48091-48260-marchastel/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48091-48260-marchastel/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48091-48260-marchastel/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48092-48100-marvejols/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48092-48100-marvejols/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48092-48100-marvejols/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48092-48100-marvejols/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48094-48500-massegros_causses_gorges/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48094-48500-massegros_causses_gorges/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48094-48500-massegros_causses_gorges/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48094-48500-massegros_causses_gorges/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48094-48210-massegros_causses_gorges/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48094-48210-massegros_causses_gorges/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48094-48210-massegros_causses_gorges/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48094-48210-massegros_causses_gorges/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48095-48000-mende/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48095-48000-mende/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48095-48000-mende/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48095-48000-mende/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48096-48150-meyrueis/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48096-48150-meyrueis/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48096-48150-meyrueis/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48096-48150-meyrueis/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48097-48110-moissac_vallee_francaise/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48097-48110-moissac_vallee_francaise/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48097-48110-moissac_vallee_francaise/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48097-48110-moissac_vallee_francaise/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48098-48110-molezon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48098-48110-molezon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48098-48110-molezon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48098-48110-molezon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48099-48100-bourgs_sur_colagne/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48099-48100-bourgs_sur_colagne/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48099-48100-bourgs_sur_colagne/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48099-48100-bourgs_sur_colagne/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48100-48170-montbel/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48100-48170-montbel/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48100-48170-montbel/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48100-48170-montbel/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48103-48100-montrodat/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48103-48100-montrodat/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48103-48100-montrodat/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48103-48100-montrodat/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48104-48260-nasbinals/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48104-48260-nasbinals/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48104-48260-nasbinals/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48104-48260-nasbinals/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48105-48300-naussac_fontanes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48105-48300-naussac_fontanes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48105-48300-naussac_fontanes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48105-48300-naussac_fontanes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48106-48310-noalhac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48106-48310-noalhac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48106-48310-noalhac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48106-48310-noalhac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48107-48100-palhers/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48107-48100-palhers/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48107-48100-palhers/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48107-48100-palhers/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48108-48600-la_panouse/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48108-48600-la_panouse/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48108-48600-la_panouse/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48108-48600-la_panouse/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48110-48140-paulhac_en_margeride/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48110-48140-paulhac_en_margeride/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48110-48140-paulhac_en_margeride/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48110-48140-paulhac_en_margeride/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48111-48000-pelouse/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48111-48000-pelouse/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48111-48000-pelouse/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48111-48000-pelouse/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48112-48300-pierrefiche/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48112-48300-pierrefiche/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48112-48300-pierrefiche/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48112-48300-pierrefiche/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48115-48110-le_pompidou/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48115-48110-le_pompidou/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48115-48110-le_pompidou/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48115-48110-le_pompidou/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48116-48220-pont_de_montvert___sud_mont_lozere/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48116-48220-pont_de_montvert___sud_mont_lozere/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48116-48220-pont_de_montvert___sud_mont_lozere/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48116-48220-pont_de_montvert___sud_mont_lozere/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48117-48800-pourcharesses/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48117-48800-pourcharesses/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48117-48800-pourcharesses/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48117-48800-pourcharesses/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48119-48800-prevencheres/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48119-48800-prevencheres/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48119-48800-prevencheres/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48119-48800-prevencheres/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48121-48200-prunieres/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48121-48200-prunieres/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48121-48200-prunieres/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48121-48200-prunieres/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48123-48260-recoules_d_aubrac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48123-48260-recoules_d_aubrac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48123-48260-recoules_d_aubrac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48123-48260-recoules_d_aubrac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48124-48100-recoules_de_fumas/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48124-48100-recoules_de_fumas/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48124-48100-recoules_de_fumas/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48124-48100-recoules_de_fumas/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48126-48700-lachamp_ribennes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48126-48700-lachamp_ribennes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48126-48700-lachamp_ribennes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48126-48700-lachamp_ribennes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48126-48100-lachamp_ribennes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48126-48100-lachamp_ribennes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48126-48100-lachamp_ribennes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48126-48100-lachamp_ribennes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48127-48700-monts_de_randon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48127-48700-monts_de_randon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48127-48700-monts_de_randon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48127-48700-monts_de_randon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48127-48000-monts_de_randon/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48127-48000-monts_de_randon/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48127-48000-monts_de_randon/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48127-48000-monts_de_randon/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48128-48200-rimeize/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48128-48200-rimeize/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48128-48200-rimeize/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48128-48200-rimeize/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48129-48300-rocles/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48129-48300-rocles/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48129-48300-rocles/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48129-48300-rocles/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48130-48400-rousses/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48130-48400-rousses/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48130-48400-rousses/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48130-48400-rousses/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48131-48150-le_rozier/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48131-48150-le_rozier/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48131-48150-le_rozier/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48131-48150-le_rozier/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48132-48120-saint_alban_sur_limagnole/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48132-48120-saint_alban_sur_limagnole/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48132-48120-saint_alban_sur_limagnole/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48132-48120-saint_alban_sur_limagnole/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48135-48800-saint_andre_capceze/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48135-48800-saint_andre_capceze/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48135-48800-saint_andre_capceze/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48135-48800-saint_andre_capceze/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48136-48240-saint_andre_de_lancize/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48136-48240-saint_andre_de_lancize/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48136-48240-saint_andre_de_lancize/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48136-48240-saint_andre_de_lancize/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48137-48000-saint_bauzile/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48137-48000-saint_bauzile/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48137-48000-saint_bauzile/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48137-48000-saint_bauzile/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48138-48100-saint_bonnet_de_chirac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48138-48100-saint_bonnet_de_chirac/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48138-48100-saint_bonnet_de_chirac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48138-48100-saint_bonnet_de_chirac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48139-48600-saint_bonnet_laval/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48139-48600-saint_bonnet_laval/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48139-48600-saint_bonnet_laval/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48139-48600-saint_bonnet_laval/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48140-48200-saint_chely_d_apcher/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48140-48200-saint_chely_d_apcher/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48140-48200-saint_chely_d_apcher/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48140-48200-saint_chely_d_apcher/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48141-48210-mas_saint_chely/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48141-48210-mas_saint_chely/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48141-48210-mas_saint_chely/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48141-48210-mas_saint_chely/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48144-48110-sainte_croix_vallee_francaise/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48144-48110-sainte_croix_vallee_francaise/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48144-48110-sainte_croix_vallee_francaise/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48144-48110-sainte_croix_vallee_francaise/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48145-48700-saint_denis_en_margeride/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48145-48700-saint_denis_en_margeride/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48145-48700-saint_denis_en_margeride/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48145-48700-saint_denis_en_margeride/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48146-48210-gorges_du_tarn_causses/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48146-48210-gorges_du_tarn_causses/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48146-48210-gorges_du_tarn_causses/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48146-48210-gorges_du_tarn_causses/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48146-48320-gorges_du_tarn_causses/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48146-48320-gorges_du_tarn_causses/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48146-48320-gorges_du_tarn_causses/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48146-48320-gorges_du_tarn_causses/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48147-48000-saint_etienne_du_valdonnez/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48147-48000-saint_etienne_du_valdonnez/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48147-48000-saint_etienne_du_valdonnez/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48147-48000-saint_etienne_du_valdonnez/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48148-48330-saint_etienne_vallee_francaise/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48148-48330-saint_etienne_vallee_francaise/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48148-48330-saint_etienne_vallee_francaise/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48148-48330-saint_etienne_vallee_francaise/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48149-48120-sainte_eulalie/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48149-48120-sainte_eulalie/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48149-48120-sainte_eulalie/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48149-48120-sainte_eulalie/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48150-48300-saint_flour_de_mercoire/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48150-48300-saint_flour_de_mercoire/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48150-48300-saint_flour_de_mercoire/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48150-48300-saint_flour_de_mercoire/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48151-48170-saint_frezal_d_albuges/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48151-48170-saint_frezal_d_albuges/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48151-48170-saint_frezal_d_albuges/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48151-48170-saint_frezal_d_albuges/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48152-48240-ventalon_en_cevennes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48152-48240-ventalon_en_cevennes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48152-48240-ventalon_en_cevennes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48152-48240-ventalon_en_cevennes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48152-48160-ventalon_en_cevennes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48152-48160-ventalon_en_cevennes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48152-48160-ventalon_en_cevennes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48152-48160-ventalon_en_cevennes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48153-48700-saint_gal/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48153-48700-saint_gal/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48153-48700-saint_gal/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48153-48700-saint_gal/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48155-48370-saint_germain_de_calberte/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48155-48370-saint_germain_de_calberte/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48155-48370-saint_germain_de_calberte/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48155-48370-saint_germain_de_calberte/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48156-48340-saint_germain_du_teil/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48156-48340-saint_germain_du_teil/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48156-48340-saint_germain_du_teil/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48156-48340-saint_germain_du_teil/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48157-48190-sainte_helene/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48157-48190-sainte_helene/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48157-48190-sainte_helene/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48157-48190-sainte_helene/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48158-48160-saint_hilaire_de_lavit/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48158-48160-saint_hilaire_de_lavit/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48158-48160-saint_hilaire_de_lavit/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48158-48160-saint_hilaire_de_lavit/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48160-48170-saint_jean_la_fouillouse/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48160-48170-saint_jean_la_fouillouse/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48160-48170-saint_jean_la_fouillouse/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48160-48170-saint_jean_la_fouillouse/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48161-48310-saint_juery/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48161-48310-saint_juery/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48161-48310-saint_juery/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48161-48310-saint_juery/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48163-48160-saint_julien_des_points/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48163-48160-saint_julien_des_points/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48163-48160-saint_julien_des_points/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48163-48160-saint_julien_des_points/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48165-48100-saint_laurent_de_muret/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48165-48100-saint_laurent_de_muret/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48165-48100-saint_laurent_de_muret/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48165-48100-saint_laurent_de_muret/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48166-48400-cans_et_cevennes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48166-48400-cans_et_cevennes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48166-48400-cans_et_cevennes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48166-48400-cans_et_cevennes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48167-48310-saint_laurent_de_veyres/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48167-48310-saint_laurent_de_veyres/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48167-48310-saint_laurent_de_veyres/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48167-48310-saint_laurent_de_veyres/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48168-48100-saint_leger_de_peyre/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48168-48100-saint_leger_de_peyre/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48168-48100-saint_leger_de_peyre/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48168-48100-saint_leger_de_peyre/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48169-48140-saint_leger_du_malzieu/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48169-48140-saint_leger_du_malzieu/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48169-48140-saint_leger_du_malzieu/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48169-48140-saint_leger_du_malzieu/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48170-48160-saint_martin_de_boubaux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48170-48160-saint_martin_de_boubaux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48170-48160-saint_martin_de_boubaux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48170-48160-saint_martin_de_boubaux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48171-48110-saint_martin_de_lansuscle/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48171-48110-saint_martin_de_lansuscle/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48171-48110-saint_martin_de_lansuscle/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48171-48110-saint_martin_de_lansuscle/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48173-48160-saint_michel_de_deze/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48173-48160-saint_michel_de_deze/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48173-48160-saint_michel_de_deze/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48173-48160-saint_michel_de_deze/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48174-48600-saint_paul_le_froid/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48174-48600-saint_paul_le_froid/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48174-48600-saint_paul_le_froid/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48174-48600-saint_paul_le_froid/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48175-48340-saint_pierre_de_nogaret/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48175-48340-saint_pierre_de_nogaret/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48175-48340-saint_pierre_de_nogaret/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48175-48340-saint_pierre_de_nogaret/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48175-48500-saint_pierre_de_nogaret/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48175-48500-saint_pierre_de_nogaret/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48175-48500-saint_pierre_de_nogaret/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48175-48500-saint_pierre_de_nogaret/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48176-48150-saint_pierre_des_tripiers/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48176-48150-saint_pierre_des_tripiers/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48176-48150-saint_pierre_des_tripiers/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48176-48150-saint_pierre_des_tripiers/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48177-48200-saint_pierre_le_vieux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48177-48200-saint_pierre_le_vieux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48177-48200-saint_pierre_le_vieux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48177-48200-saint_pierre_le_vieux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48178-48240-saint_privat_de_vallongue/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48178-48240-saint_privat_de_vallongue/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48178-48240-saint_privat_de_vallongue/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48178-48240-saint_privat_de_vallongue/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48179-48140-saint_privat_du_fau/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48179-48140-saint_privat_du_fau/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48179-48140-saint_privat_du_fau/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48179-48140-saint_privat_du_fau/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48181-48500-saint_saturnin/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48181-48500-saint_saturnin/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48181-48500-saint_saturnin/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48181-48500-saint_saturnin/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48182-48170-saint_sauveur_de_ginestoux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48182-48170-saint_sauveur_de_ginestoux/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48182-48170-saint_sauveur_de_ginestoux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48182-48170-saint_sauveur_de_ginestoux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48185-48230-les_salelles/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48185-48230-les_salelles/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48185-48230-les_salelles/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48185-48230-les_salelles/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48187-48100-les_salces/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48187-48100-les_salces/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48187-48100-les_salces/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48187-48100-les_salces/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48188-48700-serverette/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48188-48700-serverette/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48188-48700-serverette/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48188-48700-serverette/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48190-48310-termes/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48190-48310-termes/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48190-48310-termes/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48190-48310-termes/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48191-48500-la_tieule/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48191-48500-la_tieule/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48191-48500-la_tieule/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48191-48500-la_tieule/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48192-48340-trelans/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48192-48340-trelans/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48192-48340-trelans/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48192-48340-trelans/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48193-48400-vebron/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48193-48400-vebron/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48193-48400-vebron/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48193-48400-vebron/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48194-48220-vialas/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48194-48220-vialas/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48194-48220-vialas/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48194-48220-vialas/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48198-48800-villefort/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48198-48800-villefort/recherche-18_55/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48198-48800-villefort/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt48-lozere/commune48198-48800-villefort/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
 </urlset>
