@@ -98,9 +98,11 @@ export class VmdLieuxView extends LitElement {
             const string_popup = `
                 <span style='font-size: 150%;'>${lieu.nom}</span>
                 <br>
-                <b>Adresse :</b> ${lieu.adresse}<br><b>Réservation :</b> ${reservation_str}
+                <b>Adresse :</b> ${lieu.adresse || "-"}
                 <br>
-                <b>Tél :</b> <a href:'tel:${lieu.rdv_tel}'>${lieu.rdv_tel}</a>
+                <b>Réservation :</b> ${reservation_str || "-"}
+                <br>
+                <b>Tél :</b> ${lieu.rdv_tel?`<a href='tel:${lieu.rdv_tel}'>${lieu.rdv_tel}</a>`:`-`}
             `;
             const newMarker = marker([lieu.latitude, lieu.longitude] as LatLngTuple, {
                 icon: new Icon.Default({imagePath: `${Router.basePath}assets/images/png/`})
