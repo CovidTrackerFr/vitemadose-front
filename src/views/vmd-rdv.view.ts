@@ -288,7 +288,7 @@ export abstract class AbstractVmdRdvView extends LitElement {
                     </label>
                     <div class="col">
                         <vmd-button-switch class="mb-3" style="display: inline-block"
-                                           codeSelectionne="dose_rappel"
+                                           codeSelectionne="${this.currentSearch?.type || 'dose_rappel'}"
                                            .options="${[{code: 'dose_rappel', libelle: 'Une dose de rappel'}, {code: 'dose_1_enfants', libelle: 'Une dose pour 5-11 ans'}, {code: 'dose_1_ou_2', libelle: 'Une 1ère dose de vaccin'}]}"
                                            @changed="${(e: CustomEvent<{value: SearchType}>) => this.updateSearchTypeTo(e.detail.value)}">
                         </vmd-button-switch>
