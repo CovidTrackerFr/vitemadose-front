@@ -26,11 +26,11 @@ export class VmdAppComponent extends LitElement {
 
         smoothscroll.polyfill();
 
+        RemoteConfig.INSTANCE.sync();
+
         Router.installRoutes((viewTemplateResult) => {
             this.viewTemplateResult = viewTemplateResult;
         })
-
-        RemoteConfig.INSTANCE.sync();
 
         ServiceWorkers.INSTANCE.startup();
     }
