@@ -90,6 +90,7 @@ label,
         -webkit-appearance: none;
         appearance: none;
         outline: none;
+        background-color: -webkit-control-background;
 
         &:focus {
             box-shadow: 0 0 0 $form-select-focus-width $input-btn-focus-color;
