@@ -308,6 +308,12 @@ $paragraph-margin-bottom:   1rem;
 // adapting to different screen sizes, for use in media queries.
 
 // scss-docs-start grid-breakpoints
+$grid-breakpoint-xs: 0px;
+$grid-breakpoint-sm: 576px;
+$grid-breakpoint-md: 768px;
+$grid-breakpoint-lg: 992px;
+$grid-breakpoint-xl: 1200px;
+$grid-breakpoint-xxl: 1400px;
 $grid-breakpoints: (
         xs: 0,
         sm: 576px,
@@ -327,6 +333,11 @@ $grid-breakpoints: (
 // Define the maximum width of `.container` for different screen sizes.
 
 // scss-docs-start container-max-widths
+$container-max-width-sm: 540px;
+$container-max-width-md: 720px;
+$container-max-width-lg: 960px;
+$container-max-width-xl: 1140px;
+$container-max-width-xxl: 1320px;
 $container-max-widths: (
         sm: 540px,
         md: 720px,

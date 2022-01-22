@@ -136,6 +136,16 @@ class Routing {
         // Legacy URL
         page.redirect(`${this.basePath}chronodose`, `/`);
 
+        this.declareRoutes({
+            pathPattern: `/equipe`,
+            analyticsViewName: () => 'equipe',
+            viewContent: async () => {
+                await import('../views/vmd-equipe.view');
+                return () =>
+                    html`<vmd-equipe></vmd-equipe>`;
+            }
+        });
+
         page(`*`, (context) => Routing._notFoundRoute(context));
         page();
 

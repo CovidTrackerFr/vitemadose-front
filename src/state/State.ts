@@ -4,6 +4,19 @@ import { Memoize } from 'typescript-memoize'
 import {ArrayBuilder} from "../utils/Arrays";
 import {RemoteConfig} from "../utils/RemoteConfig";
 
+export interface Contributor {
+  nom: string
+  pseudo: string
+  photo?: string
+  site_web?: string
+  job?: string
+  teams: string[]
+  links: Array<{
+    site: 'github' | 'twitter'
+    url: string
+  }>
+}
+
 export type CodeTrancheAge = 'plus75ans';
 export type TrancheAge = {
     codeTrancheAge: CodeTrancheAge;
@@ -563,4 +576,10 @@ export class State {
       };
     }
 
+    @Memoize()
+    async teamMembers(): Promise<Contributor[]> {
+      const resp = await fetch(`${VMD_BASE_URL}/contributors_all.json`)
+      const { contributors } = await resp.json()
+      return contributors as Contributor[]
+    }
 }
