@@ -18,9 +18,9 @@
     top: 0;
     height: 100%;
     width: calc(var(--day-gutter) * 2);
-    height: calc(100% - var(--day-gutter));
     background: $light;
-    background: linear-gradient(90deg, rgba($light, 255) 20%, rgba(255,255,255, 0) 100%);
+    background: linear-gradient(90deg, rgba($light, 255) 20%, rgba(255, 255, 255, 0) 100%);
+    background-repeat: no-repeat;
   }
 
   &::before {
