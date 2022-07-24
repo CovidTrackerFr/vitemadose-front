@@ -43,7 +43,7 @@ export class RemoteConfig {
         }
     }
     
-    sync() {
+    async sync() {
         const firebaseConfig = (RemoteConfig.currentEnv() === 'prod')?{
             apiKey: "AIzaSyBl4_aecaPMtvy458zFbmDKu3rHfOZyaQU",
             projectId: "vite-ma-dose",
@@ -53,6 +53,32 @@ export class RemoteConfig {
             projectId: "vite-ma-dose-dev",
             appId: "1:812389299998:web:ff949f4962d751b45dfb0f"
         };
+
+        if(RemoteConfig.currentEnv() !== 'prod' && import.meta.env.VITE_OFFLINE_MODE === 'true') {
+            this.configuration = {
+                "chronodose_min_count": "2",
+                "data_disclaimer_enabled": "false",
+                "data_disclaimer_message": "Les plateformes sont très sollicitées, les données affichées par Vite Ma Dose peuvent avoir jusqu'à 15 minutes de retard pour Doctolib.",
+                "data_disclaimer_repeat_days": "5",
+                "data_disclaimer_severity": "warning",
+                "path_contributors": "/vitemadose/contributors_all.json",
+                "path_data_department": "/vitemadose/{code}.json",
+                "path_list_departments": "/vitemadose/departements.json",
+                "path_stats": "/vitemadose/stats.json",
+                "url_base": "https://vitemadose.gitlab.io",
+                "vaccination_centres_list_radius_in_km": "50"
+            };
+            this._urlGenerator = {
+                listDepartements: () => `/offline/departements.json`,
+                statsByDate: () => `/offline/stats_by_date.json`,
+                stats: () => `/offline/stats.json`,
+                infosDepartement: (codeDepartement) => `/offline/${codeDepartement}.json`,
+                creneauxQuotidiensDepartement: (codeDepartement) => `/offline/${codeDepartement}/creneaux-quotidiens.json`
+            };
+            this.configurationSyncedPromise = Promise.resolve();
+
+            return this.configurationSyncedPromise;
+        }
 
         this.configurationSyncedPromise = fetch(`https://firebaseinstallations.googleapis.com/v1/projects/${firebaseConfig.projectId}/installations`, {
             method: 'POST',

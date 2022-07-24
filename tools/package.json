@@ -4,7 +4,9 @@
   "description": "",
   "main": "communes-import.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update-offline-data": "ts-node update-offline-data.ts",
+    "communes-import": "ts-node communes-import.ts"
   },
   "author": "",
   "license": "ISC",
