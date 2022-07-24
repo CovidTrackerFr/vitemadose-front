@@ -45,7 +45,7 @@ export class RemoteConfig {
     
     sync() {
         const firebaseConfig = (RemoteConfig.currentEnv() === 'prod')?{
-            apiKey: "AIzaSyBl4_aecaPMtvy458zFbmDKu3rHfOZyaQU",
+            apiKey: "AIzaSyAf5uQpQPLJRwyL-IszpZQs14UJobGtZ2E",
             projectId: "vite-ma-dose",
             appId: "1:304644690082:web:e12d50228bc4493b25c7fb"
         }:{
