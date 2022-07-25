@@ -1,11 +1,4 @@
-
-type DataUrlGenerator = {
-    listDepartements: () => string,
-    statsByDate: () => string,
-    stats: () => string,
-    infosDepartement: (codeDepartement: string) => string,
-    creneauxQuotidiensDepartement: (codeDepartement: string) => string,
-};
+import {DataUrlGenerator, GITHUB_DATA_URLS, GITLAB_DATA_URLS} from "./LocalConfig";
 
 type RemoteConfigEntries = {
     "chronodose_min_count": string,
@@ -19,6 +12,20 @@ type RemoteConfigEntries = {
     "path_stats": string,
     "url_base": string,
     "vaccination_centres_list_radius_in_km": string,
+};
+
+const REMOTE_CONFIG_ENTRIES_FALLBACK: RemoteConfigEntries = {
+    "chronodose_min_count": "2",
+    "data_disclaimer_enabled": "false",
+    "data_disclaimer_message": "Les plateformes sont très sollicitées, les données affichées par Vite Ma Dose peuvent avoir jusqu'à 15 minutes de retard pour Doctolib.",
+    "data_disclaimer_repeat_days": "5",
+    "data_disclaimer_severity": "warning",
+    "path_contributors": "/vitemadose/contributors_all.json",
+    "path_data_department": "/vitemadose/{code}.json",
+    "path_list_departments": "/vitemadose/departements.json",
+    "path_stats": "/vitemadose/stats.json",
+    "url_base": "https://vitemadose.gitlab.io",
+    "vaccination_centres_list_radius_in_km": "50"
 };
 
 export class RemoteConfig {
@@ -55,19 +62,7 @@ export class RemoteConfig {
         };
 
         if(RemoteConfig.currentEnv() !== 'prod' && import.meta.env.VITE_OFFLINE_MODE === 'true') {
-            this.configuration = {
-                "chronodose_min_count": "2",
-                "data_disclaimer_enabled": "false",
-                "data_disclaimer_message": "Les plateformes sont très sollicitées, les données affichées par Vite Ma Dose peuvent avoir jusqu'à 15 minutes de retard pour Doctolib.",
-                "data_disclaimer_repeat_days": "5",
-                "data_disclaimer_severity": "warning",
-                "path_contributors": "/vitemadose/contributors_all.json",
-                "path_data_department": "/vitemadose/{code}.json",
-                "path_list_departments": "/vitemadose/departements.json",
-                "path_stats": "/vitemadose/stats.json",
-                "url_base": "https://vitemadose.gitlab.io",
-                "vaccination_centres_list_radius_in_km": "50"
-            };
+            this.configuration = REMOTE_CONFIG_ENTRIES_FALLBACK;
             this._urlGenerator = {
                 listDepartements: () => `/offline/departements.json`,
                 statsByDate: () => `/offline/stats_by_date.json`,
@@ -118,21 +113,9 @@ export class RemoteConfig {
                         creneauxQuotidiensDepartement: (codeDepartement) => `${urlBase}/vitemadose/${codeDepartement}/creneaux-quotidiens.json`
                     };
                 } else if(USE_GITLAB_AS_FALLBACK) {
-                    this._urlGenerator = {
-                        listDepartements: () => 'https://vitemadose.gitlab.io/vitemadose/departements.json',
-                        statsByDate: () => `https://vitemadose.gitlab.io/vitemadose/stats_by_date.json`,
-                        stats: () => `https://vitemadose.gitlab.io/vitemadose/stats.json`,
-                        infosDepartement: (codeDepartement) => `https://vitemadose.gitlab.io/vitemadose/${codeDepartement}.json`,
-                        creneauxQuotidiensDepartement: (codeDepartement) => `https://vitemadose.gitlab.io/vitemadose/${codeDepartement}/creneaux-quotidiens.json`
-                    };
+                    this._urlGenerator = GITLAB_DATA_URLS;
                 } else {
-                    this._urlGenerator = {
-                        listDepartements: () => `https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/departements.json`,
-                        statsByDate: () => `https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/stats_by_date.json`,
-                        stats: () => `https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/stats.json`,
-                        infosDepartement: (codeDepartement) => `https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/${codeDepartement}.json`,
-                        creneauxQuotidiensDepartement: (codeDepartement) => `https://raw.githubusercontent.com/CovidTrackerFr/vitemadose/data-auto/data/output/${codeDepartement}/creneaux-quotidiens.json`
-                    };
+                    this._urlGenerator = GITHUB_DATA_URLS;
                 }
 
                 return undefined as void;

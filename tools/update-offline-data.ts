@@ -1,24 +1,25 @@
 /// <reference path="./types.d.ts" />
 import fetch from 'node-fetch';
 import {mkdir, stat, writeFile} from "fs/promises";
+import {GITLAB_DATA_URLS} from '../src/utils/LocalConfig'
 
 const offlineDir = `${__dirname}/../public/offline`
 
 async function main() {
     await ensureDirectoryCreated(offlineDir);
 
-    const departements = await storeOffline<{code_departement: string}[]>('https://vitemadose.gitlab.io/vitemadose/departements.json', ['departements.json'])
+    const departements = await storeOffline<{code_departement: string}[]>(GITLAB_DATA_URLS.listDepartements(), ['departements.json'])
 
     await Promise.all(departements.map(
         dpt => Promise.all([
-            storeOffline(`https://vitemadose.gitlab.io/vitemadose/${dpt.code_departement}.json`, [`${dpt.code_departement}.json`]),
-            storeOffline(`https://vitemadose.gitlab.io/vitemadose/${dpt.code_departement}/creneaux-quotidiens.json`, [dpt.code_departement, 'creneaux-quotidiens.json']),
+            storeOffline(GITLAB_DATA_URLS.infosDepartement(dpt.code_departement), [`${dpt.code_departement}.json`]),
+            storeOffline(GITLAB_DATA_URLS.creneauxQuotidiensDepartement(dpt.code_departement), [dpt.code_departement, 'creneaux-quotidiens.json']),
         ])
     ));
 
     await Promise.all([
-        storeOffline('https://vitemadose.gitlab.io/vitemadose/stats_by_date.json', ['stats_by_date.json']),
-        storeOffline('https://vitemadose.gitlab.io/vitemadose/stats.json', ['stats.json']),
+        storeOffline(GITLAB_DATA_URLS.statsByDate(), ['stats_by_date.json']),
+        storeOffline(GITLAB_DATA_URLS.stats(), ['stats.json']),
     ])
 }
 
