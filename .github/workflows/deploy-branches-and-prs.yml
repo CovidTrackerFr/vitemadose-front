@@ -44,7 +44,7 @@ jobs:
       - name: rsync deployments
         uses: burnett01/rsync-deployments@4.1
         with:
-          switches: -avz --delete --exclude ".git*"
+          switches: -avz --delete --exclude ".git*" --exclude "offline/*"
           path: ./dist/
           remote_path: ${{ secrets.DEPLOY_PATH_DEV }}${{ env.GITHUB_REF_SLUG }}
           remote_host: ${{ secrets.DEPLOY_IP }}

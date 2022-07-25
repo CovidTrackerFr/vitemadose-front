@@ -4,6 +4,7 @@ node_modules
 dist
 types
 *.local
+/public/offline/
 /mobile/plugins/
 /mobile/platforms/
 /mobile/www/
