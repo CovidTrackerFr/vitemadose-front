@@ -1,5 +1,5 @@
 import {css, customElement, html, LitElement, internalProperty, property } from 'lit-element';
-import {SearchRequest, SearchType, TYPE_RECHERCHE_PAR_DEFAUT} from '../state/State'
+import {DoseType, SearchRequest, SearchType, TYPE_RECHERCHE_PAR_DEFAUT} from '../state/State'
 import {
     Commune,
     Departement,
@@ -27,6 +27,7 @@ export class VmdSearchComponent extends LitElement {
         this.currentSearchType = undefined
       } else {
           this.currentSearchType = searchRequest.type
+          this.doseType = searchRequest.doseType;
           if (SearchRequest.isByDepartement(searchRequest)) {
               this.currentSelection = searchRequest.departement
           } else {
@@ -41,6 +42,7 @@ export class VmdSearchComponent extends LitElement {
     @internalProperty() private currentValue: SearchRequest | undefined = undefined
     @internalProperty() private currentSelection: Commune | Departement | undefined = undefined
     @internalProperty() private currentSearchType: SearchType | undefined = undefined
+    @internalProperty() private doseType: DoseType | undefined = undefined
 
     render() {
         return html`
@@ -57,14 +59,16 @@ export class VmdSearchComponent extends LitElement {
     private onCommuneSelected (commune: Commune) {
       this.currentSelection = commune
       this.dispatchEvent(new CustomEvent<SearchRequest.ByCommune>('on-search', {
-        detail: SearchRequest.ByCommune(commune, this.currentSearchType || TYPE_RECHERCHE_PAR_DEFAUT, this.currentValue?.date)
+        detail: SearchRequest.ByCommune(commune, this.currentSearchType || TYPE_RECHERCHE_PAR_DEFAUT,
+            this.currentValue?.date, this.doseType || 'covid')
       }))
     }
 
     private onDepartementSelected (departement: Departement) {
       this.currentSelection = departement
       this.dispatchEvent(new CustomEvent<SearchRequest.ByDepartement>('on-search', {
-        detail: SearchRequest.ByDepartement(departement, this.currentSearchType || TYPE_RECHERCHE_PAR_DEFAUT, this.currentValue?.date)
+        detail: SearchRequest.ByDepartement(departement, this.currentSearchType || TYPE_RECHERCHE_PAR_DEFAUT,
+            this.currentValue?.date, this.doseType || 'covid')
       }))
     }
 }

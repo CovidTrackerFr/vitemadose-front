@@ -21,10 +21,13 @@ export namespace SearchRequest {
       par: 'departement',
       departement: Departement,
       tri: 'date',
-      date: string|undefined
+      date: string|undefined,
+      doseType: DoseType
   }
-  export function ByDepartement (departement: Departement, type: SearchType, date: string|undefined): ByDepartement {
-    return { type, par: 'departement', departement, tri: 'date', date }
+  export function ByDepartement (departement: Departement, type: SearchType, date: string|undefined,
+                                 doseType: DoseType): ByDepartement {
+
+    return { type, par: 'departement', departement, tri: 'date', date, doseType }
   }
   export function isByDepartement (searchRequest: SearchRequest): searchRequest is ByDepartement {
     return searchRequest.par === 'departement'
@@ -35,10 +38,13 @@ export namespace SearchRequest {
     par: 'commune',
     commune: Commune,
     tri: 'distance',
-    date: string|undefined
+    date: string|undefined,
+    doseType: DoseType
   }
-  export function ByCommune (commune: Commune, type: SearchType, date: string|undefined): ByCommune {
-    return { type, par: 'commune', commune, tri: 'distance', date }
+  export function ByCommune (commune: Commune, type: SearchType, date: string|undefined,
+                             doseType: DoseType): ByCommune {
+
+    return { type, par: 'commune', commune, tri: 'distance', date, doseType }
   }
   export function isByCommune (searchRequest: SearchRequest): searchRequest is ByCommune {
     return searchRequest.par === 'commune'
@@ -46,6 +52,7 @@ export namespace SearchRequest {
 }
 
 export type CodeTriCentre = 'date' | 'distance';
+export type DoseType = 'covid';
 
 export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma"|"AvecMonDoc"|"Clikodoc"|"mesoigner"|"Bimedoc"|"Valwin";
 export type Plateforme = {
@@ -446,14 +453,14 @@ export class State {
       this.autocomplete = new Autocomplete(webBaseUrl, () => this.departementsDisponibles())
     }
 
-    async lieuxPour(codesDepartements: CodeDepartement[]): Promise<LieuxParDepartement> {
+    async lieuxPour(codesDepartements: CodeDepartement[], doseType: DoseType): Promise<LieuxParDepartement> {
         const urlGenerator = await RemoteConfig.INSTANCE.urlGenerator();
         const [principalLieuxDepartement, ...lieuxDepartementsAditionnels] = await Promise.all(
             codesDepartements.map(codeDept => Promise.all([
                 fetch(urlGenerator.infosDepartement(codeDept), { cache: 'no-cache' })
                     .then(resp => resp.json())
                     .then((statsDept: LieuxParDepartement_JSON) => ({...statsDept, codeDepartement: codeDept} as LieuxParDepartement_JSON & {codeDepartement: string})),
-                fetch(urlGenerator.creneauxQuotidiensDepartement(codeDept), { cache: 'no-cache' })
+                fetch(urlGenerator.creneauxQuotidiensDepartement(codeDept, doseType), { cache: 'no-cache' })
                     .then(resp => resp.json())
                     .then((creneauxQuotidiens: InfosDepartementAdditionnelles_JSON|undefined) => creneauxQuotidiens),
             ]).then(([lieuxParDepartement, infosDeptAdditionnelles] : [LieuxParDepartement_JSON & {codeDepartement: string}, InfosDepartementAdditionnelles_JSON|undefined]) => ({

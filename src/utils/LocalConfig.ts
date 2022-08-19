@@ -1,9 +1,11 @@
+import {DoseType} from "../state/State";
+
 export type DataUrlGenerator = {
     listDepartements: () => string,
     statsByDate: () => string,
     stats: () => string,
     infosDepartement: (codeDepartement: string) => string,
-    creneauxQuotidiensDepartement: (codeDepartement: string) => string,
+    creneauxQuotidiensDepartement: (codeDepartement: string, doseType: DoseType) => string,
 };
 
 export const GITLAB_DATA_URLS: DataUrlGenerator = {

@@ -31,7 +31,7 @@ import {
     SearchTypeConfig,
     RendezVousDuJour,
     StatsCreneauxLieuxParJour,
-    countCreneauxFromCreneauxParTag, TYPE_RECHERCHE_PAR_DEFAUT
+    countCreneauxFromCreneauxParTag, TYPE_RECHERCHE_PAR_DEFAUT, DoseType
 } from "../state/State";
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import { fr } from 'date-fns/locale'
@@ -453,7 +453,8 @@ export abstract class AbstractVmdRdvView extends LitElement {
                         ? currentSearch.departement.code_departement
                         : currentSearch.commune.codeDepartement
                     const derniereMiseAJour = this.lieuxParDepartementAffiches?.derniereMiseAJour
-                    const lieuxAJourPourDepartement = await State.current.lieuxPour([codeDepartement])
+                    const lieuxAJourPourDepartement = await State.current.lieuxPour([codeDepartement],
+                        currentSearch.doseType)
                     this.miseAJourDisponible = (derniereMiseAJour !== lieuxAJourPourDepartement.derniereMiseAJour);
 
                     // we stop the update check if there has been one
@@ -477,7 +478,9 @@ export abstract class AbstractVmdRdvView extends LitElement {
             try {
                 this.searchInProgress = true;
                 await delay(1) // give some time (one tick) to render loader before doing the heavy lifting
-                this.lieuxParDepartement = await State.current.lieuxPour([codeDepartement].concat(this.options.codeDepartementAdditionnels(codeDepartement)));
+                this.lieuxParDepartement = await State.current.lieuxPour(
+                    [codeDepartement].concat(this.options.codeDepartementAdditionnels(codeDepartement)),
+                    currentSearch.doseType);
 
                 this.rafraichirDonneesAffichees();
 
@@ -665,11 +668,17 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
       this._codePostalSelectionne = code
       this.updateCurrentSearch()
     }
+    @property({type: String})
+    set selectedDoseType(doseType: DoseType) {
+        this._doseType = doseType;
+        this.updateCurrentSearch();
+    }
 
     @internalProperty() private _searchType: SearchType | undefined = undefined;
     @internalProperty() private _codeCommuneSelectionne: string | undefined = undefined;
     @internalProperty() private _codePostalSelectionne: string | undefined = undefined;
     @internalProperty() private _distanceSelectionnee: number = 50;
+    @internalProperty() private _doseType: DoseType | undefined = undefined;
 
     private currentSearchMarker = {}
 
@@ -706,7 +715,8 @@ export class VmdRdvParCommuneView extends AbstractVmdRdvView {
         if (this.currentSearchMarker !== marker) { return }
         const commune = await State.current.autocomplete.findCommune(this._codePostalSelectionne, this._codeCommuneSelectionne)
         if (commune) {
-          this.currentSearch = SearchRequest.ByCommune(commune, this._searchType, this.jourSelectionne?.date)
+          this.currentSearch = SearchRequest.ByCommune(commune, this._searchType, this.jourSelectionne?.date,
+              this._doseType || 'covid')
           this.refreshLieux()
         }
       }
@@ -758,9 +768,15 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
       this._codeDepartement = code
       this.updateCurrentSearch()
     }
+    @property({type: String})
+    set selectedDoseType(doseType: DoseType) {
+        this._doseType = doseType;
+        this.updateCurrentSearch();
+    }
     @internalProperty() private _searchType: SearchType | void = undefined
     @internalProperty() private _codeDepartement: CodeDepartement | void = undefined
     @internalProperty() protected currentSearch: SearchRequest.ByDepartement | undefined = undefined
+    @internalProperty() private _doseType: DoseType | undefined = undefined
 
     constructor() {
         super({
@@ -775,7 +791,8 @@ export class VmdRdvParDepartementView extends AbstractVmdRdvView {
           const departements = await State.current.departementsDisponibles()
           const departementSelectionne = departements.find(d => d.code_departement === code);
           if (departementSelectionne) {
-            this.currentSearch = SearchRequest.ByDepartement(departementSelectionne, this._searchType, this.jourSelectionne?.date)
+            this.currentSearch = SearchRequest.ByDepartement(departementSelectionne, this._searchType, this.jourSelectionne?.date,
+                this._doseType || 'covid')
             this.refreshLieux()
           }
         }

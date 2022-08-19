@@ -58,7 +58,7 @@ export class VmdLieuxView extends LitElement {
         }).setView([46.505, 3], 6);
 
         const departements = await State.current.departementsDisponibles();
-        const resultatsRechercheLieux = await State.current.lieuxPour(departements.map(d => d.code_departement).filter(code => code !== 'om'));
+        const resultatsRechercheLieux = await State.current.lieuxPour(departements.map(d => d.code_departement).filter(code => code !== 'om'), 'covid');
         const lieuxCarte = resultatsRechercheLieux.lieuxDisponibles.concat(resultatsRechercheLieux.lieuxIndisponibles)
             .filter(lieu => !!lieu.location && !!lieu.location.longitude && lieu.location.latitude)
             // We have some location which have silly locations, like longitude=6786471059425410 (missing comma)

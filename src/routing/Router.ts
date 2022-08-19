@@ -60,7 +60,7 @@ class Routing {
             (context) =>  page.redirect(`${this.basePath}centres-vaccination-covid-dpt${context.params['codeDpt']}-${context.params['nomDpt']}/recherche-standard`));
         this.declareRoutes({
             pathPattern: [
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt`,
+                `/centres-vaccination-:doseType-dpt:codeDpt-:nomDpt`,
                 rechercheDepartementDescriptor.routerUrl
             ],
             analyticsViewName: (pathParams) => searchTypeConfigFromPathParam(pathParams).analytics.searchResultsByDepartement,
@@ -82,7 +82,7 @@ class Routing {
             (context) =>  page.redirect(`${this.basePath}centres-vaccination-covid-dpt${context.params['codeDpt']}-${context.params['nomDpt']}/commune${context.params['codeCommune']}-${context.params['codePostal']}-${context.params['nomCommune']}/recherche-standard/en-triant-par-${context.params['codeTriCentre']}`));
         this.declareRoutes({
             pathPattern: [
-                `/centres-vaccination-covid-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`,
+                `/centres-vaccination-:doseType-dpt:codeDpt-:nomDpt/commune:codeCommune-:codePostal-:nomCommune/en-triant-par-:codeTriCentre`,
                 rechercheCommuneDescriptor.routerUrl
             ],
             analyticsViewName: (pathParams) => searchTypeConfigFromPathParam(pathParams).analytics.searchResultsByCity,
