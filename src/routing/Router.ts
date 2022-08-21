@@ -69,7 +69,8 @@ class Routing {
                 return (subViewSlot) =>
                     html`<vmd-rdv-par-departement
                         searchType="${searchTypeConfigFromPathParam(params).type}"
-                        codeDepartementSelectionne="${params[`codeDpt`]}">
+                        codeDepartementSelectionne="${params[`codeDpt`]}"
+                        selectedDoseType="${params[`doseType`]}">
                       ${subViewSlot}
                     </vmd-rdv-par-departement>`
             },
@@ -93,7 +94,8 @@ class Routing {
                     searchType="${searchTypeConfigFromPathParam(params).type}"
                     codeCommuneSelectionne="${params[`codeCommune`]}"
                     codePostalSelectionne="${params[`codePostal`]}"
-                    critèreDeTri="${params[`codeTriCentre`]}">
+                    critèreDeTri="${params[`codeTriCentre`]}"
+                    selectedDoseType="${params[`doseType`]}">
                   ${subViewSlot}
                 </vmd-rdv-par-commune>`
             },
