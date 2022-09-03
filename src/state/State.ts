@@ -4,14 +4,6 @@ import { Memoize } from 'typescript-memoize'
 import {ArrayBuilder} from "../utils/Arrays";
 import {RemoteConfig} from "../utils/RemoteConfig";
 
-export type CodeTrancheAge = 'plus75ans';
-export type TrancheAge = {
-    codeTrancheAge: CodeTrancheAge;
-    libelle: string;
-};
-export const TRANCHES_AGE: Map<CodeTrancheAge, TrancheAge> = new Map([
-    ['plus75ans', { codeTrancheAge: 'plus75ans', libelle: "Plus de 75 ans" }]
-]);
 
 
 export type SearchRequest = SearchRequest.ByCommune | SearchRequest.ByDepartement
@@ -107,15 +99,10 @@ export type ISODateString = string
 export type WeekDay = "lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"
 export type BusinessHours = Record<WeekDay,string>;
 export type VaccineType = "AstraZeneca"|"Janssen"|"Pfizer-BioNTech"|"Moderna"|"ARNm";
-export type AppointmentPerVaccine = {
-    vaccine_type: VaccineType;
-    appointments: number;
-};
 export type AppointmentSchedule = {
     name: string;
     from: string; // Should be better to have ISODateString here
     to: string; // Should be better to have ISODateString here
-    // appointments_per_vaccine: AppointmentPerVaccine[];
     total: number;
 };
 export type Lieu = {
@@ -195,9 +182,6 @@ export type StatsCreneauxLieuxParJour = {
 export function countCreneauxFromCreneauxParTag(statsCreneauxQuotidiensParTag: StatsCreneauxQuotidienParTag[], tag: TagCreneau): number {
     return statsCreneauxQuotidiensParTag.find(cpt => cpt.tag===tag)?.creneaux || 0;
 }
-export function countCreneauxFromStatsCreneauxLieux(statsCreneauxLieuxParJour: StatsCreneauxLieuxParJour, tag: TagCreneau) {
-    return statsCreneauxLieuxParJour.statsCreneauxParLieu.reduce((total, lieu) => total + countCreneauxFromCreneauxParTag(lieu.statsCreneauxParTag, tag), 0);
-}
 export type StatsCreneauxLieuxParJour_JSON = {
     date: string; // "2021-05-23"
     total: number;
@@ -268,7 +252,6 @@ export type StatsLieu = {
     global: StatLieuGlobale;
 }
 
-export type CommunesParAutocomplete = Map<string, Commune[]>;
 export interface Commune {
     code: string;
     codePostal: string;
@@ -335,28 +318,6 @@ const SEARCH_TYPE_CONFIGS: {[type in SearchType]: SearchTypeConfig & {type: type
             searchResultsByCity: 'search_results_by_city'
         }
     },
-    /*
-    '18_55': {
-        type: '18_55',
-        tagCreneau: "preco18_55",
-        cardAppointmentsExtractor: (lieu, daySelectorDisponible, creneauxParLieux) => {
-            if(daySelectorDisponible) {
-                return creneauxParLieux.find(cpl => cpl.lieu === lieu.internal_id)?.creneaux || 0
-            }
-            throw new Error("We're not supposed to call cardAppointmentsExtractor() on 18_55 without day selector !")
-        },
-        lieuConsidereCommeDisponible: (lieu, creneauxParLieu) => lieu.appointment_by_phone_only || (creneauxParLieu?.creneaux || 0) > 0,
-        pathParam: '18_55',
-        standardTabSelected: true,
-        excludeAppointmentByPhoneOnly: false,
-        jourSelectionnable: true,
-        theme: 'standard',
-        analytics: {
-            searchResultsByDepartement: 'search_results_by_department_18_55',
-            searchResultsByCity: 'search_results_by_city_18_55'
-        }
-    },
-     */
     'dose_rappel': {
         type: 'dose_rappel',
         tagCreneau: 'third_dose',
