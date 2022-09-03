@@ -52,7 +52,7 @@ export namespace SearchRequest {
 }
 
 export type CodeTriCentre = 'date' | 'distance';
-export type DoseType = 'covid';
+export type DoseType = 'covid' | 'monkeypox';
 
 export type TypePlateforme = "Doctolib"|"Maiia"|"Ordoclic"|"Keldoc"|"Pandalab"|"Mapharma"|"AvecMonDoc"|"Clikodoc"|"mesoigner"|"Bimedoc"|"Valwin";
 export type Plateforme = {
@@ -457,7 +457,7 @@ export class State {
         const urlGenerator = await RemoteConfig.INSTANCE.urlGenerator();
         const [principalLieuxDepartement, ...lieuxDepartementsAditionnels] = await Promise.all(
             codesDepartements.map(codeDept => Promise.all([
-                fetch(urlGenerator.infosDepartement(codeDept), { cache: 'no-cache' })
+                fetch(urlGenerator.infosDepartement(codeDept, doseType), { cache: 'no-cache' })
                     .then(resp => resp.json())
                     .then((statsDept: LieuxParDepartement_JSON) => ({...statsDept, codeDepartement: codeDept} as LieuxParDepartement_JSON & {codeDepartement: string})),
                 fetch(urlGenerator.creneauxQuotidiensDepartement(codeDept, doseType), { cache: 'no-cache' })

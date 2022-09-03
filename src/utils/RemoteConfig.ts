@@ -8,6 +8,7 @@ type RemoteConfigEntries = {
     "data_disclaimer_severity": string,
     "path_contributors": string,
     "path_data_department": string,
+    "path_monkeypox_data_department": string,
     "path_list_departments": string,
     "path_stats": string,
     "url_base": string,
@@ -22,6 +23,7 @@ const REMOTE_CONFIG_ENTRIES_FALLBACK: RemoteConfigEntries = {
     "data_disclaimer_severity": "warning",
     "path_contributors": "/vitemadose/contributors_all.json",
     "path_data_department": "/vitemadose/{code}.json",
+    "path_monkeypox_data_department": "/vitemadose/monkeypox/{code}.json",
     "path_list_departments": "/vitemadose/departements.json",
     "path_stats": "/vitemadose/stats.json",
     "url_base": "https://vitemadose.gitlab.io",
@@ -68,7 +70,13 @@ export class RemoteConfig {
                 statsByDate: () => `/offline/stats_by_date.json`,
                 stats: () => `/offline/stats.json`,
                 infosDepartement: (codeDepartement) => `/offline/${codeDepartement}.json`,
-                creneauxQuotidiensDepartement: (codeDepartement) => `/offline/${codeDepartement}/creneaux-quotidiens.json`
+                creneauxQuotidiensDepartement: (codeDepartement, doseType) => {
+                    if (doseType == 'covid') {
+                        return `/offline/${codeDepartement}/creneaux-quotidiens.json`;
+                    }
+
+                    return `/offline/monkeypox/${codeDepartement}/creneaux-quotidiens.json`
+                }
             };
             this.configurationSyncedPromise = Promise.resolve();
 
@@ -105,12 +113,19 @@ export class RemoteConfig {
                     const statsByDatePath = `/vitemadose/stats_by_date.json`;
                     const departementsListPath = this.configuration.path_list_departments || `/vitemadose/departements.json`;
                     const infosDepartementPath = this.configuration.path_data_department || `/vitemadose/{code}.json`;
+                    const monkeypoxDepartmentDataPath = this.configuration.path_monkeypox_data_department || REMOTE_CONFIG_ENTRIES_FALLBACK.path_monkeypox_data_department;
                     this._urlGenerator = {
                         listDepartements: () => `${urlBase}${departementsListPath}`,
                         statsByDate: () => `${urlBase}${statsByDatePath}`,
                         stats: () => `${urlBase}${statsPath}`,
-                        infosDepartement: (codeDepartement) => `${urlBase}${infosDepartementPath.replace('{code}', codeDepartement)}`,
-                        creneauxQuotidiensDepartement: (codeDepartement) => `${urlBase}/vitemadose/${codeDepartement}/creneaux-quotidiens.json`
+                        infosDepartement: (codeDepartement, doseType) => doseType === 'monkeypox' ? `${urlBase}${monkeypoxDepartmentDataPath.replace('{code}', codeDepartement)}` : `${urlBase}${infosDepartementPath.replace('{code}', codeDepartement)}`,
+                        creneauxQuotidiensDepartement: (codeDepartement, doseType) => {
+                            if (doseType == 'covid') {
+                                return `${urlBase}/vitemadose/${codeDepartement}/creneaux-quotidiens.json`;
+                            }
+
+                            return `${urlBase}/vitemadose/monkeypox/${codeDepartement}/creneaux-quotidiens.json`;
+                        }
                     };
                 } else if(USE_GITLAB_AS_FALLBACK) {
                     this._urlGenerator = GITLAB_DATA_URLS;
