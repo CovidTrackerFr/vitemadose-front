@@ -20,16 +20,16 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95008-95510-aincourt/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95008-95510-aincourt/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95008-95510-aincourt/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95710-ambleville/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95710-ambleville/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95710-ambleville/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95710-ambleville/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95420-ambleville/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95420-ambleville/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95420-ambleville/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95420-ambleville/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95710-ambleville/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95710-ambleville/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95710-ambleville/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95011-95710-ambleville/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95012-95510-amenucourt/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95012-95510-amenucourt/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -205,11 +205,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95127-95800-cergy/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95127-95800-cergy/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95127-95800-cergy/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95127-95520-cergy/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95127-95520-cergy/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95127-95520-cergy/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95127-95520-cergy/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95134-95660-champagne_sur_oise/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95134-95660-champagne_sur_oise/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -460,11 +455,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95304-95690-hedouville/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95304-95690-hedouville/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95304-95690-hedouville/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95306-95220-herblay/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95306-95220-herblay_sur_seine/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95306-95220-herblay/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95306-95220-herblay/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95306-95220-herblay/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95306-95220-herblay_sur_seine/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95306-95220-herblay_sur_seine/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95306-95220-herblay_sur_seine/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95308-95300-herouville_en_vexin/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95308-95300-herouville_en_vexin/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -610,11 +605,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95428-95160-montmorency/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95428-95160-montmorency/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95428-95160-montmorency/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95428-95330-montmorency/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95428-95330-montmorency/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95428-95330-montmorency/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95428-95330-montmorency/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95429-95770-montreuil_sur_epte/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95429-95770-montreuil_sur_epte/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -695,16 +685,16 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95487-95340-persan/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95487-95340-persan/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95487-95340-persan/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95480-pierrelaye/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95480-pierrelaye/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95480-pierrelaye/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95480-pierrelaye/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95220-pierrelaye/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95220-pierrelaye/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95220-pierrelaye/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95220-pierrelaye/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95480-pierrelaye/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95480-pierrelaye/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95480-pierrelaye/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95488-95480-pierrelaye/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95489-95350-piscop/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95489-95350-piscop/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -735,11 +725,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95500-95300-pontoise/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95500-95300-pontoise/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95500-95300-pontoise/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95500-95520-pontoise/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95500-95520-pontoise/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95500-95520-pontoise/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95500-95520-pontoise/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95504-95590-presles/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt95-val_d_oise/commune95504-95590-presles/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>

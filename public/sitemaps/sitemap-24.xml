@@ -300,16 +300,16 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24310-brantome_en_perigord/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24310-brantome_en_perigord/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24310-brantome_en_perigord/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24530-brantome_en_perigord/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24530-brantome_en_perigord/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24530-brantome_en_perigord/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24530-brantome_en_perigord/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24460-brantome_en_perigord/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24460-brantome_en_perigord/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24460-brantome_en_perigord/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24460-brantome_en_perigord/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24530-brantome_en_perigord/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24530-brantome_en_perigord/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24530-brantome_en_perigord/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24064-24530-brantome_en_perigord/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24066-24210-brouchaud/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24066-24210-brouchaud/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -410,11 +410,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24088-24150-cause_de_clerans/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24088-24150-cause_de_clerans/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24088-24150-cause_de_clerans/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24089-24370-cazoules/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24089-24370-cazoules/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24089-24370-cazoules/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24089-24370-cazoules/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24090-24600-celles/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24090-24600-celles/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -765,16 +760,16 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24171-24800-eyzerac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24171-24800-eyzerac/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24171-24800-eyzerac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24620-les_eyzies/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24620-les_eyzies/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24620-les_eyzies/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24620-les_eyzies/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24260-les_eyzies/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24260-les_eyzies/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24260-les_eyzies/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24260-les_eyzies/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24620-les_eyzies/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24620-les_eyzies/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24620-les_eyzies/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24172-24620-les_eyzies/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24174-24290-fanlac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24174-24290-fanlac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -1270,11 +1265,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24290-24440-montferrand_du_perigord/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24290-24440-montferrand_du_perigord/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24290-24440-montferrand_du_perigord/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24291-24290-montignac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24291-24290-montignac_lascaux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24291-24290-montignac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24291-24290-montignac/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24291-24290-montignac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24291-24290-montignac_lascaux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24291-24290-montignac_lascaux/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24291-24290-montignac_lascaux/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24292-24610-montpeyroux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24292-24610-montpeyroux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -1385,11 +1380,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24313-24170-orliac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24313-24170-orliac/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24313-24170-orliac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24314-24370-orliaguet/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24314-24370-orliaguet/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24314-24370-orliaguet/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24314-24370-orliaguet/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24316-24410-parcoul_chenaud/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24316-24410-parcoul_chenaud/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -1435,11 +1425,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24324-24210-peyrignac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24324-24210-peyrignac/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24324-24210-peyrignac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24325-24370-peyrillac_et_millac/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24325-24370-pechs_de_l_esperance/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24325-24370-peyrillac_et_millac/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24325-24370-peyrillac_et_millac/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24325-24370-peyrillac_et_millac/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24325-24370-pechs_de_l_esperance/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24325-24370-pechs_de_l_esperance/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24325-24370-pechs_de_l_esperance/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24326-24620-peyzac_le_moustier/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24326-24620-peyzac_le_moustier/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -1600,16 +1590,16 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24362-24380-val_de_louyre_et_caudeau/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24362-24380-val_de_louyre_et_caudeau/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24362-24380-val_de_louyre_et_caudeau/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24290-coly_saint_amand/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24290-coly_saint_amand/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24290-coly_saint_amand/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24290-coly_saint_amand/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24120-coly_saint_amand/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24120-coly_saint_amand/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24120-coly_saint_amand/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24120-coly_saint_amand/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24290-coly_saint_amand/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24290-coly_saint_amand/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24290-coly_saint_amand/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24364-24290-coly_saint_amand/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24365-24380-saint_amand_de_vergt/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24365-24380-saint_amand_de_vergt/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -2005,11 +1995,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24458-24300-saint_martin_le_pin/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24458-24300-saint_martin_le_pin/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24458-24300-saint_martin_le_pin/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24459-24380-saint_maime_de_pereyrol/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24459-24380-saint_mayme_de_pereyrol/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24459-24380-saint_maime_de_pereyrol/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24459-24380-saint_maime_de_pereyrol/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24459-24380-saint_maime_de_pereyrol/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24459-24380-saint_mayme_de_pereyrol/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24459-24380-saint_mayme_de_pereyrol/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24459-24380-saint_mayme_de_pereyrol/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24460-24600-saint_meard_de_drone/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt24-dordogne/commune24460-24600-saint_meard_de_drone/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>

@@ -1425,11 +1425,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64292-64530-labatmale/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64292-64530-labatmale/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64292-64530-labatmale/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64293-64460-labatut/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64293-64460-labatut_figuieres/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64293-64460-labatut/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64293-64460-labatut/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64293-64460-labatut/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64293-64460-labatut_figuieres/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64293-64460-labatut_figuieres/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64293-64460-labatut_figuieres/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64294-64120-labets_biscay/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64294-64120-labets_biscay/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -2175,11 +2175,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64445-64000-pau/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64445-64000-pau/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64445-64000-pau/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64445-64023-pau/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64445-64023-pau/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64445-64023-pau/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64445-64023-pau/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64446-64350-peyrelongue_abos/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64446-64350-peyrelongue_abos/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -2675,6 +2670,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64545-64122-urrugne/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64545-64122-urrugne/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64545-64122-urrugne/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64545-64700-urrugne/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64545-64700-urrugne/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64545-64700-urrugne/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64545-64700-urrugne/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64546-64240-urt/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt64-pyrenees_atlantiques/commune64546-64240-urt/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>

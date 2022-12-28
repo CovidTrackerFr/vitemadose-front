@@ -85,16 +85,16 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B030-20228-barrettali/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B030-20228-barrettali/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B030-20228-barrettali/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20200-bastia/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20200-bastia/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20200-bastia/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20200-bastia/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20600-bastia/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20600-bastia/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20600-bastia/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20600-bastia/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20200-bastia/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20200-bastia/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20200-bastia/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B033-20200-bastia/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B034-20226-belgodere/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B034-20226-belgodere/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -145,6 +145,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B049-20214-calenzana/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B049-20214-calenzana/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B049-20214-calenzana/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B049-20260-calenzana/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B049-20260-calenzana/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B049-20260-calenzana/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B049-20260-calenzana/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B050-20260-calvi/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B050-20260-calvi/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -260,11 +265,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B082-20218-castineta/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B082-20218-castineta/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B082-20218-castineta/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B083-20218-castirla/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B083-20236-castirla/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B083-20218-castirla/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B083-20218-castirla/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B083-20218-castirla/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B083-20236-castirla/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B083-20236-castirla/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B083-20236-castirla/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B084-20225-cateri/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B084-20225-cateri/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -375,11 +380,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B121-20245-galeria/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B121-20245-galeria/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B121-20245-galeria/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B121-20260-galeria/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B121-20260-galeria/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B121-20260-galeria/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B121-20260-galeria/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B122-20218-gavignano/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B122-20218-gavignano/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -405,11 +405,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B126-20251-giuncaggio/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B126-20251-giuncaggio/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B126-20251-giuncaggio/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B126-20270-giuncaggio/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B126-20270-giuncaggio/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B126-20270-giuncaggio/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B126-20270-giuncaggio/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B134-20220-l_ile_rousse/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B134-20220-l_ile_rousse/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -570,11 +565,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B176-20229-nocario/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B176-20229-nocario/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B176-20229-nocario/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B177-20219-noceta/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B177-20242-noceta/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B177-20219-noceta/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B177-20219-noceta/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B177-20219-noceta/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B177-20242-noceta/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B177-20242-noceta/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B177-20242-noceta/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B178-20217-nonza/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B178-20217-nonza/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -585,11 +580,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B179-20234-novale/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B179-20234-novale/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B179-20234-novale/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B180-20211-novella/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B180-20226-novella/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B180-20211-novella/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B180-20211-novella/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B180-20211-novella/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B180-20226-novella/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B180-20226-novella/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B180-20226-novella/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B182-20226-occhiatana/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B182-20226-occhiatana/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -650,16 +645,16 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B199-20226-palasca/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B199-20226-palasca/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B199-20226-palasca/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20251-pancheraccia/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20251-pancheraccia/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20251-pancheraccia/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20251-pancheraccia/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20270-pancheraccia/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20270-pancheraccia/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20270-pancheraccia/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20270-pancheraccia/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20251-pancheraccia/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20251-pancheraccia/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20251-pancheraccia/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B201-20251-pancheraccia/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B202-20229-parata/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B202-20229-parata/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -765,11 +760,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B229-20242-pietroso/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B229-20242-pietroso/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B229-20242-pietroso/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B229-20240-pietroso/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B229-20240-pietroso/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B229-20240-pietroso/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B229-20240-pietroso/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B230-20246-pieve/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B230-20246-pieve/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -885,11 +875,16 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B261-20247-rogliano/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B261-20247-rogliano/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B261-20247-rogliano/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B263-20219-rospigliani/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B261-20248-rogliano/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B263-20219-rospigliani/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B263-20219-rospigliani/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B263-20219-rospigliani/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B261-20248-rogliano/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B261-20248-rogliano/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B261-20248-rogliano/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B263-20242-rospigliani/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B263-20242-rospigliani/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B263-20242-rospigliani/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B263-20242-rospigliani/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B264-20244-rusio/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B264-20244-rusio/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -905,11 +900,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B267-20218-saliceto/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B267-20218-saliceto/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B267-20218-saliceto/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B273-20264-scata/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B273-20213-scata/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B273-20264-scata/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B273-20264-scata/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B273-20264-scata/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B273-20213-scata/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B273-20213-scata/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B273-20213-scata/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B274-20290-scolca/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B274-20290-scolca/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -980,21 +975,21 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B296-20220-sant_antonino/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B296-20220-sant_antonino/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B296-20220-sant_antonino/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B297-20264-san_damiano/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B297-20213-san_damiano/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B297-20264-san_damiano/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B297-20264-san_damiano/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B297-20264-san_damiano/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B297-20213-san_damiano/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B297-20213-san_damiano/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B297-20213-san_damiano/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B298-20217-saint_florent/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B298-20217-saint_florent/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B298-20217-saint_florent/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B298-20217-saint_florent/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B299-20264-san_gavino_d_ampugnani/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B299-20213-san_gavino_d_ampugnani/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B299-20264-san_gavino_d_ampugnani/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B299-20264-san_gavino_d_ampugnani/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B299-20264-san_gavino_d_ampugnani/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B299-20213-san_gavino_d_ampugnani/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B299-20213-san_gavino_d_ampugnani/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B299-20213-san_gavino_d_ampugnani/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B301-20246-san_gavino_di_tenda/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B301-20246-san_gavino_di_tenda/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -1050,6 +1045,11 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B314-20246-santo_pietro_di_tenda/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B314-20246-santo_pietro_di_tenda/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B314-20246-santo_pietro_di_tenda/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B314-20217-santo_pietro_di_tenda/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B314-20217-santo_pietro_di_tenda/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B314-20217-santo_pietro_di_tenda/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B314-20217-santo_pietro_di_tenda/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B315-20250-santo_pietro_di_venaco/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt2B-haute_corse/commune2B315-20250-santo_pietro_di_venaco/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>

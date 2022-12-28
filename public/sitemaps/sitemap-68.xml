@@ -25,16 +25,16 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68004-68130-altkirch/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68004-68130-altkirch/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68004-68130-altkirch/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68770-ammerschwihr/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68770-ammerschwihr/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68770-ammerschwihr/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68770-ammerschwihr/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68410-ammerschwihr/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68410-ammerschwihr/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68410-ammerschwihr/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68410-ammerschwihr/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68770-ammerschwihr/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68770-ammerschwihr/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68770-ammerschwihr/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68005-68770-ammerschwihr/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68006-68210-bernwiller/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68006-68210-bernwiller/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -475,11 +475,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68097-68240-freland/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68097-68240-freland/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68097-68240-freland/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68097-68150-freland/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68097-68150-freland/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68097-68150-freland/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68097-68150-freland/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68098-68580-friesen/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68098-68580-friesen/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -730,11 +725,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68149-68330-huningue/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68149-68330-huningue/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68149-68330-huningue/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68149-68300-huningue/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68149-68300-huningue/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68149-68300-huningue/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68149-68300-huningue/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68150-68420-husseren_les_chateaux/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68150-68420-husseren_les_chateaux/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -1155,11 +1145,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68237-68230-niedermorschwihr/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68237-68230-niedermorschwihr/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68237-68230-niedermorschwihr/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68237-68410-niedermorschwihr/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68237-68410-niedermorschwihr/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68237-68410-niedermorschwihr/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68237-68410-niedermorschwihr/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68238-68680-niffer/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68238-68680-niffer/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -1645,16 +1630,6 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68230-turckheim/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68230-turckheim/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68230-turckheim/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68910-turckheim/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68910-turckheim/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68910-turckheim/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68910-turckheim/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68410-turckheim/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68410-turckheim/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68410-turckheim/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68338-68410-turckheim/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68340-68580-ueberstrass/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68340-68580-ueberstrass/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
@@ -1815,16 +1790,16 @@
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68373-68480-winkel/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68373-68480-winkel/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68373-68480-winkel/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68920-wintzenheim/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68920-wintzenheim/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68920-wintzenheim/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
-    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68920-wintzenheim/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68124-wintzenheim/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68124-wintzenheim/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68124-wintzenheim/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68124-wintzenheim/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68920-wintzenheim/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68920-wintzenheim/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68920-wintzenheim/recherche-dose_1_enfants/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
+    <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68374-68920-wintzenheim/recherche-dose_1_ou_2/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>,
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68375-68310-wittelsheim/recherche-standard/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
     
     <url><loc>https://vitemadose.covidtracker.fr/centres-vaccination-covid-dpt68-haut_rhin/commune68375-68310-wittelsheim/recherche-dose_rappel/en-triant-par-distance</loc><changefreq>always</changefreq><priority>0.1</priority></url>
